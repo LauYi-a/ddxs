@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.ddx</groupId>
+    <artifactId>ddx</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>ddx-eureka</module>
+        <module>ddx-gateway</module>
+        <module>ddx-config</module>
+        <module>ddx-common</module>
+        <module>ddx-auth</module>
+        <module>ddx-system-manage</module>
+        <module>ddx-test-rpc</module>
+        <module>ddx-test-api</module>
+    </modules>
+
+    <!-- 项目依赖包版本控制 -->
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <!-- spring 全家桶相关依赖 -->
+        <spring-boot.version>2.0.8.RELEASE</spring-boot.version>
+        <spring-cloud.version>Finchley.SR2</spring-cloud.version>
+        <spring-platform.version>Cairo-SR7</spring-platform.version>
+        <springfox-swagger-ui.version>2.9.2</springfox-swagger-ui.version>
+        <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
+        <spring-test.version>5.2.5.RELEASE</spring-test.version>
+        <!-- 工具相关依赖 -->
+        <jasypt.version>2.1.0</jasypt.version>
+        <hutool.version>4.6.5</hutool.version>
+        <lombok.version>1.18.16</lombok.version>
+        <junit.version>4.12</junit.version>
+        <assembly.version>2.6</assembly.version>
+        <fastjson.version>1.2.31</fastjson.version>
+        <commons-collections4.version>4.1</commons-collections4.version>
+        <commons-net.version>3.1</commons-net.version>
+        <easypoi-base.version>4.1.0</easypoi-base.version>
+        <easypoi-web.version>4.1.0</easypoi-web.version>
+        <easypoi-annotation.version>4.1.0</easypoi-annotation.version>
+        <jooq.version>3.11.9</jooq.version>
+        <velocity.version>1.7</velocity.version>
+        <gson.version>2.8.5</gson.version>
+        <bouncycastle.version>1.65</bouncycastle.version>
+        <!-- redis -->
+        <spring-boot-starter-data-redis.version>2.4.0</spring-boot-starter-data-redis.version>
+        <commons-pool2.version>2.9.0</commons-pool2.version>
+        <redisson.version>3.17.0</redisson.version>
+        <!-- mysql 相关依赖-->
+        <mybatis-plus-boot-starter.version>3.0.2</mybatis-plus-boot-starter.version>
+        <mysql-connector-java.version>8.0.22</mysql-connector-java.version>
+        <!-- 多数据源 -->
+        <dynamic-datasource-spring-boot-starter.version>2.5.6</dynamic-datasource-spring-boot-starter.version>
+        <druid-spring-boot-starter.version>1.1.21</druid-spring-boot-starter.version>
+        <!-- security-oauth2 -->
+        <spring-security-oauth2-resource-server.version>5.2.2.RELEASE</spring-security-oauth2-resource-server.version>
+        <!-- 内部工程 -->
+        <ddx-common.version>1.0-SNAPSHOT</ddx-common.version>
+        <ddx-test-api.version>1.0-SNAPSHOT</ddx-test-api.version>
+    </properties>
+
+    <dependencies>
+        <!--eureka 客户端-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+        <!--配置文件处理器-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <!--断路器依赖-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
+        </dependency>
+        <!--测试依赖-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.spring.platform</groupId>
+                <artifactId>platform-bom</artifactId>
+                <version>${spring-platform.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <!-- 设置maven打包的时候跳过junit测试 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.18.1</version>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

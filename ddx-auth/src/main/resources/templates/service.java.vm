@@ -1,0 +1,29 @@
+package ${package.Service};
+
+import ${package.Entity}.${entity};
+import ${superServiceClassPackage};
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+
+/**
+ * @ClassName: ${table.serviceName}
+ * @Description: $!{table.comment} 服务类
+ * @author ${author}
+ * @since ${date}
+ * @Version: 1.0
+ */
+#if(${kotlin})
+interface ${table.serviceName} : ${superServiceClass}<${entity}>
+#else
+public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
+
+    /**
+     * 分页查询
+     * @param arg0
+     * @param arg1
+     * @return
+     */
+    IPage<${entity}> selectPage(IPage<${entity}> arg0,  Wrapper<${entity}> arg1);
+
+}
+#end

@@ -1,0 +1,55 @@
+server:
+  port: 8888
+spring:
+  application:
+    name: ddx-config
+  profiles:
+    active: native
+  # 配置中心
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:/config/
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 1000MB
+    # zipkin
+    http:
+      encoding:
+        charset: UTF-8
+        enable: true
+        force: true
+    messages:
+      encoding: UTF-8
+    zipkin:
+      enabled: true
+      base-url: http://ddx-zipkin
+    sleuth:
+      web:
+        client:
+          enabled: true
+      sampler:
+        # 默认的采样比率为0.1，不能看到所有请求数据;更改采样比率为1，就能看到所有的请求数据了，但是这样会增加接口调用延迟
+        probability: 1.0
+# 注册中心配置
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+  client:
+    service-url:
+      defaultZone: http://ddx:ddx@127.0.0.1:8761/eureka/
+
+# 暴露监控端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+    health:
+      sensitive: false #关闭过滤敏感信息
+  endpoint:
+    health:
+      show-details: ALWAYS

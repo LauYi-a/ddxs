@@ -1,0 +1,33 @@
+package ${cfg.dtoDir}.dto.req.${entity.substring(0, 1).toLowerCase()}${entity.substring(1)};
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.*;
+import com.ddx.common.dto.req.PageReq;
+
+/**
+ * @ClassName: ${entity}QueryReq
+ * @Description: $!{table.comment}查询入参体
+ * @author ${author}
+ * @since ${date}
+ * @Version: 1.0
+ */
+@Data
+@ApiModel(value="${entity}QueryReq", description="$!{table.comment}查询入参体")
+public class ${entity}QueryReq extends PageReq {
+## ----------  BEGIN 字段循环遍历  ----------
+
+#foreach($field in ${table.fields})
+#if(${field.keyFlag})
+## 排除主键
+#if(${field.keyIdentityFlag})
+#elseif(!$null.isNull(${idType}) && "$!idType" != "")
+#elseif(${field.convert})
+#end
+#else
+    @ApiModelProperty(value = "${field.comment}")
+    private ${field.propertyType} ${field.propertyName};
+
+#end
+#end
+}

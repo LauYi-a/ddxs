@@ -1,0 +1,34 @@
+package ${cfg.dtoDir}.dto.req.${entity.substring(0, 1).toLowerCase()}${entity.substring(1)};
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import javax.validation.constraints.NotNull;
+import lombok.*;
+
+/**
+ * @ClassName: ${entity}AddReq
+ * @Description: $!{table.comment}新增入参体
+ * @author ${author}
+ * @since ${date}
+ * @Version: 1.0
+ */
+@Data
+@ApiModel(value="${entity}AddReq", description="$!{table.comment}新增入参体")
+public class ${entity}AddReq {
+## ----------  BEGIN 字段循环遍历  ----------
+
+#foreach($field in ${table.fields})
+#if(${field.keyFlag})
+## 排除主键
+#if(${field.keyIdentityFlag})
+#elseif(!$null.isNull(${idType}) && "$!idType" != "")
+#elseif(${field.convert})
+#end
+#else
+    @ApiModelProperty(value = "${field.comment}")
+    @NotNull(message = "${field.comment}不能为空")
+    private ${field.propertyType} ${field.propertyName};
+
+#end
+#end
+}

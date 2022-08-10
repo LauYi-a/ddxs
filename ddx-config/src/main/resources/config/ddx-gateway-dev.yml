@@ -1,0 +1,52 @@
+spring:
+  cloud:
+    gateway:
+      locator:
+        enabled: true
+      routes:
+      # 认证中心
+      - id: ddx-auth
+        uri: lb://ddx-auth
+        predicates:
+        - Path=/ddx/auth/**
+        filters:
+          - name: GatewayRequestRateLimiter
+            args:
+              # 使用SpEL名称引用Bean，与上面新建的RateLimiterConfig类中的bean的name相同
+              key-resolver: '#{@ipKeyResolver}'
+              # 每秒最大访问次数
+              redis-rate-limiter.replenishRate: 1
+              # 令牌桶最大容量
+              redis-rate-limiter.burstCapacity: 2
+        # 系统管理
+      - id: ddx-system-manage
+        uri: lb://ddx-system-manage
+        predicates:
+          - Path=/ddx/sys/**
+        filters:
+          - name: GatewayRequestRateLimiter
+            args:
+              # 使用SpEL名称引用Bean，与上面新建的RateLimiterConfig类中的bean的name相同
+              key-resolver: '#{@ipKeyResolver}'
+              # 每秒最大访问次数
+              redis-rate-limiter.replenishRate: 10
+              # 令牌桶最大容量
+              redis-rate-limiter.burstCapacity: 50
+        # 测试服务
+      - id: ddx-test-rpc
+        uri: lb://ddx-test-rpc
+        predicates:
+          - Path=/ddx/test/**
+        filters:
+          - name: GatewayRequestRateLimiter
+            args:
+              # 使用SpEL名称引用Bean，与上面新建的RateLimiterConfig类中的bean的name相同
+              key-resolver: '#{@ipKeyResolver}'
+              # 每秒最大访问次数
+              redis-rate-limiter.replenishRate: 10
+              # 令牌桶最大容量
+              redis-rate-limiter.burstCapacity: 50
+# 不校验验证码终端
+ignore:
+  clients:
+    - test

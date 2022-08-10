@@ -1,0 +1,34 @@
+server:
+  port: 8761
+spring:
+  #此处开启了eureka的自身鉴权,默认密码为 ddx,ddx
+  security:
+    user:
+      name: ddx
+      password: ddx
+  application:
+    name: ddx-eureka
+  cloud:
+    config:
+      enabled: false
+
+##docker-compose部署时候 hostname 换成 ddx-eureka
+eureka:
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://ddx:ddx@${eureka.instance.hostname}:${server.port}/eureka/
+  server:
+    eviction-interval-timer-in-ms: 3000
+    enable-self-preservation: false
+    use-read-only-response-cache: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

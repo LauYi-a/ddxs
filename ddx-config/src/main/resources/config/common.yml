@@ -1,0 +1,133 @@
+#redis 配置
+spring:
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    password:      # 密码（默认为空）
+    timeout: 6000ms  # 连接超时时长（毫秒）
+    lettuce:
+      pool:
+        max-active: 100  # 连接池最大连接数（使用负值表示没有限制）
+        max-wait: -1ms      # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-idle: 10      # 连接池中的最大空闲连接
+        min-idle: 1       # 连接池中的最小空闲连接
+        timeout: 200
+  kafka:
+    send_log_Aspect_topic: send_log_Aspect_topic
+    bootstrap-servers: 127.0.0.1:9092
+    # 初始 topic 创建分区数量
+    init-producer-count:
+      send_log_Aspect_topic: 2
+    producer:
+      # 发生错误后，消息重发的次数。
+      retries: 2
+      #当有多个消息需要被发送到同一个分区时，生产者会把它们放在同一个批次里。该参数指定了一个批次可以使用的内存大小，按照字节数计算。
+      batch-size: 16384
+      # 设置生产者内存缓冲区的大小。
+      buffer-memory: 33554432
+      # 键的序列化方式
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      # 值的序列化方式
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      # acks=0 ： 生产者在成功写入消息之前不会等待任何来自服务器的响应。
+      # acks=1 ： 只要集群的首领节点收到消息，生产者就会收到一个来自服务器成功响应。
+      # acks=all ：只有当所有参与复制的节点全部收到消息时，生产者才会收到一个来自服务器的成功响应。
+      acks: 1
+    consumer:
+      # 自动提交的时间间隔 在spring boot 2.X 版本中这里采用的是值的类型为Duration 需要符合特定的格式，如1S,1M,2H,5D
+      auto-commit-interval: 1S
+      # 该属性指定了消费者在读取一个没有偏移量的分区或者偏移量无效的情况下该作何处理：
+      # latest（默认值）在偏移量无效的情况下，消费者将从最新的记录开始读取数据（在消费者启动之后生成的记录）
+      # earliest ：在偏移量无效的情况下，消费者将从起始位置读取分区的记录
+      auto-offset-reset: earliest
+      # 是否自动提交偏移量，默认值是true,为了避免出现重复数据和数据丢失，可以把它设置为false,然后手动提交偏移量
+      enable-auto-commit: false
+      #每次拉取多少条数据
+      max-poll-records: 1
+      # 键的反序列化方式
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      # 值的反序列化方式
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    listener:
+      # 在侦听器容器中运行的线程数,为了保证一致性，只启用一个线程
+      concurrency: 1
+      #listner负责ack，每调用一次，就立即commit
+      ack-mode: manual_immediate
+      #type: batch
+      missing-topics-fatal: false
+
+# redisson 分布式锁 集群使用豆号分割
+redisson:
+  common:
+    redis-nodes: 127.0.0.1:6379
+    redis-pattern: stand-alone      #stand-alone 单机模式 multiple 集群模式
+    password:
+#日志级别
+logging:
+  level:
+    org.springframework: INFO
+#mybatis
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*Mapper.xml
+  global-config:
+    banner: false
+    db-config:   #刷新 mapper 调试神器
+      id-type: id_worker #主键类型  0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
+      field-strategy: not_empty #字段策略 0:"忽略判断",1:非NULL判断,2:"非空判断"
+      column-underline: true #驼峰下划线转换
+      #capital-mode: true #数据库大写下划线转换
+      logic-delete-value: Y  #逻辑删除配置
+      logic-not-delete-value: N
+      db-type: mysql
+      refresh: true
+      sql-injector: com.baomidou.mybatisplus.extension.injector.LogicSqlInjector
+    configuration:
+      cache-enabled: false
+      jdbc-type-for-null: 'null'  #配置JdbcTypeForNull,oracle数据库必须配置
+      log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+      map-underscore-to-camel-case: true
+      local-cache-scope: statement
+# feign 配置
+feign:
+  hystrix: #熔断开关
+    enabled: false
+  okhttp:
+    enabled: false
+  httpclient: # 配置httpclient线程池
+    enabled: true
+    max-connections: 200 # 最大的连接数
+    max-connections-per-route: 50 # 每个路径的最大连接数
+  client:
+    config:
+      default: # default 是全局配置 如需要当个服务定制 可以使用 服务名
+        connectTimeout: 10000  # 连接超时时间，默认2s，设置单位为毫秒
+        readTimeout: 60000 # 请求处理超时时间，默认5s，设置单位为毫秒。
+  #请求压缩
+  compression:
+    request:
+      enabled: true
+    response:
+      enabled: true
+# 全局请求处理的超时时间配置 如果 feign与ribbon都配置了超时时间默认二选一 feign 优先于 ribbon
+ribbon:
+  #MaxAutoRetries: 3  # 单个服务最大重试次数,不包含对单个服务的第一次请求，默认0
+  ConnectTimeout: 10000  #连接超时时间，单位为毫秒，默认2秒 设置单位为毫秒
+  ReadTimeout: 60000  #读取的超时时间，单位为毫秒，默认5秒 设置单位为毫秒
+# hystrix 配置
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: SEMAPHORE
+          thread:
+            timeoutInMilliseconds: 70000 # hystrix 超时时间需设置大于 feign与ribbon 的超时时间
+          semaphore:
+            maxConcurrentRequests: 1000 #降级线程并行数限制
+      circuitBreaker:
+        #在当10秒的时间内，最近20次调用请求，请求错误率超过60%，则触发熔断5秒，期间快速失败，以下都是默认值
+        requestVolumeThreshold: 200
+        errorThresholdPercentage: 50
+        sleepWindowInMilliseconds: 5000
+  shareSecurityContext: true
