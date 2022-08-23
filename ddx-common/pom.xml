@@ -135,17 +135,17 @@
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>swagger-bootstrap-ui</artifactId>
-            <version>1.9.6</version>
+            <version>${swagger-bootstrap-ui.version}</version>
         </dependency>
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
-            <version>1.5.21</version>
+            <version>${swagger-annotations.version}</version>
         </dependency>
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-models</artifactId>
-            <version>1.5.21</version>
+            <version>${swagger-annotations.version}</version>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
