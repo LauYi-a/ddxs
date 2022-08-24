@@ -5,7 +5,7 @@ DEPLOY_DIR=`pwd`
 JVM_OPTS="-XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=128m -Xms512m -Xmx512m -Xmn128m -Xss256k -XX:SurvivorRatio=8 -XX:+UseConcMarkSweepGC"
 CONF_DIR=$DEPLOY_DIR/conf
 LIB_DIR=$DEPLOY_DIR/lib
-SERVER_NAME="gateway-server"
+SERVER_NAME="system-manage-server"
 SERVER_PORT=`cat $CONF_DIR/bootstrap.yml | grep -w "port:" | grep -v "#" | awk  'NR==1{print $2}' | tr -d '\r'`
 IS_LISTENED=`netstat -an | grep -w LISTEN | grep -w $SERVER_PORT`
 if [ -n "$IS_LISTENED" ]; then
