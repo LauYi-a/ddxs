@@ -27,35 +27,20 @@ public class ConstantUtils {
     public static final int MSG_RESPONSE_CODE_NO_PERMISSION = 4001;
 
     /**
-     * 用户状态
+     * 字典分组
      */
-    public static final String USER_STATUS_0 = "0"; //禁用
-    public static final String USER_STATUS_1 = "1"; //正常
-    public static final String USER_STATUS_2 = "2"; //已锁
+    public static final String USER_GENDER = "userGender";
+    public static final String USER_STATUS = "userStatus";
+    public static final String MENU_TYPE = "menuType";
+    public static final String WHITELIST_TYPE = "whitelistType";
+    public static final String ROLE_STATUS = "roleStatus";
+    public static final String SERVICE_MODULES_NAME = "serviceModulesName";
 
-    /**
-     * 菜单类型
-     */
-    public static final String MENU_TYPE_0 = "0"; //页签
-    public static final String MENU_TYPE_1 = "1"; //菜单
-    public static final String MENU_TYPE_2 = "2"; //元素
-
-    /**
-     * 接口白名单类型
-     */
-    public static final String WHITELIST_TYPE_1 = "1"; //接口访问白名单
-    public static final String WHITELIST_TYPE_2 = "2"; //接口访问时效白名单
 
     /**
      * 系统默认密码
      */
     public static final String INIT_PASSWORD = "ddx@";
-
-    /**
-     * 角色状态
-     */
-    public static final String ROLE_STATUS_0 = "0"; //正常
-    public static final String ROLE_STATUS_1 = "1"; //停用
 
     /**
      * 角色前缀

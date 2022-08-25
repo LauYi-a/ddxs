@@ -1,5 +1,12 @@
 package com.ddx.common.constant;
 
+import com.ddx.common.dto.vo.DictVo;
+import com.google.common.collect.Lists;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+
 /**
  * @ClassName: ErrorCode
  * @Description: 统一枚举类
@@ -88,6 +95,145 @@ public class CommonEnumConstant {
         public String getType() { return type; }
         public String getMsg() { return msg; }
 
+    }
+
+    /**
+     * 字典枚举
+     * 字典名称按分组类型加排序号来命名
+     */
+    public enum Dict {
+
+        USER_GENDER_0("1","男",ConstantUtils.USER_GENDER,0,"sys","用户性别"),
+        USER_GENDER_1("2","女",ConstantUtils.USER_GENDER,1,"sys","用户性别"),
+        USER_STATUS_0("0","禁用",ConstantUtils.USER_STATUS,0,"sys","用户状态"),
+        USER_STATUS_1("1","正常",ConstantUtils.USER_STATUS,1,"sys","用户状态"),
+        USER_STATUS_2("2","已锁",ConstantUtils.USER_STATUS,2,"sys","用户状态"),
+        MENU_TYPE_0("0","页签",ConstantUtils.MENU_TYPE,0,"sys","菜单类型"),
+        MENU_TYPE_1("1","菜单",ConstantUtils.MENU_TYPE,1,"sys","菜单类型"),
+        MENU_TYPE_2("2","元素",ConstantUtils.MENU_TYPE,2,"sys","菜单类型"),
+        WHITELIST_TYPE_0("1","接口访问白名单",ConstantUtils.WHITELIST_TYPE,0,"sys","接口白名单类型"),
+        WHITELIST_TYPE_1("2","接口访问时效白名单",ConstantUtils.WHITELIST_TYPE,1,"sys","接口白名单类型"),
+        ROLE_STATUS_0("0","正常",ConstantUtils.ROLE_STATUS,0,"sys","角色状态"),
+        ROLE_STATUS_1("1","停用",ConstantUtils.ROLE_STATUS,1,"sys","角色状态"),
+        SERVICE_MODULES_NAME_0("sys","系统基础应用",ConstantUtils.SERVICE_MODULES_NAME,0,"all","系统服务模块名称"),
+        SERVICE_MODULES_NAME_1("auth","认证服务",ConstantUtils.SERVICE_MODULES_NAME,1,"all","系统服务模块名称"),
+        ;
+
+        private String dictKey;
+
+        /**
+         * 字典值
+         */
+        private String dictValue;
+
+        /**
+         * 字典分组类型
+         */
+        private String groupType;
+
+        /**
+         * 排序字段
+         */
+        private Integer sort;
+
+        /**
+         * 字典模块  all-所有模块
+         */
+        private String modules;
+
+        /**
+         * 字典描述
+         */
+        private String dictDesc;
+
+        public String getDictKey() {
+            return dictKey;
+        }
+
+        public void setDictKey(String dictKey) {
+            this.dictKey = dictKey;
+        }
+
+        public String getDictValue() {
+            return dictValue;
+        }
+
+        public void setDictValue(String dictValue) {
+            this.dictValue = dictValue;
+        }
+
+        public String getGroupType() {
+            return groupType;
+        }
+
+        public void setGroupType(String groupType) {
+            this.groupType = groupType;
+        }
+
+        public Integer getSort() {
+            return sort;
+        }
+
+        public void setSort(Integer sort) {
+            this.sort = sort;
+        }
+
+        public String getModules() {
+            return modules;
+        }
+
+        public void setModules(String modules) {
+            this.modules = modules;
+        }
+
+        public String getDictDesc() {
+            return dictDesc;
+        }
+
+        public void setDictDesc(String dictDesc) {
+            this.dictDesc = dictDesc;
+        }
+
+        Dict(String dictKey,String dictValue,String groupType,Integer sort,String modules,String dictDesc){
+            this.dictKey = dictKey;
+            this.dictValue = dictValue;
+            this.groupType = groupType;
+            this.sort = sort;
+            this.modules = modules;
+            this.dictDesc = dictDesc;
+        }
+
+        /**
+         * 获取字典集合
+         * @return
+         */
+        public static List<DictVo> getDictList(){
+            List<DictVo> dictVos = Lists.newArrayList();
+            Arrays.stream(CommonEnumConstant.Dict.values()).forEach(dict -> {
+                dictVos.add(DictVo.builder()
+                        .dictKey(dict.getDictKey())
+                        .dictValue(dict.getDictValue())
+                        .groupType(dict.getGroupType())
+                        .sort(dict.getSort())
+                        .modules(dict.getModules())
+                        .dictDesc(dict.getDictDesc())
+                        .build());
+            });
+            return dictVos;
+        }
+
+        /**
+         * 通过分组和 key获取字典值
+         * @param dictKey
+         * @param groupType
+         * @return
+         */
+        public static String getDictValueByDictKeyAndGroupType(String dictKey,String groupType){
+            return Arrays.stream(CommonEnumConstant.Dict.values())
+                    .filter(e -> Objects.equals(e.getGroupType(),groupType)&&Objects.equals(e.getDictKey(),dictKey))
+                    .findFirst().map(CommonEnumConstant.Dict::getDictValue)
+                    .orElse("");
+        }
     }
 
 }

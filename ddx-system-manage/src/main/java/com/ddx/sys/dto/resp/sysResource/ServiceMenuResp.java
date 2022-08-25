@@ -27,6 +27,9 @@ public class ServiceMenuResp {
     @ApiModelProperty(value = "服务编号")
     private String serviceCode;
 
+    @ApiModelProperty(value = "服务名称")
+    private String serviceName;
+
     @ApiModelProperty(value = "资源菜单")
     private List<TreeMenuVo> treeMenuVo;
 }

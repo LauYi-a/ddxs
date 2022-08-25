@@ -56,7 +56,7 @@ public class SysResourceController {
     @PostMapping("/select-menu-tree")
     @ApiOperation(value = "查询资源菜单树", notes = "系统资源")
     public ResponseData<List<ServiceMenuResp>> selectMenuTree() {
-        log.info("select role key val all...");
+        log.info("select Response menu all...");
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS, iSysResourceService.selectMenuTree());
     }
 

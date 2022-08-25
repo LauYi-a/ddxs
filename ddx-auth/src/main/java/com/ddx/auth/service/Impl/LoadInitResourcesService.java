@@ -9,6 +9,7 @@ import com.ddx.auth.entity.SysWhitelistRequest;
 import com.ddx.auth.service.ISysPermissionService;
 import com.ddx.auth.service.ISysUserService;
 import com.ddx.auth.service.ISysWhitelistRequestService;
+import com.ddx.common.constant.CommonEnumConstant;
 import com.ddx.common.constant.ConstantUtils;
 import com.ddx.common.dto.vo.SysParamConfigVo;
 import com.ddx.common.dto.vo.UserKeyValVo;
@@ -91,11 +92,11 @@ public class LoadInitResourcesService {
 
         //初始化白名单
         Thread initWhite = new Thread(()-> {
-            List<String> requestWhitelist = sysWhitelistRequestService.list(new QueryWrapper<SysWhitelistRequest>().lambda().eq(SysWhitelistRequest::getType,ConstantUtils.WHITELIST_TYPE_1))
+            List<String> requestWhitelist = sysWhitelistRequestService.list(new QueryWrapper<SysWhitelistRequest>().lambda().eq(SysWhitelistRequest::getType, CommonEnumConstant.Dict.WHITELIST_TYPE_0.getDictKey()))
                     .stream().map(e -> { return e.getUrl(); }).collect(Collectors.toList());
             redisTemplate.del(ConstantUtils.WHITELIST_REQUEST);
             redisTemplate.set(ConstantUtils.WHITELIST_REQUEST, JSON.toJSONString(requestWhitelist));
-            List<String> requestTimeWhitelist = sysWhitelistRequestService.list(new QueryWrapper<SysWhitelistRequest>().lambda().eq(SysWhitelistRequest::getType,ConstantUtils.WHITELIST_TYPE_2))
+            List<String> requestTimeWhitelist = sysWhitelistRequestService.list(new QueryWrapper<SysWhitelistRequest>().lambda().eq(SysWhitelistRequest::getType,CommonEnumConstant.Dict.WHITELIST_TYPE_1.getDictKey()))
                     .stream().map(e -> { return e.getUrl(); }).collect(Collectors.toList());
             redisTemplate.del(ConstantUtils.REQUEST_TIME_WHITELIST);
             redisTemplate.set(ConstantUtils.REQUEST_TIME_WHITELIST, JSON.toJSONString(requestTimeWhitelist));

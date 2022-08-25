@@ -36,7 +36,7 @@ public class AuthenticationFailureListener implements ApplicationListener<Authen
 		SysUser user = iSysUserService.getOne(new QueryWrapper<SysUser>().lambda().eq(SysUser::getUsername,username).last("limit 1"));
 		if(user != null) {
 			if (user.getErrorCount() >= sysParamConfigVo.getLpec()) {
-				user.setStatus(ConstantUtils.USER_STATUS_2);
+				user.setStatus(CommonEnumConstant.Dict.USER_STATUS_2.getDictKey());
 				redisTemplateUtils.set(ConstantUtils.ACCOUNT_NON_LOCKED + user.getUsername(),
 						ResponseData.out(CommonEnumConstant.PromptMessage.USER_LOCK_ERROR), sysParamConfigVo.getAccountLockTime());
 			} else {

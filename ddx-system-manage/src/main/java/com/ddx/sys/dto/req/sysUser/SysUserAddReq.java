@@ -1,5 +1,6 @@
 package com.ddx.sys.dto.req.sysUser;
 
+import com.ddx.common.constant.CommonEnumConstant;
 import com.ddx.common.constant.ConstantUtils;
 import com.ddx.common.utils.SerialNumber;
 import com.ddx.common.utils.sm3.SM3Digest;
@@ -60,7 +61,7 @@ public class SysUserAddReq {
         BeanUtils.copyProperties(sysUserAddReq,sysUser);
         sysUser.setPassword(SM3Digest.decode(ConstantUtils.INIT_PASSWORD+sysUser.getUsername()));
         sysUser.setUserId(SerialNumber.newInstance(ConstantUtils.SERIAL_ID,ConstantUtils.DATE_FORMAT_5).toString());
-        sysUser.setStatus(ConstantUtils.USER_STATUS_1);
+        sysUser.setStatus(CommonEnumConstant.Dict.USER_STATUS_1.getDictKey());
         sysUser.setLoginService("sys");
         return sysUser;
     }

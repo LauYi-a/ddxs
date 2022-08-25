@@ -51,10 +51,10 @@ public class JwtTokenUserDetailsService implements UserDetailsService {
         ExceptionUtils.businessException(redisTemplateUtils.hasKey(ConstantUtils.ACCOUNT_NON_LOCKED+username), CommonEnumConstant.PromptMessage.USER_DISABLE_TIME_ERROR, redisTemplateUtils.getExpire(ConstantUtils.ACCOUNT_NON_LOCKED+username));
         SysUser user = sysUserService.getOne(new QueryWrapper<SysUser>().lambda().eq(SysUser::getUsername,username).last("limit 1"));
         ExceptionUtils.errorBusinessException(Objects.isNull(user),CommonEnumConstant.PromptMessage.USER_NOT_FOUND_ERROR);
-        ExceptionUtils.errorBusinessException(user.getStatus().equals(ConstantUtils.USER_STATUS_0),CommonEnumConstant.PromptMessage.USER_DISABLE_ERROR);
-        if (user.getStatus().equals(ConstantUtils.USER_STATUS_2)) {
+        ExceptionUtils.errorBusinessException(user.getStatus().equals(CommonEnumConstant.Dict.USER_STATUS_0.getDictKey()),CommonEnumConstant.PromptMessage.USER_DISABLE_ERROR);
+        if (user.getStatus().equals(CommonEnumConstant.Dict.USER_STATUS_2.getDictKey())) {
             user.setErrorCount(0);
-            user.setStatus(ConstantUtils.USER_STATUS_1);
+            user.setStatus(CommonEnumConstant.Dict.USER_STATUS_1.getDictKey());
             sysUserService.updateById(user);
         }
         //角色
@@ -62,7 +62,7 @@ public class JwtTokenUserDetailsService implements UserDetailsService {
         //该用户（角色）的所有权限
         List<String> roles=new ArrayList<>();
         for (SysUserRole userRole : sysUserRoles) {
-           sysRoleService.list(new QueryWrapper<SysRole>().lambda().eq(SysRole::getId,userRole.getRoleId()).eq(SysRole::getStatus,ConstantUtils.ROLE_STATUS_0))
+           sysRoleService.list(new QueryWrapper<SysRole>().lambda().eq(SysRole::getId,userRole.getRoleId()).eq(SysRole::getStatus,CommonEnumConstant.Dict.ROLE_STATUS_0.getDictKey()))
                    .forEach(o-> roles.add(ConstantUtils.ROLE_PREFIX+o.getCode()));
         }
         ExceptionUtils.errorBusinessException(roles.size() == 0,CommonEnumConstant.PromptMessage.ID_AUTHENTICATION_FAILED );

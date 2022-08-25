@@ -1,6 +1,7 @@
 package com.ddx.sys.service.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.ddx.common.constant.CommonEnumConstant;
 import com.ddx.common.constant.ConstantUtils;
 import com.ddx.sys.dto.resp.sysResource.ServiceMenuResp;
 import com.ddx.sys.dto.vo.resource.TreeMenuVo;
@@ -40,7 +41,7 @@ public class SysResourceServiceImpl extends ServiceImpl<SysResourceMapper, SysRe
     public List<UserTreeMenuVo> getMenuTreeByUserAndServiceResourceIds(List<Long> userResourceIds, String serviceModule) {
         List<SysResource> sysResourceList = baseMapper.selectList(new QueryWrapper<SysResource>().lambda().in(SysResource::getId,userResourceIds).eq(StringUtils.isNoneBlank(serviceModule),SysResource::getServiceModule,serviceModule));
         //查询所有用户的一级页签根菜单
-        List<SysResource> oneResource= sysResourceList.stream().filter(e -> e.getResourceType().equals(ConstantUtils.MENU_TYPE_0)).collect(Collectors.toList());
+        List<SysResource> oneResource= sysResourceList.stream().filter(e -> e.getResourceType().equals(CommonEnumConstant.Dict.MENU_TYPE_0.getDictKey())).collect(Collectors.toList());
         List<UserTreeMenuVo> treeMenuResps = new ArrayList<>();
         //为一级页签根菜单设置子菜单
         oneResource.forEach(menu ->{
@@ -73,7 +74,7 @@ public class SysResourceServiceImpl extends ServiceImpl<SysResourceMapper, SysRe
     @Override
     public List<MenuElVo> getMenuElByAndServiceResourceIds(List<Long> userResourceIds, String serviceModule, Boolean IsComponentOrName) {
         List<SysResource> sysResourceList = baseMapper.selectList(new QueryWrapper<SysResource>().lambda().in(SysResource::getId,userResourceIds).eq(StringUtils.isNoneBlank(serviceModule),SysResource::getServiceModule,serviceModule));
-        List<SysResource> elResource= sysResourceList.stream().filter(e -> e.getResourceType().equals(ConstantUtils.MENU_TYPE_2)).collect(Collectors.toList());
+        List<SysResource> elResource= sysResourceList.stream().filter(e -> e.getResourceType().equals(CommonEnumConstant.Dict.MENU_TYPE_2.getDictKey())).collect(Collectors.toList());
         List<MenuElVo> menuElRespList = Lists.newArrayList();
         if (IsComponentOrName){
             elResource.stream().collect(Collectors.groupingBy(SysResource::getParentId, Collectors.mapping(SysResource::getComponent, Collectors.toSet())))
@@ -110,7 +111,7 @@ public class SysResourceServiceImpl extends ServiceImpl<SysResourceMapper, SysRe
             Object resourceKey = key.next();
             List<SysResource> resources = groupResource.get(resourceKey);
             //获取所有一级菜单
-            List<SysResource> oneResources= resources.stream().filter(e -> e.getResourceType().equals(ConstantUtils.MENU_TYPE_0)).collect(Collectors.toList());
+            List<SysResource> oneResources= resources.stream().filter(e -> e.getResourceType().equals(CommonEnumConstant.Dict.MENU_TYPE_0.getDictKey())).collect(Collectors.toList());
             List<TreeMenuVo> treeMenuVos = Lists.newArrayList();
             oneResources.forEach(resource ->{
                 treeMenuVos.add(TreeMenuVo.builder()
@@ -124,6 +125,7 @@ public class SysResourceServiceImpl extends ServiceImpl<SysResourceMapper, SysRe
             Collections.sort(treeMenuVos, Comparator.comparing(TreeMenuVo::getSort));
             serviceMenuResps.add(ServiceMenuResp.builder()
                     .serviceCode(String.valueOf(resourceKey))
+                    .serviceName(CommonEnumConstant.Dict.getDictValueByDictKeyAndGroupType(String.valueOf(resourceKey),ConstantUtils.SERVICE_MODULES_NAME))
                     .treeMenuVo(treeMenuVos)
                     .build());
         }
@@ -164,7 +166,7 @@ public class SysResourceServiceImpl extends ServiceImpl<SysResourceMapper, SysRe
     public List<UserTreeMenuVo> getUserMenuChildren(List<SysResource> resourceList, Long lastId){
         List<UserTreeMenuVo> childrenList = new ArrayList<>();
         //获取用户上级菜单的所有下级菜单 不包括元素
-        List<SysResource> nextResource= resourceList.stream().filter(e -> Objects.nonNull(e.getParentId()) && e.getParentId().longValue() == lastId.longValue() && !Objects.equals(e.getResourceType(),ConstantUtils.MENU_TYPE_2) ).collect(Collectors.toList());
+        List<SysResource> nextResource= resourceList.stream().filter(e -> Objects.nonNull(e.getParentId()) && e.getParentId().longValue() == lastId.longValue() && !Objects.equals(e.getResourceType(),CommonEnumConstant.Dict.MENU_TYPE_2.getDictKey()) ).collect(Collectors.toList());
         nextResource.forEach(menu ->{
             childrenList.add(UserTreeMenuVo.builder()
                 .path(menu.getResourceUrl())

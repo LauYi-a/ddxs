@@ -3,6 +3,7 @@ package com.ddx.sys.service.Impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ddx.common.constant.CommonEnumConstant;
 import com.ddx.common.constant.ConstantUtils;
 import com.ddx.common.dto.resp.PaginatedResult;
 import com.ddx.common.dto.vo.UserKeyValVo;
@@ -68,7 +69,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         sysUsers.forEach(sysUser -> {
             //查询用户角色与角色权限
             List<Long> userRoleIds = iSysUserRoleService.list(new QueryWrapper<SysUserRole>().lambda().eq(SysUserRole::getUserId,sysUser.getId())).stream().map(SysUserRole::getRoleId).collect(Collectors.toList());
-            List<SysRole> sysUserRoles = userRoleIds.size() > 0 ?iSysRoleService.list(new QueryWrapper<SysRole>().lambda().eq(SysRole::getStatus,ConstantUtils.ROLE_STATUS_0).in(SysRole::getId,userRoleIds)):null;
+            List<SysRole> sysUserRoles = userRoleIds.size() > 0 ?iSysRoleService.list(new QueryWrapper<SysRole>().lambda().eq(SysRole::getStatus, CommonEnumConstant.Dict.ROLE_STATUS_0.getDictKey()).in(SysRole::getId,userRoleIds)):null;
             List<SysRoleResp> sysRoleResps = sysUserRoles.size() > 0 ?iSysRoleService.selectRolePermissionByRoles(sysUserRoles):null;
             //查询用户资源
             List<Long> userMenuIds =  iSysUserResourceService.list(new QueryWrapper<SysUserResource>().lambda().eq(SysUserResource::getUserId, sysUser.getId())).stream().map(SysUserResource::getResourceId).collect(Collectors.toList());

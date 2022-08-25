@@ -3,6 +3,7 @@ package com.ddx.sys.service.Impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ddx.common.constant.CommonEnumConstant;
 import com.ddx.common.constant.ConstantUtils;
 import com.ddx.common.dto.resp.PaginatedResult;
 import com.ddx.sys.dto.req.sysRole.SysRoleQueryReq;
@@ -78,7 +79,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
     @Override
     public List<RoleKeyValResp> selectRoleKeyAndValAll() {
-        List<SysRole> roles = this.baseMapper.selectList(new QueryWrapper<SysRole>().lambda().eq(SysRole::getStatus, ConstantUtils.ROLE_STATUS_0));
+        List<SysRole> roles = this.baseMapper.selectList(new QueryWrapper<SysRole>().lambda().eq(SysRole::getStatus, CommonEnumConstant.Dict.ROLE_STATUS_0.getDictKey()));
         List<RoleKeyValResp> roleKeyValResps = Lists.newArrayList();
         if (CollectionUtils.isNotEmpty(roles)){
             roles.forEach(item ->{
