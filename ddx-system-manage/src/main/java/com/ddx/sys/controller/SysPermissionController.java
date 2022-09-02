@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ddx.common.constant.CommonEnumConstant;
 import com.ddx.common.constant.ConstantUtils;
 import com.ddx.common.dto.req.BatchDeleteKey;
-import com.ddx.common.dto.req.CheckKey;
 import com.ddx.common.dto.req.DeleteKey;
 import com.ddx.common.dto.resp.PaginatedResult;
 import com.ddx.common.exception.ExceptionUtils;
@@ -121,14 +120,5 @@ public class SysPermissionController {
                 .in(SysRolePermission::getPermissionId,batchDeleteKey.getKeyWords())), CommonEnumConstant.PromptMessage.DELETE_ROLE_PERMISSION_ERROR);
         ExceptionUtils.errorBusinessException(!iSysPermissionService.initRolePermission(),CommonEnumConstant.PromptMessage.INIT_ROLE_PERMISSION_ERROR);
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
-    }
-
-    @ApiOperation(value = "检查权限主键是否存在", notes = "权限表")
-    @PostMapping("/check-key")
-    public BaseResponse checkKey(@RequestBody CheckKey checkKey) {
-        log.info("check SysPermission start...");
-        boolean result = iSysPermissionService.count(new QueryWrapper<SysPermission>().lambda()
-                .eq(SysPermission::getName,checkKey.getKeyWord()).or().eq(SysPermission::getUrl,checkKey.getKeyWord()))>0;
-        return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS,result);
     }
 }

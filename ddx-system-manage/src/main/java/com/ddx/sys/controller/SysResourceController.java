@@ -1,5 +1,7 @@
 package com.ddx.sys.controller;
 
+import com.ddx.sys.dto.req.sysUser.QueryUserInfoReq;
+import com.ddx.sys.dto.resp.sysResource.ResourceIdsResp;
 import com.ddx.sys.dto.resp.sysResource.ServiceMenuResp;
 import com.ddx.sys.entity.SysUserResource;
 import com.ddx.sys.service.ISysUserResourceService;
@@ -17,7 +19,6 @@ import com.ddx.sys.service.ISysResourceService;
 import com.ddx.common.constant.CommonEnumConstant;
 import com.ddx.common.constant.ConstantUtils;
 import com.ddx.common.dto.req.BatchDeleteKey;
-import com.ddx.common.dto.req.CheckKey;
 import com.ddx.common.dto.req.DeleteKey;
 import com.ddx.common.dto.resp.PaginatedResult;
 import com.ddx.common.exception.ExceptionUtils;
@@ -52,6 +53,13 @@ public class SysResourceController {
     private ISysResourceService iSysResourceService;
     @Autowired
     private ISysUserResourceService iSysUserResourceService;
+
+    @PostMapping("/select-user-resource-ids")
+    @ApiOperation(value = "查询用户菜单资源ID", notes = "系统资源")
+    public ResponseData<ResourceIdsResp> selectUserResourceIds(@Validated @RequestBody QueryUserInfoReq queryUserInfoReq) {
+        log.info("select user response ids ...");
+        return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS, iSysUserResourceService.selectUserResourceIdsByUserId(queryUserInfoReq.getId()));
+    }
 
     @PostMapping("/select-menu-tree")
     @ApiOperation(value = "查询资源菜单树", notes = "系统资源")
@@ -124,14 +132,5 @@ public class SysResourceController {
         ExceptionUtils.errorBusinessException(!iSysResourceService.removeByIds(batchDeleteKey.getKeyWords()),CommonEnumConstant.PromptMessage.FAILED);
         ExceptionUtils.errorBusinessException(!iSysUserResourceService.remove(new QueryWrapper<SysUserResource>().lambda().in(SysUserResource::getResourceId,batchDeleteKey.getKeyWords())), CommonEnumConstant.PromptMessage.DELETE_USER_RESOURCE_ERROR);
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
-    }
-
-    @ApiOperation(value = "检查系统资源主键是否存在", notes = "系统资源")
-    @PostMapping("/check-key")
-    public BaseResponse checkKey(@RequestBody CheckKey checkKey) {
-        log.info("check SysResource start...");
-        boolean result = iSysResourceService.count(new QueryWrapper<SysResource>().lambda()
-                .eq(SysResource::getResourceName,checkKey.getKeyWord()).or().eq(SysResource::getResourceName,checkKey.getKeyWord()))>0;
-        return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS,result);
     }
 }

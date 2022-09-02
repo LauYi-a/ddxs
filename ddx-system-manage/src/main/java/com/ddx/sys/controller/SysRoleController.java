@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ddx.common.constant.CommonEnumConstant;
 import com.ddx.common.constant.ConstantUtils;
 import com.ddx.common.dto.req.BatchDeleteKey;
-import com.ddx.common.dto.req.CheckKey;
 import com.ddx.common.dto.req.DeleteKey;
 import com.ddx.common.dto.resp.PaginatedResult;
 import com.ddx.common.exception.ExceptionUtils;
@@ -96,7 +95,7 @@ public class SysRoleController {
         BeanUtils.copyProperties(sysRoleEditReq, sysRole);
         Boolean yesOrNo = iSysRoleService.update(sysRole,new QueryWrapper<SysRole>().lambda().eq(SysRole::getId,sysRole.getId()));
         ExceptionUtils.errorBusinessException(!yesOrNo,CommonEnumConstant.PromptMessage.FAILED);
-        ExceptionUtils.errorBusinessException(!iSysRolePermissionService.saveOrDeleteRolePermissionId(sysRole.getId(),sysRoleEditReq.getRolePremissionId(),true,true), CommonEnumConstant.PromptMessage.ADD_ROLE_PERMISSION_ERROR);
+        ExceptionUtils.errorBusinessException(!iSysRolePermissionService.saveOrDeleteRolePermissionId(sysRole.getId(),sysRoleEditReq.getRolePremissionId(),false,true), CommonEnumConstant.PromptMessage.ADD_ROLE_PERMISSION_ERROR);
         ExceptionUtils.errorBusinessException(!iSysPermissionService.initRolePermission(),CommonEnumConstant.PromptMessage.INIT_ROLE_PERMISSION_ERROR);
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
     }
@@ -121,14 +120,5 @@ public class SysRoleController {
         ExceptionUtils.errorBusinessException(!iSysRolePermissionService.batchDeleteByRoleIds(batchDeleteKey.getKeyWords()), CommonEnumConstant.PromptMessage.DELETE_ROLE_PERMISSION_ERROR);
         ExceptionUtils.errorBusinessException(!iSysPermissionService.initRolePermission(),CommonEnumConstant.PromptMessage.INIT_ROLE_PERMISSION_ERROR);
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
-    }
-
-    @ApiOperation(value = "检查角色主键是否存在", notes = "角色表")
-    @PostMapping("/check-key")
-    public BaseResponse checkKey(@RequestBody CheckKey checkKey) {
-        log.info("check SysRole start...");
-        boolean result = iSysRoleService.count(new QueryWrapper<SysRole>().lambda()
-                .eq(SysRole::getCode,checkKey.getKeyWord()).or().eq(SysRole::getName,checkKey.getKeyWord()))>0;
-        return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS,result);
     }
 }

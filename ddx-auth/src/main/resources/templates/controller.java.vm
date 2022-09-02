@@ -22,7 +22,6 @@ import ${package.Service}.${table.serviceName};
 import com.ddx.common.constant.CommonEnumConstant;
 import com.ddx.common.constant.ConstantUtils;
 import com.ddx.common.dto.req.BatchDeleteKey;
-import com.ddx.common.dto.req.CheckKey;
 import com.ddx.common.dto.req.DeleteKey;
 import com.ddx.common.dto.resp.PaginatedResult;
 import com.ddx.common.exception.ExceptionUtils;
@@ -120,14 +119,6 @@ public class ${table.controllerName} {
         log.info("batchDelete ${entity} start...");
         ExceptionUtils.errorBusinessException(!i${entity}Service.removeByIds(batchDeleteKey.getKeyWords()),CommonEnumConstant.PromptMessage.FAILED);
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
-    }
-
-    @ApiOperation(value = "检查$!{table.comment}主键是否存在", notes = "$!{table.comment}")
-    @PostMapping("/checkKey")
-    public BaseResponse checkKey(@RequestBody CheckKey checkKey) {
-        log.info("check ${entity} start...");
-        boolean result = i${entity}Service.count(new QueryWrapper<${entity}>().lambda().eq(${entity}::getId,checkKey.getKeyWord()))>0;
-        return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS,result);
     }
 }
 #end

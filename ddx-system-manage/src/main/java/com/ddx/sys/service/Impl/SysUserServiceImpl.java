@@ -2,22 +2,28 @@ package com.ddx.sys.service.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.sql.SqlHelper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ddx.common.constant.CommonEnumConstant;
-import com.ddx.common.constant.ConstantUtils;
 import com.ddx.common.dto.resp.PaginatedResult;
-import com.ddx.common.dto.vo.UserKeyValVo;
-import com.ddx.common.utils.RedisTemplateUtils;
+import com.ddx.common.exception.ExceptionUtils;
+import com.ddx.common.response.BaseResponse;
+import com.ddx.common.response.ResponseData;
+import com.ddx.sys.dto.req.sysUser.SysUserAddReq;
 import com.ddx.sys.dto.req.sysUser.SysUserQueryReq;
 import com.ddx.sys.dto.vo.resource.MenuElVo;
 import com.ddx.sys.dto.resp.sysResource.TreeMenuAndElAuthResp;
 import com.ddx.sys.dto.vo.resource.UserTreeMenuVo;
 import com.ddx.sys.dto.resp.sysRole.SysRoleResp;
 import com.ddx.sys.dto.resp.sysUser.SysUserResp;
+import com.ddx.sys.dto.vo.user.UserAddVo;
 import com.ddx.sys.entity.*;
 import com.ddx.sys.mapper.SysUserMapper;
 import com.ddx.sys.service.*;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +39,7 @@ import java.util.stream.Collectors;
  * @since 2022-04-01
  * @Version: 1.0
  */
+@Slf4j
 @Service
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements ISysUserService {
 
@@ -41,12 +48,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Autowired
     private ISysRoleService iSysRoleService;
     @Autowired
-    private RedisTemplateUtils redisTemplate ;
-    @Autowired
     private ISysUserResourceService iSysUserResourceService;
     @Autowired
     private ISysResourceService iSysResourceService;
 
+    @Override
     public PaginatedResult selectPage(IPage<SysUser> arg0, SysUserQueryReq sysUserQueryReq){
         IPage<SysUser> userIPage = this.baseMapper.selectPage(arg0,new QueryWrapper<SysUser>().lambda()
                 .eq(StringUtils.isNoneBlank(sysUserQueryReq.getEmail()),SysUser::getEmail, sysUserQueryReq.getEmail())
@@ -64,17 +70,18 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                 .build();
     }
 
+    @Override
     public List<SysUserResp> selectUserInfoByUsers(List<SysUser> sysUsers){
         List<SysUserResp> sysUserRespList = new ArrayList<>();
         sysUsers.forEach(sysUser -> {
             //查询用户角色与角色权限
             List<Long> userRoleIds = iSysUserRoleService.list(new QueryWrapper<SysUserRole>().lambda().eq(SysUserRole::getUserId,sysUser.getId())).stream().map(SysUserRole::getRoleId).collect(Collectors.toList());
-            List<SysRole> sysUserRoles = userRoleIds.size() > 0 ?iSysRoleService.list(new QueryWrapper<SysRole>().lambda().eq(SysRole::getStatus, CommonEnumConstant.Dict.ROLE_STATUS_0.getDictKey()).in(SysRole::getId,userRoleIds)):null;
-            List<SysRoleResp> sysRoleResps = sysUserRoles.size() > 0 ?iSysRoleService.selectRolePermissionByRoles(sysUserRoles):null;
+            List<SysRole> sysUserRoles = CollectionUtils.isNotEmpty(userRoleIds)?iSysRoleService.list(new QueryWrapper<SysRole>().lambda().eq(SysRole::getStatus, CommonEnumConstant.Dict.ROLE_STATUS_0.getDictKey()).in(SysRole::getId,userRoleIds)):null;
+            List<SysRoleResp> sysRoleResps = CollectionUtils.isNotEmpty(sysUserRoles)?iSysRoleService.selectRolePermissionByRoles(sysUserRoles):null;
             //查询用户资源
             List<Long> userMenuIds =  iSysUserResourceService.list(new QueryWrapper<SysUserResource>().lambda().eq(SysUserResource::getUserId, sysUser.getId())).stream().map(SysUserResource::getResourceId).collect(Collectors.toList());
-            List<UserTreeMenuVo> treeMenuRespList = userMenuIds.size() > 0 ?iSysResourceService.getMenuTreeByUserAndServiceResourceIds(userMenuIds,null):null;
-            List<MenuElVo> menuElRespList = userMenuIds.size() > 0 ?iSysResourceService.getMenuElByAndServiceResourceIds(userMenuIds,null,false):null;
+            List<UserTreeMenuVo> treeMenuRespList = CollectionUtils.isNotEmpty(userMenuIds) ?iSysResourceService.getMenuTreeByUserAndServiceResourceIds(userMenuIds,null):null;
+            List<MenuElVo> menuElRespList = CollectionUtils.isNotEmpty(userMenuIds)?iSysResourceService.getMenuElByAndServiceResourceIds(userMenuIds,null,false):null;
             List<String> services = iSysResourceService.getServiceList(userMenuIds);
             sysUserRespList.add(SysUserResp.builder()
                     .id(sysUser.getId())
@@ -103,18 +110,32 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
-    public Boolean initUserKeyVal() {
+    public BaseResponse addUserInfo(SysUserAddReq sysUserAddReq) {
         try {
-            //初始化用户键值
-            List<UserKeyValVo> userKeyValVo = baseMapper.selectList(new QueryWrapper<>()).stream().map(e -> {
-                return UserKeyValVo.builder().id(e.getId()).nickname(e.getNickname()).build();
-            }).collect(Collectors.toList());
-            redisTemplate.del(ConstantUtils.SYSTEM_USER_KEY_VAL);
-            redisTemplate.lSet(ConstantUtils.SYSTEM_USER_KEY_VAL, userKeyValVo);
-            return true;
+            UserAddVo userAddVo = new UserAddVo();
+            BeanUtils.copyProperties(sysUserAddReq,userAddVo);
+            List<String> services = iSysResourceService.getServiceList(sysUserAddReq.getResourceIds());
+            userAddVo.setLoginService(CollectionUtils.isNotEmpty(services)?services.get(0):null);
+            SysUser sysUser = UserAddVo.getSysUser(userAddVo);
+            if (SqlHelper.retBool(this.baseMapper.selectCount(new QueryWrapper<SysUser>().lambda().eq(SysUser::getUsername,sysUser.getUsername())))){
+                return ResponseData.out(CommonEnumConstant.PromptMessage.USER_USERNAME_EXISTING_ERROR);
+            }
+            if (SqlHelper.retBool(this.baseMapper.selectCount(new QueryWrapper<SysUser>().lambda().eq(SysUser::getMobile,sysUser.getMobile())))){
+                return ResponseData.out(CommonEnumConstant.PromptMessage.USER_MOBILE_EXISTING_ERROR);
+            }
+            if (!SqlHelper.retBool(this.baseMapper.insert(sysUser))){
+                return ResponseData.out(CommonEnumConstant.PromptMessage.FAILED);
+            }
+            if (!iSysUserRoleService.addUserRoleId(sysUserAddReq.getRoleIds(),sysUser.getId())){
+                return ResponseData.out(CommonEnumConstant.PromptMessage.ADD_USER_ROLE_ERROR);
+            }
+            if (!iSysUserResourceService.addUserResourceId(sysUserAddReq.getResourceIds(),sysUser.getId())){
+                return ResponseData.out(CommonEnumConstant.PromptMessage.ADD_ROLE_PERMISSION_ERROR);
+            }
         }catch (Exception e){
-            e.printStackTrace();
-            return false;
+            log.error("添加用户失败",e);
+            ExceptionUtils.businessException(CommonEnumConstant.PromptMessage.FAILED,e.getMessage());
         }
+        return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
     }
 }

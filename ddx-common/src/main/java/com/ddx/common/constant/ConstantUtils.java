@@ -84,7 +84,6 @@ public class ConstantUtils {
     public final static String WHITELIST_REQUEST="system:whitelist_request:";//访问白名单配置
     public final static String REQUEST_TIME_WHITELIST="system:request_time_whitelist:";//请求时间白名单配置
     public final static String SYSTEM_REQUEST="system:lock:request_url:";//系统请求锁
-    public final static String SYSTEM_USER_KEY_VAL="system:user:key_val:";//系统用户 key val
 
     /**
      * redis 分布式锁

@@ -3,6 +3,8 @@ package com.ddx.sys.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ddx.common.dto.resp.PaginatedResult;
+import com.ddx.common.response.BaseResponse;
+import com.ddx.sys.dto.req.sysUser.SysUserAddReq;
 import com.ddx.sys.dto.req.sysUser.SysUserQueryReq;
 import com.ddx.sys.dto.resp.sysUser.SysUserResp;
 import com.ddx.sys.entity.SysUser;
@@ -34,8 +36,9 @@ public interface ISysUserService extends IService<SysUser> {
     List<SysUserResp> selectUserInfoByUsers(List<SysUser> sysUsers);
 
     /**
-     * 初始化用户键值
+     * 添加用户信息
+     * @param sysUserAddReq
      * @return
      */
-    Boolean initUserKeyVal();
+    BaseResponse addUserInfo(SysUserAddReq sysUserAddReq);
 }

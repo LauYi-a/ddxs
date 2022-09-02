@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -24,6 +26,10 @@ public class MenuElVo {
 
     @ApiModelProperty(value = "元素key 父级菜单")
     private Long elKey;
+
+
+    @ApiModelProperty(value = "元素ID")
+    private List<Long> ids;
 
     @ApiModelProperty(value = "元素值")
     private Set<String> elValue;

@@ -3,6 +3,7 @@ package com.ddx.sys.service.Impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ddx.common.constant.CommonEnumConstant;
 import com.ddx.common.exception.ExceptionUtils;
+import com.ddx.sys.dto.resp.sysResource.ResourceIdsResp;
 import com.ddx.sys.entity.SysUserResource;
 import com.ddx.sys.mapper.SysUserResourceMapper;
 import com.ddx.sys.service.ISysUserResourceService;
@@ -42,40 +43,23 @@ public class SysUserResourceServiceImpl extends ServiceImpl<SysUserResourceMappe
     }
 
     @Override
-    public Boolean saveOrDeleteUserResourceId(Long userId, List<Long> resourceIds, Boolean isDelete, Boolean isSave) {
+    public Boolean saveOrDeleteUserResourceId(Long userId, List<Long> resourceIds, Boolean isDelete, Boolean isSaveOrUpdate) {
         try {
             //查询出当前用户所有的资源
             List<SysUserResource> sysUserResourceList = baseMapper.selectList(new QueryWrapper<SysUserResource>().lambda().eq(SysUserResource::getUserId,userId));
-            //处理新增逻辑
-            if (isSave) {
-                if (sysUserResourceList.size() == 0){
-                    Boolean isSaveOk = this.addUserResourceId(resourceIds,userId);
-                    if (!isSaveOk){
-                        return isSaveOk;
-                    }
-                }else{
-                    resourceIds.forEach(resourceId -> {
-                        Boolean isCount = sysUserResourceList.stream().filter(resourceObj -> resourceId.equals(resourceObj.getResourceId())).count() == 0;
-                        Integer is = isCount ? baseMapper.insert(SysUserResource.builder()
-                                .resourceId(resourceId)
-                                .userId(userId)
-                                .build()) : 0;
-                    });
+            //直接新增
+            if (CollectionUtils.isEmpty(sysUserResourceList)){
+                return this.addUserResourceId(resourceIds,userId);
+            }else{
+                List<Long> oldIds = sysUserResourceList.stream().map(SysUserResource::getId).collect(Collectors.toList());
+                //先删除在新增
+                if (isSaveOrUpdate) {
+                    baseMapper.deleteBatchIds(oldIds);
+                    return this.addUserResourceId(resourceIds,userId);
                 }
-            }
-            //处理删除逻辑
-            if (isDelete){
-                List<Long> ids = new ArrayList<>();
-                if (!CollectionUtils.isEmpty(resourceIds)){
-                    sysUserResourceList.forEach(resourceObj -> {
-                        Boolean isCount = resourceIds.stream().filter(resourceId -> resourceId.equals(resourceObj.getResourceId())).count() != 0;
-                        if (isCount)
-                            ids.add(resourceObj.getId());
-                    });
-                }else{
-                    ids.addAll(sysUserResourceList.stream().map(SysUserResource::getId).collect(Collectors.toList()));
+                if (isDelete){
+                    baseMapper.deleteBatchIds(!CollectionUtils.isEmpty(resourceIds)?resourceIds:oldIds);
                 }
-                baseMapper.deleteBatchIds(ids);
             }
             return true;
         }catch (Exception ex){
@@ -97,5 +81,12 @@ public class SysUserResourceServiceImpl extends ServiceImpl<SysUserResourceMappe
             ex.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    public ResourceIdsResp selectUserResourceIdsByUserId(Long userId) {
+        List<Long> userMenuIds =  baseMapper.selectList(new QueryWrapper<SysUserResource>().lambda()
+                .eq(SysUserResource::getUserId, userId)).stream().map(SysUserResource::getResourceId).collect(Collectors.toList());
+        return ResourceIdsResp.builder().resourceIds(userMenuIds).build();
     }
 }

@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ddx.common.constant.CommonEnumConstant;
 import com.ddx.common.constant.ConstantUtils;
 import com.ddx.common.dto.req.BatchDeleteKey;
-import com.ddx.common.dto.req.CheckKey;
 import com.ddx.common.dto.req.DeleteKey;
 import com.ddx.common.dto.resp.PaginatedResult;
 import com.ddx.common.exception.ExceptionUtils;
@@ -89,13 +88,9 @@ public class SysUserController {
         log.info("update-by-userId start...");
         SysUser sysUser = iSysUserService.getOne(new QueryWrapper<SysUser>().lambda().eq(SysUser::getUserId,updateUserBasisInfo.getUserId()).last("limit 1"));
         ExceptionUtils.errorBusinessException(sysUser == null,CommonEnumConstant.PromptMessage.VALIDATED_FAILED);
-        Boolean isInit = Objects.equals(updateUserBasisInfo.getNickname(),sysUser.getNickname());
         BeanUtils.copyProperties(updateUserBasisInfo, sysUser);
         Boolean yesOrNo = iSysUserService.update(sysUser,new QueryWrapper<SysUser>().lambda().eq(SysUser::getId,sysUser.getId()));
         ExceptionUtils.errorBusinessException(!yesOrNo,CommonEnumConstant.PromptMessage.FAILED);
-        if (!isInit){
-            ExceptionUtils.errorBusinessException(!iSysUserService.initUserKeyVal(), CommonEnumConstant.PromptMessage.INIT_USER_KEY_VAL_ERROR);
-        }
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
     }
 
@@ -137,12 +132,7 @@ public class SysUserController {
     @Transactional(rollbackFor = Exception.class)
     public BaseResponse add(@Validated @RequestBody SysUserAddReq  sysUserAddReq) {
         log.info("add SysUser start...");
-        SysUser sysUser = sysUserAddReq.getSysUser(sysUserAddReq);
-        ExceptionUtils.errorBusinessException(!iSysUserService.save(sysUser),CommonEnumConstant.PromptMessage.FAILED);
-        ExceptionUtils.errorBusinessException(!iSysUserRoleService.addUserRoleId(sysUserAddReq.getRoleIds(),sysUser.getId()), CommonEnumConstant.PromptMessage.ADD_USER_ROLE_ERROR);
-        ExceptionUtils.errorBusinessException(!iSysUserResourceService.addUserResourceId(sysUserAddReq.getResourceIds(),sysUser.getId()), CommonEnumConstant.PromptMessage.ADD_USER_RESOURCE_ERROR);
-        ExceptionUtils.errorBusinessException(!iSysUserService.initUserKeyVal(), CommonEnumConstant.PromptMessage.INIT_USER_KEY_VAL_ERROR);
-        return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
+        return iSysUserService.addUserInfo(sysUserAddReq);
     }
 
     @ApiOperation(value = "修改用户信息", notes = "用户信息表")
@@ -153,11 +143,9 @@ public class SysUserController {
         SysUser sysUser = iSysUserService.getOne(new QueryWrapper<SysUser>().lambda().eq(SysUser::getId,sysUserEditReq.getId()).last("limit 1"));
         ExceptionUtils.errorBusinessException(sysUser == null,CommonEnumConstant.PromptMessage.VALIDATED_FAILED);
         BeanUtils.copyProperties(sysUserEditReq, sysUser);
-        Boolean yesOrNo = iSysUserService.update(sysUser,new QueryWrapper<SysUser>().lambda().eq(SysUser::getId,sysUser.getId()));
-        ExceptionUtils.errorBusinessException(!yesOrNo,CommonEnumConstant.PromptMessage.FAILED);
-        ExceptionUtils.errorBusinessException(!iSysUserRoleService.saveOrDeleteUserRoleId(sysUser.getId(),sysUserEditReq.getRoleIds(),true,true), CommonEnumConstant.PromptMessage.ADD_USER_ROLE_ERROR);
-        ExceptionUtils.errorBusinessException(!iSysUserResourceService.saveOrDeleteUserResourceId(sysUser.getId(),sysUserEditReq.getResourceIds(),true,true), CommonEnumConstant.PromptMessage.ADD_USER_RESOURCE_ERROR);
-        ExceptionUtils.errorBusinessException(!iSysUserService.initUserKeyVal(), CommonEnumConstant.PromptMessage.INIT_USER_KEY_VAL_ERROR);
+        ExceptionUtils.errorBusinessException(!iSysUserService.update(sysUser,new QueryWrapper<SysUser>().lambda().eq(SysUser::getId,sysUser.getId())),CommonEnumConstant.PromptMessage.FAILED);
+        ExceptionUtils.errorBusinessException(!iSysUserRoleService.saveOrDeleteUserRoleId(sysUser.getId(),sysUserEditReq.getRoleIds(),false,true), CommonEnumConstant.PromptMessage.ADD_USER_ROLE_ERROR);
+        ExceptionUtils.errorBusinessException(!iSysUserResourceService.saveOrDeleteUserResourceId(sysUser.getId(),sysUserEditReq.getResourceIds(),false,true), CommonEnumConstant.PromptMessage.ADD_USER_RESOURCE_ERROR);
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
     }
 
@@ -169,7 +157,6 @@ public class SysUserController {
         ExceptionUtils.errorBusinessException(!iSysUserService.removeById(Long.valueOf(deleteKey.getKeyWord().toString())),CommonEnumConstant.PromptMessage.FAILED);
         ExceptionUtils.errorBusinessException(!iSysUserRoleService.saveOrDeleteUserRoleId(Long.valueOf(deleteKey.getKeyWord().toString()),null,true,false), CommonEnumConstant.PromptMessage.DELETE_USER_ROLE_ERROR);
         ExceptionUtils.errorBusinessException(!iSysUserResourceService.saveOrDeleteUserResourceId(Long.valueOf(deleteKey.getKeyWord().toString()),null,true,false), CommonEnumConstant.PromptMessage.DELETE_USER_RESOURCE_ERROR);
-        ExceptionUtils.errorBusinessException(!iSysUserService.initUserKeyVal(), CommonEnumConstant.PromptMessage.INIT_USER_KEY_VAL_ERROR);
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
     }
 
@@ -181,15 +168,6 @@ public class SysUserController {
         ExceptionUtils.errorBusinessException(!iSysUserService.removeByIds(batchDeleteKey.getKeyWords()),CommonEnumConstant.PromptMessage.FAILED);
         ExceptionUtils.errorBusinessException(!iSysUserRoleService.batchDeleteByUserIds(batchDeleteKey.getKeyWords()), CommonEnumConstant.PromptMessage.DELETE_USER_ROLE_ERROR);
         ExceptionUtils.errorBusinessException(!iSysUserResourceService.batchDeleteByUserIds(batchDeleteKey.getKeyWords()), CommonEnumConstant.PromptMessage.DELETE_USER_RESOURCE_ERROR);
-        ExceptionUtils.errorBusinessException(!iSysUserService.initUserKeyVal(), CommonEnumConstant.PromptMessage.INIT_USER_KEY_VAL_ERROR);
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
-    }
-
-    @ApiOperation(value = "检查用户信息主键是否存在", notes = "用户信息表")
-    @PostMapping("/check-key")
-    public BaseResponse checkKey(@RequestBody CheckKey checkKey) {
-        log.info("check SysUser start...");
-        boolean result = iSysUserService.count(new QueryWrapper<SysUser>().lambda().eq(SysUser::getUsername,checkKey.getKeyWord()))>0;
-        return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS,result);
     }
 }

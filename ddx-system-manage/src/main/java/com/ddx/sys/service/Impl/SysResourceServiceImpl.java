@@ -73,8 +73,9 @@ public class SysResourceServiceImpl extends ServiceImpl<SysResourceMapper, SysRe
 
     @Override
     public List<MenuElVo> getMenuElByAndServiceResourceIds(List<Long> userResourceIds, String serviceModule, Boolean IsComponentOrName) {
-        List<SysResource> sysResourceList = baseMapper.selectList(new QueryWrapper<SysResource>().lambda().in(SysResource::getId,userResourceIds).eq(StringUtils.isNoneBlank(serviceModule),SysResource::getServiceModule,serviceModule));
-        List<SysResource> elResource= sysResourceList.stream().filter(e -> e.getResourceType().equals(CommonEnumConstant.Dict.MENU_TYPE_2.getDictKey())).collect(Collectors.toList());
+        List<SysResource> elResource = baseMapper.selectList(new QueryWrapper<SysResource>().lambda().in(SysResource::getId,userResourceIds)
+                .eq(SysResource::getResourceType,CommonEnumConstant.Dict.MENU_TYPE_2.getDictKey())
+                .eq(StringUtils.isNoneBlank(serviceModule),SysResource::getServiceModule,serviceModule));
         List<MenuElVo> menuElRespList = Lists.newArrayList();
         if (IsComponentOrName){
             elResource.stream().collect(Collectors.groupingBy(SysResource::getParentId, Collectors.mapping(SysResource::getComponent, Collectors.toSet())))
@@ -82,11 +83,15 @@ public class SysResourceServiceImpl extends ServiceImpl<SysResourceMapper, SysRe
                 menuElRespList.add(MenuElVo.builder().elKey(key).elValue(val).build());
             });
         }else{
-            elResource.stream().collect(Collectors.groupingBy(SysResource::getParentId, Collectors.mapping(SysResource::getResourceName, Collectors.toSet())))
+            elResource.stream().collect(Collectors.groupingBy(SysResource::getParentId,Collectors.mapping(SysResource::getResourceName,Collectors.toSet())))
             .forEach((key,val)->{
                 menuElRespList.add(MenuElVo.builder().elKey(key).elValue(val).build());
             });
         }
+        menuElRespList.forEach(menuElVo -> {
+            List<Long> ids = elResource.stream().filter(resource -> Objects.equals(resource.getParentId(),menuElVo.getElKey())).map(SysResource::getId).collect(Collectors.toList());
+            menuElVo.setIds(ids);
+        });
         return menuElRespList;
     }
 

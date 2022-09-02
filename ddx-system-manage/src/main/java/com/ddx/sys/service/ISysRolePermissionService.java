@@ -29,10 +29,10 @@ public interface ISysRolePermissionService extends IService<SysRolePermission> {
      * @param roleId
      * @param permissionIds
      * @param isDelete
-     * @param isSave
+     * @param isSaveOrUpdate
      * @return
      */
-    Boolean saveOrDeleteRolePermissionId(Long roleId,List<Long> permissionIds,Boolean isDelete,Boolean isSave);
+    Boolean saveOrDeleteRolePermissionId(Long roleId,List<Long> permissionIds,Boolean isDelete,Boolean isSaveOrUpdate);
 
     /**
      * 根据角色id集合删除角色权限绑定关系

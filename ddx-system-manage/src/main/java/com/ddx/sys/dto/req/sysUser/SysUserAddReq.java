@@ -24,9 +24,9 @@ import java.util.List;
 @ApiModel(value="SysUserAddReq", description="用户信息表新增入参体")
 public class SysUserAddReq {
 
-    @ApiModelProperty(value = "用户名")
-    @NotBlank (message = "用户名不能为空")
-    @Pattern(regexp = "^[A-Za-z0-9]{6,15}$",message = "匹配9-15个由字母/数字组成的")
+    @ApiModelProperty(value = "登入账号")
+    @NotBlank (message = "登入账号不能为空")
+    @Pattern(regexp = "^[A-Za-z0-9]{6,15}$",message = "登入账号由6-15个字母/数字组成")
     private String username;
 
     @ApiModelProperty(value = "昵称")
@@ -55,14 +55,4 @@ public class SysUserAddReq {
     @ApiModelProperty(value = "用户绑定资源ID集合")
     @NotEmpty(message = "用户绑定资源ID集合不能为空")
     private List<Long> resourceIds;
-
-    public SysUser getSysUser(SysUserAddReq sysUserAddReq){
-        SysUser sysUser = new SysUser();
-        BeanUtils.copyProperties(sysUserAddReq,sysUser);
-        sysUser.setPassword(SM3Digest.decode(ConstantUtils.INIT_PASSWORD+sysUser.getUsername()));
-        sysUser.setUserId(SerialNumber.newInstance(ConstantUtils.SERIAL_ID,ConstantUtils.DATE_FORMAT_5).toString());
-        sysUser.setStatus(CommonEnumConstant.Dict.USER_STATUS_1.getDictKey());
-        sysUser.setLoginService("sys");
-        return sysUser;
-    }
 }

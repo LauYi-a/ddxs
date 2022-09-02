@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ddx.common.constant.CommonEnumConstant;
 import com.ddx.common.exception.ExceptionUtils;
 import com.ddx.sys.entity.SysRolePermission;
+import com.ddx.sys.entity.SysUserResource;
 import com.ddx.sys.mapper.SysRolePermissionMapper;
 import com.ddx.sys.service.ISysRolePermissionService;
 import org.springframework.stereotype.Service;
@@ -42,40 +43,23 @@ public class SysRolePermissionServiceImpl extends ServiceImpl<SysRolePermissionM
     }
 
     @Override
-    public Boolean saveOrDeleteRolePermissionId(Long roleId, List<Long> permissionIds,Boolean isDelete,Boolean isSave) {
+    public Boolean saveOrDeleteRolePermissionId(Long roleId, List<Long> permissionIds,Boolean isDelete,Boolean isSaveOrUpdate) {
         try {
             //查询出当前角色所有的权限
             List<SysRolePermission>  rolePermissionsList = baseMapper.selectList(new QueryWrapper<SysRolePermission>().lambda().eq(SysRolePermission::getRoleId,roleId));
-            //处理新增逻辑
-            if (isSave) {
-                if (rolePermissionsList.size() == 0){
-                    Boolean isSaveOk = this.addRolePermissionId(permissionIds,roleId);
-                    if (!isSaveOk){
-                        return isSaveOk;
-                    }
-                }else{
-                    permissionIds.forEach(permissionId -> {
-                        Boolean isCount = rolePermissionsList.stream().filter(rolePermissionsIdObj -> permissionId.equals(rolePermissionsIdObj.getPermissionId())).count() == 0;
-                        Integer is = isCount ? baseMapper.insert(SysRolePermission.builder()
-                                .permissionId(permissionId)
-                                .roleId(roleId)
-                                .build()) : 0;
-                    });
+            //直接新增
+            if (CollectionUtils.isEmpty(rolePermissionsList)){
+                return this.addRolePermissionId(permissionIds,roleId);
+            }else{
+                List<Long> oldIds = rolePermissionsList.stream().map(SysRolePermission::getId).collect(Collectors.toList());
+                //先删除在新增
+                if (isSaveOrUpdate) {
+                    baseMapper.deleteBatchIds(oldIds);
+                    return this.addRolePermissionId(permissionIds,roleId);
                 }
-            }
-            //处理删除逻辑
-            if (isDelete) {
-                List<Long> ids = new ArrayList<>();
-                if (!CollectionUtils.isEmpty(permissionIds)){
-                    rolePermissionsList.forEach(rolePermissionsObj -> {
-                        Boolean isCount = permissionIds.stream().filter(permissionId -> permissionId.equals(rolePermissionsObj.getPermissionId())).count() != 0;
-                        if (isCount)
-                            ids.add(rolePermissionsObj.getId());
-                    });
-                }else{
-                    ids.addAll(rolePermissionsList.stream().map(SysRolePermission::getId).collect(Collectors.toList()));
+                if (isDelete){
+                    baseMapper.deleteBatchIds(!CollectionUtils.isEmpty(permissionIds)?permissionIds:oldIds);
                 }
-                baseMapper.deleteBatchIds(ids);
             }
             return true;
         }catch (Exception ex){

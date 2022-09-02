@@ -19,7 +19,8 @@ public class ExceptionUtils {
      * @param message
      */
     public static void businessException(CommonEnumConstant.PromptMessage promptMessage,Object message){
-        throw new ErrorBusinessException(promptMessage.getCode(), promptMessage.getType(),String.format(promptMessage.getMsg(),message));
+        String enumMessage = promptMessage.getMsg().contains("%s")?promptMessage.getMsg():promptMessage.getMsg()+"：%s";
+        throw new ErrorBusinessException(promptMessage.getCode(), promptMessage.getType(),String.format(enumMessage,message));
     }
 
     /**

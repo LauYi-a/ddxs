@@ -12,7 +12,6 @@ import com.ddx.auth.service.ISysWhitelistRequestService;
 import com.ddx.common.constant.CommonEnumConstant;
 import com.ddx.common.constant.ConstantUtils;
 import com.ddx.common.dto.vo.SysParamConfigVo;
-import com.ddx.common.dto.vo.UserKeyValVo;
 import com.ddx.common.utils.RedisTemplateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -79,16 +78,6 @@ public class LoadInitResourcesService {
             }
         });
         initSysParam.start();
-
-        //初始化用户键值
-        Thread initUserKey = new Thread(()-> {
-            List<UserKeyValVo> userKeyValVo = sysUserService.list(new QueryWrapper<>()).stream().map(e -> {
-                return UserKeyValVo.builder().id(e.getId()).nickname(e.getNickname()).build();
-            }).collect(Collectors.toList());
-            redisTemplate.del(ConstantUtils.SYSTEM_USER_KEY_VAL);
-            redisTemplate.lSet(ConstantUtils.SYSTEM_USER_KEY_VAL, userKeyValVo);
-        });
-        initUserKey.start();
 
         //初始化白名单
         Thread initWhite = new Thread(()-> {

@@ -71,6 +71,18 @@ public class RequestExceptionHandle {
     }
 
     /**
+     * 空指针异常
+     * @param nullPointerException
+     * @return
+     */
+    @ExceptionHandler(NullPointerException.class)
+    public BaseResponse nullPointerException(NullPointerException nullPointerException){
+        RequestContextUtils.settingSerialNumber();
+        nullPointerException.printStackTrace();
+        return ResponseData.out(CommonEnumConstant.PromptMessage.SYS_NULL_POINTER_ERROR);
+    }
+
+    /**
      * 自定义业务异常响应
      * @param ex
      * @return

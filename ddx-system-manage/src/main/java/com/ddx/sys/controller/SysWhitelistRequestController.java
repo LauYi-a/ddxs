@@ -15,7 +15,6 @@ import com.ddx.sys.service.ISysWhitelistRequestService;
 import com.ddx.common.constant.CommonEnumConstant;
 import com.ddx.common.constant.ConstantUtils;
 import com.ddx.common.dto.req.BatchDeleteKey;
-import com.ddx.common.dto.req.CheckKey;
 import com.ddx.common.dto.req.DeleteKey;
 import com.ddx.common.dto.resp.PaginatedResult;
 import com.ddx.common.exception.ExceptionUtils;
@@ -110,13 +109,5 @@ public class SysWhitelistRequestController {
         ExceptionUtils.errorBusinessException(!iSysWhitelistRequestService.removeByIds(batchDeleteKey.getKeyWords()),CommonEnumConstant.PromptMessage.FAILED);
         ExceptionUtils.errorBusinessException(!iSysWhitelistRequestService.initWhitelistConfig(),CommonEnumConstant.PromptMessage.INIT_WHITELIST_ERROR);
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
-    }
-
-    @ApiOperation(value = "检查白名单路由主键是否存在", notes = "白名单路由")
-    @PostMapping("/check-key")
-    public BaseResponse checkKey(@RequestBody CheckKey checkKey) {
-        log.info("check SysWhitelistRequest start...");
-        boolean result = iSysWhitelistRequestService.count(new QueryWrapper<SysWhitelistRequest>().lambda().eq(SysWhitelistRequest::getUrl,checkKey.getKeyWord()))>0;
-        return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS,result);
     }
 }

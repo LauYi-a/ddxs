@@ -1,6 +1,7 @@
 package com.ddx.common.response;
 
 import com.ddx.common.constant.CommonEnumConstant;
+import com.ddx.common.constant.ConstantUtils;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -8,6 +9,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.Objects;
 
 /**
  * @ClassName: ResponseData
@@ -72,5 +75,25 @@ public class ResponseData<T> extends BaseResponse {
      */
     public static <T> ResponseData<T> out(CommonEnumConstant.PromptMessage code, T data) {
         return new ResponseData<>(code, data);
+    }
+
+    /**
+     * 判断答应状态是否成功
+     * 可供系统内部远程调用判断
+     * @param responseData
+     * @return Boolean true 调用成功返回 false 失败返回
+     */
+    public static Boolean isSuccess(ResponseData responseData){
+        return Objects.equals(responseData.getType(), ConstantUtils.MSG_TYPE_SUCCESS)||Objects.equals(responseData.getType(), ConstantUtils.MSG_TYPE_INFO);
+    }
+
+    /**
+     * 重载 基础返回体 判断答应状态是否成功
+     * 可供系统内部远程调用判断
+     * @param baseResponse
+     * @return Boolean true 调用成功返回 false 失败返回
+     */
+    public static Boolean isSuccess(BaseResponse baseResponse){
+        return Objects.equals(baseResponse.getType(), ConstantUtils.MSG_TYPE_SUCCESS)||Objects.equals(baseResponse.getType(), ConstantUtils.MSG_TYPE_INFO);
     }
 }

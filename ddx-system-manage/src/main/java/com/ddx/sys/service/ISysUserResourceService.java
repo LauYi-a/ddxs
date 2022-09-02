@@ -1,5 +1,6 @@
 package com.ddx.sys.service;
 
+import com.ddx.sys.dto.resp.sysResource.ResourceIdsResp;
 import com.ddx.sys.entity.SysUserResource;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
@@ -29,10 +30,10 @@ public interface ISysUserResourceService extends IService<SysUserResource> {
      * @param userId
      * @param resourceIds
      * @param isDelete
-     * @param isSave
+     * @param isSaveOrUpdate
      * @return
      */
-    Boolean saveOrDeleteUserResourceId(Long userId,List<Long> resourceIds,Boolean isDelete,Boolean isSave);
+    Boolean saveOrDeleteUserResourceId(Long userId,List<Long> resourceIds,Boolean isDelete,Boolean isSaveOrUpdate);
 
     /**
      * 根据用户id集合删除用户资源绑定关系
@@ -41,4 +42,10 @@ public interface ISysUserResourceService extends IService<SysUserResource> {
      */
     Boolean batchDeleteByUserIds(List<Long> userIds);
 
+    /**
+     * 根据用户id查询用户资源绑定关系Id集合
+     * @param userId
+     * @return
+     */
+    ResourceIdsResp selectUserResourceIdsByUserId(Long userId);
 }

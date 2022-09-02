@@ -29,10 +29,10 @@ public interface ISysUserRoleService extends IService<SysUserRole> {
      * @param userId
      * @param roleIds
      * @param isDelete
-     * @param isSave
+     * @param isSaveOrUpdate
      * @return
      */
-    Boolean saveOrDeleteUserRoleId(Long userId,List<Long> roleIds,Boolean isDelete,Boolean isSave);
+    Boolean saveOrDeleteUserRoleId(Long userId,List<Long> roleIds,Boolean isDelete,Boolean isSaveOrUpdate);
 
     /**
      * 根据用户id集合删除用户角色绑定关系
