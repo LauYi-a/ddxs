@@ -1,13 +1,11 @@
 package com.ddx.common.config.redis;
 
-import com.ddx.common.constant.ConstantUtils;
+import com.ddx.basis.constant.ConstantUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.Set;
 
 /**
  * @ClassName: RedissonConfig

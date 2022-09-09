@@ -1,8 +1,8 @@
 package com.ddx.common.mq;
 
 import com.alibaba.fastjson.JSONObject;
-import com.ddx.common.constant.CommonEnumConstant;
-import com.ddx.common.exception.ExceptionUtils;
+import com.ddx.basis.enums.CommonEnumConstant;
+import com.ddx.basis.exception.ExceptionUtils;
 import com.ddx.common.service.ReturnHandle;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

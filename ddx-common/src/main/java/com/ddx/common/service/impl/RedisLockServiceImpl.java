@@ -1,8 +1,8 @@
 package com.ddx.common.service.impl;
 
-import com.ddx.common.constant.CommonEnumConstant;
-import com.ddx.common.constant.ConstantUtils;
-import com.ddx.common.exception.ExceptionUtils;
+import com.ddx.basis.constant.ConstantUtils;
+import com.ddx.basis.enums.CommonEnumConstant;
+import com.ddx.basis.exception.ExceptionUtils;
 import com.ddx.common.service.ReturnHandle;
 import com.ddx.common.service.VoidHandle;
 import lombok.extern.slf4j.Slf4j;

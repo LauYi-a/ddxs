@@ -126,22 +126,6 @@
             <artifactId>ddx-common</artifactId>
             <version>${ddx-common.version}</version>
             <exclusions>
-                <exclusion>
-                    <groupId>org.projectlombok</groupId>
-                    <artifactId>lombok</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework.cloud</groupId>
-                    <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework.cloud</groupId>
-                    <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.github.ulisesbocchio</groupId>
-                    <artifactId>jasypt-spring-boot-starter</artifactId>
-                </exclusion>
                 <!-- 数据库 配置多数据源 -->
                 <exclusion>
                     <groupId>com.baomidou</groupId>
@@ -152,15 +136,6 @@
                     <groupId>com.alibaba</groupId>
                     <artifactId>druid-spring-boot-starter</artifactId>
                 </exclusion>
-                <!-- feign 客户端 -->
-                <exclusion>
-                    <groupId>org.springframework.cloud</groupId>
-                    <artifactId>spring-cloud-starter-openfeign</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>io.github.openfeign</groupId>
-                    <artifactId>feign-httpclient</artifactId>
-                </exclusion>
                 <!-- mybatis-plus start 包含代码生成器依赖 -->
                 <exclusion>
                     <groupId>com.baomidou</groupId>
@@ -169,11 +144,6 @@
                 <exclusion>
                     <groupId>mysql</groupId>
                     <artifactId>mysql-connector-java</artifactId>
-                </exclusion>
-                <!-- velocity 模板引擎 -->
-                <exclusion>
-                    <groupId>org.apache.velocity</groupId>
-                    <artifactId>velocity</artifactId>
                 </exclusion>
                 <!-- easyPoi -->
                 <exclusion>
@@ -188,19 +158,10 @@
                     <groupId>cn.afterturn</groupId>
                     <artifactId>easypoi-annotation</artifactId>
                 </exclusion>
+                <!--security验证-->
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter-security</artifactId>
-                </exclusion>
-                <!-- javax -->
-                <exclusion>
-                    <groupId>javax.servlet</groupId>
-                    <artifactId>javax.servlet-api</artifactId>
-                </exclusion>
-                <!-- gson -->
-                <exclusion>
-                    <groupId>com.google.code.gson</groupId>
-                    <artifactId>gson</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>

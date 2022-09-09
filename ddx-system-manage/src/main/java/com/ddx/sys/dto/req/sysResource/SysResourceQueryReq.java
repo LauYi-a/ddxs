@@ -1,11 +1,9 @@
 package com.ddx.sys.dto.req.sysResource;
 
+import com.ddx.basis.dto.req.PageReq;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
-import com.ddx.common.dto.req.PageReq;
-
-import javax.validation.constraints.NotBlank;
+import lombok.Data;
 
 /**
  * @ClassName: SysResourceQuotaReq

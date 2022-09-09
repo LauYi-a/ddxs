@@ -1,6 +1,6 @@
 package com.ddx.common.config.redis;
 
-import com.ddx.common.constant.ConstantUtils;
+import com.ddx.basis.constant.ConstantUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.redisson.Redisson;
@@ -9,6 +9,7 @@ import org.redisson.codec.JsonJacksonCodec;
 import org.redisson.config.ClusterServersConfig;
 import org.redisson.config.Config;
 import org.redisson.config.ReadMode;
+
 import java.util.Set;
 
 /**

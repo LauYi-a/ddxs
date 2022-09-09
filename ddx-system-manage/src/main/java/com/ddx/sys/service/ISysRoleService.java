@@ -2,7 +2,7 @@ package com.ddx.sys.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.ddx.common.dto.resp.PaginatedResult;
+import com.ddx.basis.dto.resp.PaginatedResult;
 import com.ddx.sys.dto.req.sysRole.SysRoleQueryReq;
 import com.ddx.sys.dto.resp.sysRole.RoleKeyValResp;
 import com.ddx.sys.dto.resp.sysRole.SysRoleResp;

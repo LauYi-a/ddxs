@@ -1,12 +1,12 @@
 package com.ddx.sys.controller;
 
-import com.ddx.common.constant.CommonEnumConstant;
-import com.ddx.common.constant.ConstantUtils;
-import com.ddx.common.dto.vo.SysParamConfigVo;
-import com.ddx.common.response.BaseResponse;
-import com.ddx.common.response.ResponseData;
-import com.ddx.common.utils.DateUtil;
-import com.ddx.common.utils.rsa.RSAUtils;
+import com.ddx.basis.constant.ConstantUtils;
+import com.ddx.basis.dto.vo.SysParamConfigVo;
+import com.ddx.basis.enums.CommonEnumConstant;
+import com.ddx.basis.response.BaseResponse;
+import com.ddx.basis.response.ResponseData;
+import com.ddx.basis.utils.DateUtil;
+import com.ddx.basis.utils.rsa.RSAUtils;
 import com.ddx.common.utils.RedisTemplateUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

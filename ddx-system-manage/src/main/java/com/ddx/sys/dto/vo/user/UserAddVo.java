@@ -1,11 +1,9 @@
 package com.ddx.sys.dto.vo.user;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.ddx.common.constant.CommonEnumConstant;
-import com.ddx.common.constant.ConstantUtils;
-import com.ddx.common.utils.SerialNumber;
-import com.ddx.common.utils.sm3.SM3Digest;
-import com.ddx.sys.dto.req.sysUser.SysUserAddReq;
+import com.ddx.basis.constant.ConstantUtils;
+import com.ddx.basis.enums.CommonEnumConstant;
+import com.ddx.basis.utils.SerialNumber;
+import com.ddx.basis.utils.sm3.SM3Digest;
 import com.ddx.sys.entity.SysUser;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

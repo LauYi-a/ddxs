@@ -1,12 +1,9 @@
 package com.ddx.common.config;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
-import com.ddx.common.constant.ConstantUtils;
 import com.ddx.common.utils.OauthUtils;
-import com.ddx.common.utils.RequestContextUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
-import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;

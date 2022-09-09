@@ -15,53 +15,11 @@
     <packaging>jar</packaging>
     <name>ddx-test-api</name>
     <dependencies>
-        <!-- ddx-common -->
+        <!-- 基础服务 -->
         <dependency>
             <groupId>com.ddx</groupId>
-            <artifactId>ddx-common</artifactId>
-            <version>${ddx-common.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.alibaba</groupId>
-                    <artifactId>druid-spring-boot-starter</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.baomidou</groupId>
-                    <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.baomidou</groupId>
-                    <artifactId>mybatis-plus-boot-starter</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>mysql</groupId>
-                    <artifactId>mysql-connector-java</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.hibernate</groupId>
-                    <artifactId>hibernate-validator</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-security</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.projectlombok</groupId>
-                    <artifactId>lombok</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework.cloud</groupId>
-                    <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework.cloud</groupId>
-                    <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.github.ulisesbocchio</groupId>
-                    <artifactId>jasypt-spring-boot-starter</artifactId>
-                </exclusion>
-            </exclusions>
+            <artifactId>ddx-basis</artifactId>
+            <version>${ddx-basis.version}</version>
         </dependency>
     </dependencies>
     <build>

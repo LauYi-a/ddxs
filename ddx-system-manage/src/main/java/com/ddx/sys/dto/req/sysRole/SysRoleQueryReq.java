@@ -1,6 +1,6 @@
 package com.ddx.sys.dto.req.sysRole;
 
-import com.ddx.common.dto.req.PageReq;
+import com.ddx.basis.dto.req.PageReq;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

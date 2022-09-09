@@ -1,8 +1,8 @@
 package com.ddx.gateway.exception;
 
-import com.ddx.common.constant.CommonEnumConstant;
-import com.ddx.common.response.BaseResponse;
-import com.ddx.common.response.ResponseData;
+import com.ddx.basis.enums.CommonEnumConstant;
+import com.ddx.basis.response.BaseResponse;
+import com.ddx.basis.response.ResponseData;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.codehaus.jackson.map.ObjectMapper;

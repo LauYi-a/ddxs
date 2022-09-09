@@ -1,9 +1,9 @@
 package com.ddx.auth.exception;
 
-import com.ddx.common.constant.CommonEnumConstant;
-import com.ddx.common.constant.ConstantUtils;
-import com.ddx.common.exception.ErrorBusinessException;
-import com.ddx.common.response.ResponseData;
+import com.ddx.basis.constant.ConstantUtils;
+import com.ddx.basis.enums.CommonEnumConstant;
+import com.ddx.basis.exception.ErrorBusinessException;
+import com.ddx.basis.response.ResponseData;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.oauth2.common.exceptions.InvalidGrantException;

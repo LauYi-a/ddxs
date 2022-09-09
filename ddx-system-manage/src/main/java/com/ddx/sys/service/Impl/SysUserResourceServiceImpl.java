@@ -1,17 +1,16 @@
 package com.ddx.sys.service.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.ddx.common.constant.CommonEnumConstant;
-import com.ddx.common.exception.ExceptionUtils;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ddx.basis.enums.CommonEnumConstant;
+import com.ddx.basis.exception.ExceptionUtils;
 import com.ddx.sys.dto.resp.sysResource.ResourceIdsResp;
 import com.ddx.sys.entity.SysUserResource;
 import com.ddx.sys.mapper.SysUserResourceMapper;
 import com.ddx.sys.service.ISysUserResourceService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

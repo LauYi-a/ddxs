@@ -1,6 +1,6 @@
 package com.ddx.auth.config;
 
-import com.ddx.common.utils.sm3.SM3PasswordEncoder;
+import com.ddx.basis.utils.sm3.SM3PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -18,6 +18,7 @@
         <module>ddx-system-manage</module>
         <module>ddx-test-rpc</module>
         <module>ddx-test-api</module>
+        <module>ddx-basis</module>
     </modules>
 
     <!-- 项目依赖包版本控制 -->
@@ -65,37 +66,16 @@
         <spring-security-oauth2-resource-server.version>5.2.2.RELEASE</spring-security-oauth2-resource-server.version>
         <!-- 内部工程 -->
         <ddx-common.version>1.0-SNAPSHOT</ddx-common.version>
+        <ddx-basis.version>1.0-SNAPSHOT</ddx-basis.version>
         <ddx-test-api.version>1.0-SNAPSHOT</ddx-test-api.version>
     </properties>
 
     <dependencies>
-        <!--eureka 客户端-->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-        </dependency>
-        <!--配置文件处理器-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <!--断路器依赖-->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
-        </dependency>
         <!--测试依赖-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-        </dependency>
-        <!-- lombok -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

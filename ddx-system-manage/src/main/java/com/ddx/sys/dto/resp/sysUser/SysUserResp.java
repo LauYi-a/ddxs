@@ -1,6 +1,6 @@
 package com.ddx.sys.dto.resp.sysUser;
 
-import com.ddx.common.constant.ConstantUtils;
+import com.ddx.basis.constant.ConstantUtils;
 import com.ddx.sys.dto.resp.sysResource.TreeMenuAndElAuthResp;
 import com.ddx.sys.dto.resp.sysRole.SysRoleResp;
 import com.fasterxml.jackson.annotation.JsonFormat;

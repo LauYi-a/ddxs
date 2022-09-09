@@ -2,11 +2,11 @@ package com.ddx.gateway.security;
 
 import cn.hutool.core.util.ArrayUtil;
 import com.alibaba.fastjson.JSONObject;
-import com.ddx.common.constant.CommonEnumConstant;
-import com.ddx.common.constant.ConstantUtils;
-import com.ddx.common.exception.ExceptionUtils;
+import com.ddx.basis.constant.ConstantUtils;
+import com.ddx.basis.enums.CommonEnumConstant;
+import com.ddx.basis.exception.ExceptionUtils;
+import com.ddx.basis.utils.StringUtil;
 import com.ddx.common.utils.RedisTemplateUtils;
-import com.ddx.common.utils.StringUtil;
 import com.ddx.gateway.exception.RequestAccessDeniedHandler;
 import com.ddx.gateway.exception.RequestAuthenticationEntryPoint;
 import com.ddx.gateway.filter.CorsFilter;

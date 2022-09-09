@@ -1,7 +1,7 @@
 package com.ddx.test.controller;
 
-import com.ddx.common.constant.CommonEnumConstant;
-import com.ddx.common.response.ResponseData;
+import com.ddx.basis.enums.CommonEnumConstant;
+import com.ddx.basis.response.ResponseData;
 import com.ddx.common.utils.OauthUtils;
 import com.ddx.test.service.ITestApiService;
 import lombok.extern.slf4j.Slf4j;

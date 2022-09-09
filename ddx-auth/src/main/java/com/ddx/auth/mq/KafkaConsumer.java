@@ -2,10 +2,10 @@ package com.ddx.auth.mq;
 
 import com.alibaba.fastjson.JSONObject;
 import com.ddx.auth.service.ISysAspectLogService;
-import com.ddx.common.constant.CommonEnumConstant;
-import com.ddx.common.constant.ConstantUtils;
-import com.ddx.common.dto.vo.SysLogAspectVo;
-import com.ddx.common.exception.ExceptionUtils;
+import com.ddx.basis.constant.ConstantUtils;
+import com.ddx.basis.dto.vo.SysLogAspectVo;
+import com.ddx.basis.enums.CommonEnumConstant;
+import com.ddx.basis.exception.ExceptionUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.beans.factory.annotation.Autowired;

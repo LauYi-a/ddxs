@@ -1,6 +1,6 @@
 package com.ddx.test.service;
 
-import com.ddx.common.response.ResponseData;
+import com.ddx.basis.response.ResponseData;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 

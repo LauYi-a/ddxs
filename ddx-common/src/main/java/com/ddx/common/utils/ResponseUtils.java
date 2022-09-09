@@ -1,6 +1,6 @@
 package com.ddx.common.utils;
 
-import com.ddx.common.response.BaseResponse;
+import com.ddx.basis.response.BaseResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.servlet.ServletOutputStream;

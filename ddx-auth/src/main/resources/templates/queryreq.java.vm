@@ -1,9 +1,9 @@
-package ${cfg.dtoDir}.dto.req.${entity.substring(0, 1).toLowerCase()}${entity.substring(1)};
-
+package ${cfg.dtoDir}import com.ddx.basis.dto.req.PageReq;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
-import com.ddx.common.dto.req.PageReq;
+import lombok.Data;
+
+.dto.req.${entity.substring(0,1).toLowerCase()}${entity.substring(1)};
 
 /**
  * @ClassName: ${entity}QueryReq

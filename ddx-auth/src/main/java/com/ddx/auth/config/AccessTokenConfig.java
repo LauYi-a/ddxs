@@ -1,7 +1,7 @@
 package com.ddx.auth.config;
 
 
-import com.ddx.common.constant.ConstantUtils;
+import com.ddx.basis.constant.ConstantUtils;
 import com.ddx.common.entity.SecurityUser;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,7 +1,7 @@
 package com.ddx.sys.controller;
 
-import com.ddx.common.constant.CommonEnumConstant;
-import com.ddx.common.response.ResponseData;
+import com.ddx.basis.enums.CommonEnumConstant;
+import com.ddx.basis.response.ResponseData;
 import com.ddx.common.service.impl.RedisLockServiceImpl;
 import com.ddx.test.service.ITestApiService;
 import io.swagger.annotations.Api;

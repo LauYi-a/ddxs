@@ -1,12 +1,15 @@
 package com.ddx.sys.service.Impl;
 
-import com.ddx.common.constant.CommonEnumConstant;
-import com.ddx.common.dto.vo.DictVo;
+import com.ddx.basis.dto.vo.DictVo;
+import com.ddx.basis.enums.CommonEnumConstant;
 import com.ddx.sys.service.ISysDictService;
 import com.google.common.collect.Maps;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**

@@ -1,10 +1,10 @@
 package com.ddx.auth.controller;
 
-import com.ddx.common.constant.CommonEnumConstant;
-import com.ddx.common.constant.ConstantUtils;
+import com.ddx.basis.constant.ConstantUtils;
+import com.ddx.basis.enums.CommonEnumConstant;
+import com.ddx.basis.response.BaseResponse;
+import com.ddx.basis.response.ResponseData;
 import com.ddx.common.entity.LoginVal;
-import com.ddx.common.response.BaseResponse;
-import com.ddx.common.response.ResponseData;
 import com.ddx.common.utils.OauthUtils;
 import com.ddx.common.utils.RedisTemplateUtils;
 import lombok.extern.slf4j.Slf4j;

@@ -1,14 +1,9 @@
 package com.ddx.sys.dto.req.sysAspectLog;
 
-import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
-import java.io.Serializable;
+import com.ddx.basis.dto.req.PageReq;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
-import com.ddx.common.dto.req.PageReq;
+import lombok.Data;
 
 /**
  * @ClassName: SysAspectLogQueryReq

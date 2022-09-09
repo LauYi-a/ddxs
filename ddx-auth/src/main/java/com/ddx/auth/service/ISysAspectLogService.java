@@ -1,10 +1,8 @@
 package com.ddx.auth.service;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ddx.auth.entity.SysAspectLog;
-import com.ddx.common.dto.vo.SysLogAspectVo;
+import com.ddx.basis.dto.vo.SysLogAspectVo;
 
 /**
  * @ClassName: ISysAspectLogService

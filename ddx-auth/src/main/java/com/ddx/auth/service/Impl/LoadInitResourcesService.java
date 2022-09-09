@@ -7,11 +7,10 @@ import com.ddx.auth.dto.resp.SysRolePermissionResp;
 import com.ddx.auth.entity.SysRole;
 import com.ddx.auth.entity.SysWhitelistRequest;
 import com.ddx.auth.service.ISysPermissionService;
-import com.ddx.auth.service.ISysUserService;
 import com.ddx.auth.service.ISysWhitelistRequestService;
-import com.ddx.common.constant.CommonEnumConstant;
-import com.ddx.common.constant.ConstantUtils;
-import com.ddx.common.dto.vo.SysParamConfigVo;
+import com.ddx.basis.constant.ConstantUtils;
+import com.ddx.basis.dto.vo.SysParamConfigVo;
+import com.ddx.basis.enums.CommonEnumConstant;
 import com.ddx.common.utils.RedisTemplateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,8 +35,6 @@ public class LoadInitResourcesService {
     private RedisTemplateUtils redisTemplate ;
     @Autowired
     private ISysPermissionService sysPermissionService;
-    @Autowired
-    private ISysUserService sysUserService;
     @Autowired
     private ISysWhitelistRequestService sysWhitelistRequestService;
 

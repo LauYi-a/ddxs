@@ -1,14 +1,8 @@
 package com.ddx.sys.dto.req.sysUser;
 
-import com.ddx.common.constant.CommonEnumConstant;
-import com.ddx.common.constant.ConstantUtils;
-import com.ddx.common.utils.SerialNumber;
-import com.ddx.common.utils.sm3.SM3Digest;
-import com.ddx.sys.entity.SysUser;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import org.springframework.beans.BeanUtils;
 
 import javax.validation.constraints.*;
 import java.util.List;

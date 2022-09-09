@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.cloud.client.SpringCloudApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
  * @ClassName: DDXAuthApplication
@@ -19,7 +18,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @SpringCloudApplication
 @EnableAutoConfiguration(exclude= DruidDataSourceAutoConfigure.class)
 @EnableFeignClients(basePackages={"com.ddx"})
-@ComponentScan(basePackages = {"com.ddx.auth.*","com.ddx.common.*"})
+@ComponentScan(basePackages = {"com.ddx.*","com.ddx.common.*","com.ddx.basis.*"})
 public class DDXAuthApplication {
     public static void main(String[] args) {
         try {

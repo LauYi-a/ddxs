@@ -2,8 +2,8 @@ package com.ddx.sys.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.ddx.common.dto.resp.PaginatedResult;
-import com.ddx.common.response.BaseResponse;
+import com.ddx.basis.dto.resp.PaginatedResult;
+import com.ddx.basis.response.BaseResponse;
 import com.ddx.sys.dto.req.sysUser.SysUserAddReq;
 import com.ddx.sys.dto.req.sysUser.SysUserQueryReq;
 import com.ddx.sys.dto.resp.sysUser.SysUserResp;
