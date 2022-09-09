@@ -3,6 +3,7 @@ package com.ddx.test.controller;
 import com.ddx.common.constant.CommonEnumConstant;
 import com.ddx.common.response.ResponseData;
 import com.ddx.common.utils.OauthUtils;
+import com.ddx.test.service.ITestApiService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,9 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequestMapping("/api")
-public class TestController{
+public class TestController implements ITestApiService {
+
     @PostMapping(value = "/getInfo")
-    public ResponseData getInfo() {
+    @Override
+    public ResponseData getTestName() {
         log.info("访问 test rpc 接口 ...");
         try {
             Thread.sleep(3000);

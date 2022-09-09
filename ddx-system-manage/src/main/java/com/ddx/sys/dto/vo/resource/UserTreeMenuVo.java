@@ -21,7 +21,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ApiModel(value="TreeMenuVo", description="用户资源菜单参数")
+@ApiModel(value="UserTreeMenuVo", description="用户资源菜单参数")
 public class UserTreeMenuVo {
 
     @ApiModelProperty(value = "资源路径")

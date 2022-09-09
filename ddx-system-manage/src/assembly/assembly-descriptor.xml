@@ -21,7 +21,7 @@
 		</fileSet>
 		<fileSet>
 			<directory>src/main/resources</directory>
-			<outputDirectory>ddx-system-manage/conf</outputDirectory>
+			<outputDirectory>ddx-system-manage/config</outputDirectory>
 			<excludes>
 				<exclude>*.formatted</exclude>
 				<exclude>bootstrap/**</exclude>
@@ -30,7 +30,7 @@
 		</fileSet>
 		<fileSet>
 			<directory>src/main/resources/</directory>
-			<outputDirectory>ddx-system-manage/conf</outputDirectory>
+			<outputDirectory>ddx-system-manage/config</outputDirectory>
 			<lineEnding>unix</lineEnding>
 		</fileSet>
 		<!--artifact -->

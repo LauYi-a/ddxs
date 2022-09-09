@@ -36,7 +36,7 @@ public class SysRoleResp {
     private String code;
 
     @ApiModelProperty(value = "角色状态：0-正常；1-停用")
-    private Boolean status;
+    private String status;
 
     @ApiModelProperty(value = "角色权限对象集合")
     private List<SysPermission> rolePremission;
@@ -46,10 +46,4 @@ public class SysRoleResp {
 
     @ApiModelProperty(value = "修改时间")
     private LocalDateTime updateTime;
-
-    @ApiModelProperty(value = "创建者ID")
-    private Long createId;
-
-    @ApiModelProperty(value = "更新者ID")
-    private Long updateId;
 }

@@ -37,7 +37,6 @@ public class OpenFeignTestController {
         ResponseData longValue = redisLockServiceImpl.tryLockException("order:pay:", () -> {
             return iTestApiService.getTestName();
         });
-
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS,longValue);
     }
 }

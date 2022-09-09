@@ -21,7 +21,7 @@
 		</fileSet>
 		<fileSet>
 			<directory>src/main/resources</directory>
-			<outputDirectory>ddx-eureka/conf</outputDirectory>
+			<outputDirectory>ddx-eureka/config</outputDirectory>
 			<excludes>
 				<exclude>*.formatted</exclude>
 			</excludes>
@@ -29,7 +29,7 @@
 		</fileSet>
 		<fileSet>
 			<directory>src/main/resources/</directory>
-			<outputDirectory>ddx-eureka/conf</outputDirectory>
+			<outputDirectory>ddx-eureka/config</outputDirectory>
 			<includes>
 				<include>*.*</include>
 			</includes>

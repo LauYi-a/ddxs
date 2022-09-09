@@ -21,7 +21,7 @@
 		</fileSet>
 		<fileSet>
 			<directory>src/main/resources</directory>
-			<outputDirectory>ddx-gateway/conf</outputDirectory>
+			<outputDirectory>ddx-gateway/config</outputDirectory>
 			<excludes>
 				<exclude>*.formatted</exclude>
 			</excludes>
@@ -30,7 +30,7 @@
 		</fileSet>
 		<fileSet>
 			<directory>src/main/resources/</directory>
-			<outputDirectory>ddx-gateway/conf</outputDirectory>
+			<outputDirectory>ddx-gateway/config</outputDirectory>
 			<includes>
 				<include>*.*</include>
 			</includes>
