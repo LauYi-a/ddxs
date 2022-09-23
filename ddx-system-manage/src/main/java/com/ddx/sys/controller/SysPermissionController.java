@@ -12,10 +12,12 @@ import com.ddx.basis.enums.CommonEnumConstant;
 import com.ddx.basis.exception.ExceptionUtils;
 import com.ddx.basis.response.BaseResponse;
 import com.ddx.basis.response.ResponseData;
+import com.ddx.basis.utils.ConversionUtils;
 import com.ddx.basis.utils.PageUtil;
 import com.ddx.sys.dto.req.sysPermission.SysPermissionAddReq;
 import com.ddx.sys.dto.req.sysPermission.SysPermissionEditReq;
 import com.ddx.sys.dto.req.sysPermission.SysPermissionQueryReq;
+import com.ddx.sys.dto.resp.sysPermission.PermissionResp;
 import com.ddx.sys.entity.SysPermission;
 import com.ddx.sys.entity.SysRolePermission;
 import com.ddx.sys.service.ISysPermissionService;
@@ -32,6 +34,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 
 /**
@@ -52,6 +56,15 @@ public class SysPermissionController {
     private ISysPermissionService iSysPermissionService;
     @Autowired
     private ISysRolePermissionService iSysRolePermissionService;
+
+    @PostMapping("/select-permission-all")
+    @ApiOperation(value = "查询所有权限", notes = "权限表")
+    public ResponseData<List<PermissionResp>> selectPermissionAll() {
+        log.info("select permission all...");
+        List<SysPermission>  sysPermissions = iSysPermissionService.list(new QueryWrapper<SysPermission>());
+        List<PermissionResp> permissionResps = new ConversionUtils(PermissionResp.class).toConversionListType(sysPermissions);
+        return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS,permissionResps);
+    }
 
     @PostMapping("/list")
     @ApiOperation(value = "查询权限列表", notes = "权限表")

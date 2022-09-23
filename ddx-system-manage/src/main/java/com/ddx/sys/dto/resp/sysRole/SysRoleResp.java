@@ -39,7 +39,7 @@ public class SysRoleResp {
     private String status;
 
     @ApiModelProperty(value = "角色权限对象集合")
-    private List<SysPermission> rolePremission;
+    private List<SysPermission> rolePermission;
 
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;

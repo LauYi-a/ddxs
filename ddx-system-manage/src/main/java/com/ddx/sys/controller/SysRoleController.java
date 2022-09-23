@@ -77,12 +77,7 @@ public class SysRoleController {
     @Transactional(rollbackFor = Exception.class)
     public BaseResponse add(@Validated @RequestBody SysRoleAddReq  sysRoleAddReq) {
         log.info("add SysRole start..");
-        SysRole sysRole = new SysRole();
-        BeanUtils.copyProperties(sysRoleAddReq,sysRole);
-        ExceptionUtils.errorBusinessException(!iSysRoleService.save(sysRole),CommonEnumConstant.PromptMessage.FAILED);
-        ExceptionUtils.errorBusinessException(!iSysRolePermissionService.addRolePermissionId(sysRoleAddReq.getRolePremissionId(),sysRole.getId()),CommonEnumConstant.PromptMessage.ADD_ROLE_PERMISSION_ERROR);
-        ExceptionUtils.errorBusinessException(!iSysPermissionService.initRolePermission(),CommonEnumConstant.PromptMessage.INIT_ROLE_PERMISSION_ERROR);
-        return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
+        return iSysRoleService.addRoleInfo(sysRoleAddReq);
     }
 
     @ApiOperation(value = "修改角色", notes = "角色表")
@@ -95,7 +90,7 @@ public class SysRoleController {
         BeanUtils.copyProperties(sysRoleEditReq, sysRole);
         Boolean yesOrNo = iSysRoleService.update(sysRole,new QueryWrapper<SysRole>().lambda().eq(SysRole::getId,sysRole.getId()));
         ExceptionUtils.errorBusinessException(!yesOrNo,CommonEnumConstant.PromptMessage.FAILED);
-        ExceptionUtils.errorBusinessException(!iSysRolePermissionService.saveOrDeleteRolePermissionId(sysRole.getId(),sysRoleEditReq.getRolePremissionId(),false,true), CommonEnumConstant.PromptMessage.ADD_ROLE_PERMISSION_ERROR);
+        ExceptionUtils.errorBusinessException(!iSysRolePermissionService.saveOrDeleteRolePermissionId(sysRole.getId(),sysRoleEditReq.getRolePermissionId(),false,true), CommonEnumConstant.PromptMessage.ADD_ROLE_PERMISSION_ERROR);
         ExceptionUtils.errorBusinessException(!iSysPermissionService.initRolePermission(),CommonEnumConstant.PromptMessage.INIT_ROLE_PERMISSION_ERROR);
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
     }

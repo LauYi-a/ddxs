@@ -2,9 +2,16 @@ package com.ddx.sys.service.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.sql.SqlHelper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ddx.basis.constant.ConstantUtils;
 import com.ddx.basis.dto.resp.PaginatedResult;
 import com.ddx.basis.enums.CommonEnumConstant;
+import com.ddx.basis.exception.ExceptionUtils;
+import com.ddx.basis.response.BaseResponse;
+import com.ddx.basis.response.ResponseData;
+import com.ddx.basis.utils.SerialNumber;
+import com.ddx.sys.dto.req.sysRole.SysRoleAddReq;
 import com.ddx.sys.dto.req.sysRole.SysRoleQueryReq;
 import com.ddx.sys.dto.resp.sysRole.RoleKeyValResp;
 import com.ddx.sys.dto.resp.sysRole.SysRoleResp;
@@ -18,6 +25,7 @@ import com.ddx.sys.service.ISysRoleService;
 import com.google.common.collect.Lists;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,7 +53,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
         IPage<SysRole> sysRoleIPage = this.baseMapper.selectPage(arg0,new QueryWrapper<SysRole>().lambda()
                 .eq(StringUtils.isNoneBlank(sysRoleQueryReq.getCode()),SysRole::getCode, sysRoleQueryReq.getCode())
-                .eq(sysRoleQueryReq.getStatus() != null,SysRole::getStatus, sysRoleQueryReq.getStatus())
+                .eq(StringUtils.isNoneBlank(sysRoleQueryReq.getStatus() ),SysRole::getStatus, sysRoleQueryReq.getStatus())
                 .like(StringUtils.isNoneBlank(sysRoleQueryReq.getName()),SysRole::getName, sysRoleQueryReq.getName())
                 .orderByDesc(SysRole::getUpdateTime));
         List<SysRoleResp> sysRoleResps = this.selectRolePermissionByRoles(sysRoleIPage.getRecords());
@@ -69,7 +77,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
                     .name(sysRole.getName())
                     .code(sysRole.getCode())
                     .status(sysRole.getStatus())
-                    .rolePremission(CollectionUtils.isNotEmpty(sysPermissions)? sysPermissions:null)
+                    .rolePermission(CollectionUtils.isNotEmpty(sysPermissions)? sysPermissions:null)
                     .createTime(sysRole.getCreateTime())
                     .updateTime(sysRole.getUpdateTime())
                     .build());
@@ -87,5 +95,17 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
             });
         }
         return roleKeyValResps;
+    }
+
+    @Override
+    public BaseResponse addRoleInfo(SysRoleAddReq sysRoleAddReq) {
+        SysRole sysRole = new SysRole();
+        BeanUtils.copyProperties(sysRoleAddReq,sysRole);
+        sysRole.setCode(SerialNumber.newInstance(ConstantUtils.ROLE_CODE,ConstantUtils.DATE_FORMAT_7).toString());
+        sysRole.setStatus(CommonEnumConstant.Dict.ROLE_STATUS_0.getDictKey());
+        ExceptionUtils.errorBusinessException(!SqlHelper.retBool(baseMapper.insert(sysRole)),CommonEnumConstant.PromptMessage.FAILED);
+        ExceptionUtils.errorBusinessException(!iSysRolePermissionService.addRolePermissionId(sysRoleAddReq.getRolePermissionId(),sysRole.getId()),CommonEnumConstant.PromptMessage.ADD_ROLE_PERMISSION_ERROR);
+        ExceptionUtils.errorBusinessException(!iSysPermissionService.initRolePermission(),CommonEnumConstant.PromptMessage.INIT_ROLE_PERMISSION_ERROR);
+        return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
     }
 }

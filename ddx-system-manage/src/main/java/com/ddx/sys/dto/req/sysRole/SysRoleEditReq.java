@@ -38,5 +38,5 @@ public class SysRoleEditReq {
 
     @ApiModelProperty(value = "角色资源ID")
     @NotEmpty(message = "角色资源ID不能为空")
-    private List<Long> rolePremissionId;
+    private List<Long> rolePermissionId;
 }

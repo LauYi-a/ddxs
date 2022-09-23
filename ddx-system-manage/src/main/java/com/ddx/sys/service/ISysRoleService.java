@@ -3,6 +3,8 @@ package com.ddx.sys.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ddx.basis.dto.resp.PaginatedResult;
+import com.ddx.basis.response.BaseResponse;
+import com.ddx.sys.dto.req.sysRole.SysRoleAddReq;
 import com.ddx.sys.dto.req.sysRole.SysRoleQueryReq;
 import com.ddx.sys.dto.resp.sysRole.RoleKeyValResp;
 import com.ddx.sys.dto.resp.sysRole.SysRoleResp;
@@ -39,4 +41,11 @@ public interface ISysRoleService extends IService<SysRole> {
      * @return
      */
     List<RoleKeyValResp> selectRoleKeyAndValAll();
+
+    /**
+     * 添加角色信息
+     * @param sysRoleAddReq
+     * @return
+     */
+    BaseResponse addRoleInfo(SysRoleAddReq sysRoleAddReq);
 }

@@ -67,11 +67,11 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
     }
 
     @Override
-    public Boolean batchDeleteByUserIds(List<Long> userIds) {
+    public Boolean batchDeleteByUserIds(List<?> userIds) {
         try {
             //根据用户ID删除角色绑定关系
             userIds.forEach(userId ->{
-                Boolean isDeleteOk = this.saveOrDeleteUserRoleId(userId,null,true,false);
+                Boolean isDeleteOk = this.saveOrDeleteUserRoleId(Long.valueOf(userId.toString()),null,true,false);
                 ExceptionUtils.errorBusinessException(!isDeleteOk, CommonEnumConstant.PromptMessage.DELETE_ROLE_PERMISSION_ERROR);
             });
             return true;

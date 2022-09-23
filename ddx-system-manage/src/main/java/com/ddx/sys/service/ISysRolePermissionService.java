@@ -1,7 +1,5 @@
 package com.ddx.sys.service;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ddx.sys.entity.SysRolePermission;
 
@@ -39,6 +37,6 @@ public interface ISysRolePermissionService extends IService<SysRolePermission> {
      * @param roleIds
      * @return
      */
-    Boolean batchDeleteByRoleIds(List<Long> roleIds);
+    Boolean batchDeleteByRoleIds(List<?> roleIds);
 
 }

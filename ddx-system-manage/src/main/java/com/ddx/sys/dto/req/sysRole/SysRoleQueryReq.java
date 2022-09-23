@@ -23,6 +23,6 @@ public class SysRoleQueryReq extends PageReq {
     private String code;
 
     @ApiModelProperty(value = "角色状态：0-正常；1-停用")
-    private Integer status;
+    private String status;
 
 }

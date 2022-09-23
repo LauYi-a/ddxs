@@ -1,7 +1,5 @@
 package com.ddx.sys.service;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ddx.sys.entity.SysUserRole;
 
@@ -39,5 +37,5 @@ public interface ISysUserRoleService extends IService<SysUserRole> {
      * @param userIds
      * @return
      */
-    Boolean batchDeleteByUserIds(List<Long> userIds);
+    Boolean batchDeleteByUserIds(List<?> userIds);
 }

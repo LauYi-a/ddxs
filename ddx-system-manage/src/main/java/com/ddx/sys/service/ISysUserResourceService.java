@@ -1,10 +1,7 @@
 package com.ddx.sys.service;
 
-import com.ddx.sys.dto.resp.sysResource.ResourceIdsResp;
-import com.ddx.sys.entity.SysUserResource;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.ddx.sys.entity.SysUserResource;
 
 import java.util.List;
 
@@ -40,12 +37,12 @@ public interface ISysUserResourceService extends IService<SysUserResource> {
      * @param userIds
      * @return
      */
-    Boolean batchDeleteByUserIds(List<Long> userIds);
+    Boolean batchDeleteByUserIds(List<?> userIds);
 
     /**
      * 根据用户id查询用户资源绑定关系Id集合
      * @param userId
      * @return
      */
-    ResourceIdsResp selectUserResourceIdsByUserId(Long userId);
+    List<Long> selectUserResourceIdsByUserId(Long userId);
 }

@@ -16,7 +16,6 @@ import com.ddx.sys.dto.req.sysResource.SysResourceAddReq;
 import com.ddx.sys.dto.req.sysResource.SysResourceEditReq;
 import com.ddx.sys.dto.req.sysResource.SysResourceQueryReq;
 import com.ddx.sys.dto.req.sysUser.QueryUserInfoReq;
-import com.ddx.sys.dto.resp.sysResource.ResourceIdsResp;
 import com.ddx.sys.dto.resp.sysResource.ServiceMenuResp;
 import com.ddx.sys.entity.SysResource;
 import com.ddx.sys.entity.SysUserResource;
@@ -58,7 +57,7 @@ public class SysResourceController {
 
     @PostMapping("/select-user-resource-ids")
     @ApiOperation(value = "查询用户菜单资源ID", notes = "系统资源")
-    public ResponseData<ResourceIdsResp> selectUserResourceIds(@Validated @RequestBody QueryUserInfoReq queryUserInfoReq) {
+    public ResponseData<List<Long>> selectUserResourceIds(@Validated @RequestBody QueryUserInfoReq queryUserInfoReq) {
         log.info("select user response ids ...");
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS, iSysUserResourceService.selectUserResourceIdsByUserId(queryUserInfoReq.getId()));
     }

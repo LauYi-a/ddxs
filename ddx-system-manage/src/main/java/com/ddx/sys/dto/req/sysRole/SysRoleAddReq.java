@@ -6,7 +6,6 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -24,16 +23,8 @@ public class SysRoleAddReq {
     @NotBlank(message = "角色名称不能为空")
     private String name;
 
-    @ApiModelProperty(value = "角色编码")
-    @NotBlank(message = "角色编码不能为空")
-    private String code;
-
-    @ApiModelProperty(value = "角色状态：0-正常；1-停用")
-    @NotNull(message = "角色状态不能为空")
-    private Boolean status;
-
     @ApiModelProperty(value = "角色资源ID")
     @NotEmpty(message = "角色资源ID不能为空")
-    private List<Long> rolePremissionId;
+    private List<Long> rolePermissionId;
 
 }

@@ -113,6 +113,7 @@ public class ConstantUtils {
      */
     public final static String SERIAL_LOG="SERIAL";
     public final static String SERIAL_ID="ID";
+    public final static String ROLE_CODE="R";
 
     /**
      * 系统请求 key

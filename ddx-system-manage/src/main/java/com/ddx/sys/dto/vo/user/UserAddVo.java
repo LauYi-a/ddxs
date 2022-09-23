@@ -4,6 +4,7 @@ import com.ddx.basis.constant.ConstantUtils;
 import com.ddx.basis.enums.CommonEnumConstant;
 import com.ddx.basis.utils.SerialNumber;
 import com.ddx.basis.utils.sm3.SM3Digest;
+import com.ddx.sys.dto.req.sysUser.SysUserAddReq;
 import com.ddx.sys.entity.SysUser;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -53,13 +54,13 @@ public class UserAddVo {
     @ApiModelProperty(value = "默认登入服务")
     private String loginService;
 
-    public static SysUser getSysUser(UserAddVo userAddVo){
+    public static SysUser getSysUser(SysUserAddReq sysUserAddReq,String loginService){
         SysUser sysUser = new SysUser();
-        BeanUtils.copyProperties(userAddVo,sysUser);
+        BeanUtils.copyProperties(sysUserAddReq,sysUser);
         sysUser.setPassword(SM3Digest.decode(ConstantUtils.INIT_PASSWORD+sysUser.getUsername()));
         sysUser.setUserId(SerialNumber.newInstance(ConstantUtils.SERIAL_ID,ConstantUtils.DATE_FORMAT_5).toString());
         sysUser.setStatus(CommonEnumConstant.Dict.USER_STATUS_1.getDictKey());
-        sysUser.setLoginService(userAddVo.getLoginService());
+        sysUser.setLoginService(loginService);
         return sysUser;
     }
 }

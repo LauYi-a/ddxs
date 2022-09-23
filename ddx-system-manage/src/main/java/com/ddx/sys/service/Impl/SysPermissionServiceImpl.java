@@ -15,11 +15,13 @@ import com.ddx.sys.mapper.SysPermissionMapper;
 import com.ddx.sys.service.ISysPermissionService;
 import com.ddx.sys.service.ISysRolePermissionService;
 import com.ddx.sys.service.ISysRoleService;
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -47,15 +49,20 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
     public Boolean initRolePermission() {
         try {
             List<RolePermissionVo> list=new ArrayList<>();
+            List<SysRole> sysRoles = sysRoleService.list(new QueryWrapper<SysRole>());
+            List<SysRolePermission> rolePermissions = sysRolePermissionService.list(new QueryWrapper<SysRolePermission>());
             baseMapper.selectList(new QueryWrapper<SysPermission>()).forEach(permission -> {
-                List<SysRole> roles = sysRolePermissionService.list(new QueryWrapper<SysRolePermission>().lambda()
-                        .eq(SysRolePermission::getPermissionId,permission.getId()))
-                        .stream().map(k -> sysRoleService.getById(k.getRoleId())).collect(Collectors.toList());
+                List<SysRole> roleList = Lists.newArrayList();
+                rolePermissions.stream().filter(rolePermission -> Objects.equals(permission.getId(),rolePermission.getPermissionId()))
+                       .collect(Collectors.toList()).forEach(rolePermission ->{
+                    List<SysRole> roles = sysRoles.stream().filter(role -> Objects.equals(rolePermission.getRoleId(), role.getId())).collect(Collectors.toList());
+                    roleList.addAll(roles);
+                });
                 list.add(RolePermissionVo.builder()
                         .permissionId(permission.getId())
                         .url(permission.getUrl())
                         .permissionName(permission.getName())
-                        .roles(roles)
+                        .roles(roleList)
                         .build());
             });
             //先删除Redis中原来的权限hash表

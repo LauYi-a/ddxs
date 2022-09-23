@@ -67,11 +67,11 @@ public class SysRolePermissionServiceImpl extends ServiceImpl<SysRolePermissionM
     }
 
     @Override
-    public Boolean batchDeleteByRoleIds(List<Long> roleIds) {
+    public Boolean batchDeleteByRoleIds(List<?> roleIds) {
         try {
             //查询出当前所有角色的所有的资源
             roleIds.forEach(roleId ->{
-                Boolean isDeleteOk = this.saveOrDeleteRolePermissionId(roleId,null,true,false);
+                Boolean isDeleteOk = this.saveOrDeleteRolePermissionId(Long.valueOf(roleId.toString()),null,true,false);
                 ExceptionUtils.errorBusinessException(!isDeleteOk, CommonEnumConstant.PromptMessage.DELETE_ROLE_PERMISSION_ERROR);
             });
             return true;

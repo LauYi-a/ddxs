@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ddx.basis.enums.CommonEnumConstant;
 import com.ddx.basis.exception.ExceptionUtils;
-import com.ddx.sys.dto.resp.sysResource.ResourceIdsResp;
 import com.ddx.sys.entity.SysUserResource;
 import com.ddx.sys.mapper.SysUserResourceMapper;
 import com.ddx.sys.service.ISysUserResourceService;
@@ -68,11 +67,11 @@ public class SysUserResourceServiceImpl extends ServiceImpl<SysUserResourceMappe
     }
 
     @Override
-    public Boolean batchDeleteByUserIds(List<Long> userIds) {
+    public Boolean batchDeleteByUserIds(List<?> userIds) {
         try {
             //根据用户id删除资源绑定关系
             userIds.forEach(userId ->{
-                Boolean isDeleteOk = this.saveOrDeleteUserResourceId(userId,null,true,false);
+                Boolean isDeleteOk = this.saveOrDeleteUserResourceId(Long.valueOf(userId.toString()),null,true,false);
                 ExceptionUtils.errorBusinessException(!isDeleteOk, CommonEnumConstant.PromptMessage.DELETE_USER_RESOURCE_ERROR);
             });
             return true;
@@ -83,9 +82,9 @@ public class SysUserResourceServiceImpl extends ServiceImpl<SysUserResourceMappe
     }
 
     @Override
-    public ResourceIdsResp selectUserResourceIdsByUserId(Long userId) {
+    public List<Long> selectUserResourceIdsByUserId(Long userId) {
         List<Long> userMenuIds =  baseMapper.selectList(new QueryWrapper<SysUserResource>().lambda()
                 .eq(SysUserResource::getUserId, userId)).stream().map(SysUserResource::getResourceId).collect(Collectors.toList());
-        return ResourceIdsResp.builder().resourceIds(userMenuIds).build();
+        return userMenuIds;
     }
 }

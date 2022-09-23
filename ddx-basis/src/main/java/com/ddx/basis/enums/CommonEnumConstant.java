@@ -50,11 +50,11 @@ public class CommonEnumConstant {
         REDIS_LOCK_KEY_ISNULL_ERROR(ConstantUtils.MSG_RESPONSE_CODE_WARNING,ConstantUtils.MSG_TYPE_WARNING,"分布式锁KEY为空"),
         USER_MENU_ISNULL_ERROR(ConstantUtils.MSG_RESPONSE_CODE_WARNING,ConstantUtils.MSG_TYPE_WARNING,"用户未分配可用菜单"),
         NO_TOKEN(ConstantUtils.MSG_RESPONSE_CODE_WARNING,ConstantUtils.MSG_TYPE_WARNING,"无TOKEN信息"),
-        REVOKE_TOKEN_ERROR(ConstantUtils.MSG_RESPONSE_CODE_ERROR,ConstantUtils.MSG_TYPE_WARNING,"注销失败"),
-
+        ROLE_CODE_ERROR(ConstantUtils.MSG_RESPONSE_CODE_WARNING,ConstantUtils.MSG_TYPE_WARNING,"角色编号已存在"),
         /**
          * 错误类信息提示
          */
+        REVOKE_TOKEN_ERROR(ConstantUtils.MSG_RESPONSE_CODE_ERROR,ConstantUtils.MSG_TYPE_WARNING,"注销失败"),
         FAILED(ConstantUtils.MSG_RESPONSE_CODE_ERROR, ConstantUtils.MSG_TYPE_ERROR,"操作失败"),
         NO_PERMISSION(ConstantUtils.MSG_RESPONSE_CODE_NO_PERMISSION,ConstantUtils.MSG_TYPE_ERROR,"无权限访问"),
         CLIENT_AUTHENTICATION_FAILED(ConstantUtils.MSG_RESPONSE_CODE_ERROR, ConstantUtils.MSG_TYPE_ERROR,"客户端认证失败"),
@@ -105,6 +105,7 @@ public class CommonEnumConstant {
      * 字典枚举
      * 字典名称按分组类型加排序号来命名
      * 为保证前端与后端枚举一致性将字典改为枚举类不存数据库
+     * 前端调用 getDictList 方法获取全部枚举
      */
     public enum Dict {
 

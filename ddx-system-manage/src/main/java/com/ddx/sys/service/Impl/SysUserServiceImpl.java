@@ -26,7 +26,6 @@ import com.ddx.sys.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -59,7 +58,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public PaginatedResult selectPage(IPage<SysUser> arg0, SysUserQueryReq sysUserQueryReq){
         IPage<SysUser> userIPage = this.baseMapper.selectPage(arg0,new QueryWrapper<SysUser>().lambda()
                 .eq(StringUtils.isNoneBlank(sysUserQueryReq.getEmail()),SysUser::getEmail, sysUserQueryReq.getEmail())
-                .eq(sysUserQueryReq.getStatus() != null ,SysUser::getStatus, sysUserQueryReq.getStatus())
+                .eq(StringUtils.isNoneBlank(sysUserQueryReq.getStatus()) ,SysUser::getStatus, sysUserQueryReq.getStatus())
                 .eq(StringUtils.isNoneBlank(sysUserQueryReq.getMobile()),SysUser::getMobile, sysUserQueryReq.getMobile())
                 .like(StringUtils.isNoneBlank(sysUserQueryReq.getUsername()),SysUser::getUsername, sysUserQueryReq.getUsername())
                 .like(StringUtils.isNoneBlank(sysUserQueryReq.getNickname()),SysUser::getNickname, sysUserQueryReq.getNickname())
@@ -114,31 +113,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public BaseResponse addUserInfo(SysUserAddReq sysUserAddReq) {
-        try {
-            UserAddVo userAddVo = new UserAddVo();
-            BeanUtils.copyProperties(sysUserAddReq,userAddVo);
-            List<String> services = iSysResourceService.getServiceList(sysUserAddReq.getResourceIds());
-            userAddVo.setLoginService(CollectionUtils.isNotEmpty(services)?services.get(0):null);
-            SysUser sysUser = UserAddVo.getSysUser(userAddVo);
-            if (SqlHelper.retBool(this.baseMapper.selectCount(new QueryWrapper<SysUser>().lambda().eq(SysUser::getUsername,sysUser.getUsername())))){
-                return ResponseData.out(CommonEnumConstant.PromptMessage.USER_USERNAME_EXISTING_ERROR);
-            }
-            if (SqlHelper.retBool(this.baseMapper.selectCount(new QueryWrapper<SysUser>().lambda().eq(SysUser::getMobile,sysUser.getMobile())))){
-                return ResponseData.out(CommonEnumConstant.PromptMessage.USER_MOBILE_EXISTING_ERROR);
-            }
-            if (!SqlHelper.retBool(this.baseMapper.insert(sysUser))){
-                return ResponseData.out(CommonEnumConstant.PromptMessage.FAILED);
-            }
-            if (!iSysUserRoleService.addUserRoleId(sysUserAddReq.getRoleIds(),sysUser.getId())){
-                return ResponseData.out(CommonEnumConstant.PromptMessage.ADD_USER_ROLE_ERROR);
-            }
-            if (!iSysUserResourceService.addUserResourceId(sysUserAddReq.getResourceIds(),sysUser.getId())){
-                return ResponseData.out(CommonEnumConstant.PromptMessage.ADD_ROLE_PERMISSION_ERROR);
-            }
-        }catch (Exception e){
-            log.error("添加用户失败",e);
-            ExceptionUtils.businessException(CommonEnumConstant.PromptMessage.FAILED,e.getMessage());
-        }
+        List<String> services = iSysResourceService.getServiceList(sysUserAddReq.getResourceIds());
+        SysUser sysUser = UserAddVo.getSysUser(sysUserAddReq,CollectionUtils.isNotEmpty(services)?services.get(0):null);
+        ExceptionUtils.errorBusinessException(SqlHelper.retBool(this.baseMapper.selectCount(new QueryWrapper<SysUser>().lambda().eq(SysUser::getUsername,sysUser.getUsername()))),CommonEnumConstant.PromptMessage.USER_USERNAME_EXISTING_ERROR);
+        ExceptionUtils.errorBusinessException(SqlHelper.retBool(this.baseMapper.selectCount(new QueryWrapper<SysUser>().lambda().eq(SysUser::getMobile,sysUser.getMobile()))),CommonEnumConstant.PromptMessage.USER_MOBILE_EXISTING_ERROR);
+        ExceptionUtils.errorBusinessException(!SqlHelper.retBool(this.baseMapper.insert(sysUser)),CommonEnumConstant.PromptMessage.FAILED);
+        ExceptionUtils.errorBusinessException(!iSysUserRoleService.addUserRoleId(sysUserAddReq.getRoleIds(),sysUser.getId()),CommonEnumConstant.PromptMessage.ADD_USER_ROLE_ERROR);
+        ExceptionUtils.errorBusinessException(!iSysUserResourceService.addUserResourceId(sysUserAddReq.getResourceIds(),sysUser.getId()),CommonEnumConstant.PromptMessage.ADD_ROLE_PERMISSION_ERROR);
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
     }
 }
