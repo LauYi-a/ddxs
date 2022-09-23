@@ -1,10 +1,11 @@
 package com.ddx.common.config;
 
-import com.alibaba.fastjson.JSONObject;
 import com.ddx.basis.constant.ConstantUtils;
+import com.ddx.basis.dto.vo.Header;
 import com.ddx.basis.dto.vo.SysLogAspectVo;
 import com.ddx.basis.response.BaseResponse;
 import com.ddx.basis.response.ResponseData;
+import com.ddx.basis.utils.DateUtil;
 import com.ddx.basis.utils.IPUtils;
 import com.ddx.basis.utils.RequestContextUtils;
 import com.ddx.basis.utils.StringUtil;
@@ -21,7 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
-
+import java.util.Date;
 
 
 /**
@@ -55,7 +56,7 @@ public class LogAspect {
             SysLogAspectVo sysLogAspectVo = setLogEntityVo(ConstantUtils.REQUEST_TYPE_REQ,RequestContextUtils.getRequest(),joinPoint.getArgs());
             //请求日志占时不存储
             //producer.send(sysLogAspectVo, UUIDUtil.getUUID(), ConstantUtils.SEND_LOG_ASPECT_TOPIC);
-            log.info(" \n request content is: {}", StringUtil.jsonFormatter(sysLogAspectVo));
+            log.info("request content is:\n{}", StringUtil.jsonFormatter(sysLogAspectVo));
         }
     }
 
@@ -81,26 +82,28 @@ public class LogAspect {
             //请求日志占时不存储
             //producer.send(sysLogAspectVo, UUIDUtil.getUUID(), ConstantUtils.SEND_LOG_ASPECT_TOPIC);
             if (responseData.getType().equals(ConstantUtils.MSG_TYPE_INFO)||responseData.getType().equals(ConstantUtils.MSG_TYPE_SUCCESS)){
-                sysLogAspectVo.setParam(JSONObject.toJSONString(responseData));
-                log.info("\n response content is: {}",  StringUtil.jsonFormatter(sysLogAspectVo));
+                log.info("response content is:\n{}",  StringUtil.jsonFormatter(sysLogAspectVo));
             }else if (responseData.getType().equals(ConstantUtils.MSG_TYPE_WARNING)){
-                log.warn("\n response content is: {}",  StringUtil.jsonFormatter(sysLogAspectVo));
+                log.warn("response content is:\n{}",  StringUtil.jsonFormatter(sysLogAspectVo));
             }else if (responseData.getType().equals(ConstantUtils.MSG_TYPE_ERROR)){
-                log.error("\n response content is: {}", StringUtil.jsonFormatter(sysLogAspectVo));
+                log.error("response content is:\n{}", StringUtil.jsonFormatter(sysLogAspectVo));
             }
         }
     }
 
-    private SysLogAspectVo setLogEntityVo(String type,HttpServletRequest request,Object param){
+    private SysLogAspectVo setLogEntityVo(String type,HttpServletRequest request,Object data){
         return  SysLogAspectVo.builder()
-                .serialNumber(MDC.get(ConstantUtils.REQUEST_SERIAL_NUMBER))
-                .url(request.getRequestURL().toString())
-                .header(RequestContextUtils.getRequestHeaderMap(request))
-                .type(type)
-                .param(param)
-                .nickname(OauthUtils.getCurrentUser().getNickname())
-                .userId(OauthUtils.getCurrentUser().getUserId())
-                .ip(IPUtils.getIpAddr(request))
+                .data(data)
+                .header(Header.builder()
+                        .serialNumber(MDC.get(ConstantUtils.REQUEST_SERIAL_NUMBER))
+                        .url(request.getRequestURL().toString())
+                        .type(type)
+                        .nickname(OauthUtils.getCurrentUser().getNickname())
+                        .userId(OauthUtils.getCurrentUser().getUserId())
+                        .ip(IPUtils.getIpAddr(request))
+                        .contentType(request.getContentType())
+                        .dateTime(DateUtil.date2Str(new Date(),ConstantUtils.DATE_FORMAT_8))
+                        .build())
                 .build();
     }
 }

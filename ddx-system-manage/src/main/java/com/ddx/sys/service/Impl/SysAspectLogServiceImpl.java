@@ -37,7 +37,7 @@ public class SysAspectLogServiceImpl extends ServiceImpl<SysAspectLogMapper, Sys
                 SysAspectLog sysAspectLog = new SysAspectLog();
                 BeanUtils.copyProperties(sysLogAspectVo,sysAspectLog);
                 sysAspectLog.setHeader(JSON.toJSONString(sysLogAspectVo.getHeader()));
-                sysAspectLog.setParam(JSON.toJSONString(sysLogAspectVo.getParam()));
+                sysAspectLog.setParam(JSON.toJSONString(sysLogAspectVo.getData()));
                 baseMapper.insert(sysAspectLog);
             });
             return true;

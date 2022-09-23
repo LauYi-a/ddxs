@@ -132,8 +132,8 @@ public class ConstantUtils {
     public final static String DATE_FORMAT_4 = "HH时mm分ss秒";
     public final static String DATE_FORMAT_5 = "yyyyMMdd";
     public final static String DATE_FORMAT_6 = "HHmmss";
-    public final static String DATE_FORMAT_7 = DATE_FORMAT_5+DATE_FORMAT_6;
-    public final static String DATE_FORMAT_8 = DATE_FORMAT_1+DATE_FORMAT_2;
+    public final static String DATE_FORMAT_7 = DATE_FORMAT_5+" "+DATE_FORMAT_6;
+    public final static String DATE_FORMAT_8 = DATE_FORMAT_1+" "+DATE_FORMAT_2;
 
     /**
      * kafka topic

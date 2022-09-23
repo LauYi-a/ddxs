@@ -21,16 +21,16 @@ import java.time.LocalDateTime;
 public class MyMetaObjectHandler implements MetaObjectHandler {
 	@Override
 	public void insertFill(MetaObject metaObject) {
-		log.info("start insert fill...");
 		this.setFieldValByName("createTime", LocalDateTime.now(), metaObject);
 		this.setFieldValByName("updateTime", LocalDateTime.now(), metaObject);
 		this.setFieldValByName("createId", Long.valueOf(OauthUtils.getCurrentUser().getUserId()), metaObject);
+		this.setFieldValByName("updateId", Long.valueOf(OauthUtils.getCurrentUser().getUserId()), metaObject);
 		this.setFieldValByName("createName",OauthUtils.getCurrentUser().getNickname(), metaObject);
+		this.setFieldValByName("updateName",OauthUtils.getCurrentUser().getNickname(), metaObject);
 	}
 
 	@Override
 	public void updateFill(MetaObject metaObject) {
-		log.info("start update fill...");
 		this.setFieldValByName("updateTime", LocalDateTime.now(), metaObject);
 		this.setFieldValByName("updateId",Long.valueOf(OauthUtils.getCurrentUser().getUserId()), metaObject);
 		this.setFieldValByName("updateName",OauthUtils.getCurrentUser().getNickname(), metaObject);

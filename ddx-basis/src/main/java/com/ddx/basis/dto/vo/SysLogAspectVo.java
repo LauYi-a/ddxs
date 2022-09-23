@@ -16,46 +16,18 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SysLogAspectVo {
+public class SysLogAspectVo<T> {
 
     /**
-     * 请求流水号
+     * 请求头
      */
-    private String serialNumber;
+    private Header header;
 
     /**
-     * 日志类型
+     * 请求或返回参数
      */
-    private String type;
+    private T data;
 
-    /**
-     * 请求路由
-     */
-    private String url;
 
-    /**
-     * 请求 header
-     */
-    private Object header;
-
-    /**
-     * 请求返回参数
-     */
-    private Object param;
-
-    /**
-     * 请求用户IP
-     */
-    private String ip;
-
-    /**
-     * 用户名
-     */
-    private String nickname;
-
-    /**
-     * 用户ID
-     */
-    private String userId;
 
 }
