@@ -7,7 +7,7 @@
 - 利用此开源项目参与的一切违法、色情相关的活动均与本源码无关，请勿以身示法
 
 ## 介绍
-- 此项目作为分布式微服务架构，前后端分离，前端使用vue3+vite+element-plus构建具体点击查看[前端GitHu源码详情](https://github.com/LauYi-a/ddx-web) 
+- 此项目作为分布式微服务架构，前后端分离，前端使用vue3+vite+element-plus构建具体点击查看[前端GitHub源码详情](https://github.com/LauYi-a/ddx-web) 
 - 后端分布式微服务主要分为 【auth 认证服务】【 common 通用公共服务】【basis 通用基础服务】【eureka 服务注册中心】 【gateway 服务网关】 【system-manage 系统管理服务】
 1. auth 主要作用为 服务验证、用户鉴权，主要采用oauth2来实现服务验证
 2. eureka 主要作用为 服务注册、服务发现
@@ -53,7 +53,7 @@ ddx -- 父项目
 
 ## 功能
 - 该框架`system-manage`服务已完成基础系统管理的一些基本功能
-    >如：用户管理、角色管理、权限管理、菜单管理、系统参数管理、黑白名单管理、字典管理
+    >如：用户管理、角色管理、权限管理、菜单管理、系统参数管理、白名单管理
 - 该框架`auth` 服务已完成用户登入，用户退出，用户鉴权,代码生成器等功能
 - 该框架`config`服务已实现服务配置管理，可按环境进行管理yml文件
     >切换环境只需在 `config` resource/config目录下配置对应服务名称yml文件并加环境后缀 如`ddx-auth-xxx.yml`
