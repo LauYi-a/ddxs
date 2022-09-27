@@ -21,20 +21,16 @@ import java.util.List;
 public class SysRoleEditReq {
 
     @ApiModelProperty(value = "角色ID")
-    @NotBlank(message = "角色ID不能为空")
+    @NotNull(message = "角色ID不能为空")
     private Long id;
 
     @ApiModelProperty(value = "角色名称")
     @NotBlank(message = "角色名称不能为空")
     private String name;
 
-    @ApiModelProperty(value = "角色编码")
-    @NotBlank(message = "角色编码不能为空")
-    private String code;
-
     @ApiModelProperty(value = "角色状态：0-正常；1-停用")
-    @NotNull(message = "角色状态不能为空")
-    private Boolean status;
+    @NotBlank(message = "角色状态不能为空")
+    private String status;
 
     @ApiModelProperty(value = "角色资源ID")
     @NotEmpty(message = "角色资源ID不能为空")
