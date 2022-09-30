@@ -57,8 +57,8 @@ public class GatewayRequestRateLimiterGatewayFilterFactory extends RequestRateLi
         }
         log.warn(String.format("IP:%s调用%s服务已限流,访问接口:%s",key,finalRouteId,exchange.getRequest().getURI()));
         ServerHttpResponse httpResponse = exchange.getResponse();
-        //修改code为500
-        httpResponse.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);
+        //修改code为200
+        httpResponse.setStatusCode(HttpStatus.OK);
         if (!httpResponse.getHeaders().containsKey("Content-Type")) {
           httpResponse.getHeaders().add("Content-Type", "application/json");
         }

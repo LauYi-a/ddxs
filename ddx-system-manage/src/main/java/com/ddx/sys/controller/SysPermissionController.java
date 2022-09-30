@@ -5,8 +5,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ddx.basis.constant.ConstantUtils;
-import com.ddx.basis.dto.req.BatchDeleteKey;
-import com.ddx.basis.dto.req.DeleteKey;
 import com.ddx.basis.dto.resp.PaginatedResult;
 import com.ddx.basis.enums.CommonEnumConstant;
 import com.ddx.basis.exception.ExceptionUtils;
@@ -14,7 +12,7 @@ import com.ddx.basis.response.BaseResponse;
 import com.ddx.basis.response.ResponseData;
 import com.ddx.basis.utils.ConversionUtils;
 import com.ddx.basis.utils.PageUtil;
-import com.ddx.sys.dto.req.sysPermission.SysPermissionAddReq;
+import com.ddx.sys.dto.req.sysPermission.PermissionQueryNoPageReq;
 import com.ddx.sys.dto.req.sysPermission.SysPermissionEditReq;
 import com.ddx.sys.dto.req.sysPermission.SysPermissionQueryReq;
 import com.ddx.sys.dto.resp.sysPermission.PermissionResp;
@@ -36,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -59,9 +58,9 @@ public class SysPermissionController {
 
     @PostMapping("/select-permission-all")
     @ApiOperation(value = "查询所有权限", notes = "权限表")
-    public ResponseData<List<PermissionResp>> selectPermissionAll() {
+    public ResponseData<List<PermissionResp>> selectPermissionAll(@Validated @RequestBody PermissionQueryNoPageReq permissionQueryNoPageReq) {
         log.info("select permission all...");
-        List<SysPermission>  sysPermissions = iSysPermissionService.list(new QueryWrapper<SysPermission>());
+        List<SysPermission>  sysPermissions = iSysPermissionService.list(new QueryWrapper<SysPermission>().lambda().eq(StringUtils.isNoneBlank(permissionQueryNoPageReq.getIsRole()),SysPermission::getIsRole,permissionQueryNoPageReq.getIsRole()));
         List<PermissionResp> permissionResps = new ConversionUtils(PermissionResp.class).toConversionListType(sysPermissions);
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS,permissionResps);
     }
@@ -75,7 +74,7 @@ public class SysPermissionController {
         IPage<SysPermission> dataList=iSysPermissionService.selectPage(new Page<SysPermission>(page, perPage),new QueryWrapper<SysPermission>().lambda()
         .eq(StringUtils.isNoneBlank(sysPermissionQueryReq.getServiceModule()),SysPermission::getServiceModule, sysPermissionQueryReq.getServiceModule())
         .like(StringUtils.isNoneBlank(sysPermissionQueryReq.getName()),SysPermission::getName, sysPermissionQueryReq.getName())
-        .like(StringUtils.isNoneBlank(sysPermissionQueryReq.getUrl()),SysPermission::getName, sysPermissionQueryReq.getUrl())
+        .like(StringUtils.isNoneBlank(sysPermissionQueryReq.getUrl()),SysPermission::getUrl, sysPermissionQueryReq.getUrl())
         .orderByDesc(SysPermission::getUpdateTime));
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS, PaginatedResult.builder()
         .resultData(dataList.getRecords())
@@ -83,18 +82,6 @@ public class SysPermissionController {
         .totalCount( dataList.getTotal())
         .totalPage((int) dataList.getPages())
         .build());
-    }
-
-    @ApiOperation(value = "添加权限", notes = "权限表")
-    @PostMapping("/add")
-    @Transactional(rollbackFor = Exception.class)
-    public BaseResponse add(@Validated @RequestBody SysPermissionAddReq  sysPermissionAddReq) {
-        log.info("add SysPermission start..");
-        SysPermission sysPermission = new SysPermission();
-        BeanUtils.copyProperties(sysPermissionAddReq,sysPermission);
-        ExceptionUtils.errorBusinessException(!iSysPermissionService.save(sysPermission),CommonEnumConstant.PromptMessage.FAILED);
-        ExceptionUtils.errorBusinessException(!iSysPermissionService.initRolePermission(),CommonEnumConstant.PromptMessage.INIT_ROLE_PERMISSION_ERROR);
-        return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
     }
 
     @ApiOperation(value = "修改权限", notes = "权限表")
@@ -107,30 +94,17 @@ public class SysPermissionController {
         BeanUtils.copyProperties(sysPermissionEditReq, sysPermission);
         Boolean yesOrNo = iSysPermissionService.update(sysPermission,new QueryWrapper<SysPermission>().lambda().eq(SysPermission::getId,sysPermission.getId()));
         ExceptionUtils.errorBusinessException(!yesOrNo,CommonEnumConstant.PromptMessage.FAILED);
-        ExceptionUtils.errorBusinessException(!iSysPermissionService.initRolePermission(),CommonEnumConstant.PromptMessage.INIT_ROLE_PERMISSION_ERROR);
+        if (Objects.equals(sysPermission.getIsRole(),CommonEnumConstant.Dict.IS_ROLE_PERMISSION_1)){
+            ExceptionUtils.errorBusinessException(!iSysRolePermissionService.remove(new QueryWrapper<SysRolePermission>().lambda().eq(SysRolePermission::getPermissionId,sysPermission.getId())),CommonEnumConstant.PromptMessage.DELETE_ROLE_PERMISSION_ERROR);
+            ExceptionUtils.errorBusinessException(!iSysPermissionService.initRolePermission(),CommonEnumConstant.PromptMessage.INIT_ROLE_PERMISSION_ERROR);
+        }
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
     }
 
-    @ApiOperation(value = "删除权限", notes = "权限表")
-    @PostMapping("/delete")
+    @ApiOperation(value = "刷新权限缓存", notes = "权限表")
+    @PostMapping("/refresh-cache")
     @Transactional(rollbackFor = Exception.class)
-    public BaseResponse delete(@Validated @RequestBody DeleteKey deleteKey) {
-        log.info("delete SysPermission start...");
-        ExceptionUtils.errorBusinessException(!iSysPermissionService.removeById(Long.valueOf(deleteKey.getKeyWord().toString())),CommonEnumConstant.PromptMessage.FAILED);
-        ExceptionUtils.errorBusinessException(!iSysRolePermissionService.remove(new QueryWrapper<SysRolePermission>().lambda()
-                .eq(SysRolePermission::getPermissionId,Long.valueOf(deleteKey.getKeyWord().toString()))), CommonEnumConstant.PromptMessage.DELETE_ROLE_PERMISSION_ERROR);
-        ExceptionUtils.errorBusinessException(!iSysPermissionService.initRolePermission(),CommonEnumConstant.PromptMessage.INIT_ROLE_PERMISSION_ERROR);
-        return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
-    }
-
-    @ApiOperation(value = "批量删除权限", notes = "权限表")
-    @PostMapping("/batch-delete")
-    @Transactional(rollbackFor = Exception.class)
-    public BaseResponse batchDelete(@Validated @RequestBody BatchDeleteKey batchDeleteKey) {
-        log.info("batchDelete SysPermission start...");
-        ExceptionUtils.errorBusinessException(!iSysPermissionService.removeByIds(batchDeleteKey.getKeyWords()),CommonEnumConstant.PromptMessage.FAILED);
-        ExceptionUtils.errorBusinessException(!iSysRolePermissionService.remove(new QueryWrapper<SysRolePermission>().lambda()
-                .in(SysRolePermission::getPermissionId,batchDeleteKey.getKeyWords())), CommonEnumConstant.PromptMessage.DELETE_ROLE_PERMISSION_ERROR);
+    public BaseResponse refreshCache(){
         ExceptionUtils.errorBusinessException(!iSysPermissionService.initRolePermission(),CommonEnumConstant.PromptMessage.INIT_ROLE_PERMISSION_ERROR);
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
     }

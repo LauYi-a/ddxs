@@ -34,6 +34,7 @@ public class ConstantUtils {
     public static final String MENU_TYPE = "menuType";
     public static final String WHITELIST_TYPE = "whitelistType";
     public static final String ROLE_STATUS = "roleStatus";
+    public static final String IS_ROLE_PERMISSION = "isRolePermission";
     public static final String SERVICE_MODULES_NAME = "serviceModulesName";
 
 
@@ -132,7 +133,7 @@ public class ConstantUtils {
     public final static String DATE_FORMAT_4 = "HH时mm分ss秒";
     public final static String DATE_FORMAT_5 = "yyyyMMdd";
     public final static String DATE_FORMAT_6 = "HHmmss";
-    public final static String DATE_FORMAT_7 = DATE_FORMAT_5+" "+DATE_FORMAT_6;
+    public final static String DATE_FORMAT_7 = DATE_FORMAT_5+DATE_FORMAT_6;
     public final static String DATE_FORMAT_8 = DATE_FORMAT_1+" "+DATE_FORMAT_2;
 
     /**

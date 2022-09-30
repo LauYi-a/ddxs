@@ -25,12 +25,8 @@ public class SysPermissionEditReq {
     @ApiModelProperty(value = "权限名称")
     @NotBlank(message = "权限名称不能为空")
     private String name;
-    
-    @ApiModelProperty(value = "URL权限标识")
-    @NotBlank(message = "URL权限标识不能为空")
-    private String url;
 
-    @ApiModelProperty(value = "服务模块")
-    @NotBlank(message = "服务模块不能为空")
-    private String serviceModule;
+    @ApiModelProperty(value = "是否授权角色")
+    @NotBlank(message = "是否授权角色不能为空")
+    private String isRole;
 }

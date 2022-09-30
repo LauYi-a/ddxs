@@ -38,6 +38,10 @@ public class SysPermission implements Serializable {
     @TableField("url")
     private String url;
 
+    @ApiModelProperty(value = "是否需要授权角色 0 授予 1不授予")
+    @TableField("is_role")
+    private String isRole;
+
     @ApiModelProperty(value = "服务模块")
     @TableField("service_module")
     private String serviceModule;

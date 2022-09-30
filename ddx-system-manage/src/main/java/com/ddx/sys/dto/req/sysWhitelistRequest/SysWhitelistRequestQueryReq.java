@@ -22,6 +22,9 @@ public class SysWhitelistRequestQueryReq extends PageReq {
     @ApiModelProperty(value = "白名单路由")
     private String url;
 
+    @ApiModelProperty(value = "白名单类型")
+    private String type;
+
     @ApiModelProperty(value = "服务模块 sys-系统服务 auth-认证服务")
     private String serviceModule;
 

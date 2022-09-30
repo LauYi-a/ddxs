@@ -1,16 +1,12 @@
 package com.ddx.sys.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
-import java.io.Serializable;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
-import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * @ClassName: SysWhitelistRequest
@@ -32,7 +28,7 @@ public class SysWhitelistRequest implements Serializable {
 
     @ApiModelProperty(value = "主键")
     @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     @ApiModelProperty(value = "白名单路由名称")
     @TableField("name")
@@ -42,7 +38,7 @@ public class SysWhitelistRequest implements Serializable {
     @TableField("url")
     private String url;
 
-    @ApiModelProperty(value = "请求白名单类型 1 接口访问 2接口访问时间")
+    @ApiModelProperty(value = "请求白名单类型 1 系统资源白名单 2接口访问时效")
     @TableField("type")
     private String type;
 

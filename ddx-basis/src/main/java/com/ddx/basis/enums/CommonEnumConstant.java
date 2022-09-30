@@ -51,6 +51,7 @@ public class CommonEnumConstant {
         USER_MENU_ISNULL_ERROR(ConstantUtils.MSG_RESPONSE_CODE_WARNING,ConstantUtils.MSG_TYPE_WARNING,"用户未分配可用菜单"),
         NO_TOKEN(ConstantUtils.MSG_RESPONSE_CODE_WARNING,ConstantUtils.MSG_TYPE_WARNING,"无TOKEN信息"),
         ROLE_CODE_ERROR(ConstantUtils.MSG_RESPONSE_CODE_WARNING,ConstantUtils.MSG_TYPE_WARNING,"角色编号已存在"),
+        WHITELIST_ERROR(ConstantUtils.MSG_RESPONSE_CODE_WARNING,ConstantUtils.MSG_TYPE_WARNING,"白名单已存在"),
         /**
          * 错误类信息提示
          */
@@ -114,13 +115,15 @@ public class CommonEnumConstant {
         USER_STATUS_0("0","禁用",ConstantUtils.USER_STATUS,0,"sys","用户禁止使用"),
         USER_STATUS_1("1","正常",ConstantUtils.USER_STATUS,1,"sys","用户可正常使用"),
         USER_STATUS_2("2","已锁",ConstantUtils.USER_STATUS,2,"sys","用户已被锁定"),
-        MENU_TYPE_0("0","页签",ConstantUtils.MENU_TYPE,0,"sys","菜单类型"),
+        MENU_TYPE_0("0","页签",ConstantUtils.MENU_TYPE,0,"sys","页签类型"),
         MENU_TYPE_1("1","菜单",ConstantUtils.MENU_TYPE,1,"sys","菜单类型"),
-        MENU_TYPE_2("2","元素",ConstantUtils.MENU_TYPE,2,"sys","菜单类型"),
-        WHITELIST_TYPE_0("1","接口访问白名单",ConstantUtils.WHITELIST_TYPE,0,"sys","不受角色权限控制"),
-        WHITELIST_TYPE_1("2","接口访问时效白名单",ConstantUtils.WHITELIST_TYPE,1,"sys","接口连续反问不受限制"),
+        MENU_TYPE_2("2","元素",ConstantUtils.MENU_TYPE,2,"sys","元素类型"),
+        WHITELIST_TYPE_0("1","系统资源白名单",ConstantUtils.WHITELIST_TYPE,0,"sys","不受角色权限控制,可直接访问"),
+        WHITELIST_TYPE_1("2","接口访问时效白名单",ConstantUtils.WHITELIST_TYPE,1,"sys","接口连续访问不受重放时间限制"),
         ROLE_STATUS_0("0","正常",ConstantUtils.ROLE_STATUS,0,"sys","可用的角色状态"),
         ROLE_STATUS_1("1","停用",ConstantUtils.ROLE_STATUS,1,"sys","不可用的角色状态"),
+        IS_ROLE_PERMISSION_0("0","授予",ConstantUtils.IS_ROLE_PERMISSION,0,"sys","授予角色，角色可关联此权限"),
+        IS_ROLE_PERMISSION_1("1","不授予",ConstantUtils.IS_ROLE_PERMISSION,0,"sys","不授予角色，角色不可关联此权限"),
         SERVICE_MODULES_NAME_0("sys","系统基础应用",ConstantUtils.SERVICE_MODULES_NAME,0,"all","系统服务模块名称"),
         SERVICE_MODULES_NAME_1("auth","认证服务",ConstantUtils.SERVICE_MODULES_NAME,1,"all","系统认证模块名称"),
         ;

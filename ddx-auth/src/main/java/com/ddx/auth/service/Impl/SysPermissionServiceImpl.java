@@ -1,22 +1,24 @@
 package com.ddx.auth.service.Impl;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ddx.auth.dto.resp.SysRolePermissionResp;
 import com.ddx.auth.entity.SysPermission;
 import com.ddx.auth.entity.SysRole;
 import com.ddx.auth.entity.SysRolePermission;
 import com.ddx.auth.mapper.SysPermissionMapper;
 import com.ddx.auth.service.ISysPermissionService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ddx.auth.service.ISysRolePermissionService;
 import com.ddx.auth.service.ISysRoleService;
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -41,15 +43,20 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
     @Override
     public List<SysRolePermissionResp> listRolePermission() {
         List<SysRolePermissionResp> list=new ArrayList<>();
+        List<SysRole> sysRoles = sysRoleService.list(new QueryWrapper<SysRole>());
+        List<SysRolePermission> rolePermissions = sysRolePermissionService.list(new QueryWrapper<SysRolePermission>());
         baseMapper.selectList(new QueryWrapper<SysPermission>()).forEach(permission -> {
-            List<SysRole> roles = sysRolePermissionService.list(new QueryWrapper<SysRolePermission>().lambda()
-                    .eq(SysRolePermission::getPermissionId,permission.getId()))
-                    .stream().map(k -> sysRoleService.getById(k.getRoleId())).collect(Collectors.toList());
+            List<SysRole> roleList = Lists.newArrayList();
+            rolePermissions.stream().filter(rolePermission -> Objects.equals(permission.getId(),rolePermission.getPermissionId()))
+                    .collect(Collectors.toList()).forEach(rolePermission ->{
+                List<SysRole> roles = sysRoles.stream().filter(role -> Objects.equals(rolePermission.getRoleId(), role.getId())).collect(Collectors.toList());
+                roleList.addAll(roles);
+            });
             list.add(SysRolePermissionResp.builder()
                     .permissionId(permission.getId())
                     .url(permission.getUrl())
                     .permissionName(permission.getName())
-                    .roles(roles)
+                    .roles(roleList)
                     .build());
         });
         return list;

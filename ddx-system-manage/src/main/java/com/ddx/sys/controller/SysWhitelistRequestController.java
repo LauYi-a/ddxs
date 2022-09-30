@@ -56,6 +56,7 @@ public class SysWhitelistRequestController {
         int perPage = PageUtil.parsePerPage(sysWhitelistRequestQueryReq.getPerPage(), ConstantUtils.PER_PAGE);
         IPage<SysWhitelistRequest> dataList=iSysWhitelistRequestService.selectPage(new Page<SysWhitelistRequest>(page, perPage),new QueryWrapper<SysWhitelistRequest>().lambda()
         .eq(StringUtils.isNoneBlank(sysWhitelistRequestQueryReq.getServiceModule()),SysWhitelistRequest::getServiceModule, sysWhitelistRequestQueryReq.getServiceModule())
+        .eq(StringUtils.isNoneBlank(sysWhitelistRequestQueryReq.getType()),SysWhitelistRequest::getType,sysWhitelistRequestQueryReq.getType())
         .like(StringUtils.isNoneBlank(sysWhitelistRequestQueryReq.getName()),SysWhitelistRequest::getName, sysWhitelistRequestQueryReq.getName())
         .like(StringUtils.isNoneBlank(sysWhitelistRequestQueryReq.getUrl()),SysWhitelistRequest::getUrl, sysWhitelistRequestQueryReq.getUrl())
         .orderByDesc(SysWhitelistRequest::getUpdateTime));
@@ -74,6 +75,8 @@ public class SysWhitelistRequestController {
         log.info("add SysWhitelistRequest start..");
         SysWhitelistRequest sysWhitelistRequest = new SysWhitelistRequest();
         BeanUtils.copyProperties(sysWhitelistRequestAddReq,sysWhitelistRequest);
+        ExceptionUtils.errorBusinessException(iSysWhitelistRequestService.count(new QueryWrapper<SysWhitelistRequest>().lambda().eq(SysWhitelistRequest::getUrl,sysWhitelistRequest.getUrl())
+                        .eq(SysWhitelistRequest::getType,sysWhitelistRequestAddReq.getType()))>0,CommonEnumConstant.PromptMessage.WHITELIST_ERROR);
         ExceptionUtils.errorBusinessException(!iSysWhitelistRequestService.save(sysWhitelistRequest),CommonEnumConstant.PromptMessage.FAILED);
         ExceptionUtils.errorBusinessException(!iSysWhitelistRequestService.initWhitelistConfig(),CommonEnumConstant.PromptMessage.INIT_WHITELIST_ERROR);
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
