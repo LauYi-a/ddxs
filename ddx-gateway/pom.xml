@@ -165,6 +165,11 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!-- redis 限流配置-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis-reactive</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
