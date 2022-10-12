@@ -13,6 +13,8 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.event.AuthenticationFailureBadCredentialsEvent;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
+
 /**
  * @ClassName: AuthenticationFailureListener
  * @Description: 登陆失败监听
@@ -33,8 +35,8 @@ public class AuthenticationFailureListener implements ApplicationListener<Authen
 	public void onApplicationEvent(AuthenticationFailureBadCredentialsEvent authenticationFailureBadCredentialsEvent) {
 		String username = authenticationFailureBadCredentialsEvent.getAuthentication().getPrincipal().toString();
 		SysParamConfigVo sysParamConfigVo = (SysParamConfigVo) redisTemplateUtils.get(ConstantUtils.SYS_PARAM_CONFIG);
-		SysUser user = iSysUserService.getOne(new QueryWrapper<SysUser>().lambda().eq(SysUser::getUsername,username).last("limit 1"));
-		if(user != null) {
+		SysUser user = iSysUserService.getOne(new QueryWrapper<SysUser>().lambda().eq(SysUser::getUsername,username).or().eq(SysUser::getMobile,username).last("limit 1"));
+		if(!Objects.isNull(user)) {
 			if (user.getErrorCount() >= sysParamConfigVo.getLpec()) {
 				user.setStatus(CommonEnumConstant.Dict.USER_STATUS_2.getDictKey());
 				redisTemplateUtils.set(ConstantUtils.ACCOUNT_NON_LOCKED + user.getUsername(),
