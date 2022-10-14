@@ -20,15 +20,6 @@
 			<lineEnding>unix</lineEnding>
 		</fileSet>
 		<fileSet>
-			<directory>src/main/resources</directory>
-			<outputDirectory>ddx-system-manage/config</outputDirectory>
-			<excludes>
-				<exclude>*.formatted</exclude>
-				<exclude>bootstrap/**</exclude>
-			</excludes>
-			<lineEnding>unix</lineEnding>
-		</fileSet>
-		<fileSet>
 			<directory>src/main/resources/</directory>
 			<outputDirectory>ddx-system-manage/config</outputDirectory>
 			<lineEnding>unix</lineEnding>

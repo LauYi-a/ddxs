@@ -1,12 +1,14 @@
 package com.ddx.sys.service;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.ddx.sys.dto.req.sysResource.SysResourceQueryReq;
+import com.ddx.sys.dto.resp.sysResource.MenuTreeListResp;
 import com.ddx.sys.dto.resp.sysResource.ServiceMenuResp;
 import com.ddx.sys.dto.vo.resource.MenuElVo;
 import com.ddx.sys.dto.vo.resource.UserTreeMenuVo;
 import com.ddx.sys.entity.SysResource;
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 
 import java.util.List;
 
@@ -57,4 +59,10 @@ public interface ISysResourceService extends IService<SysResource> {
      * @return
      */
     List<ServiceMenuResp> selectMenuTree();
+
+    /**
+     * 查询资菜单源树列表
+     * @return
+     */
+    List<MenuTreeListResp> selectMenuTreeList(SysResourceQueryReq sysResourceQueryReq);
 }

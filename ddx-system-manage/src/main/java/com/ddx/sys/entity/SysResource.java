@@ -1,16 +1,12 @@
 package com.ddx.sys.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
-
-import java.time.LocalDateTime;
-import java.io.Serializable;
-
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
-import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * @ClassName: SysResource
@@ -70,19 +66,19 @@ public class SysResource implements Serializable {
     @TableField("icon")
     private String icon;
 
-    @ApiModelProperty(value = "是否缓存 true缓存菜单 false补缓存菜单")
+    @ApiModelProperty(value = "是否打开缓存 true 缓存菜单 false不缓存菜单")
     @TableField("cache")
     private Boolean cache;
 
-    @ApiModelProperty(value = "是否显示tabs标签 false 不显示 true 显示")
+    @ApiModelProperty(value = "是否打开显示tabs标签 0 false 显示 1 true 不显示")
     @TableField("hide_tabs")
     private Boolean hideTabs;
 
-    @ApiModelProperty(value = "是否可以关闭tabs标签 false 不关闭 true 关闭")
-    @TableField("hide_tabs")
+    @ApiModelProperty(value = "是否打开可以关闭tabs标签 0 false 关闭 1 true 不关闭")
+    @TableField("hide_close")
     private Boolean hideClose;
 
-    @ApiModelProperty(value = "菜单是否隐藏菜单栏 false 不隐藏 true 隐藏")
+    @ApiModelProperty(value = "菜单是否打开隐藏菜单栏 0 false 隐藏 1 true 不隐藏")
     @TableField("hide_menu")
     private Boolean hideMenu;
 

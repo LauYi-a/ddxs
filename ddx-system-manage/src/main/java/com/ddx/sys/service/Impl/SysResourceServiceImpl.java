@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ddx.basis.constant.ConstantUtils;
 import com.ddx.basis.enums.CommonEnumConstant;
+import com.ddx.sys.dto.req.sysResource.SysResourceQueryReq;
+import com.ddx.sys.dto.resp.sysResource.MenuTreeListResp;
 import com.ddx.sys.dto.resp.sysResource.ServiceMenuResp;
 import com.ddx.sys.dto.vo.resource.MenuElVo;
 import com.ddx.sys.dto.vo.resource.MenuMetaVo;
@@ -137,8 +139,69 @@ public class SysResourceServiceImpl extends ServiceImpl<SysResourceMapper, SysRe
         return serviceMenuResps;
     }
 
+    @Override
+    public List<MenuTreeListResp> selectMenuTreeList(SysResourceQueryReq sysResourceQueryReq) {
+        List<SysResource> resourceList = baseMapper.selectList(new QueryWrapper<SysResource>().lambda()
+                .eq(StringUtils.isNoneBlank(sysResourceQueryReq.getServiceModule()),SysResource::getServiceModule, sysResourceQueryReq.getServiceModule()));
+        //获取一级菜单
+        List<SysResource> oneResources= resourceList.stream().filter(e -> e.getResourceType().equals(CommonEnumConstant.Dict.MENU_TYPE_0.getDictKey())).collect(Collectors.toList());
+        List<MenuTreeListResp> menuTreeList = Lists.newArrayList();
+        oneResources.forEach(resource ->{
+            menuTreeList.add(MenuTreeListResp.builder()
+                    .id(String.valueOf(resource.getId()))
+                    .sort(resource.getSort())
+                    .resourceName(resource.getResourceName())
+                    .resourceType(resource.getResourceType())
+                    .resourceUrl(resource.getResourceUrl())
+                    .redirect(resource.getRedirect())
+                    .component(resource.getComponent())
+                    .serviceModule(resource.getServiceModule())
+                    .cache(resource.getCache())
+                    .hideTabs(resource.getHideTabs())
+                    .hideClose(resource.getHideClose())
+                    .hideMenu(resource.getHideMenu())
+                    .children(getMenuTreeListChildren(resourceList,resource.getId()))
+                    .build());
+        });
+        Collections.sort(menuTreeList, Comparator.comparing(MenuTreeListResp::getSort));
+        return menuTreeList;
+    }
+
     /**
-     * 递归获取菜单下级
+     * 递归查询资菜单源树列表子菜单
+     * @param resourceList
+     * @param lastId
+     * @return
+     */
+    public List<MenuTreeListResp> getMenuTreeListChildren(List<SysResource> resourceList, Long lastId){
+        List<MenuTreeListResp> childrens = new ArrayList<>();
+        List<SysResource> nextResource= resourceList.stream().filter(e -> Objects.nonNull(e.getParentId()) && e.getParentId().longValue() == lastId.longValue()).collect(Collectors.toList());
+        nextResource.forEach(resource ->{
+            childrens.add(MenuTreeListResp.builder()
+                    .id(String.valueOf(resource.getId()))
+                    .sort(resource.getSort())
+                    .resourceName(resource.getResourceName())
+                    .resourceType(resource.getResourceType())
+                    .resourceUrl(resource.getResourceUrl())
+                    .redirect(resource.getRedirect())
+                    .component(resource.getComponent())
+                    .serviceModule(resource.getServiceModule())
+                    .cache(resource.getCache())
+                    .hideTabs(resource.getHideTabs())
+                    .hideClose(resource.getHideClose())
+                    .hideMenu(resource.getHideMenu())
+                    .children(getMenuTreeListChildren(resourceList,resource.getId()))
+                    .build());
+        });
+        Collections.sort(childrens, Comparator.comparing(MenuTreeListResp::getSort));
+        if (CollectionUtils.isEmpty(childrens)) {
+            return null;
+        }
+        return childrens;
+    }
+
+    /**
+     * 递归获取下级菜单
      * @param resourceList
      * @param lastId
      * @return
@@ -163,7 +226,7 @@ public class SysResourceServiceImpl extends ServiceImpl<SysResourceMapper, SysRe
     }
 
     /**
-     * 递归获取用户菜单下级
+     * 递归获取用户下级菜单
      * @param resourceList
      * @param lastId
      * @return

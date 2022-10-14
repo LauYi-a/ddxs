@@ -24,4 +24,7 @@ public class SysPermissionQueryReq extends PageReq {
 
     @ApiModelProperty(value = "服务模块")
     private String serviceModule;
+
+    @ApiModelProperty(value = "是否授予角色")
+    private String isRole;
 }

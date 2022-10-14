@@ -73,6 +73,7 @@ public class SysPermissionController {
         int perPage = PageUtil.parsePerPage(sysPermissionQueryReq.getPerPage(), ConstantUtils.PER_PAGE);
         IPage<SysPermission> dataList=iSysPermissionService.selectPage(new Page<SysPermission>(page, perPage),new QueryWrapper<SysPermission>().lambda()
         .eq(StringUtils.isNoneBlank(sysPermissionQueryReq.getServiceModule()),SysPermission::getServiceModule, sysPermissionQueryReq.getServiceModule())
+        .eq(StringUtils.isNoneBlank(sysPermissionQueryReq.getIsRole()),SysPermission::getIsRole, sysPermissionQueryReq.getIsRole())
         .like(StringUtils.isNoneBlank(sysPermissionQueryReq.getName()),SysPermission::getName, sysPermissionQueryReq.getName())
         .like(StringUtils.isNoneBlank(sysPermissionQueryReq.getUrl()),SysPermission::getUrl, sysPermissionQueryReq.getUrl())
         .orderByDesc(SysPermission::getUpdateTime));

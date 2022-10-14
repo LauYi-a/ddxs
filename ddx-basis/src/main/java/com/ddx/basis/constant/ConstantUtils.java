@@ -27,11 +27,15 @@ public class ConstantUtils {
     public static final int MSG_RESPONSE_CODE_NO_PERMISSION = 4001;
 
     /**
-     * 字典分组
+     * 字典分组键
      */
     public static final String USER_GENDER = "userGender";
     public static final String USER_STATUS = "userStatus";
     public static final String MENU_TYPE = "menuType";
+    public static final String MENU_CACHE = "menuCache";
+    public static final String MENU_HIDE_TABS = "menuHideTabs";
+    public static final String MENU_HIDE_CLOSE = "menuHideClose";
+    public static final String MENU_HIDE = "menuHide";
     public static final String WHITELIST_TYPE = "whitelistType";
     public static final String ROLE_STATUS = "roleStatus";
     public static final String IS_ROLE_PERMISSION = "isRolePermission";

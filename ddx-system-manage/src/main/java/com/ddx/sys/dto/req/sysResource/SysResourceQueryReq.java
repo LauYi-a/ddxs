@@ -1,9 +1,10 @@
 package com.ddx.sys.dto.req.sysResource;
 
-import com.ddx.basis.dto.req.PageReq;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+
+import javax.validation.constraints.NotBlank;
 
 /**
  * @ClassName: SysResourceQuotaReq
@@ -14,25 +15,17 @@ import lombok.Data;
  */
 @Data
 @ApiModel(value="SysResourceQueryReq", description="系统资源查询入参体")
-public class SysResourceQueryReq extends PageReq {
+public class SysResourceQueryReq {
 
 
     @ApiModelProperty(value = "资源名称")
     private String resourceName;
 
-    @ApiModelProperty(value = "资源类型 - 0 页签 1 菜单 2 元素")
-    private String resourceType;
-
     @ApiModelProperty(value = "资源路径")
     private String resourceUrl;
 
     @ApiModelProperty(value = "服务模块")
+    @NotBlank(message = "服务模块不能为空")
     private String serviceModule;
-
-    @ApiModelProperty(value = "使用组件")
-    private String component;
-
-    @ApiModelProperty(value = "是否外部链接 Y是 N不是")
-    private String isExternal;
 
 }

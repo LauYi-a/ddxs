@@ -21,7 +21,7 @@ public class DictVo {
     /**
      * 字典key
      */
-    private String dictKey;
+    private Object dictKey;
 
     /**
      * 字典值

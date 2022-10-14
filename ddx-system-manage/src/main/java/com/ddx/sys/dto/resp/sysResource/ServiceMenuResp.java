@@ -21,7 +21,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ApiModel(value="TreeMenuResp", description="服务资源菜单")
+@ApiModel(value="ServiceMenuResp", description="服务资源菜单")
 public class ServiceMenuResp {
 
     @ApiModelProperty(value = "服务编号")

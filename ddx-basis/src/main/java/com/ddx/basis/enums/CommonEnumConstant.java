@@ -118,6 +118,14 @@ public class CommonEnumConstant {
         MENU_TYPE_0("0","页签",ConstantUtils.MENU_TYPE,0,"sys","页签类型"),
         MENU_TYPE_1("1","菜单",ConstantUtils.MENU_TYPE,1,"sys","菜单类型"),
         MENU_TYPE_2("2","元素",ConstantUtils.MENU_TYPE,2,"sys","元素类型"),
+        MENU_CACHE_TRUE(true,"缓存",ConstantUtils.MENU_CACHE,0,"sys","菜单可加入缓存"),
+        MENU_CACHE_FALSE(false,"不缓存",ConstantUtils.MENU_CACHE,1,"sys","菜单不可加入缓存"),
+        MENU_HIDE_TABS_TRUE(false,"显示",ConstantUtils.MENU_HIDE_TABS,0,"sys","显示tabs标签在标签栏"),
+        MENU_HIDE_TABS_FALSE(true,"不显示",ConstantUtils.MENU_HIDE_TABS,1,"sys","不显示tabs标签在标签栏"),
+        MENU_HIDE_CLOSE_TRUE(false,"可关闭",ConstantUtils.MENU_HIDE_CLOSE,0,"sys","可以关闭tabs标签"),
+        MENU_HIDE_CLOSE_FALSE(true,"不可关闭",ConstantUtils.MENU_HIDE_CLOSE,1,"sys","不可以关闭tabs标签"),
+        MENU_HIDE_TRUE(true,"隐藏",ConstantUtils.MENU_HIDE,0,"sys","隐藏菜单栏"),
+        MENU_HIDE_FALSE(false,"不隐藏",ConstantUtils.MENU_HIDE,1,"sys","不隐藏菜单栏"),
         WHITELIST_TYPE_0("1","系统资源白名单",ConstantUtils.WHITELIST_TYPE,0,"sys","不受角色权限控制,可直接访问"),
         WHITELIST_TYPE_1("2","接口访问时效白名单",ConstantUtils.WHITELIST_TYPE,1,"sys","接口连续访问不受重放时间限制"),
         ROLE_STATUS_0("0","正常",ConstantUtils.ROLE_STATUS,0,"sys","可用的角色状态"),
@@ -131,7 +139,7 @@ public class CommonEnumConstant {
         /**
          * 字段key
          */
-        private String dictKey;
+        private Object dictKey;
 
         /**
          * 字典值
@@ -159,27 +167,18 @@ public class CommonEnumConstant {
         private String dictDesc;
 
         public String getDictKey() {
-            return dictKey;
+            return String.valueOf(dictKey);
         }
-
-        public void setDictKey(String dictKey) {
-            this.dictKey = dictKey;
+        public Object getObjDictKey() {
+            return dictKey;
         }
 
         public String getDictValue() {
             return dictValue;
         }
 
-        public void setDictValue(String dictValue) {
-            this.dictValue = dictValue;
-        }
-
         public String getGroupType() {
             return groupType;
-        }
-
-        public void setGroupType(String groupType) {
-            this.groupType = groupType;
         }
 
         public Integer getSort() {
@@ -194,19 +193,11 @@ public class CommonEnumConstant {
             return modules;
         }
 
-        public void setModules(String modules) {
-            this.modules = modules;
-        }
-
         public String getDictDesc() {
             return dictDesc;
         }
 
-        public void setDictDesc(String dictDesc) {
-            this.dictDesc = dictDesc;
-        }
-
-        Dict(String dictKey,String dictValue,String groupType,Integer sort,String modules,String dictDesc){
+        Dict(Object dictKey,String dictValue,String groupType,Integer sort,String modules,String dictDesc){
             this.dictKey = dictKey;
             this.dictValue = dictValue;
             this.groupType = groupType;
@@ -223,7 +214,7 @@ public class CommonEnumConstant {
             List<DictVo> dictVos = Lists.newArrayList();
             Arrays.stream(CommonEnumConstant.Dict.values()).forEach(dict -> {
                 dictVos.add(DictVo.builder()
-                        .dictKey(dict.getDictKey())
+                        .dictKey(dict.getObjDictKey())
                         .dictValue(dict.getDictValue())
                         .groupType(dict.getGroupType())
                         .sort(dict.getSort())
