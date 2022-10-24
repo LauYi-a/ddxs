@@ -65,6 +65,7 @@ redisson:
     password:
 #日志级别
 logging:
+  logPath: D:\\logs
   level:
     org.springframework: INFO
 #mybatis
