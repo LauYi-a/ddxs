@@ -24,8 +24,8 @@
         <file>${log.path}/info.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${log.path}/%d{yyyy-MM, aux}/%d{yyyy-MM-dd}/info.%i.log.gz</fileNamePattern>
-            <maxFileSize>100MB</maxFileSize>
-            <maxHistory>30</maxHistory>
+            <maxFileSize>20GB</maxFileSize>
+            <maxHistory>180</maxHistory>
         </rollingPolicy>
         <encoder>
             <pattern>%date [%thread] %-5level [%logger{50}] [%X{serialNumber}] %file:%line - %msg%n</pattern>
@@ -37,9 +37,8 @@
         <file>${log.path}/error.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${log.path}/%d{yyyy-MM, aux}/%d{yyyy-MM-dd}/error.%i.log.gz</fileNamePattern>
-            <maxFileSize>50MB</maxFileSize>
-            <totalSizeCap>1GB</totalSizeCap>
-            <maxHistory>30</maxHistory>
+            <maxFileSize>20GB</maxFileSize>
+            <maxHistory>180</maxHistory>
         </rollingPolicy>
         <encoder>
             <pattern>%date [%thread] %-5level [%logger{50}] [%X{serialNumber}] %file:%line - %msg%n</pattern>
