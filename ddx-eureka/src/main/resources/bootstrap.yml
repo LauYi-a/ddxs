@@ -32,3 +32,5 @@ management:
     web:
       exposure:
         include: '*'
+logFile:
+  logPath: D:\\logs
