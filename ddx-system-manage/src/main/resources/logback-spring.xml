@@ -1,19 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-  ~  Copyright (c) 2019-2020, 冷冷 (wangiegie@gmail.com).
-  ~  <p>
-  ~  Licensed under the GNU Lesser General Public License 3.0 (the "License");
-  ~  you may not use this file except in compliance with the License.
-  ~  You may obtain a copy of the License at
-  ~  <p>
-  ~ https://www.gnu.org/licenses/lgpl.html
-  ~  <p>
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  -->
 
 <configuration debug="false" scan="false">
     <springProperty scop="context" name="logFile.logPath" source="logFile.logPath" defaultValue=""/>
@@ -34,12 +19,12 @@
         </encoder>
     </appender>
 
-    <!-- Log file debug output -->
-    <appender name="debug" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${log.path}/debug.log</file>
+    <!-- Log file info output -->
+    <appender name="info" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.path}/info.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>${log.path}/%d{yyyy-MM, aux}/debug.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
-            <maxFileSize>50MB</maxFileSize>
+            <fileNamePattern>${log.path}/%d{yyyy-MM, aux}/%d{yyyy-MM-dd}/info.%i.log.gz</fileNamePattern>
+            <maxFileSize>100MB</maxFileSize>
             <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder>
@@ -51,8 +36,9 @@
     <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${log.path}/error.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>${log.path}/%d{yyyy-MM}/error.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <fileNamePattern>${log.path}/%d{yyyy-MM, aux}/%d{yyyy-MM-dd}/error.%i.log.gz</fileNamePattern>
             <maxFileSize>50MB</maxFileSize>
+            <totalSizeCap>1GB</totalSizeCap>
             <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder>
@@ -70,7 +56,7 @@
     <!-- Level: FATAL 0  ERROR 3  WARN 4  INFO 6  DEBUG 7 -->
     <root level="INFO">
         <appender-ref ref="console" />
-        <appender-ref ref="debug" />
+        <appender-ref ref="info" />
         <appender-ref ref="error" />
     </root>
 </configuration>

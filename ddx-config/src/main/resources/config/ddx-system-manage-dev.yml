@@ -32,5 +32,3 @@ app:
     consumer:
       partition:
         send_log_Aspect_topic: 0
-logFile:
-  logPath: D:\\logs

@@ -46,8 +46,6 @@ spring:
               redis-rate-limiter.replenishRate: 1
               # 令牌桶最大容量
               redis-rate-limiter.burstCapacity: 50
-logFile:
-  logPath: D:\\logs
 # 不校验验证码终端
 ignore:
   clients:

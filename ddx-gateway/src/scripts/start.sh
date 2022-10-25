@@ -13,11 +13,11 @@ if [ -n "$IS_LISTENED" ]; then
     exit 1
 fi
 
-LOGS_DIR=$DEPLOY_DIR/log
+LOGS_DIR=/data/logs/$SERVER_NAME
 if [ ! -d $LOGS_DIR ]; then
     mkdir $LOGS_DIR
 fi
-STDOUT_FILE=$LOGS_DIR/stdout.log
+STDOUT_FILE=$LOGS_DIR/info.log
 
 LIB_JARS=`ls $LIB_DIR|grep .jar|awk '{print "'$LIB_DIR'/"$0}'|tr "\n" ":"`
 DEBUG_OPTS="-Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n"
