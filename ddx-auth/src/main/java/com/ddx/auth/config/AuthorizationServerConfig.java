@@ -4,7 +4,7 @@ import com.ddx.auth.exception.OAuthServerAuthenticationEntryPoint;
 import com.ddx.auth.exception.OAuthServerWebResponseExceptionTranslator;
 import com.ddx.auth.filter.OAuthServerClientCredentialsTokenEndpointFilter;
 import com.ddx.basis.constant.ConstantUtils;
-import com.ddx.basis.dto.vo.SysParamConfigVo;
+import com.ddx.basis.model.vo.SysParamConfigVo;
 import com.ddx.common.utils.RedisTemplateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

@@ -24,7 +24,7 @@ public class MpGeneratorConfig {
 
 	public static void main(String[] args) {
 		String path = "D://code";
-		String dtoDir = "/com/ddx/sys/dto";
+		String modelDir = "/com/ddx/sys/model";
 		String auth = "YI.LAU";
 		String packages = "com.ddx.sys";
 		String controller = "controller";
@@ -106,7 +106,7 @@ public class MpGeneratorConfig {
 			public void initMap() {
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("abc", this.getConfig().getGlobalConfig().getAuthor() + "-mp");
-				map.put("dtoDir", packages);
+				map.put("modelDir", packages);
 				this.setMap(map);
 			}
 		};
@@ -116,21 +116,21 @@ public class MpGeneratorConfig {
 		focList.add(new FileOutConfig("/templates/queryreq.java.vm") {
 			@Override
 			public String outputFile(TableInfo tableInfo) {
-				return path +dtoDir+"/req/"+tableInfo.getEntityName().substring(0, 1).toLowerCase()+tableInfo.getEntityName().substring(1)
+				return path +modelDir+"/req/"+tableInfo.getEntityName().substring(0, 1).toLowerCase()+tableInfo.getEntityName().substring(1)
 						+ File.separator + tableInfo.getEntityName() + "QueryReq.java";
 			}
 		});
 		focList.add(new FileOutConfig("/templates/addreq.java.vm") {
 			@Override
 			public String outputFile(TableInfo tableInfo) {
-				return path +dtoDir+"/req/"+tableInfo.getEntityName().substring(0, 1).toLowerCase()+tableInfo.getEntityName().substring(1)
+				return path +modelDir+"/req/"+tableInfo.getEntityName().substring(0, 1).toLowerCase()+tableInfo.getEntityName().substring(1)
 						+ File.separator + tableInfo.getEntityName() + "AddReq.java";
 			}
 		});
 		focList.add(new FileOutConfig("/templates/editreq.java.vm") {
 			@Override
 			public String outputFile(TableInfo tableInfo) {
-				return path +dtoDir+"/req/"+tableInfo.getEntityName().substring(0, 1).toLowerCase()+tableInfo.getEntityName().substring(1)
+				return path +modelDir+"/req/"+tableInfo.getEntityName().substring(0, 1).toLowerCase()+tableInfo.getEntityName().substring(1)
 						+ File.separator + tableInfo.getEntityName() + "EditReq.java";
 			}
 		});

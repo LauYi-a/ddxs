@@ -84,8 +84,8 @@ public class RequestExceptionHandle {
      * @param ex
      * @return
      */
-    @ExceptionHandler(ErrorBusinessException.class)
-    public BaseResponse errorBusinessException(ErrorBusinessException ex){
+    @ExceptionHandler(BusinessException.class)
+    public BaseResponse businessException(BusinessException ex){
         return ResponseData.out(ex.getCode(),ex.getType(),ex.getMsg());
     }
 

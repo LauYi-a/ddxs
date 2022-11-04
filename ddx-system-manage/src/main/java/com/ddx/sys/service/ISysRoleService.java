@@ -2,13 +2,13 @@ package com.ddx.sys.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.ddx.basis.dto.resp.PaginatedResult;
+import com.ddx.basis.model.resp.PaginatedResult;
 import com.ddx.basis.response.BaseResponse;
-import com.ddx.sys.dto.req.sysRole.SysRoleAddReq;
-import com.ddx.sys.dto.req.sysRole.SysRoleQueryReq;
-import com.ddx.sys.dto.resp.sysRole.RoleKeyValResp;
-import com.ddx.sys.dto.resp.sysRole.SysRoleResp;
 import com.ddx.sys.entity.SysRole;
+import com.ddx.sys.model.req.sysRole.SysRoleAddReq;
+import com.ddx.sys.model.req.sysRole.SysRoleQueryReq;
+import com.ddx.sys.model.resp.sysRole.RoleKeyValResp;
+import com.ddx.sys.model.resp.sysRole.SysRoleResp;
 
 import java.util.List;
 

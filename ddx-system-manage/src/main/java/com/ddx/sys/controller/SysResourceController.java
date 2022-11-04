@@ -5,12 +5,12 @@ import com.ddx.basis.enums.CommonEnumConstant;
 import com.ddx.basis.exception.ExceptionUtils;
 import com.ddx.basis.response.BaseResponse;
 import com.ddx.basis.response.ResponseData;
-import com.ddx.sys.dto.req.sysResource.SysResourceEditReq;
-import com.ddx.sys.dto.req.sysResource.SysResourceQueryReq;
-import com.ddx.sys.dto.req.sysUser.QueryUserInfoReq;
-import com.ddx.sys.dto.resp.sysResource.MenuTreeListResp;
-import com.ddx.sys.dto.resp.sysResource.ServiceMenuResp;
 import com.ddx.sys.entity.SysResource;
+import com.ddx.sys.model.req.sysResource.SysResourceEditReq;
+import com.ddx.sys.model.req.sysResource.SysResourceQueryReq;
+import com.ddx.sys.model.req.sysUser.QueryUserInfoReq;
+import com.ddx.sys.model.resp.sysResource.MenuTreeListResp;
+import com.ddx.sys.model.resp.sysResource.ServiceMenuResp;
 import com.ddx.sys.service.ISysResourceService;
 import com.ddx.sys.service.ISysUserResourceService;
 import io.swagger.annotations.Api;
@@ -47,29 +47,28 @@ public class SysResourceController {
     private ISysUserResourceService iSysUserResourceService;
 
     @PostMapping("/select-user-resource-ids")
-    @ApiOperation(value = "查询用户菜单资源ID", notes = "系统资源")
+    @ApiOperation(httpMethod = "POST",value = "查询用户菜单资源ID")
     public ResponseData<List<Long>> selectUserResourceIds(@Validated @RequestBody QueryUserInfoReq queryUserInfoReq) {
         log.info("select user response ids ...");
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS, iSysUserResourceService.selectUserResourceIdsByUserId(queryUserInfoReq.getId()));
     }
 
     @PostMapping("/select-menu-tree")
-    @ApiOperation(value = "查询资源菜单树", notes = "系统资源")
+    @ApiOperation(httpMethod = "POST",value = "查询资源菜单树")
     public ResponseData<List<ServiceMenuResp>> selectMenuTree() {
         log.info("select Response menu all...");
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS, iSysResourceService.selectMenuTree());
     }
 
     @PostMapping("/select-menu-tree-list")
-    @ApiOperation(value = "查询系统资源树列表", notes = "系统资源")
+    @ApiOperation(httpMethod = "POST",value = "查询系统资源树列表")
     public ResponseData<List<MenuTreeListResp>> selectMenuTreeList(@Validated @RequestBody SysResourceQueryReq sysResourceQueryReq) {
         log.info("select response menu tree list ...");
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS,iSysResourceService.selectMenuTreeList(sysResourceQueryReq));
     }
 
-
-    @ApiOperation(value = "修改系统资源", notes = "系统资源")
     @PostMapping("/edit")
+    @ApiOperation(httpMethod = "POST",value = "修改系统资源")
     @Transactional(rollbackFor = Exception.class)
     public BaseResponse edit(@Validated @RequestBody SysResourceEditReq sysResourceEditReq) {
         log.info("edit SysResource start...");

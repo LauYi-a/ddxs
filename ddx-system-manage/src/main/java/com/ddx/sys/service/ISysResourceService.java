@@ -3,12 +3,12 @@ package com.ddx.sys.service;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.ddx.sys.dto.req.sysResource.SysResourceQueryReq;
-import com.ddx.sys.dto.resp.sysResource.MenuTreeListResp;
-import com.ddx.sys.dto.resp.sysResource.ServiceMenuResp;
-import com.ddx.sys.dto.vo.resource.MenuElVo;
-import com.ddx.sys.dto.vo.resource.UserTreeMenuVo;
 import com.ddx.sys.entity.SysResource;
+import com.ddx.sys.model.req.sysResource.SysResourceQueryReq;
+import com.ddx.sys.model.resp.sysResource.MenuTreeListResp;
+import com.ddx.sys.model.resp.sysResource.ServiceMenuResp;
+import com.ddx.sys.model.vo.resource.MenuElVo;
+import com.ddx.sys.model.vo.resource.UserTreeMenuVo;
 
 import java.util.List;
 

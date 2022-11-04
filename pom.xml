@@ -16,9 +16,9 @@
         <module>ddx-common</module>
         <module>ddx-auth</module>
         <module>ddx-system-manage</module>
-        <module>ddx-test-rpc</module>
-        <module>ddx-test-api</module>
+        <module>ddx-log</module>
         <module>ddx-basis</module>
+        <module>ddx-file</module>
     </modules>
 
     <!-- 项目依赖包版本控制 -->
@@ -70,7 +70,7 @@
         <!-- 内部工程 -->
         <ddx-common.version>1.0-SNAPSHOT</ddx-common.version>
         <ddx-basis.version>1.0-SNAPSHOT</ddx-basis.version>
-        <ddx-test-api.version>1.0-SNAPSHOT</ddx-test-api.version>
+        <ddx-log-api.version>1.0-SNAPSHOT</ddx-log-api.version>
     </properties>
 
     <dependencies>

@@ -1,7 +1,7 @@
 package com.ddx.basis.enums;
 
 import com.ddx.basis.constant.ConstantUtils;
-import com.ddx.basis.dto.vo.DictVo;
+import com.ddx.basis.model.vo.DictVo;
 import com.google.common.collect.Lists;
 
 import java.util.Arrays;
@@ -132,8 +132,8 @@ public class CommonEnumConstant {
         ROLE_STATUS_1("1","停用",ConstantUtils.ROLE_STATUS,1,"sys","不可用的角色状态"),
         IS_ROLE_PERMISSION_0("0","授予",ConstantUtils.IS_ROLE_PERMISSION,0,"sys","授予角色，角色可关联此权限"),
         IS_ROLE_PERMISSION_1("1","不授予",ConstantUtils.IS_ROLE_PERMISSION,0,"sys","不授予角色，角色不可关联此权限"),
-        SERVICE_MODULES_NAME_0("sys","系统基础应用",ConstantUtils.SERVICE_MODULES_NAME,0,"all","系统服务模块名称"),
-        SERVICE_MODULES_NAME_1("auth","认证服务",ConstantUtils.SERVICE_MODULES_NAME,1,"all","系统认证模块名称"),
+        SERVICE_MODULES_NAME_0("sys","系统基础应用",ConstantUtils.SERVICE_MODULES_NAME,0,"all","系统服务模块"),
+        SERVICE_MODULES_NAME_1("auth","认证服务",ConstantUtils.SERVICE_MODULES_NAME,1,"all","系统认证服务模块"),
         ;
 
         /**

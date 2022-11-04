@@ -1,8 +1,8 @@
 package com.ddx.sys.controller;
 
 import com.ddx.basis.constant.ConstantUtils;
-import com.ddx.basis.dto.vo.SysParamConfigVo;
 import com.ddx.basis.enums.CommonEnumConstant;
+import com.ddx.basis.model.vo.SysParamConfigVo;
 import com.ddx.basis.response.BaseResponse;
 import com.ddx.basis.response.ResponseData;
 import com.ddx.basis.utils.DateUtil;
@@ -37,7 +37,7 @@ public class SysParamConfigController {
     private RedisTemplateUtils redisTemplateUtils;
 
     @PostMapping("/get-sys-param-config")
-    @ApiOperation(value = "系统参数查询", notes = "系统参数")
+    @ApiOperation(httpMethod = "POST",value = "系统参数查询")
     public ResponseData getSysParamConfig(){
         log.info("get sys param config start ....");
         SysParamConfigVo sysParamConfigVo = (SysParamConfigVo) redisTemplateUtils.get(ConstantUtils.SYS_PARAM_CONFIG);
@@ -47,7 +47,7 @@ public class SysParamConfigController {
     }
 
     @PostMapping("/update-param-config")
-    @ApiOperation(value = "系统参数修改", notes = "系统参数")
+    @ApiOperation(httpMethod = "POST",value = "系统参数修改")
     public BaseResponse updateParamConfig(@Validated @RequestBody SysParamConfigVo sysParamConfigVo){
         log.info("update param config start ....");
         sysParamConfigVo.setAccessTokenTime(DateUtil.fromatHHMm(sysParamConfigVo.getAccessTokenTime()));
@@ -58,7 +58,7 @@ public class SysParamConfigController {
     }
 
     @PostMapping("/get-public-key")
-    @ApiOperation(value = "获取公钥", notes = "系统参数")
+    @ApiOperation(httpMethod = "POST",value = "获取公钥")
     public BaseResponse getPublicKey(){
         log.info("get public key start ....");
         Map<Integer,String> keyMap = RSAUtils.genKeyPair();

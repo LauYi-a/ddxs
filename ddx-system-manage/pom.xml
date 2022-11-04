@@ -62,10 +62,11 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!--日志api-->
         <dependency>
             <groupId>com.ddx</groupId>
-            <artifactId>ddx-test-api</artifactId>
-            <version>${ddx-test-api.version}</version>
+            <artifactId>ddx-log-api</artifactId>
+            <version>${ddx-log-api.version}</version>
         </dependency>
     </dependencies>
     <build>

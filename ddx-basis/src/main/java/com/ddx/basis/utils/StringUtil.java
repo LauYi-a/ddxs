@@ -7,8 +7,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import org.springframework.util.AntPathMatcher;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @ClassName: StringUtil
@@ -34,28 +34,9 @@ public class StringUtil {
         return false;
     }
 
-
-    /**
-     * obj转list
-     * @param obj
-     * @param clazz
-     * @param <T>
-     * @return
-     */
-    public static <T> List<T> castList(Object obj, Class<T> clazz) {
-        List<T> result = new ArrayList<T>();
-        if (obj instanceof List<?>) {
-            for (Object o : (List<?>) obj) {
-                result.add(clazz.cast(o));
-            }
-            return result;
-        }
-        return null;
-    }
-
     /**
      * Json 格式化
-     * @param uglyJSONString
+     * @param uglyJSONString 被格式化数据
      * @return
      */
     public static String jsonFormatter(Object uglyJSONString){
@@ -64,5 +45,32 @@ public class StringUtil {
         JsonElement je = jp.parse(JSONObject.toJSONString(uglyJSONString));
         String prettyJsonString = gson.toJson(je);
         return prettyJsonString;
+    }
+
+    /**
+     * Json 格式化
+     * @param uglyJSONString 被格式化数据
+     * @param isFormatter 是否格式化
+     * @return json
+     */
+    public static String jsonFormatter(Object uglyJSONString,Boolean isFormatter){
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        JsonParser jp = new JsonParser();
+        String prettyJsonString = "";
+        if (isFormatter){
+            JsonElement je = jp.parse(JSONObject.toJSONString(uglyJSONString));
+            prettyJsonString = gson.toJson(je);
+        }else{
+            prettyJsonString =  JSONObject.toJSONString(uglyJSONString);
+        }
+        return prettyJsonString;
+    }
+
+    /**
+     * 获取一个32位的UUID
+     * @return
+     */
+    public static String getUUID(){
+        return UUID.randomUUID().toString().replace("-","");
     }
 }

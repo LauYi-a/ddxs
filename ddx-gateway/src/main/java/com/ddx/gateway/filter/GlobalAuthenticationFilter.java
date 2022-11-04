@@ -3,11 +3,12 @@ package com.ddx.gateway.filter;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.ddx.basis.constant.ConstantUtils;
-import com.ddx.basis.dto.vo.SysParamConfigVo;
 import com.ddx.basis.enums.CommonEnumConstant;
 import com.ddx.basis.exception.ExceptionUtils;
+import com.ddx.basis.model.vo.SysParamConfigVo;
 import com.ddx.basis.response.BaseResponse;
 import com.ddx.basis.response.ResponseData;
+import com.ddx.basis.utils.ConversionUtils;
 import com.ddx.basis.utils.SerialNumber;
 import com.ddx.basis.utils.StringUtil;
 import com.ddx.basis.utils.sm4.SM4Utils;
@@ -70,7 +71,7 @@ public class GlobalAuthenticationFilter implements GlobalFilter, Ordered {
         }
 
         //2.请求时效白名单
-        List<String> requestTimeWhitelist =  StringUtil.castList(JSONObject.parseArray(redisTemplateUtils.get(ConstantUtils.REQUEST_TIME_WHITELIST).toString()),String.class);
+        List<String> requestTimeWhitelist =  ConversionUtils.castList(JSONObject.parseArray(redisTemplateUtils.get(ConstantUtils.REQUEST_TIME_WHITELIST).toString()),String.class);
         ExceptionUtils.errorBusinessException(requestTimeWhitelist.size() == 0, CommonEnumConstant.PromptMessage.INIT_WHITELIST_ERROR);
         if (!StringUtil.checkUrls(requestTimeWhitelist, requestUrl)) {
             SysParamConfigVo sysParamConfigVo = (SysParamConfigVo) redisTemplateUtils.get(ConstantUtils.SYS_PARAM_CONFIG);
@@ -78,7 +79,7 @@ public class GlobalAuthenticationFilter implements GlobalFilter, Ordered {
         }
 
         //3.白名单放行
-        List<String> ignoreUrls =  StringUtil.castList(JSONObject.parseArray(redisTemplateUtils.get(ConstantUtils.WHITELIST_REQUEST).toString()),String.class);
+        List<String> ignoreUrls =  ConversionUtils.castList(JSONObject.parseArray(redisTemplateUtils.get(ConstantUtils.WHITELIST_REQUEST).toString()),String.class);
         ExceptionUtils.errorBusinessException(ignoreUrls.size() == 0, CommonEnumConstant.PromptMessage.INIT_WHITELIST_ERROR);
         if (StringUtil.checkUrls(ignoreUrls, requestUrl)){
             exchange.getRequest().mutate()

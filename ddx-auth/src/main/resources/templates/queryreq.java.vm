@@ -1,4 +1,4 @@
-package ${cfg.dtoDir}import com.ddx.basis.dto.req.PageReq;
+package ${cfg.modelDir}import com.ddx.basis.model.req.PageReq;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

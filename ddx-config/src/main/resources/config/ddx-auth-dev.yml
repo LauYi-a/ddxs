@@ -25,10 +25,3 @@ mybatis:
 mybatis-plus:
   #实体扫描,多个package用逗号或者分号分隔
   typeAliasesPackage: com.ddx.auth.entity
-
-# kafka 指定 topic消费分区
-app:
-  kafka:
-    consumer:
-      partition:
-        send_log_Aspect_topic: 1

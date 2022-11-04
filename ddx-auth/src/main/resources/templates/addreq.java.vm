@@ -1,9 +1,10 @@
-package ${cfg.dtoDir}.dto.req.${entity.substring(0, 1).toLowerCase()}${entity.substring(1)};
-
-import io.swagger.annotations.ApiModel;
+package ${cfg.modelDir}import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
 import javax.validation.constraints.NotNull;
-import lombok.*;
+
+.model.req.${entity.substring(0,1).toLowerCase()}${entity.substring(1)};
 
 /**
  * @ClassName: ${entity}AddReq

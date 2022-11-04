@@ -1,0 +1,30 @@
+spring:
+  datasource:
+    dynamic:
+      datasource:
+        master:
+          username: root
+          password: ddx123
+          driver-class-name: com.mysql.jdbc.Driver
+          url: jdbc:mysql://127.0.0.1:3306/ddx-log?characterEncoding=utf-8&useSSL=false
+          type: com.alibaba.druid.pool.DruidDataSource
+          initialSize: 5
+          maxWait: 60000
+          timeBetweenEvictionRunsMillis: 60000
+          minEvictableIdleTimeMillis: 300000
+          #最大超时时间 7小时
+          maxEvictableIdleTimeMillis: 25200000
+          validationQuery: select 1 from dual
+          testWhileIdle: true
+          testOnBorrow: false
+          testOnReturn: false
+mybatis:
+  mapperLocations: classpath:mapper/*.xml
+  typeAliasesPackage: com.ddx.log
+
+mybatis-plus:
+  #实体扫描,多个package用逗号或者分号分隔
+  typeAliasesPackage: com.ddx.log.entity
+# 服务监控日志存储路径
+service-log:
+  path: /home/data/logs

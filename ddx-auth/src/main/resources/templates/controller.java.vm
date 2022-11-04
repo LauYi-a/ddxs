@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
     ${superControllerClassPackage}
         ;
     #end
-    ${cfg.dtoDir}
-        .dto.req.${entity.substring(0,1).toLowerCase()}${entity.substring(1)}.${entity}AddReq;
-    ${cfg.dtoDir}
-        .dto.req.${entity.substring(0,1).toLowerCase()}${entity.substring(1)}.${entity}EditReq;
-    ${cfg.dtoDir}
-        .dto.req.${entity.substring(0,1).toLowerCase()}${entity.substring(1)}.${entity}QuotaReq;
+    ${cfg.modelDir}
+        .model.req.${entity.substring(0,1).toLowerCase()}${entity.substring(1)}.${entity}AddReq;
+    ${cfg.modelDir}
+        .model.req.${entity.substring(0,1).toLowerCase()}${entity.substring(1)}.${entity}EditReq;
+    ${cfg.modelDir}
+        .model.req.${entity.substring(0,1).toLowerCase()}${entity.substring(1)}.${entity}QuotaReq;
     ${package.Entity}
         .${entity};
     ${package.Service}
@@ -54,7 +54,7 @@ public class ${table.controllerName} {
     private ${table.serviceName} i${entity}Service;
 
     @PostMapping("/list")
-    @ApiOperation(value = "查询$!{table.comment}列表", notes = "$!{table.comment}")
+    @ApiOperation(httpMethod = "POST",value = "查询$!{table.comment}列表")
     public ResponseData<PaginatedResult> getList(@Validated @RequestBody ${entity}QueryReq ${entity.substring(0, 1).toLowerCase()}${entity.substring(1)}QueryReq) {
         log.info("get ${entity} list..");
         int page = PageUtil.parsePage(${entity.substring(0, 1).toLowerCase()}${entity.substring(1)}QueryReq.getPage(), ConstantUtils.PAGE);
@@ -71,8 +71,8 @@ public class ${table.controllerName} {
         .build());
     }
 
-    @ApiOperation(value = "添加$!{table.comment}", notes = "$!{table.comment}")
     @PostMapping("/add")
+    @ApiOperation(httpMethod = "POST",value = "添加$!{table.comment}")
     @Transactional(rollbackFor = Exception.class)
     public BaseResponse add(@Validated @RequestBody ${entity}AddReq  ${entity.substring(0, 1).toLowerCase()}${entity.substring(1)}AddReq) {
         log.info("add ${entity} start..");
@@ -82,8 +82,8 @@ public class ${table.controllerName} {
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
     }
 
-    @ApiOperation(value = "修改$!{table.comment}", notes = "$!{table.comment}")
     @PostMapping("/edit")
+    @ApiOperation(httpMethod = "POST",value = "修改$!{table.comment}")
     @Transactional(rollbackFor = Exception.class)
     public BaseResponse edit(@Validated @RequestBody ${entity}EditReq ${entity.substring(0, 1).toLowerCase()}${entity.substring(1)}EditReq) {
         log.info("edit ${entity} start...");
@@ -95,8 +95,8 @@ public class ${table.controllerName} {
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
     }
 
-    @ApiOperation(value = "删除$!{table.comment}", notes = "$!{table.comment}")
     @PostMapping("/delete")
+    @ApiOperation(httpMethod = "POST",value = "删除$!{table.comment}")
     @Transactional(rollbackFor = Exception.class)
     public BaseResponse delete(@Validated @RequestBody DeleteKey deleteKey) {
         log.info("delete ${entity} start...");
@@ -104,8 +104,8 @@ public class ${table.controllerName} {
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
     }
 
-    @ApiOperation(value = "批量删除$!{table.comment}", notes = "$!{table.comment}")
     @PostMapping("/batchDelete")
+    @ApiOperation(httpMethod = "POST",value = "批量删除$!{table.comment}")
     @Transactional(rollbackFor = Exception.class)
     public BaseResponse batchDelete(@Validated @RequestBody BatchDeleteKey batchDeleteKey) {
         log.info("batchDelete ${entity} start...");

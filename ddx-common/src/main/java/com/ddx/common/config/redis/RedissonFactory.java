@@ -50,6 +50,7 @@ public class RedissonFactory {
             }
             return Redisson.create(config);
         }
+        log.error("RedissonClient The connection fails. address and password is undefined");
         return null;
     }
     

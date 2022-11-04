@@ -5,19 +5,19 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ddx.basis.constant.ConstantUtils;
-import com.ddx.basis.dto.resp.PaginatedResult;
 import com.ddx.basis.enums.CommonEnumConstant;
 import com.ddx.basis.exception.ExceptionUtils;
+import com.ddx.basis.model.resp.PaginatedResult;
 import com.ddx.basis.response.BaseResponse;
 import com.ddx.basis.response.ResponseData;
 import com.ddx.basis.utils.ConversionUtils;
 import com.ddx.basis.utils.PageUtil;
-import com.ddx.sys.dto.req.sysPermission.PermissionQueryNoPageReq;
-import com.ddx.sys.dto.req.sysPermission.SysPermissionEditReq;
-import com.ddx.sys.dto.req.sysPermission.SysPermissionQueryReq;
-import com.ddx.sys.dto.resp.sysPermission.PermissionResp;
 import com.ddx.sys.entity.SysPermission;
 import com.ddx.sys.entity.SysRolePermission;
+import com.ddx.sys.model.req.sysPermission.PermissionQueryNoPageReq;
+import com.ddx.sys.model.req.sysPermission.SysPermissionEditReq;
+import com.ddx.sys.model.req.sysPermission.SysPermissionQueryReq;
+import com.ddx.sys.model.resp.sysPermission.PermissionResp;
 import com.ddx.sys.service.ISysPermissionService;
 import com.ddx.sys.service.ISysRolePermissionService;
 import io.swagger.annotations.Api;
@@ -57,7 +57,7 @@ public class SysPermissionController {
     private ISysRolePermissionService iSysRolePermissionService;
 
     @PostMapping("/select-permission-all")
-    @ApiOperation(value = "查询所有权限", notes = "权限表")
+    @ApiOperation(httpMethod = "POST",value = "查询所有权限")
     public ResponseData<List<PermissionResp>> selectPermissionAll(@Validated @RequestBody PermissionQueryNoPageReq permissionQueryNoPageReq) {
         log.info("select permission all...");
         List<SysPermission>  sysPermissions = iSysPermissionService.list(new QueryWrapper<SysPermission>().lambda().eq(StringUtils.isNoneBlank(permissionQueryNoPageReq.getIsRole()),SysPermission::getIsRole,permissionQueryNoPageReq.getIsRole()));
@@ -66,7 +66,7 @@ public class SysPermissionController {
     }
 
     @PostMapping("/list")
-    @ApiOperation(value = "查询权限列表", notes = "权限表")
+    @ApiOperation(httpMethod = "POST",value = "查询权限列表")
     public ResponseData<PaginatedResult> getList(@Validated @RequestBody SysPermissionQueryReq sysPermissionQueryReq) {
         log.info("get SysPermission list..");
         int page = PageUtil.parsePage(sysPermissionQueryReq.getPage(), ConstantUtils.PAGE);
@@ -85,8 +85,8 @@ public class SysPermissionController {
         .build());
     }
 
-    @ApiOperation(value = "修改权限", notes = "权限表")
     @PostMapping("/edit")
+    @ApiOperation(httpMethod = "POST",value = "修改权限")
     @Transactional(rollbackFor = Exception.class)
     public BaseResponse edit(@Validated @RequestBody SysPermissionEditReq sysPermissionEditReq) {
         log.info("edit SysPermission start...");
@@ -102,8 +102,8 @@ public class SysPermissionController {
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
     }
 
-    @ApiOperation(value = "刷新权限缓存", notes = "权限表")
     @PostMapping("/refresh-cache")
+    @ApiOperation(httpMethod = "POST",value = "刷新权限缓存")
     @Transactional(rollbackFor = Exception.class)
     public BaseResponse refreshCache(){
         ExceptionUtils.errorBusinessException(!iSysPermissionService.initRolePermission(),CommonEnumConstant.PromptMessage.INIT_ROLE_PERMISSION_ERROR);

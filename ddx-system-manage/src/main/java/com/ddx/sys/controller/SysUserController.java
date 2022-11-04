@@ -4,22 +4,22 @@ package com.ddx.sys.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ddx.basis.constant.ConstantUtils;
-import com.ddx.basis.dto.req.BatchDeleteKey;
-import com.ddx.basis.dto.req.DeleteKey;
-import com.ddx.basis.dto.resp.PaginatedResult;
 import com.ddx.basis.enums.CommonEnumConstant;
 import com.ddx.basis.exception.ExceptionUtils;
+import com.ddx.basis.model.req.BatchDeleteKey;
+import com.ddx.basis.model.req.DeleteKey;
+import com.ddx.basis.model.resp.PaginatedResult;
 import com.ddx.basis.response.BaseResponse;
 import com.ddx.basis.response.ResponseData;
 import com.ddx.basis.utils.PageUtil;
 import com.ddx.basis.utils.sm3.SM3Digest;
-import com.ddx.sys.dto.req.sysUser.*;
-import com.ddx.sys.dto.resp.sysResource.TreeMenuAndElAuthResp;
-import com.ddx.sys.dto.resp.sysUser.SysUserResp;
-import com.ddx.sys.dto.vo.resource.MenuElVo;
-import com.ddx.sys.dto.vo.resource.UserTreeMenuVo;
 import com.ddx.sys.entity.SysUser;
 import com.ddx.sys.entity.SysUserResource;
+import com.ddx.sys.model.req.sysUser.*;
+import com.ddx.sys.model.resp.sysResource.TreeMenuAndElAuthResp;
+import com.ddx.sys.model.resp.sysUser.SysUserResp;
+import com.ddx.sys.model.vo.resource.MenuElVo;
+import com.ddx.sys.model.vo.resource.UserTreeMenuVo;
 import com.ddx.sys.service.ISysResourceService;
 import com.ddx.sys.service.ISysUserResourceService;
 import com.ddx.sys.service.ISysUserRoleService;
@@ -66,7 +66,7 @@ public class SysUserController {
 
 
     @PostMapping("/get-user-tree-menu")
-    @ApiOperation(value = "查询用户树菜单", notes = "用户信息")
+    @ApiOperation(httpMethod = "POST",value = "查询用户树菜单")
     public ResponseData<TreeMenuAndElAuthResp> getUserTreeMenu(@Validated @RequestBody QueryUserMenuTreeReq queryUserMenuTreeReq){
         log.info("getUserTreeMenu SysResource start..");
         List<Long> userMenuIds =  iSysUserResourceService.list(new QueryWrapper<SysUserResource>().lambda()
@@ -81,7 +81,7 @@ public class SysUserController {
 
 
     @PostMapping("/update-by-userId")
-    @ApiOperation(value = "根据用户身份ID修改基本信息", notes = "用户信息")
+    @ApiOperation(httpMethod = "POST",value = "根据用户身份ID修改基本信息")
     @Transactional(rollbackFor = Exception.class)
     public BaseResponse updateByUserId(@Validated @RequestBody UpdateUserBasisInfo updateUserBasisInfo){
         log.info("update-by-userId start...");
@@ -94,7 +94,7 @@ public class SysUserController {
     }
 
     @PostMapping("/password-change")
-    @ApiOperation(value = "修改用户密码", notes = "用户信息")
+    @ApiOperation(httpMethod = "POST",value = "修改用户密码")
     @Transactional(rollbackFor = Exception.class)
     public BaseResponse passwordChange(@Validated @RequestBody PasswordChangeReq passwordChangeReq){
         log.info("password-change start...");
@@ -108,7 +108,7 @@ public class SysUserController {
     }
 
     @PostMapping("/get-user-info-byId")
-    @ApiOperation(value = "根据用户id查询用户详细信息", notes = "用户信息表")
+    @ApiOperation(httpMethod = "POST",value = "根据用户id查询用户详细信息")
     public ResponseData<SysUserResp> getUserInfoById(@Validated @RequestBody QueryUserInfoReq queryUserInfoReq) {
         log.info("get user info by id start...");
         SysUser sysUser = iSysUserService.getById(queryUserInfoReq.getId());
@@ -118,7 +118,7 @@ public class SysUserController {
     }
 
     @PostMapping("/list")
-    @ApiOperation(value = "查询用户信息列表", notes = "用户信息表")
+    @ApiOperation(httpMethod = "POST",value = "查询用户信息列表")
     public ResponseData<PaginatedResult> getList(@Validated @RequestBody SysUserQueryReq sysUserQuotaReq) {
         log.info("get SysUser list...");
         int page = PageUtil.parsePage(sysUserQuotaReq.getPage(), ConstantUtils.PAGE);
@@ -126,16 +126,16 @@ public class SysUserController {
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS, iSysUserService.selectPage(new Page<>(page, perPage),sysUserQuotaReq));
     }
 
-    @ApiOperation(value = "添加用户信息", notes = "用户信息表")
     @PostMapping("/add")
+    @ApiOperation(httpMethod = "POST",value = "添加用户信息")
     @Transactional(rollbackFor = Exception.class)
     public BaseResponse add(@Validated @RequestBody SysUserAddReq  sysUserAddReq) {
         log.info("add SysUser start...");
         return iSysUserService.addUserInfo(sysUserAddReq);
     }
 
-    @ApiOperation(value = "修改用户信息", notes = "用户信息表")
     @PostMapping("/edit")
+    @ApiOperation(httpMethod = "POST",value = "修改用户信息")
     @Transactional(rollbackFor = Exception.class)
     public BaseResponse edit(@Validated @RequestBody SysUserEditReq sysUserEditReq) {
         log.info("edit SysUser start...");
@@ -148,8 +148,8 @@ public class SysUserController {
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
     }
 
-    @ApiOperation(value = "删除用户信息", notes = "用户信息表")
     @PostMapping("/delete")
+    @ApiOperation(httpMethod = "POST",value = "删除用户信息")
     @Transactional(rollbackFor = Exception.class)
     public BaseResponse delete(@Validated @RequestBody DeleteKey deleteKey) {
         log.info("delete SysUser start...");
@@ -159,8 +159,8 @@ public class SysUserController {
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
     }
 
-    @ApiOperation(value = "批量删除用户信息", notes = "用户信息表")
     @PostMapping("/batch-delete")
+    @ApiOperation(httpMethod = "POST",value = "批量删除用户信息")
     @Transactional(rollbackFor = Exception.class)
     public BaseResponse batchDelete(@Validated @RequestBody BatchDeleteKey batchDeleteKey) {
         log.info("batchDelete SysUser start...");

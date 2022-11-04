@@ -15,6 +15,8 @@
 4. system-manage 主要用来管理实现系统的基础功能 
 5. common 通用公共服务模块 主要集成一些公共基础工具实现，可引用于各各服务模块之中，但需要注意jar包冲突等问题
 6. basis 通用基础服务模块 为了减少 common 引入时jar包冲突问题 web服务可直接引入common服务common中包含了basis服务，jar包服务时可直接引入basis服务，应为common中maven引入了web强依赖性的jar包，在不是web项目时引入了common是需要排除相关jar包的。所以将公共服务分为两个模块在不同需求时分开引入
+7. file 通用性文件处理服务模块处理 上传文件 下载文件 等文件处理
+8. log 分布式日志监控服务，收集各服务日志进行归档，提供api 进行查询日志
 ## 技术点
 > 以下技术栈为框架主要使用技术点不包含全部使用技术：
 
@@ -47,8 +49,9 @@ ddx -- 父项目
 |-ddx-eureka -- 服务注册中心
 |-ddx-gateway -- 服务网关
 |-ddx-system-manage -- 系统管理服务
-|-ddx-test-api -- api服务模块（参考模块）
-|-ddx-test-rpc -- rpc服务模块（参考模块）
+|-ddx-file -- 文件处理服务
+|-ddx-log -- 日志监控服务
+| |-ddx-log-api 日志API服务
 ```
 
 ## 功能

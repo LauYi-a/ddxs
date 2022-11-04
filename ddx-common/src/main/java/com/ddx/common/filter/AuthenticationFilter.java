@@ -7,11 +7,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.ddx.basis.constant.ConstantUtils;
 import com.ddx.basis.enums.CommonEnumConstant;
 import com.ddx.basis.response.ResponseData;
+import com.ddx.basis.utils.ConversionUtils;
+import com.ddx.basis.utils.ResponseUtils;
 import com.ddx.basis.utils.StringUtil;
 import com.ddx.basis.utils.sm4.SM4Utils;
 import com.ddx.common.entity.LoginVal;
 import com.ddx.common.utils.RedisTemplateUtils;
-import com.ddx.common.utils.ResponseUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -43,7 +44,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         //白名单放行 防止直接用服务端口访问服务接口
-        List<String> ignoreUrls =  StringUtil.castList(JSONObject.parseArray(redisTemplateUtils.get(ConstantUtils.WHITELIST_REQUEST).toString()),String.class);
+        List<String> ignoreUrls =  ConversionUtils.castList(JSONObject.parseArray(redisTemplateUtils.get(ConstantUtils.WHITELIST_REQUEST).toString()),String.class);
         Boolean isDoFilter = false;
         if (StringUtil.checkUrls(ignoreUrls, request.getRequestURI())){
             filterChain.doFilter(request,response);

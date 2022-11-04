@@ -5,7 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.ddx.basis.constant.ConstantUtils;
 import com.ddx.basis.enums.CommonEnumConstant;
 import com.ddx.basis.exception.ExceptionUtils;
-import com.ddx.basis.utils.StringUtil;
+import com.ddx.basis.utils.ConversionUtils;
 import com.ddx.common.utils.RedisTemplateUtils;
 import com.ddx.gateway.exception.RequestAccessDeniedHandler;
 import com.ddx.gateway.exception.RequestAuthenticationEntryPoint;
@@ -75,7 +75,7 @@ public class SecurityConfig {
         //认证过滤器，放入认证管理器tokenAuthenticationManager
         AuthenticationWebFilter authenticationWebFilter = new AuthenticationWebFilter(tokenAuthenticationManager);
         authenticationWebFilter.setServerAuthenticationConverter(new ServerBearerTokenAuthenticationConverter());
-        List<String> ignoreUrls =  StringUtil.castList(JSONObject.parseArray(redisTemplateUtils.get(ConstantUtils.WHITELIST_REQUEST).toString()),String.class);
+        List<String> ignoreUrls =  ConversionUtils.castList(JSONObject.parseArray(redisTemplateUtils.get(ConstantUtils.WHITELIST_REQUEST).toString()),String.class);
         ExceptionUtils.errorBusinessException(ignoreUrls.size() == 0, CommonEnumConstant.PromptMessage.INIT_WHITELIST_ERROR);
         http.httpBasic().disable()
                 .csrf().disable()

@@ -99,6 +99,15 @@
             <artifactId>ribbon-core</artifactId>
             <version>${ribbon-core.version}</version>
         </dependency>
+        <!-- SFTP 连接器 -->
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

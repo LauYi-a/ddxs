@@ -1,10 +1,8 @@
 package com.ddx.auth.service;
 
-import com.ddx.auth.dto.resp.SysRolePermissionResp;
-import com.ddx.auth.entity.SysPermission;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.ddx.auth.entity.SysPermission;
+import com.ddx.auth.model.resp.SysRolePermissionResp;
 
 import java.util.List;
 

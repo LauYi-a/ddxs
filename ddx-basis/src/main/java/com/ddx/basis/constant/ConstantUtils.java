@@ -89,6 +89,7 @@ public class ConstantUtils {
     public final static String WHITELIST_REQUEST="system:whitelist_request:";//访问白名单配置
     public final static String REQUEST_TIME_WHITELIST="system:request_time_whitelist:";//请求时间白名单配置
     public final static String SYSTEM_REQUEST="system:lock:request_url:";//系统请求锁
+    public final static String SYSTEM_LOG_OFFSET="system:log:offset:";//系统日志偏移量
 
     /**
      * redis 分布式锁
@@ -143,10 +144,16 @@ public class ConstantUtils {
     /**
      * kafka topic
      */
-    public final static String SEND_LOG_ASPECT_TOPIC = "send_log_Aspect_topic";
+    public final static String DDX_SYSTEM_MANAGE_TOPIC = "ddx-system-manage-log";
+    public final static String DDX_AUTH_TOPIC = "ddx-auth-log";
 
     /**
      * 线程持名称
      */
     public final static String THREAD_POOL_LOG_NAME= "thread_pool_log_name";
+
+    /**
+     * 监控日志文件名称
+     */
+    public final static String FILE_NAME = "info.log";
 }

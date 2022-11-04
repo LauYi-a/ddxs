@@ -2,7 +2,7 @@ package com.ddx.auth.exception;
 
 import com.ddx.basis.enums.CommonEnumConstant;
 import com.ddx.basis.response.ResponseData;
-import com.ddx.common.utils.ResponseUtils;
+import com.ddx.basis.utils.ResponseUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;

@@ -32,7 +32,7 @@ public class SysDictController {
     private ISysDictService iSysDictService;
 
     @PostMapping("/get-modules-all-group-dict-key-value")
-    @ApiOperation(value = "获取模块分组字典键值", notes = "")
+    @ApiOperation(httpMethod = "POST",value = "获取模块分组字典键值")
     public ResponseData<Map<String,Object>> getModulesAllGroupDictKeyValue(){
         log.info("get modules all group dict key and value start..");
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS, iSysDictService.getModulesAllGroupDictKeyValue());

@@ -5,18 +5,18 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ddx.basis.constant.ConstantUtils;
-import com.ddx.basis.dto.req.BatchDeleteKey;
-import com.ddx.basis.dto.req.DeleteKey;
-import com.ddx.basis.dto.resp.PaginatedResult;
 import com.ddx.basis.enums.CommonEnumConstant;
 import com.ddx.basis.exception.ExceptionUtils;
+import com.ddx.basis.model.req.BatchDeleteKey;
+import com.ddx.basis.model.req.DeleteKey;
+import com.ddx.basis.model.resp.PaginatedResult;
 import com.ddx.basis.response.BaseResponse;
 import com.ddx.basis.response.ResponseData;
 import com.ddx.basis.utils.PageUtil;
-import com.ddx.sys.dto.req.sysWhitelistRequest.SysWhitelistRequestAddReq;
-import com.ddx.sys.dto.req.sysWhitelistRequest.SysWhitelistRequestEditReq;
-import com.ddx.sys.dto.req.sysWhitelistRequest.SysWhitelistRequestQueryReq;
 import com.ddx.sys.entity.SysWhitelistRequest;
+import com.ddx.sys.model.req.sysWhitelistRequest.SysWhitelistRequestAddReq;
+import com.ddx.sys.model.req.sysWhitelistRequest.SysWhitelistRequestEditReq;
+import com.ddx.sys.model.req.sysWhitelistRequest.SysWhitelistRequestQueryReq;
 import com.ddx.sys.service.ISysWhitelistRequestService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -49,7 +49,7 @@ public class SysWhitelistRequestController {
     private ISysWhitelistRequestService iSysWhitelistRequestService;
 
     @PostMapping("/list")
-    @ApiOperation(value = "查询白名单路由列表", notes = "白名单路由")
+    @ApiOperation(httpMethod = "POST",value = "查询白名单路由列表")
     public ResponseData<PaginatedResult> getList(@Validated @RequestBody SysWhitelistRequestQueryReq sysWhitelistRequestQueryReq) {
         log.info("get SysWhitelistRequest list..");
         int page = PageUtil.parsePage(sysWhitelistRequestQueryReq.getPage(), ConstantUtils.PAGE);
@@ -68,8 +68,8 @@ public class SysWhitelistRequestController {
         .build());
     }
 
-    @ApiOperation(value = "添加白名单路由", notes = "白名单路由")
     @PostMapping("/add")
+    @ApiOperation(httpMethod = "POST",value = "添加白名单路由")
     @Transactional(rollbackFor = Exception.class)
     public BaseResponse add(@Validated @RequestBody SysWhitelistRequestAddReq  sysWhitelistRequestAddReq) {
         log.info("add SysWhitelistRequest start..");
@@ -82,8 +82,8 @@ public class SysWhitelistRequestController {
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
     }
 
-    @ApiOperation(value = "修改白名单路由", notes = "白名单路由")
     @PostMapping("/edit")
+    @ApiOperation(httpMethod = "POST",value = "修改白名单路由")
     @Transactional(rollbackFor = Exception.class)
     public BaseResponse edit(@Validated @RequestBody SysWhitelistRequestEditReq sysWhitelistRequestEditReq) {
         log.info("edit SysWhitelistRequest start...");
@@ -96,8 +96,8 @@ public class SysWhitelistRequestController {
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
     }
 
-    @ApiOperation(value = "删除白名单路由", notes = "白名单路由")
     @PostMapping("/delete")
+    @ApiOperation(httpMethod = "POST",value = "删除白名单路由")
     @Transactional(rollbackFor = Exception.class)
     public BaseResponse delete(@Validated @RequestBody DeleteKey deleteKey) {
         log.info("delete SysWhitelistRequest start...");
@@ -106,8 +106,8 @@ public class SysWhitelistRequestController {
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
     }
 
-    @ApiOperation(value = "批量删除白名单路由", notes = "白名单路由")
     @PostMapping("/batch-delete")
+    @ApiOperation(httpMethod = "POST",value = "批量删除白名单路由")
     @Transactional(rollbackFor = Exception.class)
     public BaseResponse batchDelete(@Validated @RequestBody BatchDeleteKey batchDeleteKey) {
         log.info("batchDelete SysWhitelistRequest start...");

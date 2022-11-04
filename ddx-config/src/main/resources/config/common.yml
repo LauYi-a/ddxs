@@ -14,11 +14,9 @@ spring:
         min-idle: 1       # 连接池中的最小空闲连接
         timeout: 200
   kafka:
-    send_log_Aspect_topic: send_log_Aspect_topic
+    ddx-system-manage-topic: ddx-system-manage-log
+    ddx-auth-topic: ddx-auth-log
     bootstrap-servers: 127.0.0.1:9092
-    # 初始 topic 创建分区数量
-    init-producer-count:
-      send_log_Aspect_topic: 2
     producer:
       # 发生错误后，消息重发的次数。
       retries: 2
@@ -62,9 +60,9 @@ redisson:
   common:
     redis-nodes: 127.0.0.1:6379
     redis-pattern: stand-alone      #stand-alone 单机模式 multiple 集群模式
-    password:
 #日志级别
 logging:
+  isFormatterLog: true
   level:
     org.springframework: INFO
 #mybatis
@@ -131,3 +129,8 @@ hystrix:
         errorThresholdPercentage: 50
         sleepWindowInMilliseconds: 5000
   shareSecurityContext: true
+sftp:
+  host: 127.0.0.1
+  username: ddxuser
+  password: 123456
+  port: 22

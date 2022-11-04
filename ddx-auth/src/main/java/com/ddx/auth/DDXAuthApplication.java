@@ -18,7 +18,7 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringCloudApplication
 @EnableAutoConfiguration(exclude= DruidDataSourceAutoConfigure.class)
 @EnableFeignClients(basePackages={"com.ddx"})
-@ComponentScan(basePackages = {"com.ddx.auth.*","com.ddx.common.*","com.ddx.basis.*"})
+@ComponentScan(basePackages = {"com.ddx.auth.*","com.ddx.common.*"})
 public class DDXAuthApplication {
     public static void main(String[] args) {
         try {

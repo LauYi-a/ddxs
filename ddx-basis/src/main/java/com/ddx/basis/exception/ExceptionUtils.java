@@ -20,7 +20,7 @@ public class ExceptionUtils {
      */
     public static void businessException(CommonEnumConstant.PromptMessage promptMessage,Object message){
         String enumMessage = promptMessage.getMsg().contains("%s")?promptMessage.getMsg():promptMessage.getMsg()+"：%s";
-        throw new ErrorBusinessException(promptMessage.getCode(), promptMessage.getType(),String.format(enumMessage,message));
+        throw new BusinessException(promptMessage.getCode(), promptMessage.getType(),String.format(enumMessage,message));
     }
 
     /**
@@ -31,7 +31,7 @@ public class ExceptionUtils {
      */
     public static void businessException(Boolean condition, CommonEnumConstant.PromptMessage promptMessage, Object message){
         if (condition){
-            throw new ErrorBusinessException(promptMessage.getCode(), promptMessage.getType(),String.format(promptMessage.getMsg(),message));
+            throw new BusinessException(promptMessage.getCode(), promptMessage.getType(),String.format(promptMessage.getMsg(),message));
         }
     }
 
@@ -42,7 +42,7 @@ public class ExceptionUtils {
      */
     public static void errorBusinessException(Boolean condition, CommonEnumConstant.PromptMessage promptMessage){
         if (condition){
-            throw new ErrorBusinessException(promptMessage.getCode(), promptMessage.getType(),promptMessage.getMsg());
+            throw new BusinessException(promptMessage.getCode(), promptMessage.getType(),promptMessage.getMsg());
         }
     }
 
@@ -51,7 +51,17 @@ public class ExceptionUtils {
      * @param promptMessage
      */
     public static void errorBusinessException(CommonEnumConstant.PromptMessage promptMessage){
-        throw new ErrorBusinessException(promptMessage.getCode(), promptMessage.getType(),promptMessage.getMsg());
+        throw new BusinessException(promptMessage.getCode(), promptMessage.getType(),promptMessage.getMsg());
     }
 
+    /**
+     * 满足条件抛出指定错误信息
+     * @param condition
+     * @param message
+     */
+    public static void errorBusinessException(Boolean condition,String message ){
+        if (condition){
+            throw new ErrorBusinessException(message);
+        }
+    }
 }

@@ -2,7 +2,7 @@ package com.ddx.auth.exception;
 
 import com.ddx.basis.constant.ConstantUtils;
 import com.ddx.basis.enums.CommonEnumConstant;
-import com.ddx.basis.exception.ErrorBusinessException;
+import com.ddx.basis.exception.BusinessException;
 import com.ddx.basis.response.ResponseData;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -35,7 +35,7 @@ public class OAuthServerWebResponseExceptionTranslator implements WebResponseExc
         }else if (e instanceof InternalAuthenticationServiceException) {
             //身份验证失败
             try {
-                ErrorBusinessException ex = (ErrorBusinessException) e.getCause();
+                BusinessException ex = (BusinessException) e.getCause();
                 return ResponseEntity.ok(ResponseData.out(ex.getCode(),ex.getType(),ex.getMsg()));
             }catch (Exception e1){
                 return ResponseEntity.ok(ResponseData.out(CommonEnumConstant.PromptMessage.ID_AUTHENTICATION_FAILED,CommonEnumConstant.PromptMessage.ID_AUTHENTICATION_FAILED+ ConstantUtils.COLON+e.getMessage()));

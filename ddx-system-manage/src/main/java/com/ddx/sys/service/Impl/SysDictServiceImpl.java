@@ -1,7 +1,7 @@
 package com.ddx.sys.service.Impl;
 
-import com.ddx.basis.dto.vo.DictVo;
 import com.ddx.basis.enums.CommonEnumConstant;
+import com.ddx.basis.model.vo.DictVo;
 import com.ddx.sys.service.ISysDictService;
 import com.google.common.collect.Maps;
 import org.springframework.stereotype.Service;

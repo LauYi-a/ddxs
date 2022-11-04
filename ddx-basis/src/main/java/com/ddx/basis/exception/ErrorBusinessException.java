@@ -12,14 +12,11 @@ import lombok.Data;
 @Data
 public class ErrorBusinessException extends RuntimeException{
 
-    private Integer code;
-    private String type;
+
     private String msg;
 
-    public ErrorBusinessException(Integer code, String type, String msg){
+    public ErrorBusinessException(String msg){
         super(msg);
-        this.code = code;
-        this.type = type;
         this.msg = msg;
     }
 }
