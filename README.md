@@ -9,21 +9,21 @@
 ## 介绍
 - 此项目作为分布式微服务架构，前后端分离，前端使用vue3+vite+element-plus构建具体点击查看[前端GitHub源码详情](https://github.com/LauYi-a/ddx-web) 
 - 后端分布式微服务主要分为 
-#####【auth 认证服务】
+###【auth 认证服务】
 - `auth 主要作用为 服务验证、用户鉴权，主要采用oauth2来实现服务验证`
-#####【common 通用公共服务】
+###【common 通用公共服务】
 - `common 通用公共服务模块 主要集成一些公共基础工具实现，可引用于各各服务模块之中，但需要注意jar包冲突等问题`
-#####【basis 通用基础服务】
+###【basis 通用基础服务】
 - `basis 通用基础服务模块 为了减少 common 引入时jar包冲突问题 web服务可直接引入common服务common中包含了basis服务，jar包服务时可直接引入basis服务，应为common中maven引入了web强依赖性的jar包，在不是web项目时引入了common是需要排除相关jar包的。所以将公共服务分为两个模块在不同需求时分开引入`
-#####【eureka 服务注册中心】 
+###【eureka 服务注册中心】 
 - `eureka 主要作用为 服务注册、服务发现`
-#####【gateway 服务网关】
+###【gateway 服务网关】
 - `gateway 主要作用为 路由转发、服务限流、接口黑白名单验证、跨域设置、请求校验、接口重放限制、权限认证、token校验、全局异常处理`
-#####【system-manage 系统管理服务】
+###【system-manage 系统管理服务】
 - `system-manage 主要用来管理实现系统的基础功能
-#####【file 文件服务】
+###【file 文件服务】
 - `file 通用性文件处理服务模块处理 上传文件 下载文件 等文件处理`
-####【log 日志服务】
+###【log 日志服务】
 - `log 分布式日志监控服务，收集各服务日志进行归档，提供api 进行操作日志`
 
 ## 技术点
@@ -96,7 +96,7 @@ ddx -- 父项目
 |  mysql  |   5.7+    |
 |  kafka  |   2.13+    |
 |  redis  |   3.0.0+    |
-| minio | - |
+| minio | 8.0.0 |
 
 ## 部署
 * Windows
