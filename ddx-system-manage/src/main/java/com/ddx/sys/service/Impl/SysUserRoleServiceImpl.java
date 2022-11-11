@@ -31,7 +31,7 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
                         .roleId(role)
                         .userId(userId)
                         .build())>0;
-                ExceptionUtils.errorBusinessException(!is, CommonEnumConstant.PromptMessage.ADD_USER_ROLE_ERROR);
+                ExceptionUtils.businessException(!is, CommonEnumConstant.PromptMessage.ADD_USER_ROLE_ERROR);
             });
             return true;
         }catch (Exception ex){
@@ -72,7 +72,7 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
             //根据用户ID删除角色绑定关系
             userIds.forEach(userId ->{
                 Boolean isDeleteOk = this.saveOrDeleteUserRoleId(Long.valueOf(userId.toString()),null,true,false);
-                ExceptionUtils.errorBusinessException(!isDeleteOk, CommonEnumConstant.PromptMessage.DELETE_ROLE_PERMISSION_ERROR);
+                ExceptionUtils.businessException(!isDeleteOk, CommonEnumConstant.PromptMessage.DELETE_ROLE_PERMISSION_ERROR);
             });
             return true;
         }catch (Exception ex){

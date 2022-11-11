@@ -35,10 +35,10 @@ public class BaseResponse {
 
     protected BaseResponse() {}
 
-    protected BaseResponse(CommonEnumConstant.PromptMessage code) {
-        this.code = code.getCode();
-        this.type = code.getType();
-        this.msg = code.getMsg();
+    protected BaseResponse(CommonEnumConstant.PromptMessage enums) {
+        this.code = enums.getCode();
+        this.type = enums.getType();
+        this.msg = enums.getMsg();
         this.serialNumber = MDC.get(ConstantUtils.REQUEST_SERIAL_NUMBER);
     }
 
@@ -49,9 +49,9 @@ public class BaseResponse {
         this.serialNumber = MDC.get(ConstantUtils.REQUEST_SERIAL_NUMBER);
     }
 
-    protected BaseResponse(CommonEnumConstant.PromptMessage code,String msg) {
-        this.code = code.getCode();
-        this.type = code.getType();
+    protected BaseResponse(CommonEnumConstant.PromptMessage enums,String msg) {
+        this.code = enums.getCode();
+        this.type = enums.getType();
         this.msg = msg;
         this.serialNumber = MDC.get(ConstantUtils.REQUEST_SERIAL_NUMBER);
     }

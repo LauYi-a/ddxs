@@ -13,6 +13,6 @@ public interface VoidHandle {
     /**
      * 业务处理
      */
-    void execute();
+    void execute() throws Exception;
 
 }

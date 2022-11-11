@@ -32,25 +32,11 @@ spring:
               redis-rate-limiter.replenishRate: 1
               # 令牌桶最大容量
               redis-rate-limiter.burstCapacity: 50
-        # 日志服务
-      - id: ddx-log
-        uri: lb://ddx-log
-        predicates:
-          - Path=/ddx/log/**
-        filters:
-          - name: GatewayRequestRateLimiter
-            args:
-              # 使用SpEL名称引用Bean，与上面新建的RequestRateLimiterConfig类中的bean的name相同
-              key-resolver: '#{@ipKeyResolver}'
-              #令牌桶每秒填充平均速率
-              redis-rate-limiter.replenishRate: 1
-              # 令牌桶最大容量
-              redis-rate-limiter.burstCapacity: 5
         # 数据服务
-      - id: ddx-data
-        uri: lb://ddx-data
+      - id: ddx-file
+        uri: lb://ddx-file
         predicates:
-          - Path=/ddx/data/**
+          - Path=/ddx/file/**
         filters:
           - name: GatewayRequestRateLimiter
             args:

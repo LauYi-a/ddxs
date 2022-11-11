@@ -50,7 +50,7 @@ public class KafkaProducer<T> implements IProducer<T> {
     }
 
     @Override
-    public Boolean send(String topic,Integer partition, ReturnHandle<T> handle) {
+    public Boolean send(String topic,Integer partition, ReturnHandle<T> handle)throws Exception {
         T t = handle.execute();
         String entityStr = JSONObject.toJSONString(t);
         kafkaTemplate.send(topic, partition,topic,entityStr).addCallback(onSuccess ->{},onFailure->{
@@ -62,7 +62,7 @@ public class KafkaProducer<T> implements IProducer<T> {
     }
 
     @Override
-    public Boolean send(String topic,String key, ReturnHandle<T> handle) {
+    public Boolean send(String topic,String key, ReturnHandle<T> handle)throws Exception {
         T t = handle.execute();
         String entityStr = JSONObject.toJSONString(t);
         kafkaTemplate.send(topic, key,entityStr).addCallback(onSuccess ->{},onFailure->{

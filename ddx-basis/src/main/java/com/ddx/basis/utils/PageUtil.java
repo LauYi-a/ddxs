@@ -86,9 +86,9 @@ public class PageUtil {
         try {
             parameter = Integer.parseInt(parameterString);
         } catch (Exception e) {
-            ExceptionUtils.errorBusinessException(CommonEnumConstant.PromptMessage.PARAMETER_ILLEGAL_ERROR);
+            ExceptionUtils.businessException(CommonEnumConstant.PromptMessage.PARAMETER_ILLEGAL_ERROR);
         }
-        ExceptionUtils.errorBusinessException(parameter < 1,CommonEnumConstant.PromptMessage.PARAMETER_ILLEGAL_ERROR);
+        ExceptionUtils.businessException(parameter < 1,CommonEnumConstant.PromptMessage.PARAMETER_ILLEGAL_ERROR);
         return parameter;
     }
 }

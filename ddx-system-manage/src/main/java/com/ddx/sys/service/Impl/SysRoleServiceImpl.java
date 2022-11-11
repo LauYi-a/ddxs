@@ -103,9 +103,9 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         BeanUtils.copyProperties(sysRoleAddReq,sysRole);
         sysRole.setCode(SerialNumber.newInstance(ConstantUtils.ROLE_CODE,ConstantUtils.DATE_FORMAT_7).toString());
         sysRole.setStatus(CommonEnumConstant.Dict.ROLE_STATUS_0.getDictKey());
-        ExceptionUtils.errorBusinessException(!SqlHelper.retBool(baseMapper.insert(sysRole)),CommonEnumConstant.PromptMessage.FAILED);
-        ExceptionUtils.errorBusinessException(!iSysRolePermissionService.addRolePermissionId(sysRoleAddReq.getRolePermissionId(),sysRole.getId()),CommonEnumConstant.PromptMessage.ADD_ROLE_PERMISSION_ERROR);
-        ExceptionUtils.errorBusinessException(!iSysPermissionService.initRolePermission(),CommonEnumConstant.PromptMessage.INIT_ROLE_PERMISSION_ERROR);
+        ExceptionUtils.businessException(!SqlHelper.retBool(baseMapper.insert(sysRole)),CommonEnumConstant.PromptMessage.FAILED);
+        ExceptionUtils.businessException(!iSysRolePermissionService.addRolePermissionId(sysRoleAddReq.getRolePermissionId(),sysRole.getId()),CommonEnumConstant.PromptMessage.ADD_ROLE_PERMISSION_ERROR);
+        ExceptionUtils.businessException(!iSysPermissionService.initRolePermission(),CommonEnumConstant.PromptMessage.INIT_ROLE_PERMISSION_ERROR);
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
     }
 }

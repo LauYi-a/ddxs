@@ -53,5 +53,6 @@ management:
   endpoint:
     health:
       show-details: ALWAYS
-logFile:
-  logPath: D:\\logs
+ddxlog:
+  monitor-collector:
+    path: D:\\logs

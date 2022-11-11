@@ -19,6 +19,7 @@
         <module>ddx-log</module>
         <module>ddx-basis</module>
         <module>ddx-file</module>
+        <module>ddx-log-mc</module>
     </modules>
 
     <!-- 项目依赖包版本控制 -->
@@ -70,7 +71,7 @@
         <!-- 内部工程 -->
         <ddx-common.version>1.0-SNAPSHOT</ddx-common.version>
         <ddx-basis.version>1.0-SNAPSHOT</ddx-basis.version>
-        <ddx-log-api.version>1.0-SNAPSHOT</ddx-log-api.version>
+        <ddx-log-mc.version>1.0-SNAPSHOT</ddx-log-mc.version>
     </properties>
 
     <dependencies>

@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.ddx.basis.constant.ConstantUtils;
 import com.ddx.basis.enums.CommonEnumConstant;
+import com.ddx.basis.exception.BusinessException;
 import com.ddx.basis.response.ResponseData;
 import com.ddx.basis.utils.ConversionUtils;
 import com.ddx.basis.utils.ResponseUtils;
@@ -74,7 +75,16 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             loginVal.setExpireIn(expireIn);
             //放入request的attribute中
             request.setAttribute(ConstantUtils.LOGIN_VAL_ATTRIBUTE,loginVal);
-            filterChain.doFilter(request,response);
+            try {
+                filterChain.doFilter(request,response);
+            }catch (Exception e){
+                try {
+                    BusinessException be = (BusinessException) e.getCause();
+                    ResponseUtils.result(response,ResponseData.out(be.getCode(),be.getType(),be.getMessage()));
+                }catch (Exception e1){
+                    ResponseUtils.result(response,ResponseData.out(CommonEnumConstant.PromptMessage.SYS_ERROR,e.getMessage()));
+                }
+            }
         }else if (!isDoFilter){
             ResponseUtils.result(response,ResponseData.out(CommonEnumConstant.PromptMessage.ILLEGAL_REQUEST_ERROR));
         }

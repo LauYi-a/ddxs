@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <configuration debug="false" scan="false">
-    <springProperty scop="context" name="logFile.logPath" source="logFile.logPath" defaultValue=""/>
+    <springProperty scop="context" name="ddxlog.monitor-collector.path" source="ddxlog.monitor-collector.path" defaultValue=""/>
     <springProperty scop="context" name="spring.application.name" source="spring.application.name" defaultValue=""/>
-	<property name="log.path" value="${logFile.logPath}/${spring.application.name}" />
+	<property name="log.path" value="${ddxlog.monitor-collector.path}/${spring.application.name}" />
 	<!-- 彩色日志格式 -->
 	<property name="CONSOLE_LOG_PATTERN"
 			  value="%clr(${LOG_LEVEL_PATTERN:-%5p})  %clr(${PID:- }){magenta} %clr(${CONSOLE_LOG_PATTERN:-%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint}) %clr(-){faint} %clr([%15.15t]){faint} %clr([%X{serialNumber}]) %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}" />
@@ -24,7 +24,7 @@
         <file>${log.path}/info.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${log.path}/%d{yyyy-MM, aux}/%d{yyyy-MM-dd}/info.%i.log.gz</fileNamePattern>
-            <maxFileSize>20GB</maxFileSize>
+            <maxFileSize>10GB</maxFileSize>
             <maxHistory>7</maxHistory>
         </rollingPolicy>
         <encoder>

@@ -1,16 +1,7 @@
 package com.ddx.sys.controller;
 
-import com.ddx.basis.response.BaseResponse;
-import com.ddx.basis.utils.IPUtils;
-import com.ddx.common.service.impl.RedisLockServiceImpl;
-import com.ddx.log.api.model.req.QueryLogReq;
-import com.ddx.log.api.service.ILogApiService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = "日志")
 public class LogController {
 
-    @Autowired
+   /* @Autowired
     private RedisLockServiceImpl redisLockServiceImpl;
     @Autowired
     private ILogApiService logApiService;
@@ -42,5 +33,5 @@ public class LogController {
            return logApiService.selectLog(QueryLogReq.builder().serviceName(serviceName).cpIp(IPUtils.getIp()).build());
         });
         return longValue;
-    }
+    }*/
 }

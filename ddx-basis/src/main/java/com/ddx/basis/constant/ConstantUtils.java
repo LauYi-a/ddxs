@@ -40,6 +40,7 @@ public class ConstantUtils {
     public static final String ROLE_STATUS = "roleStatus";
     public static final String IS_ROLE_PERMISSION = "isRolePermission";
     public static final String SERVICE_MODULES_NAME = "serviceModulesName";
+    public static final String SELECT_LOG_LINES = "selectLogLines";
 
 
     /**

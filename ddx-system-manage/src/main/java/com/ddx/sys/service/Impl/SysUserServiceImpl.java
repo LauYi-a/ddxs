@@ -115,11 +115,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public BaseResponse addUserInfo(SysUserAddReq sysUserAddReq) {
         List<String> services = iSysResourceService.getServiceList(sysUserAddReq.getResourceIds());
         SysUser sysUser = UserAddVo.getSysUser(sysUserAddReq,CollectionUtils.isNotEmpty(services)?services.get(0):null);
-        ExceptionUtils.errorBusinessException(SqlHelper.retBool(this.baseMapper.selectCount(new QueryWrapper<SysUser>().lambda().eq(SysUser::getUsername,sysUser.getUsername()))),CommonEnumConstant.PromptMessage.USER_USERNAME_EXISTING_ERROR);
-        ExceptionUtils.errorBusinessException(SqlHelper.retBool(this.baseMapper.selectCount(new QueryWrapper<SysUser>().lambda().eq(SysUser::getMobile,sysUser.getMobile()))),CommonEnumConstant.PromptMessage.USER_MOBILE_EXISTING_ERROR);
-        ExceptionUtils.errorBusinessException(!SqlHelper.retBool(this.baseMapper.insert(sysUser)),CommonEnumConstant.PromptMessage.FAILED);
-        ExceptionUtils.errorBusinessException(!iSysUserRoleService.addUserRoleId(sysUserAddReq.getRoleIds(),sysUser.getId()),CommonEnumConstant.PromptMessage.ADD_USER_ROLE_ERROR);
-        ExceptionUtils.errorBusinessException(!iSysUserResourceService.addUserResourceId(sysUserAddReq.getResourceIds(),sysUser.getId()),CommonEnumConstant.PromptMessage.ADD_ROLE_PERMISSION_ERROR);
+        ExceptionUtils.businessException(SqlHelper.retBool(this.baseMapper.selectCount(new QueryWrapper<SysUser>().lambda().eq(SysUser::getUsername,sysUser.getUsername()))),CommonEnumConstant.PromptMessage.USER_USERNAME_EXISTING_ERROR);
+        ExceptionUtils.businessException(SqlHelper.retBool(this.baseMapper.selectCount(new QueryWrapper<SysUser>().lambda().eq(SysUser::getMobile,sysUser.getMobile()))),CommonEnumConstant.PromptMessage.USER_MOBILE_EXISTING_ERROR);
+        ExceptionUtils.businessException(!SqlHelper.retBool(this.baseMapper.insert(sysUser)),CommonEnumConstant.PromptMessage.FAILED);
+        ExceptionUtils.businessException(!iSysUserRoleService.addUserRoleId(sysUserAddReq.getRoleIds(),sysUser.getId()),CommonEnumConstant.PromptMessage.ADD_USER_ROLE_ERROR);
+        ExceptionUtils.businessException(!iSysUserResourceService.addUserResourceId(sysUserAddReq.getResourceIds(),sysUser.getId()),CommonEnumConstant.PromptMessage.ADD_ROLE_PERMISSION_ERROR);
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
     }
 }

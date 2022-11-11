@@ -31,7 +31,7 @@ public class SysRolePermissionServiceImpl extends ServiceImpl<SysRolePermissionM
                         .roleId(roleId)
                         .permissionId(permissionId)
                         .build())>0;
-                ExceptionUtils.errorBusinessException(!is, CommonEnumConstant.PromptMessage.ADD_ROLE_PERMISSION_ERROR);
+                ExceptionUtils.businessException(!is, CommonEnumConstant.PromptMessage.ADD_ROLE_PERMISSION_ERROR);
             });
             return true;
         }catch (Exception ex){
@@ -72,7 +72,7 @@ public class SysRolePermissionServiceImpl extends ServiceImpl<SysRolePermissionM
             //查询出当前所有角色的所有的资源
             roleIds.forEach(roleId ->{
                 Boolean isDeleteOk = this.saveOrDeleteRolePermissionId(Long.valueOf(roleId.toString()),null,true,false);
-                ExceptionUtils.errorBusinessException(!isDeleteOk, CommonEnumConstant.PromptMessage.DELETE_ROLE_PERMISSION_ERROR);
+                ExceptionUtils.businessException(!isDeleteOk, CommonEnumConstant.PromptMessage.DELETE_ROLE_PERMISSION_ERROR);
             });
             return true;
         }catch (Exception ex){

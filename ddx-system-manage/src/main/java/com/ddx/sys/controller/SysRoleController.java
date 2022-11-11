@@ -86,12 +86,12 @@ public class SysRoleController {
     public BaseResponse edit(@Validated @RequestBody SysRoleEditReq sysRoleEditReq) {
         log.info("edit SysRole start...");
         SysRole sysRole = iSysRoleService.getOne(new QueryWrapper<SysRole>().lambda().eq(SysRole::getId,sysRoleEditReq.getId()).last("limit 1"));
-        ExceptionUtils.errorBusinessException(sysRole == null,CommonEnumConstant.PromptMessage.VALIDATED_FAILED);
+        ExceptionUtils.businessException(sysRole == null,CommonEnumConstant.PromptMessage.VALIDATED_FAILED);
         BeanUtils.copyProperties(sysRoleEditReq, sysRole);
         Boolean yesOrNo = iSysRoleService.update(sysRole,new QueryWrapper<SysRole>().lambda().eq(SysRole::getId,sysRole.getId()));
-        ExceptionUtils.errorBusinessException(!yesOrNo,CommonEnumConstant.PromptMessage.FAILED);
-        ExceptionUtils.errorBusinessException(!iSysRolePermissionService.saveOrDeleteRolePermissionId(sysRole.getId(),sysRoleEditReq.getRolePermissionId(),false,true), CommonEnumConstant.PromptMessage.ADD_ROLE_PERMISSION_ERROR);
-        ExceptionUtils.errorBusinessException(!iSysPermissionService.initRolePermission(),CommonEnumConstant.PromptMessage.INIT_ROLE_PERMISSION_ERROR);
+        ExceptionUtils.businessException(!yesOrNo,CommonEnumConstant.PromptMessage.FAILED);
+        ExceptionUtils.businessException(!iSysRolePermissionService.saveOrDeleteRolePermissionId(sysRole.getId(),sysRoleEditReq.getRolePermissionId(),false,true), CommonEnumConstant.PromptMessage.ADD_ROLE_PERMISSION_ERROR);
+        ExceptionUtils.businessException(!iSysPermissionService.initRolePermission(),CommonEnumConstant.PromptMessage.INIT_ROLE_PERMISSION_ERROR);
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
     }
 
@@ -100,9 +100,9 @@ public class SysRoleController {
     @Transactional(rollbackFor = Exception.class)
     public BaseResponse delete(@Validated @RequestBody DeleteKey deleteKey) {
         log.info("delete SysRole start...");
-        ExceptionUtils.errorBusinessException(!iSysRoleService.removeById(Long.valueOf(deleteKey.getKeyWord().toString())),CommonEnumConstant.PromptMessage.FAILED);
-        ExceptionUtils.errorBusinessException(!iSysRolePermissionService.saveOrDeleteRolePermissionId(Long.valueOf(deleteKey.getKeyWord().toString()),null,true,false), CommonEnumConstant.PromptMessage.DELETE_ROLE_PERMISSION_ERROR);
-        ExceptionUtils.errorBusinessException(!iSysPermissionService.initRolePermission(),CommonEnumConstant.PromptMessage.INIT_ROLE_PERMISSION_ERROR);
+        ExceptionUtils.businessException(!iSysRoleService.removeById(Long.valueOf(deleteKey.getKeyWord().toString())),CommonEnumConstant.PromptMessage.FAILED);
+        ExceptionUtils.businessException(!iSysRolePermissionService.saveOrDeleteRolePermissionId(Long.valueOf(deleteKey.getKeyWord().toString()),null,true,false), CommonEnumConstant.PromptMessage.DELETE_ROLE_PERMISSION_ERROR);
+        ExceptionUtils.businessException(!iSysPermissionService.initRolePermission(),CommonEnumConstant.PromptMessage.INIT_ROLE_PERMISSION_ERROR);
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
     }
 
@@ -111,9 +111,9 @@ public class SysRoleController {
     @Transactional(rollbackFor = Exception.class)
     public BaseResponse batchDelete(@Validated @RequestBody BatchDeleteKey batchDeleteKey) {
         log.info("batchDelete SysRole start...");
-        ExceptionUtils.errorBusinessException(!iSysRoleService.removeByIds(batchDeleteKey.getKeyWords()),CommonEnumConstant.PromptMessage.FAILED);
-        ExceptionUtils.errorBusinessException(!iSysRolePermissionService.batchDeleteByRoleIds(batchDeleteKey.getKeyWords()), CommonEnumConstant.PromptMessage.DELETE_ROLE_PERMISSION_ERROR);
-        ExceptionUtils.errorBusinessException(!iSysPermissionService.initRolePermission(),CommonEnumConstant.PromptMessage.INIT_ROLE_PERMISSION_ERROR);
+        ExceptionUtils.businessException(!iSysRoleService.removeByIds(batchDeleteKey.getKeyWords()),CommonEnumConstant.PromptMessage.FAILED);
+        ExceptionUtils.businessException(!iSysRolePermissionService.batchDeleteByRoleIds(batchDeleteKey.getKeyWords()), CommonEnumConstant.PromptMessage.DELETE_ROLE_PERMISSION_ERROR);
+        ExceptionUtils.businessException(!iSysPermissionService.initRolePermission(),CommonEnumConstant.PromptMessage.INIT_ROLE_PERMISSION_ERROR);
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
     }
 }

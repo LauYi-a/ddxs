@@ -72,7 +72,7 @@ public class GlobalAuthenticationFilter implements GlobalFilter, Ordered {
 
         //2.请求时效白名单
         List<String> requestTimeWhitelist =  ConversionUtils.castList(JSONObject.parseArray(redisTemplateUtils.get(ConstantUtils.REQUEST_TIME_WHITELIST).toString()),String.class);
-        ExceptionUtils.errorBusinessException(requestTimeWhitelist.size() == 0, CommonEnumConstant.PromptMessage.INIT_WHITELIST_ERROR);
+        ExceptionUtils.businessException(requestTimeWhitelist.size() == 0, CommonEnumConstant.PromptMessage.INIT_WHITELIST_ERROR);
         if (!StringUtil.checkUrls(requestTimeWhitelist, requestUrl)) {
             SysParamConfigVo sysParamConfigVo = (SysParamConfigVo) redisTemplateUtils.get(ConstantUtils.SYS_PARAM_CONFIG);
             redisTemplateUtils.lock(ConstantUtils.SYSTEM_REQUEST + ip + requestUrl, sysParamConfigVo.getSysRequestTime());
@@ -80,7 +80,7 @@ public class GlobalAuthenticationFilter implements GlobalFilter, Ordered {
 
         //3.白名单放行
         List<String> ignoreUrls =  ConversionUtils.castList(JSONObject.parseArray(redisTemplateUtils.get(ConstantUtils.WHITELIST_REQUEST).toString()),String.class);
-        ExceptionUtils.errorBusinessException(ignoreUrls.size() == 0, CommonEnumConstant.PromptMessage.INIT_WHITELIST_ERROR);
+        ExceptionUtils.businessException(ignoreUrls.size() == 0, CommonEnumConstant.PromptMessage.INIT_WHITELIST_ERROR);
         if (StringUtil.checkUrls(ignoreUrls, requestUrl)){
             exchange.getRequest().mutate()
                     .header(ConstantUtils.REQUEST_SERIAL_NUMBER, serialNumber).build();

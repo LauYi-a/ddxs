@@ -75,10 +75,10 @@ public class SysWhitelistRequestController {
         log.info("add SysWhitelistRequest start..");
         SysWhitelistRequest sysWhitelistRequest = new SysWhitelistRequest();
         BeanUtils.copyProperties(sysWhitelistRequestAddReq,sysWhitelistRequest);
-        ExceptionUtils.errorBusinessException(iSysWhitelistRequestService.count(new QueryWrapper<SysWhitelistRequest>().lambda().eq(SysWhitelistRequest::getUrl,sysWhitelistRequest.getUrl())
+        ExceptionUtils.businessException(iSysWhitelistRequestService.count(new QueryWrapper<SysWhitelistRequest>().lambda().eq(SysWhitelistRequest::getUrl,sysWhitelistRequest.getUrl())
                         .eq(SysWhitelistRequest::getType,sysWhitelistRequestAddReq.getType()))>0,CommonEnumConstant.PromptMessage.WHITELIST_ERROR);
-        ExceptionUtils.errorBusinessException(!iSysWhitelistRequestService.save(sysWhitelistRequest),CommonEnumConstant.PromptMessage.FAILED);
-        ExceptionUtils.errorBusinessException(!iSysWhitelistRequestService.initWhitelistConfig(),CommonEnumConstant.PromptMessage.INIT_WHITELIST_ERROR);
+        ExceptionUtils.businessException(!iSysWhitelistRequestService.save(sysWhitelistRequest),CommonEnumConstant.PromptMessage.FAILED);
+        ExceptionUtils.businessException(!iSysWhitelistRequestService.initWhitelistConfig(),CommonEnumConstant.PromptMessage.INIT_WHITELIST_ERROR);
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
     }
 
@@ -88,11 +88,11 @@ public class SysWhitelistRequestController {
     public BaseResponse edit(@Validated @RequestBody SysWhitelistRequestEditReq sysWhitelistRequestEditReq) {
         log.info("edit SysWhitelistRequest start...");
         SysWhitelistRequest sysWhitelistRequest = iSysWhitelistRequestService.getOne(new QueryWrapper<SysWhitelistRequest>().lambda().eq(SysWhitelistRequest::getId,sysWhitelistRequestEditReq.getId()).last("limit 1"));
-        ExceptionUtils.errorBusinessException(sysWhitelistRequest == null,CommonEnumConstant.PromptMessage.VALIDATED_FAILED);
+        ExceptionUtils.businessException(sysWhitelistRequest == null,CommonEnumConstant.PromptMessage.VALIDATED_FAILED);
         BeanUtils.copyProperties(sysWhitelistRequestEditReq, sysWhitelistRequest);
         Boolean yesOrNo = iSysWhitelistRequestService.update(sysWhitelistRequest,new QueryWrapper<SysWhitelistRequest>().lambda().eq(SysWhitelistRequest::getId,sysWhitelistRequest.getId()));
-        ExceptionUtils.errorBusinessException(!yesOrNo,CommonEnumConstant.PromptMessage.FAILED);
-        ExceptionUtils.errorBusinessException(!iSysWhitelistRequestService.initWhitelistConfig(),CommonEnumConstant.PromptMessage.INIT_WHITELIST_ERROR);
+        ExceptionUtils.businessException(!yesOrNo,CommonEnumConstant.PromptMessage.FAILED);
+        ExceptionUtils.businessException(!iSysWhitelistRequestService.initWhitelistConfig(),CommonEnumConstant.PromptMessage.INIT_WHITELIST_ERROR);
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
     }
 
@@ -101,8 +101,8 @@ public class SysWhitelistRequestController {
     @Transactional(rollbackFor = Exception.class)
     public BaseResponse delete(@Validated @RequestBody DeleteKey deleteKey) {
         log.info("delete SysWhitelistRequest start...");
-        ExceptionUtils.errorBusinessException(!iSysWhitelistRequestService.removeById(Long.valueOf(deleteKey.getKeyWord().toString())),CommonEnumConstant.PromptMessage.FAILED);
-        ExceptionUtils.errorBusinessException(!iSysWhitelistRequestService.initWhitelistConfig(),CommonEnumConstant.PromptMessage.INIT_WHITELIST_ERROR);
+        ExceptionUtils.businessException(!iSysWhitelistRequestService.removeById(Long.valueOf(deleteKey.getKeyWord().toString())),CommonEnumConstant.PromptMessage.FAILED);
+        ExceptionUtils.businessException(!iSysWhitelistRequestService.initWhitelistConfig(),CommonEnumConstant.PromptMessage.INIT_WHITELIST_ERROR);
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
     }
 
@@ -111,8 +111,8 @@ public class SysWhitelistRequestController {
     @Transactional(rollbackFor = Exception.class)
     public BaseResponse batchDelete(@Validated @RequestBody BatchDeleteKey batchDeleteKey) {
         log.info("batchDelete SysWhitelistRequest start...");
-        ExceptionUtils.errorBusinessException(!iSysWhitelistRequestService.removeByIds(batchDeleteKey.getKeyWords()),CommonEnumConstant.PromptMessage.FAILED);
-        ExceptionUtils.errorBusinessException(!iSysWhitelistRequestService.initWhitelistConfig(),CommonEnumConstant.PromptMessage.INIT_WHITELIST_ERROR);
+        ExceptionUtils.businessException(!iSysWhitelistRequestService.removeByIds(batchDeleteKey.getKeyWords()),CommonEnumConstant.PromptMessage.FAILED);
+        ExceptionUtils.businessException(!iSysWhitelistRequestService.initWhitelistConfig(),CommonEnumConstant.PromptMessage.INIT_WHITELIST_ERROR);
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
     }
 }

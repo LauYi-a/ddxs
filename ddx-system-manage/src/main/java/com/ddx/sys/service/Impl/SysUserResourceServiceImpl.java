@@ -31,7 +31,7 @@ public class SysUserResourceServiceImpl extends ServiceImpl<SysUserResourceMappe
                         .resourceId(resourceId)
                         .userId(userId)
                         .build())>0;
-                ExceptionUtils.errorBusinessException(!is, CommonEnumConstant.PromptMessage.ADD_USER_RESOURCE_ERROR);
+                ExceptionUtils.businessException(!is, CommonEnumConstant.PromptMessage.ADD_USER_RESOURCE_ERROR);
             });
             return true;
         }catch (Exception ex){
@@ -72,7 +72,7 @@ public class SysUserResourceServiceImpl extends ServiceImpl<SysUserResourceMappe
             //根据用户id删除资源绑定关系
             userIds.forEach(userId ->{
                 Boolean isDeleteOk = this.saveOrDeleteUserResourceId(Long.valueOf(userId.toString()),null,true,false);
-                ExceptionUtils.errorBusinessException(!isDeleteOk, CommonEnumConstant.PromptMessage.DELETE_USER_RESOURCE_ERROR);
+                ExceptionUtils.businessException(!isDeleteOk, CommonEnumConstant.PromptMessage.DELETE_USER_RESOURCE_ERROR);
             });
             return true;
         }catch (Exception ex){

@@ -78,7 +78,7 @@ public class ${table.controllerName} {
         log.info("add ${entity} start..");
         ${entity} ${entity.substring(0, 1).toLowerCase()}${entity.substring(1)} = new ${entity}();
         BeanUtils.copyProperties(${entity.substring(0, 1).toLowerCase()}${entity.substring(1)}AddReq,${entity.substring(0, 1).toLowerCase()}${entity.substring(1)});
-        ExceptionUtils.errorBusinessException(!i${entity}Service.save(${entity.substring(0, 1).toLowerCase()}${entity.substring(1)}),CommonEnumConstant.PromptMessage.FAILED);
+        ExceptionUtils.businessException(!i${entity}Service.save(${entity.substring(0, 1).toLowerCase()}${entity.substring(1)}),CommonEnumConstant.PromptMessage.FAILED);
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
     }
 
@@ -88,10 +88,10 @@ public class ${table.controllerName} {
     public BaseResponse edit(@Validated @RequestBody ${entity}EditReq ${entity.substring(0, 1).toLowerCase()}${entity.substring(1)}EditReq) {
         log.info("edit ${entity} start...");
         ${entity} ${entity.substring(0, 1).toLowerCase()}${entity.substring(1)} = i${entity}Service.getOne(new QueryWrapper<${entity}>().lambda().eq(${entity}::getId,${entity.substring(0, 1).toLowerCase()}${entity.substring(1)}EditReq.getId()).last("limit 1"));
-        ExceptionUtils.errorBusinessException(${entity.substring(0, 1).toLowerCase()}${entity.substring(1)} == null,CommonEnumConstant.PromptMessage.VALIDATED_FAILED);
+        ExceptionUtils.businessException(${entity.substring(0, 1).toLowerCase()}${entity.substring(1)} == null,CommonEnumConstant.PromptMessage.VALIDATED_FAILED);
         BeanUtils.copyProperties(${entity.substring(0, 1).toLowerCase()}${entity.substring(1)}EditReq, ${entity.substring(0, 1).toLowerCase()}${entity.substring(1)});
         Boolean yesOrNo = i${entity}Service.update(${entity.substring(0, 1).toLowerCase()}${entity.substring(1)},new QueryWrapper<${entity}>().lambda().eq(${entity}::getId,${entity.substring(0, 1).toLowerCase()}${entity.substring(1)}.getId()));
-        ExceptionUtils.errorBusinessException(!yesOrNo,CommonEnumConstant.PromptMessage.FAILED);
+        ExceptionUtils.businessException(!yesOrNo,CommonEnumConstant.PromptMessage.FAILED);
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
     }
 
@@ -100,7 +100,7 @@ public class ${table.controllerName} {
     @Transactional(rollbackFor = Exception.class)
     public BaseResponse delete(@Validated @RequestBody DeleteKey deleteKey) {
         log.info("delete ${entity} start...");
-        ExceptionUtils.errorBusinessException(!i${entity}Service.removeById(Long.valueOf(deleteKey.getKeyWord().toString())),CommonEnumConstant.PromptMessage.FAILED);
+        ExceptionUtils.businessException(!i${entity}Service.removeById(Long.valueOf(deleteKey.getKeyWord().toString())),CommonEnumConstant.PromptMessage.FAILED);
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
     }
 
@@ -109,7 +109,7 @@ public class ${table.controllerName} {
     @Transactional(rollbackFor = Exception.class)
     public BaseResponse batchDelete(@Validated @RequestBody BatchDeleteKey batchDeleteKey) {
         log.info("batchDelete ${entity} start...");
-        ExceptionUtils.errorBusinessException(!i${entity}Service.removeByIds(batchDeleteKey.getKeyWords()),CommonEnumConstant.PromptMessage.FAILED);
+        ExceptionUtils.businessException(!i${entity}Service.removeByIds(batchDeleteKey.getKeyWords()),CommonEnumConstant.PromptMessage.FAILED);
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
     }
 }

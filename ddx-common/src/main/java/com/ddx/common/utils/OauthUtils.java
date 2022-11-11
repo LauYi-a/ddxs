@@ -23,7 +23,7 @@ public class OauthUtils {
     public static LoginVal getCurrentUser(){
         try {
             LoginVal loginVal = (LoginVal) RequestContextUtils.getRequest().getAttribute(ConstantUtils.LOGIN_VAL_ATTRIBUTE);
-            ExceptionUtils.errorBusinessException(loginVal == null, CommonEnumConstant.PromptMessage.NO_TOKEN);
+            ExceptionUtils.businessException(loginVal == null, CommonEnumConstant.PromptMessage.NO_TOKEN);
             return loginVal;
         }catch (Exception e){
             return LoginVal.builder().userId("-1").nickname("未登入").build();

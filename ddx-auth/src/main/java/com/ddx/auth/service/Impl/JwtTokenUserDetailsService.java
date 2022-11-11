@@ -50,8 +50,8 @@ public class JwtTokenUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         ExceptionUtils.businessException(redisTemplateUtils.hasKey(ConstantUtils.ACCOUNT_NON_LOCKED+username), CommonEnumConstant.PromptMessage.USER_DISABLE_TIME_ERROR, redisTemplateUtils.getExpire(ConstantUtils.ACCOUNT_NON_LOCKED+username));
         SysUser user = sysUserService.getOne(new QueryWrapper<SysUser>().lambda().eq(SysUser::getUsername,username).or().eq(SysUser::getMobile,username).last("limit 1"));
-        ExceptionUtils.errorBusinessException(Objects.isNull(user),CommonEnumConstant.PromptMessage.USER_NOT_FOUND_ERROR);
-        ExceptionUtils.errorBusinessException(user.getStatus().equals(CommonEnumConstant.Dict.USER_STATUS_0.getDictKey()),CommonEnumConstant.PromptMessage.USER_DISABLE_ERROR);
+        ExceptionUtils.businessException(Objects.isNull(user),CommonEnumConstant.PromptMessage.USER_NOT_FOUND_ERROR);
+        ExceptionUtils.businessException(user.getStatus().equals(CommonEnumConstant.Dict.USER_STATUS_0.getDictKey()),CommonEnumConstant.PromptMessage.USER_DISABLE_ERROR);
         if (user.getStatus().equals(CommonEnumConstant.Dict.USER_STATUS_2.getDictKey())) {
             user.setErrorCount(0);
             user.setStatus(CommonEnumConstant.Dict.USER_STATUS_1.getDictKey());
@@ -65,7 +65,7 @@ public class JwtTokenUserDetailsService implements UserDetailsService {
            sysRoleService.list(new QueryWrapper<SysRole>().lambda().eq(SysRole::getId,userRole.getRoleId()).eq(SysRole::getStatus,CommonEnumConstant.Dict.ROLE_STATUS_0.getDictKey()))
                    .forEach(o-> roles.add(ConstantUtils.ROLE_PREFIX+o.getCode()));
         }
-        ExceptionUtils.errorBusinessException(roles.size() == 0,CommonEnumConstant.PromptMessage.ID_AUTHENTICATION_FAILED );
+        ExceptionUtils.businessException(roles.size() == 0,CommonEnumConstant.PromptMessage.ID_AUTHENTICATION_FAILED );
         return SecurityUser.builder()
                 .userId(Long.valueOf(user.getId()))
                 .username(user.getUsername())

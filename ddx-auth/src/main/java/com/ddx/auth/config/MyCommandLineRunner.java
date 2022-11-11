@@ -11,17 +11,14 @@ import com.ddx.auth.service.ISysWhitelistRequestService;
 import com.ddx.basis.constant.ConstantUtils;
 import com.ddx.basis.enums.CommonEnumConstant;
 import com.ddx.basis.model.vo.SysParamConfigVo;
-import com.ddx.common.service.FileMonitorService;
 import com.ddx.common.utils.RedisTemplateUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,19 +36,12 @@ import java.util.stream.Collectors;
 @Order(value = 1) //指定其执行顺序,值越小优先级越高
 public class MyCommandLineRunner implements CommandLineRunner {
 
-    @Value("${logFile.logPath}")
-    private String logPath;
-    @Value("${spring.application.name}")
-    private String serviceName;
-
     @Autowired
     private RedisTemplateUtils redisTemplate;
     @Resource
     private ISysPermissionService sysPermissionService;
     @Resource
     private ISysWhitelistRequestService sysWhitelistRequestService;
-    @Resource
-    private FileMonitorService fileMonitorService;
 
     @Override
     public void run(String... args){
@@ -73,13 +63,6 @@ public class MyCommandLineRunner implements CommandLineRunner {
             initWhite();
         });
         initWhite.start();
-
-        //启动日志监控
-        Thread logMonitor = new Thread(()-> {
-            String path = logPath + File.separator + serviceName;
-            fileMonitorService.startLogFileMonitor(path, 5000);
-        });
-        logMonitor.start();
     }
 
     /**

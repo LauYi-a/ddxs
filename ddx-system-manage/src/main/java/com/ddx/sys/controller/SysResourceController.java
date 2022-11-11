@@ -73,10 +73,10 @@ public class SysResourceController {
     public BaseResponse edit(@Validated @RequestBody SysResourceEditReq sysResourceEditReq) {
         log.info("edit SysResource start...");
         SysResource sysResource = iSysResourceService.getOne(new QueryWrapper<SysResource>().lambda().eq(SysResource::getId,sysResourceEditReq.getId()).last("limit 1"));
-        ExceptionUtils.errorBusinessException(sysResource == null,CommonEnumConstant.PromptMessage.VALIDATED_FAILED);
+        ExceptionUtils.businessException(sysResource == null,CommonEnumConstant.PromptMessage.VALIDATED_FAILED);
         BeanUtils.copyProperties(sysResourceEditReq, sysResource);
         Boolean yesOrNo = iSysResourceService.update(sysResource,new QueryWrapper<SysResource>().lambda().eq(SysResource::getId,sysResource.getId()));
-        ExceptionUtils.errorBusinessException(!yesOrNo,CommonEnumConstant.PromptMessage.FAILED);
+        ExceptionUtils.businessException(!yesOrNo,CommonEnumConstant.PromptMessage.FAILED);
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
     }
 }

@@ -52,10 +52,11 @@ public class CommonEnumConstant {
         NO_TOKEN(ConstantUtils.MSG_RESPONSE_CODE_WARNING,ConstantUtils.MSG_TYPE_WARNING,"无TOKEN信息"),
         ROLE_CODE_ERROR(ConstantUtils.MSG_RESPONSE_CODE_WARNING,ConstantUtils.MSG_TYPE_WARNING,"角色编号已存在"),
         WHITELIST_ERROR(ConstantUtils.MSG_RESPONSE_CODE_WARNING,ConstantUtils.MSG_TYPE_WARNING,"白名单已存在"),
+        REVOKE_TOKEN_ERROR(ConstantUtils.MSG_RESPONSE_CODE_WARNING,ConstantUtils.MSG_TYPE_WARNING,"注销失败"),
+
         /**
          * 错误类信息提示
          */
-        REVOKE_TOKEN_ERROR(ConstantUtils.MSG_RESPONSE_CODE_ERROR,ConstantUtils.MSG_TYPE_WARNING,"注销失败"),
         FAILED(ConstantUtils.MSG_RESPONSE_CODE_ERROR, ConstantUtils.MSG_TYPE_ERROR,"操作失败"),
         NO_PERMISSION(ConstantUtils.MSG_RESPONSE_CODE_NO_PERMISSION,ConstantUtils.MSG_TYPE_ERROR,"无权限访问"),
         CLIENT_AUTHENTICATION_FAILED(ConstantUtils.MSG_RESPONSE_CODE_ERROR, ConstantUtils.MSG_TYPE_ERROR,"客户端认证失败"),
@@ -75,15 +76,17 @@ public class CommonEnumConstant {
         INTERNAL_SERVER_ERROR(ConstantUtils.MSG_RESPONSE_CODE_ERROR,ConstantUtils.MSG_TYPE_ERROR,"服务繁忙"),
         FREQUENT_RESPONSE_ERROR(ConstantUtils.MSG_RESPONSE_CODE_ERROR,ConstantUtils.MSG_TYPE_ERROR,"请求繁忙"),
         INVALID_TOKEN(ConstantUtils.MSG_RESPONSE_CODE_INVALID_TOKEN,ConstantUtils.MSG_TYPE_ERROR,"TOKEN无效或过期"),
-        ADD_ROLE_PERMISSION_ERROR(ConstantUtils.MSG_RESPONSE_CODE_WARNING, ConstantUtils.MSG_TYPE_ERROR,"绑定角色权限失败"),
-        DELETE_ROLE_PERMISSION_ERROR(ConstantUtils.MSG_RESPONSE_CODE_WARNING, ConstantUtils.MSG_TYPE_ERROR,"删除角色权限失败"),
-        ADD_USER_ROLE_ERROR(ConstantUtils.MSG_RESPONSE_CODE_WARNING, ConstantUtils.MSG_TYPE_ERROR,"绑定用户角色失败"),
-        DELETE_USER_ROLE_ERROR(ConstantUtils.MSG_RESPONSE_CODE_WARNING, ConstantUtils.MSG_TYPE_ERROR,"删除用户角色失败"),
-        ADD_USER_RESOURCE_ERROR(ConstantUtils.MSG_RESPONSE_CODE_WARNING, ConstantUtils.MSG_TYPE_ERROR,"绑定用户资源失败"),
-        DELETE_USER_RESOURCE_ERROR(ConstantUtils.MSG_RESPONSE_CODE_WARNING, ConstantUtils.MSG_TYPE_ERROR,"删除用户资源失败"),
-        KAFKA_SEND_ERROR(ConstantUtils.MSG_RESPONSE_CODE_WARNING,ConstantUtils.MSG_TYPE_ERROR,"发送消息失败: %s"),
-        KAFKA_CONSUMER_ERROR(ConstantUtils.MSG_RESPONSE_CODE_WARNING,ConstantUtils.MSG_TYPE_ERROR,"消费消息失败: %s"),
-
+        ADD_ROLE_PERMISSION_ERROR(ConstantUtils.MSG_RESPONSE_CODE_ERROR, ConstantUtils.MSG_TYPE_ERROR,"绑定角色权限失败"),
+        DELETE_ROLE_PERMISSION_ERROR(ConstantUtils.MSG_RESPONSE_CODE_ERROR, ConstantUtils.MSG_TYPE_ERROR,"删除角色权限失败"),
+        ADD_USER_ROLE_ERROR(ConstantUtils.MSG_RESPONSE_CODE_ERROR, ConstantUtils.MSG_TYPE_ERROR,"绑定用户角色失败"),
+        DELETE_USER_ROLE_ERROR(ConstantUtils.MSG_RESPONSE_CODE_ERROR, ConstantUtils.MSG_TYPE_ERROR,"删除用户角色失败"),
+        ADD_USER_RESOURCE_ERROR(ConstantUtils.MSG_RESPONSE_CODE_ERROR, ConstantUtils.MSG_TYPE_ERROR,"绑定用户资源失败"),
+        DELETE_USER_RESOURCE_ERROR(ConstantUtils.MSG_RESPONSE_CODE_ERROR, ConstantUtils.MSG_TYPE_ERROR,"删除用户资源失败"),
+        KAFKA_SEND_ERROR(ConstantUtils.MSG_RESPONSE_CODE_ERROR,ConstantUtils.MSG_TYPE_ERROR,"发送消息失败: %s"),
+        KAFKA_CONSUMER_ERROR(ConstantUtils.MSG_RESPONSE_CODE_ERROR,ConstantUtils.MSG_TYPE_ERROR,"消费消息失败: %s"),
+        WRITER_FILE_ERROR(ConstantUtils.MSG_RESPONSE_CODE_ERROR,ConstantUtils.MSG_TYPE_ERROR,"写入文件异常"),
+        SFTP_CREATE_CD_DIRS_ERROR(ConstantUtils.MSG_RESPONSE_CODE_ERROR,ConstantUtils.MSG_TYPE_ERROR,"创建并进入目录失败"),
+        REDE_FILE_ERROR(ConstantUtils.MSG_RESPONSE_CODE_ERROR,ConstantUtils.MSG_TYPE_ERROR,"读取文件异常")
         ;
 
         PromptMessage(Integer code, String type,String msg){
@@ -134,6 +137,12 @@ public class CommonEnumConstant {
         IS_ROLE_PERMISSION_1("1","不授予",ConstantUtils.IS_ROLE_PERMISSION,0,"sys","不授予角色，角色不可关联此权限"),
         SERVICE_MODULES_NAME_0("sys","系统基础应用",ConstantUtils.SERVICE_MODULES_NAME,0,"all","系统服务模块"),
         SERVICE_MODULES_NAME_1("auth","认证服务",ConstantUtils.SERVICE_MODULES_NAME,1,"all","系统认证服务模块"),
+        SELECT_LOG_LINES_100(100,"显示100行",ConstantUtils.SELECT_LOG_LINES,0,"sys","显示日志最新100行内容"),
+        SELECT_LOG_LINES_500(500,"显示500行",ConstantUtils.SELECT_LOG_LINES,1,"sys","显示日志最新500行内容"),
+        SELECT_LOG_LINES_1000(1000,"显示1000行",ConstantUtils.SELECT_LOG_LINES,2,"sys","显示日志最新1000行内容"),
+        SELECT_LOG_LINES_1500(1500,"显示1500行",ConstantUtils.SELECT_LOG_LINES,3,"sys","显示日志最新1500行内容"),
+        SELECT_LOG_LINES_2000(2000,"显示2000行",ConstantUtils.SELECT_LOG_LINES,4,"sys","显示日志最新1000行内容"),
+        SELECT_LOG_LINES_10000(10000,"显示10000行",ConstantUtils.SELECT_LOG_LINES,5,"sys","显示日志最新10000行内容"),
         ;
 
         /**

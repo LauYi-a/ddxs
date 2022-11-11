@@ -35,7 +35,7 @@ public class RedisLockServiceImpl {
      * @param lockName 锁名称
      * @param handle 业务处理
      */
-    public void tryLock(String lockName,  VoidHandle handle) {
+    public void tryLock(String lockName,  VoidHandle handle)throws Exception {
         RLock rLock = getLock(lockName);
         if (!rLock.tryLock()) {
             log.error("锁名：{}，获取锁失败，返回",lockName);
@@ -56,7 +56,7 @@ public class RedisLockServiceImpl {
      * @param <T> 返回值
      * @return
      */
-    public <T> T tryLock(String lockName,  ReturnHandle<T> handle) {
+    public <T> T tryLock(String lockName,  ReturnHandle<T> handle)throws Exception {
         RLock rLock = getLock(lockName);
         if (!rLock.tryLock()) {
             log.error("锁名：{}，获取锁失败，返回null",lockName);
@@ -65,7 +65,7 @@ public class RedisLockServiceImpl {
         try {
             log.info("锁名：{}，获取锁成功",lockName);
             return handle.execute();
-        } finally {
+        }finally {
             rLock.unlock();
         }
     }
@@ -75,16 +75,16 @@ public class RedisLockServiceImpl {
      * @param lockName 锁名称
      * @param handle 业务处理
      */
-    public void tryLockException(String lockName,  VoidHandle handle) {
+    public void tryLockException(String lockName,  VoidHandle handle)throws Exception {
         RLock rLock = getLock(lockName);
         if (!rLock.tryLock()) {
             log.error("锁名：{}，获取锁失败，抛异常处理",lockName);
-            ExceptionUtils.errorBusinessException(CommonEnumConstant.PromptMessage.IN_BUSINESS_PROCESS_ERROR);
+            ExceptionUtils.businessException(CommonEnumConstant.PromptMessage.IN_BUSINESS_PROCESS_ERROR);
         }
         try {
             log.info("锁名：{}，获取锁成功",lockName);
             handle.execute();
-        } finally {
+        }finally {
             rLock.unlock();
         }
     }
@@ -96,16 +96,16 @@ public class RedisLockServiceImpl {
      * @param <T> 返回值
      * @return
      */
-    public <T> T tryLockException(String lockName, ReturnHandle<T> handle) {
+    public <T> T tryLockException(String lockName, ReturnHandle<T> handle)throws Exception {
         RLock rLock = getLock(lockName);
         if (!rLock.tryLock()) {
             log.error("锁名：{}，获取锁失败，抛异常处理",lockName);
-            ExceptionUtils.errorBusinessException(CommonEnumConstant.PromptMessage.IN_BUSINESS_PROCESS_ERROR);
+            ExceptionUtils.businessException(CommonEnumConstant.PromptMessage.IN_BUSINESS_PROCESS_ERROR);
         }
         try {
             log.info("锁名：{}，获取锁成功",lockName);
             return handle.execute();
-        } finally {
+        }finally {
             rLock.unlock();
         }
     }
@@ -118,7 +118,7 @@ public class RedisLockServiceImpl {
     private RLock getLock(String lockName ) {
         log.info("获取分布式锁lockName:{}", lockName);
         if (StringUtils.isEmpty(lockName)) {
-            ExceptionUtils.errorBusinessException(CommonEnumConstant.PromptMessage.REDIS_LOCK_KEY_ISNULL_ERROR);
+            ExceptionUtils.businessException(CommonEnumConstant.PromptMessage.REDIS_LOCK_KEY_ISNULL_ERROR);
         }
         String lockKey = ConstantUtils.SYSTEM_REQUEST+lockName;
         return redissonClient.getLock(lockKey);

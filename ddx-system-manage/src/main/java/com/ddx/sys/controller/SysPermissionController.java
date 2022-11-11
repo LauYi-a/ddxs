@@ -91,13 +91,13 @@ public class SysPermissionController {
     public BaseResponse edit(@Validated @RequestBody SysPermissionEditReq sysPermissionEditReq) {
         log.info("edit SysPermission start...");
         SysPermission sysPermission = iSysPermissionService.getOne(new QueryWrapper<SysPermission>().lambda().eq(SysPermission::getId,sysPermissionEditReq.getId()).last("limit 1"));
-        ExceptionUtils.errorBusinessException(sysPermission == null,CommonEnumConstant.PromptMessage.VALIDATED_FAILED);
+        ExceptionUtils.businessException(sysPermission == null,CommonEnumConstant.PromptMessage.VALIDATED_FAILED);
         BeanUtils.copyProperties(sysPermissionEditReq, sysPermission);
         Boolean yesOrNo = iSysPermissionService.update(sysPermission,new QueryWrapper<SysPermission>().lambda().eq(SysPermission::getId,sysPermission.getId()));
-        ExceptionUtils.errorBusinessException(!yesOrNo,CommonEnumConstant.PromptMessage.FAILED);
+        ExceptionUtils.businessException(!yesOrNo,CommonEnumConstant.PromptMessage.FAILED);
         if (Objects.equals(sysPermission.getIsRole(),CommonEnumConstant.Dict.IS_ROLE_PERMISSION_1)){
-            ExceptionUtils.errorBusinessException(!iSysRolePermissionService.remove(new QueryWrapper<SysRolePermission>().lambda().eq(SysRolePermission::getPermissionId,sysPermission.getId())),CommonEnumConstant.PromptMessage.DELETE_ROLE_PERMISSION_ERROR);
-            ExceptionUtils.errorBusinessException(!iSysPermissionService.initRolePermission(),CommonEnumConstant.PromptMessage.INIT_ROLE_PERMISSION_ERROR);
+            ExceptionUtils.businessException(!iSysRolePermissionService.remove(new QueryWrapper<SysRolePermission>().lambda().eq(SysRolePermission::getPermissionId,sysPermission.getId())),CommonEnumConstant.PromptMessage.DELETE_ROLE_PERMISSION_ERROR);
+            ExceptionUtils.businessException(!iSysPermissionService.initRolePermission(),CommonEnumConstant.PromptMessage.INIT_ROLE_PERMISSION_ERROR);
         }
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
     }
@@ -106,7 +106,7 @@ public class SysPermissionController {
     @ApiOperation(httpMethod = "POST",value = "刷新权限缓存")
     @Transactional(rollbackFor = Exception.class)
     public BaseResponse refreshCache(){
-        ExceptionUtils.errorBusinessException(!iSysPermissionService.initRolePermission(),CommonEnumConstant.PromptMessage.INIT_ROLE_PERMISSION_ERROR);
+        ExceptionUtils.businessException(!iSysPermissionService.initRolePermission(),CommonEnumConstant.PromptMessage.INIT_ROLE_PERMISSION_ERROR);
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
     }
 }

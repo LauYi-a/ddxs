@@ -51,7 +51,7 @@
             <artifactId>spring-boot-starter-undertow</artifactId>
         </dependency>
         <!-- ddx-common -->
-        <dependency>
+        <!--<dependency>
             <groupId>com.ddx</groupId>
             <artifactId>ddx-common</artifactId>
             <version>${ddx-common.version}</version>
@@ -61,12 +61,7 @@
                     <artifactId>spring-boot-starter-security</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>com.ddx</groupId>
-            <artifactId>ddx-log-api</artifactId>
-            <version>${ddx-log-api.version}</version>
-        </dependency>
+        </dependency>-->
     </dependencies>
     <build>
         <plugins>

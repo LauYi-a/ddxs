@@ -30,7 +30,7 @@ public interface IProducer<T> {
      *      处理定制业务
      * @return
      */
-    Boolean send(String topic,String key, ReturnHandle<T> handle);
+    Boolean send(String topic,String key, ReturnHandle<T> handle)throws Exception;
 
     /**
      * 向指定分区进行发送信息
@@ -49,5 +49,5 @@ public interface IProducer<T> {
      *      处理定制业务
      * @return
      */
-    Boolean send(String topic,Integer partition, ReturnHandle<T> handle);
+    Boolean send(String topic,Integer partition, ReturnHandle<T> handle)throws Exception;
 }

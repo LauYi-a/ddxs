@@ -36,21 +36,21 @@ public class ExceptionUtils {
     }
 
     /**
-     * 满足条件时抛出异常 带错误码
+     * 满足条件时抛出枚举异常 带错误码
      * @param condition
      * @param promptMessage
      */
-    public static void errorBusinessException(Boolean condition, CommonEnumConstant.PromptMessage promptMessage){
+    public static void businessException(Boolean condition, CommonEnumConstant.PromptMessage promptMessage){
         if (condition){
             throw new BusinessException(promptMessage.getCode(), promptMessage.getType(),promptMessage.getMsg());
         }
     }
 
     /**
-     * 抛出错误码业务异常 带错误码
+     * 抛出错误码业务枚举异常 带错误码
      * @param promptMessage
      */
-    public static void errorBusinessException(CommonEnumConstant.PromptMessage promptMessage){
+    public static void businessException(CommonEnumConstant.PromptMessage promptMessage){
         throw new BusinessException(promptMessage.getCode(), promptMessage.getType(),promptMessage.getMsg());
     }
 
@@ -59,9 +59,11 @@ public class ExceptionUtils {
      * @param condition
      * @param message
      */
-    public static void errorBusinessException(Boolean condition,String message ){
+    public static void businessException(Boolean condition,String message ){
         if (condition){
-            throw new ErrorBusinessException(message);
+            CommonEnumConstant.PromptMessage promptMessage = CommonEnumConstant.PromptMessage.FAILED;
+            throw new BusinessException(promptMessage.getCode(), promptMessage.getType(),message);
         }
     }
+
 }

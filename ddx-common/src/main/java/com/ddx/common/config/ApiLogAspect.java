@@ -9,7 +9,6 @@ import com.ddx.basis.utils.DateUtil;
 import com.ddx.basis.utils.IPUtils;
 import com.ddx.basis.utils.RequestContextUtils;
 import com.ddx.basis.utils.StringUtil;
-import com.ddx.common.mq.IProducer;
 import com.ddx.common.utils.OauthUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -18,7 +17,6 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.MDC;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -38,9 +36,6 @@ import java.util.Date;
 @Slf4j
 public class ApiLogAspect {
 
-    @Autowired
-    private IProducer producer;
-
     @Pointcut("execution(* com.ddx.*.controller.*.*(..))")
     private void controllerAspect() {}
 
@@ -57,8 +52,6 @@ public class ApiLogAspect {
         if (request != null) {
             RequestContextUtils.settingSerialNumber();
             SysApiLogVo sysLogAspectVo = setLogEntityVo(ConstantUtils.REQUEST_TYPE_REQ,RequestContextUtils.getRequest(),joinPoint.getArgs());
-            //请求日志占时不存储
-            //producer.send(sysLogAspectVo, UUIDUtil.getUUID(), ConstantUtils.SEND_LOG_ASPECT_TOPIC);
             log.info("request content is:\n{}", StringUtil.jsonFormatter(sysLogAspectVo,isFormatterLog));
         }
     }
@@ -82,8 +75,6 @@ public class ApiLogAspect {
                 responseData.setMsg(baseResponse.getMsg());
             }
             SysApiLogVo sysLogAspectVo = setLogEntityVo(ConstantUtils.REQUEST_TYPE_RESP,request,responseData);
-            //请求日志占时不存储
-            //producer.send(sysLogAspectVo, UUIDUtil.getUUID(), ConstantUtils.SEND_LOG_ASPECT_TOPIC);
             if (responseData.getType().equals(ConstantUtils.MSG_TYPE_INFO)||responseData.getType().equals(ConstantUtils.MSG_TYPE_SUCCESS)){
                 log.info("response content is:\n{}",  StringUtil.jsonFormatter(sysLogAspectVo,isFormatterLog));
             }else if (responseData.getType().equals(ConstantUtils.MSG_TYPE_WARNING)){
@@ -94,9 +85,9 @@ public class ApiLogAspect {
         }
     }
 
-    private SysApiLogVo setLogEntityVo(String type, HttpServletRequest request, Object data){
+    private SysApiLogVo setLogEntityVo(String type, HttpServletRequest request, Object result){
         return  SysApiLogVo.builder()
-                .data(data)
+                .result(result)
                 .header(Header.builder()
                         .serialNumber(MDC.get(ConstantUtils.REQUEST_SERIAL_NUMBER))
                         .url(request.getRequestURL().toString())

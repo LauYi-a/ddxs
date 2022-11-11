@@ -47,7 +47,7 @@ public class JwtAccessManager implements ReactiveAuthorizationManager<Authorizat
         String restFulPath = method + ConstantUtils.METHOD_SUFFIX + uri.getPath();
         //获取所有的uri->角色对应关系
         Map<Object, Object> entries = redisTemplate.hmget(ConstantUtils.OAUTH_URLS);
-        ExceptionUtils.errorBusinessException(entries.size() == 0, CommonEnumConstant.PromptMessage.REDIS_NOT_RESOURCES_ERROR);
+        ExceptionUtils.businessException(entries.size() == 0, CommonEnumConstant.PromptMessage.REDIS_NOT_RESOURCES_ERROR);
         //角色集合
         List<String> authorities = (List<String>) entries.get(restFulPath);
         //认证通过且角色匹配的用户可访问当前路径

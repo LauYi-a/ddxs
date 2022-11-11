@@ -24,5 +24,6 @@ eureka:
   client:
     service-url:
       defaultZone: http://ddx:ddx@127.0.0.1:8761/eureka/
-logFile:
-  logPath: D:\\logs
+ddxlog:
+  monitor-collector:
+    path: D:\\logs

@@ -14,6 +14,6 @@ public interface ReturnHandle<T> {
      * 业务处理
      * @return
      */
-    T execute();
+    T execute() throws Exception;
  
 }
