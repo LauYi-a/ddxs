@@ -170,6 +170,16 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis-reactive</artifactId>
         </dependency>
+        <!-- 工具插件 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.ddx</groupId>
+            <artifactId>ddx-util-redis</artifactId>
+            <version>${ddx-util-redis.version}</version>
+        </dependency>
     </dependencies>
 
     <build>

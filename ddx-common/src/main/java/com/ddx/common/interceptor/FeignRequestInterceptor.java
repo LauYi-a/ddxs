@@ -1,6 +1,6 @@
 package com.ddx.common.interceptor;
 
-import com.ddx.basis.utils.RequestContextUtils;
+import com.ddx.util.basis.utils.RequestContextUtils;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import org.springframework.stereotype.Component;

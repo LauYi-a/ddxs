@@ -1,8 +1,8 @@
 package com.ddx.gateway.config;
 
 import cn.hutool.json.JSONUtil;
-import com.ddx.basis.enums.CommonEnumConstant;
-import com.ddx.basis.response.ResponseData;
+import com.ddx.util.basis.enums.CommonEnumConstant;
+import com.ddx.util.basis.response.ResponseData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.RequestRateLimiterGatewayFilterFactory;

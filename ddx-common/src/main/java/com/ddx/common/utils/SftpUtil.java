@@ -1,8 +1,8 @@
 package com.ddx.common.utils;
 
-import com.ddx.basis.enums.CommonEnumConstant;
-import com.ddx.basis.exception.ExceptionUtils;
 import com.ddx.common.config.SftpConfig;
+import com.ddx.util.basis.enums.CommonEnumConstant;
+import com.ddx.util.basis.exception.ExceptionUtils;
 import com.jcraft.jsch.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;

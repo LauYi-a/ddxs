@@ -1,10 +1,6 @@
 package com.ddx.sys.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.ddx.basis.enums.CommonEnumConstant;
-import com.ddx.basis.exception.ExceptionUtils;
-import com.ddx.basis.response.BaseResponse;
-import com.ddx.basis.response.ResponseData;
 import com.ddx.sys.entity.SysResource;
 import com.ddx.sys.model.req.sysResource.SysResourceEditReq;
 import com.ddx.sys.model.req.sysResource.SysResourceQueryReq;
@@ -13,6 +9,10 @@ import com.ddx.sys.model.resp.sysResource.MenuTreeListResp;
 import com.ddx.sys.model.resp.sysResource.ServiceMenuResp;
 import com.ddx.sys.service.ISysResourceService;
 import com.ddx.sys.service.ISysUserResourceService;
+import com.ddx.util.basis.enums.CommonEnumConstant;
+import com.ddx.util.basis.exception.ExceptionUtils;
+import com.ddx.util.basis.response.BaseResponse;
+import com.ddx.util.basis.response.ResponseData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;

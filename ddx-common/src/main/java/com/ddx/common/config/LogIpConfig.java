@@ -2,7 +2,7 @@ package com.ddx.common.config;
 
 import ch.qos.logback.classic.pattern.ClassicConverter;
 import ch.qos.logback.classic.spi.ILoggingEvent;
-import com.ddx.basis.utils.IPUtils;
+import com.ddx.util.basis.utils.IPUtils;
 
 /**
  * @ClassName: LogIpConfig

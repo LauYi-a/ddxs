@@ -3,11 +3,11 @@ package com.ddx.auth.config;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ddx.auth.entity.SysUser;
 import com.ddx.auth.service.ISysUserService;
-import com.ddx.basis.constant.ConstantUtils;
-import com.ddx.basis.enums.CommonEnumConstant;
-import com.ddx.basis.model.vo.SysParamConfigVo;
-import com.ddx.basis.response.ResponseData;
-import com.ddx.common.utils.RedisTemplateUtils;
+import com.ddx.util.basis.constant.ConstantUtils;
+import com.ddx.util.basis.enums.CommonEnumConstant;
+import com.ddx.util.basis.model.vo.SysParamConfigVo;
+import com.ddx.util.basis.response.ResponseData;
+import com.ddx.util.redis.template.RedisTemplateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.event.AuthenticationFailureBadCredentialsEvent;
@@ -29,7 +29,7 @@ public class AuthenticationFailureListener implements ApplicationListener<Authen
 	@Autowired
 	private ISysUserService iSysUserService;
 	@Autowired
-	private RedisTemplateUtils redisTemplateUtils;
+	private RedisTemplateUtil redisTemplateUtils;
 
 	@Override
 	public void onApplicationEvent(AuthenticationFailureBadCredentialsEvent authenticationFailureBadCredentialsEvent) {

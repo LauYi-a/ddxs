@@ -1,8 +1,8 @@
 package com.ddx.gateway.exception;
 
 import cn.hutool.json.JSONUtil;
-import com.ddx.basis.enums.CommonEnumConstant;
-import com.ddx.basis.response.ResponseData;
+import com.ddx.util.basis.enums.CommonEnumConstant;
+import com.ddx.util.basis.response.ResponseData;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

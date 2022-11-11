@@ -4,16 +4,16 @@ import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.ddx.basis.constant.ConstantUtils;
-import com.ddx.basis.enums.CommonEnumConstant;
-import com.ddx.basis.exception.BusinessException;
-import com.ddx.basis.response.ResponseData;
-import com.ddx.basis.utils.ConversionUtils;
-import com.ddx.basis.utils.ResponseUtils;
-import com.ddx.basis.utils.StringUtil;
-import com.ddx.basis.utils.sm4.SM4Utils;
 import com.ddx.common.entity.LoginVal;
-import com.ddx.common.utils.RedisTemplateUtils;
+import com.ddx.util.basis.constant.ConstantUtils;
+import com.ddx.util.basis.enums.CommonEnumConstant;
+import com.ddx.util.basis.exception.BusinessException;
+import com.ddx.util.basis.response.ResponseData;
+import com.ddx.util.basis.utils.ConversionUtils;
+import com.ddx.util.basis.utils.ResponseUtils;
+import com.ddx.util.basis.utils.StringUtil;
+import com.ddx.util.basis.utils.sm4.SM4Utils;
+import com.ddx.util.redis.template.RedisTemplateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -36,7 +36,7 @@ import java.util.List;
 public class AuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
-    private RedisTemplateUtils redisTemplateUtils;
+    private RedisTemplateUtil redisTemplateUtils;
     /**
      * 具体方法主要分为两步
      * 1. 解密网关传递的信息

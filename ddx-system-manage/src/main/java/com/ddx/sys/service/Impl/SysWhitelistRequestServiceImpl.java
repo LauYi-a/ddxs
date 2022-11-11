@@ -5,12 +5,12 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ddx.basis.constant.ConstantUtils;
-import com.ddx.basis.enums.CommonEnumConstant;
-import com.ddx.common.utils.RedisTemplateUtils;
 import com.ddx.sys.entity.SysWhitelistRequest;
 import com.ddx.sys.mapper.SysWhitelistRequestMapper;
 import com.ddx.sys.service.ISysWhitelistRequestService;
+import com.ddx.util.basis.constant.ConstantUtils;
+import com.ddx.util.basis.enums.CommonEnumConstant;
+import com.ddx.util.redis.template.RedisTemplateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 public class SysWhitelistRequestServiceImpl extends ServiceImpl<SysWhitelistRequestMapper, SysWhitelistRequest> implements ISysWhitelistRequestService {
 
     @Autowired
-    private RedisTemplateUtils redisTemplate ;
+    private RedisTemplateUtil redisTemplate ;
 
     @Override
     public IPage<SysWhitelistRequest> selectPage(IPage<SysWhitelistRequest> arg0,  Wrapper<SysWhitelistRequest> arg1){

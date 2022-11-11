@@ -8,11 +8,11 @@ import com.ddx.auth.entity.SysUserRole;
 import com.ddx.auth.service.ISysRoleService;
 import com.ddx.auth.service.ISysUserRoleService;
 import com.ddx.auth.service.ISysUserService;
-import com.ddx.basis.constant.ConstantUtils;
-import com.ddx.basis.enums.CommonEnumConstant;
-import com.ddx.basis.exception.ExceptionUtils;
 import com.ddx.common.entity.SecurityUser;
-import com.ddx.common.utils.RedisTemplateUtils;
+import com.ddx.util.basis.constant.ConstantUtils;
+import com.ddx.util.basis.enums.CommonEnumConstant;
+import com.ddx.util.basis.exception.ExceptionUtils;
+import com.ddx.util.redis.template.RedisTemplateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -44,7 +44,7 @@ public class JwtTokenUserDetailsService implements UserDetailsService {
     private ISysRoleService sysRoleService;
 
     @Autowired
-    private RedisTemplateUtils redisTemplateUtils;
+    private RedisTemplateUtil redisTemplateUtils;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

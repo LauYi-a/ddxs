@@ -1,8 +1,8 @@
 package com.ddx.sys.model.resp.sysUser;
 
-import com.ddx.basis.constant.ConstantUtils;
 import com.ddx.sys.model.resp.sysResource.TreeMenuAndElAuthResp;
 import com.ddx.sys.model.resp.sysRole.SysRoleResp;
+import com.ddx.util.basis.constant.ConstantUtils;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

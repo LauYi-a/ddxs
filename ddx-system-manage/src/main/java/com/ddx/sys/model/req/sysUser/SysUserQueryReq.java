@@ -1,6 +1,6 @@
 package com.ddx.sys.model.req.sysUser;
 
-import com.ddx.basis.model.req.PageReq;
+import com.ddx.util.basis.model.req.PageReq;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

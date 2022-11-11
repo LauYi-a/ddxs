@@ -1,13 +1,13 @@
 package com.ddx.sys.controller;
 
-import com.ddx.basis.constant.ConstantUtils;
-import com.ddx.basis.enums.CommonEnumConstant;
-import com.ddx.basis.model.vo.SysParamConfigVo;
-import com.ddx.basis.response.BaseResponse;
-import com.ddx.basis.response.ResponseData;
-import com.ddx.basis.utils.DateUtil;
-import com.ddx.basis.utils.rsa.RSAUtils;
-import com.ddx.common.utils.RedisTemplateUtils;
+import com.ddx.util.basis.constant.ConstantUtils;
+import com.ddx.util.basis.enums.CommonEnumConstant;
+import com.ddx.util.basis.model.vo.SysParamConfigVo;
+import com.ddx.util.basis.response.BaseResponse;
+import com.ddx.util.basis.response.ResponseData;
+import com.ddx.util.basis.utils.DateUtil;
+import com.ddx.util.basis.utils.rsa.RSAUtils;
+import com.ddx.util.redis.template.RedisTemplateUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +34,7 @@ import java.util.Map;
 public class SysParamConfigController {
 
     @Autowired
-    private RedisTemplateUtils redisTemplateUtils;
+    private RedisTemplateUtil redisTemplateUtils;
 
     @PostMapping("/get-sys-param-config")
     @ApiOperation(httpMethod = "POST",value = "系统参数查询")

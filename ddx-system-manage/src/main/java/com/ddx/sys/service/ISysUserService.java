@@ -2,12 +2,12 @@ package com.ddx.sys.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.ddx.basis.model.resp.PaginatedResult;
-import com.ddx.basis.response.BaseResponse;
 import com.ddx.sys.entity.SysUser;
 import com.ddx.sys.model.req.sysUser.SysUserAddReq;
 import com.ddx.sys.model.req.sysUser.SysUserQueryReq;
 import com.ddx.sys.model.resp.sysUser.SysUserResp;
+import com.ddx.util.basis.model.resp.PaginatedResult;
+import com.ddx.util.basis.response.BaseResponse;
 
 import java.util.List;
 

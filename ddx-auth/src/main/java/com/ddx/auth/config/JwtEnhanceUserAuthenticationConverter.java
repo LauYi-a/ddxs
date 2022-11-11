@@ -1,7 +1,7 @@
 package com.ddx.auth.config;
 
-import com.ddx.basis.constant.ConstantUtils;
 import com.ddx.common.entity.SecurityUser;
+import com.ddx.util.basis.constant.ConstantUtils;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;

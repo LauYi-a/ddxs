@@ -2,10 +2,10 @@ package com.ddx.gateway.security;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
-import com.ddx.basis.constant.ConstantUtils;
-import com.ddx.basis.enums.CommonEnumConstant;
-import com.ddx.basis.exception.ExceptionUtils;
-import com.ddx.common.utils.RedisTemplateUtils;
+import com.ddx.util.basis.constant.ConstantUtils;
+import com.ddx.util.basis.enums.CommonEnumConstant;
+import com.ddx.util.basis.exception.ExceptionUtils;
+import com.ddx.util.redis.template.RedisTemplateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authorization.AuthorizationDecision;
@@ -33,7 +33,7 @@ import java.util.Map;
 public class JwtAccessManager implements ReactiveAuthorizationManager<AuthorizationContext> {
 
     @Autowired
-    private RedisTemplateUtils redisTemplate;
+    private RedisTemplateUtil redisTemplate;
 
     @Override
     public Mono<AuthorizationDecision> check(Mono<Authentication> mono, AuthorizationContext authorizationContext) {

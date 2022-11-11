@@ -5,8 +5,6 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ddx.basis.constant.ConstantUtils;
-import com.ddx.common.utils.RedisTemplateUtils;
 import com.ddx.sys.entity.SysPermission;
 import com.ddx.sys.entity.SysRole;
 import com.ddx.sys.entity.SysRolePermission;
@@ -15,6 +13,8 @@ import com.ddx.sys.model.vo.permission.RolePermissionVo;
 import com.ddx.sys.service.ISysPermissionService;
 import com.ddx.sys.service.ISysRolePermissionService;
 import com.ddx.sys.service.ISysRoleService;
+import com.ddx.util.basis.constant.ConstantUtils;
+import com.ddx.util.redis.template.RedisTemplateUtil;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,7 +39,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
     @Autowired
     private ISysRoleService sysRoleService;
     @Autowired
-    private RedisTemplateUtils redisTemplate;
+    private RedisTemplateUtil redisTemplate;
 
     public IPage<SysPermission> selectPage(IPage<SysPermission> arg0,  Wrapper<SysPermission> arg1){
         return this.baseMapper.selectPage(arg0, arg1);

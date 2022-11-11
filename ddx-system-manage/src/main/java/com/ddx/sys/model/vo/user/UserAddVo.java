@@ -1,11 +1,11 @@
 package com.ddx.sys.model.vo.user;
 
-import com.ddx.basis.constant.ConstantUtils;
-import com.ddx.basis.enums.CommonEnumConstant;
-import com.ddx.basis.utils.SerialNumber;
-import com.ddx.basis.utils.sm3.SM3Digest;
 import com.ddx.sys.entity.SysUser;
 import com.ddx.sys.model.req.sysUser.SysUserAddReq;
+import com.ddx.util.basis.constant.ConstantUtils;
+import com.ddx.util.basis.enums.CommonEnumConstant;
+import com.ddx.util.basis.utils.SerialNumber;
+import com.ddx.util.basis.utils.sm3.SM3Digest;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;

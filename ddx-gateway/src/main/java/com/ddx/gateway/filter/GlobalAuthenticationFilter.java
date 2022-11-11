@@ -2,17 +2,17 @@ package com.ddx.gateway.filter;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.ddx.basis.constant.ConstantUtils;
-import com.ddx.basis.enums.CommonEnumConstant;
-import com.ddx.basis.exception.ExceptionUtils;
-import com.ddx.basis.model.vo.SysParamConfigVo;
-import com.ddx.basis.response.BaseResponse;
-import com.ddx.basis.response.ResponseData;
-import com.ddx.basis.utils.ConversionUtils;
-import com.ddx.basis.utils.SerialNumber;
-import com.ddx.basis.utils.StringUtil;
-import com.ddx.basis.utils.sm4.SM4Utils;
-import com.ddx.common.utils.RedisTemplateUtils;
+import com.ddx.util.basis.constant.ConstantUtils;
+import com.ddx.util.basis.enums.CommonEnumConstant;
+import com.ddx.util.basis.exception.ExceptionUtils;
+import com.ddx.util.basis.model.vo.SysParamConfigVo;
+import com.ddx.util.basis.response.BaseResponse;
+import com.ddx.util.basis.response.ResponseData;
+import com.ddx.util.basis.utils.ConversionUtils;
+import com.ddx.util.basis.utils.SerialNumber;
+import com.ddx.util.basis.utils.StringUtil;
+import com.ddx.util.basis.utils.sm4.SM4Utils;
+import com.ddx.util.redis.template.RedisTemplateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.MDC;
@@ -56,7 +56,7 @@ public class GlobalAuthenticationFilter implements GlobalFilter, Ordered {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
     @Autowired
-    private RedisTemplateUtils redisTemplateUtils;
+    private RedisTemplateUtil redisTemplateUtils;
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {

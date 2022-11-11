@@ -2,14 +2,14 @@ package com.ddx.gateway.security;
 
 import cn.hutool.core.util.ArrayUtil;
 import com.alibaba.fastjson.JSONObject;
-import com.ddx.basis.constant.ConstantUtils;
-import com.ddx.basis.enums.CommonEnumConstant;
-import com.ddx.basis.exception.ExceptionUtils;
-import com.ddx.basis.utils.ConversionUtils;
-import com.ddx.common.utils.RedisTemplateUtils;
 import com.ddx.gateway.exception.RequestAccessDeniedHandler;
 import com.ddx.gateway.exception.RequestAuthenticationEntryPoint;
 import com.ddx.gateway.filter.CorsFilter;
+import com.ddx.util.basis.constant.ConstantUtils;
+import com.ddx.util.basis.enums.CommonEnumConstant;
+import com.ddx.util.basis.exception.ExceptionUtils;
+import com.ddx.util.basis.utils.ConversionUtils;
+import com.ddx.util.redis.template.RedisTemplateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -59,7 +59,7 @@ public class SecurityConfig {
      * 系统参数配置
      */
     @Autowired
-    private RedisTemplateUtils redisTemplateUtils;
+    private RedisTemplateUtil redisTemplateUtils;
 
     /**
      * token校验管理器

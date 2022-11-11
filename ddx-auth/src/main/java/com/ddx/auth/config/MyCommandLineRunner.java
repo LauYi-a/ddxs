@@ -8,10 +8,9 @@ import com.ddx.auth.entity.SysWhitelistRequest;
 import com.ddx.auth.model.resp.SysRolePermissionResp;
 import com.ddx.auth.service.ISysPermissionService;
 import com.ddx.auth.service.ISysWhitelistRequestService;
-import com.ddx.basis.constant.ConstantUtils;
-import com.ddx.basis.enums.CommonEnumConstant;
-import com.ddx.basis.model.vo.SysParamConfigVo;
-import com.ddx.common.utils.RedisTemplateUtils;
+import com.ddx.util.basis.constant.ConstantUtils;
+import com.ddx.util.basis.enums.CommonEnumConstant;
+import com.ddx.util.redis.template.RedisTemplateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -37,7 +36,7 @@ import java.util.stream.Collectors;
 public class MyCommandLineRunner implements CommandLineRunner {
 
     @Autowired
-    private RedisTemplateUtils redisTemplate;
+    private RedisTemplateUtil redisTemplate;
     @Resource
     private ISysPermissionService sysPermissionService;
     @Resource
@@ -51,12 +50,6 @@ public class MyCommandLineRunner implements CommandLineRunner {
             initRolePermission();
         });
         initRolePermission.start();
-
-        //获取系统参数配置初始化参数配置
-        Thread initSysParam = new Thread(()-> {
-            initSysParam();
-        });
-        initSysParam.start();
 
         //初始化白名单
         Thread initWhite = new Thread(()-> {
@@ -83,25 +76,6 @@ public class MyCommandLineRunner implements CommandLineRunner {
             }
         }).collect(Collectors.toList());
         log.info("初始化角色权限完成...");
-    }
-
-    /**
-     * 初始化系统参数
-     */
-    public void initSysParam(){
-        if (redisTemplate.hasKey(ConstantUtils.SYS_PARAM_CONFIG)) {
-            SysParamConfigVo sysParamConfigVo = (SysParamConfigVo) redisTemplate.get(ConstantUtils.SYS_PARAM_CONFIG);
-            redisTemplate.set(ConstantUtils.SYS_PARAM_CONFIG, sysParamConfigVo);
-        } else {
-            redisTemplate.set(ConstantUtils.SYS_PARAM_CONFIG, SysParamConfigVo.builder()
-                    .lpec(4)//登入错误次数默认四次
-                    .accountLockTime(Long.valueOf(3600))//默认3600秒
-                    .accessTokenTime(Long.valueOf(60 * 60 * 1))// 默认1小时
-                    .refreshTokenTime(Long.valueOf(60 * 60 * 24 * 1)) //默认1天
-                    .sysRequestTime(Long.valueOf(5))//系统请求时间默认5秒
-                    .build());
-        }
-        log.info("初始化系统参数配置完成...");
     }
 
     /**

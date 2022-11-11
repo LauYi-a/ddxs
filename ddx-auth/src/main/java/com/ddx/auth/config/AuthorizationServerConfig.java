@@ -3,9 +3,10 @@ package com.ddx.auth.config;
 import com.ddx.auth.exception.OAuthServerAuthenticationEntryPoint;
 import com.ddx.auth.exception.OAuthServerWebResponseExceptionTranslator;
 import com.ddx.auth.filter.OAuthServerClientCredentialsTokenEndpointFilter;
-import com.ddx.basis.constant.ConstantUtils;
-import com.ddx.basis.model.vo.SysParamConfigVo;
-import com.ddx.common.utils.RedisTemplateUtils;
+import com.ddx.util.basis.constant.ConstantUtils;
+import com.ddx.util.basis.model.vo.SysParamConfigVo;
+import com.ddx.util.redis.template.RedisTemplateUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,6 +26,8 @@ import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 
+import javax.annotation.PostConstruct;
+
 
 /**
  * @ClassName: AuthorizationServerConfig
@@ -35,6 +38,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
  * @Date: 2022年03月24日
  * @Version: 1.0
  */
+@Slf4j
 @Configuration
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
@@ -67,7 +71,29 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private RedisTemplateUtils redisTemplateUtils;
+    private RedisTemplateUtil redisTemplateUtils;
+
+
+    /**
+     * 初始化系统参数
+     */
+    @PostConstruct
+    public void initSysParam(){
+        if (redisTemplateUtils.hasKey(ConstantUtils.SYS_PARAM_CONFIG)) {
+            SysParamConfigVo sysParamConfigVo = (SysParamConfigVo) redisTemplateUtils.get(ConstantUtils.SYS_PARAM_CONFIG);
+            redisTemplateUtils.set(ConstantUtils.SYS_PARAM_CONFIG, sysParamConfigVo);
+        } else {
+            redisTemplateUtils.set(ConstantUtils.SYS_PARAM_CONFIG, SysParamConfigVo.builder()
+                    .lpec(4)//登入错误次数默认四次
+                    .accountLockTime(Long.valueOf(3600))//默认3600秒
+                    .accessTokenTime(Long.valueOf(60 * 60 * 1))// 默认1小时
+                    .refreshTokenTime(Long.valueOf(60 * 60 * 24 * 1)) //默认1天
+                    .sysRequestTime(Long.valueOf(5))//系统请求时间默认5秒
+                    .build());
+        }
+        log.info("初始化系统参数配置完成...");
+    }
+
     /**
      * 配置客户端详情，并不是所有的客户端都能接入授权服务
      */

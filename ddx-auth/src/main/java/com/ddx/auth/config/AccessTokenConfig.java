@@ -1,8 +1,8 @@
 package com.ddx.auth.config;
 
 
-import com.ddx.basis.constant.ConstantUtils;
 import com.ddx.common.entity.SecurityUser;
+import com.ddx.util.basis.constant.ConstantUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;

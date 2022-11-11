@@ -1,10 +1,10 @@
 package com.ddx.common.utils;
 
-import com.ddx.basis.constant.ConstantUtils;
-import com.ddx.basis.enums.CommonEnumConstant;
-import com.ddx.basis.exception.ExceptionUtils;
-import com.ddx.basis.utils.RequestContextUtils;
 import com.ddx.common.entity.LoginVal;
+import com.ddx.util.basis.constant.ConstantUtils;
+import com.ddx.util.basis.enums.CommonEnumConstant;
+import com.ddx.util.basis.exception.ExceptionUtils;
+import com.ddx.util.basis.utils.RequestContextUtils;
 import lombok.extern.slf4j.Slf4j;
 
 /**
