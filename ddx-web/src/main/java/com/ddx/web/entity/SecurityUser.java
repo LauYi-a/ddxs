@@ -1,4 +1,4 @@
-package com.ddx.common.entity;
+package com.ddx.web.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

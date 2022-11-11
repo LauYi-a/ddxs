@@ -20,7 +20,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @SpringCloudApplication
 @EnableAutoConfiguration(exclude= DruidDataSourceAutoConfigure.class)
 @EnableFeignClients(basePackages={"com.ddx"})
-@ComponentScan(basePackages = {"com.ddx.sys.*","com.ddx.util.redis.*","com.ddx.common.*"})
+@ComponentScan(basePackages = {"com.ddx.sys.*","com.ddx.util.redis.*","com.ddx.util.basis.*", "com.ddx.web.*"})
 public class DDXSystemManageApplication {
     public static void main(String[] args) {
         try {

@@ -26,7 +26,7 @@ import org.springframework.context.annotation.ComponentScan;
  */
 @SpringCloudApplication
 @EnableConfigurationProperties
-@ComponentScan(basePackages = {"com.ddx.common.utils","com.ddx.util.redis.*","com.ddx.gateway.*"})
+@ComponentScan(basePackages = {"com.ddx.util.redis.*","com.ddx.gateway.*"})
 public class DDXGatewayApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(DDXGatewayApplication.class, args);

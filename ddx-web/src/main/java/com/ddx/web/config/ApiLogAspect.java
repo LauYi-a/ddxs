@@ -1,6 +1,5 @@
-package com.ddx.common.config;
+package com.ddx.web.config;
 
-import com.ddx.common.utils.OauthUtils;
 import com.ddx.util.basis.constant.ConstantUtils;
 import com.ddx.util.basis.model.vo.Header;
 import com.ddx.util.basis.model.vo.SysApiLogVo;
@@ -92,8 +91,8 @@ public class ApiLogAspect {
                         .serialNumber(MDC.get(ConstantUtils.REQUEST_SERIAL_NUMBER))
                         .url(request.getRequestURL().toString())
                         .type(type)
-                        .nickname(OauthUtils.getCurrentUser().getNickname())
-                        .userId(OauthUtils.getCurrentUser().getUserId())
+                        .nickname(UserOauthInfo.getCurrentUser().getNickname())
+                        .userId(UserOauthInfo.getCurrentUser().getUserId())
                         .ip(IPUtils.getIpAddr(request))
                         .contentType(request.getContentType())
                         .dateTime(DateUtil.date2Str(new Date(),ConstantUtils.DATE_FORMAT_8))

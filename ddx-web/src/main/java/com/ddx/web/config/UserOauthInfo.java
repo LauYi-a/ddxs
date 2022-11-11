@@ -1,10 +1,10 @@
-package com.ddx.common.utils;
+package com.ddx.web.config;
 
-import com.ddx.common.entity.LoginVal;
 import com.ddx.util.basis.constant.ConstantUtils;
 import com.ddx.util.basis.enums.CommonEnumConstant;
 import com.ddx.util.basis.exception.ExceptionUtils;
 import com.ddx.util.basis.utils.RequestContextUtils;
+import com.ddx.web.entity.LoginVal;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
  * @Version: 1.0
  */
 @Slf4j
-public class OauthUtils {
+public class UserOauthInfo {
 
     /**
      * 获取当前请求登录用户的详细信息

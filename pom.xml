@@ -13,7 +13,7 @@
         <module>ddx-eureka</module>
         <module>ddx-gateway</module>
         <module>ddx-config</module>
-        <module>ddx-common</module>
+        <module>ddx-web</module>
         <module>ddx-auth</module>
         <module>ddx-system-manage</module>
         <module>ddx-log</module>
@@ -70,7 +70,7 @@
         <!-- security-oauth2 -->
         <spring-security-oauth2-resource-server.version>5.2.2.RELEASE</spring-security-oauth2-resource-server.version>
         <!-- 内部工程 -->
-        <ddx-common.version>1.0-SNAPSHOT</ddx-common.version>
+        <ddx-web.version>1.0-SNAPSHOT</ddx-web.version>
         <ddx-basis.version>1.0-SNAPSHOT</ddx-basis.version>
         <ddx-log-mc.version>1.0-SNAPSHOT</ddx-log-mc.version>
         <ddx-util-redis.version>1.0-SNAPSHOT</ddx-util-redis.version>

@@ -28,6 +28,28 @@
     </profiles>
 
     <dependencies>
+        <!--eureka 客户端-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+        <!--断路器依赖-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
+        </dependency>
+        <!--配置文件处理器-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <!-- commons-pool2  redis 连接池-->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+            <version>${commons-pool2.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-gateway</artifactId>
@@ -120,65 +142,51 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-jwt</artifactId>
         </dependency>
-        <!-- ddx-common -->
-        <dependency>
-            <groupId>com.ddx</groupId>
-            <artifactId>ddx-common</artifactId>
-            <version>${ddx-common.version}</version>
-            <exclusions>
-                <!-- 数据库 配置多数据源 -->
-                <exclusion>
-                    <groupId>com.baomidou</groupId>
-                    <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
-                </exclusion>
-                <!-- 阿里数据库连接池 -->
-                <exclusion>
-                    <groupId>com.alibaba</groupId>
-                    <artifactId>druid-spring-boot-starter</artifactId>
-                </exclusion>
-                <!-- mybatis-plus start 包含代码生成器依赖 -->
-                <exclusion>
-                    <groupId>com.baomidou</groupId>
-                    <artifactId>mybatis-plus-boot-starter</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>mysql</groupId>
-                    <artifactId>mysql-connector-java</artifactId>
-                </exclusion>
-                <!-- easyPoi -->
-                <exclusion>
-                    <groupId>cn.afterturn</groupId>
-                    <artifactId>easypoi-base</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>cn.afterturn</groupId>
-                    <artifactId>easypoi-web</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>cn.afterturn</groupId>
-                    <artifactId>easypoi-annotation</artifactId>
-                </exclusion>
-                <!--security验证-->
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-security</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
         <!-- redis 限流配置-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis-reactive</artifactId>
+        </dependency>
+        <!-- reids redisson 分布式锁-->
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson</artifactId>
+            <version>${redisson.version}</version>
         </dependency>
         <!-- 工具插件 -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
         </dependency>
+        <!-- hutool java工具类库  -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>${hutool.version}</version>
+        </dependency>
+        <!-- lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+        </dependency>
+        <!-- json插件 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
+        </dependency>
+        <!-- reids公共服务-->
         <dependency>
             <groupId>com.ddx</groupId>
             <artifactId>ddx-util-redis</artifactId>
             <version>${ddx-util-redis.version}</version>
+        </dependency>
+        <!-- 基础服务 -->
+        <dependency>
+            <groupId>com.ddx</groupId>
+            <artifactId>ddx-util-basis</artifactId>
+            <version>${ddx-util-basis.version}</version>
         </dependency>
     </dependencies>
 

@@ -50,11 +50,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-undertow</artifactId>
         </dependency>
-        <!-- ddx-common -->
+        <!-- ddx-web -->
         <dependency>
             <groupId>com.ddx</groupId>
-            <artifactId>ddx-common</artifactId>
-            <version>${ddx-common.version}</version>
+            <artifactId>ddx-web</artifactId>
+            <version>${ddx-web.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>

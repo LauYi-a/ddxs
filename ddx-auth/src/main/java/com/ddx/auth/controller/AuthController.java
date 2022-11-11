@@ -1,12 +1,12 @@
 package com.ddx.auth.controller;
 
-import com.ddx.common.entity.LoginVal;
-import com.ddx.common.utils.OauthUtils;
 import com.ddx.util.basis.constant.ConstantUtils;
 import com.ddx.util.basis.enums.CommonEnumConstant;
 import com.ddx.util.basis.response.BaseResponse;
 import com.ddx.util.basis.response.ResponseData;
 import com.ddx.util.redis.template.RedisTemplateUtil;
+import com.ddx.web.config.UserOauthInfo;
+import com.ddx.web.entity.LoginVal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,7 +31,7 @@ public class AuthController {
 
     @PostMapping("/logout")
     public BaseResponse logout(){
-        LoginVal loginVal = OauthUtils.getCurrentUser();
+        LoginVal loginVal = UserOauthInfo.getCurrentUser();
         log.info("令牌唯一ID：{},退出用户：{} 过期时间：{}",loginVal.getJti(),loginVal.getUsername(),loginVal.getExpireIn());
         redisTemplateUtils.set(ConstantUtils.JTI_KEY_PREFIX+loginVal.getJti(),loginVal.getUsername(),loginVal.getExpireIn());
         return ResponseData.out(CommonEnumConstant.PromptMessage.REVOKE_TOKEN_YES);

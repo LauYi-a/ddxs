@@ -1,4 +1,4 @@
-package com.ddx.common.config;
+package com.ddx.util.basis.config;
 
 import ch.qos.logback.classic.pattern.ClassicConverter;
 import ch.qos.logback.classic.spi.ILoggingEvent;

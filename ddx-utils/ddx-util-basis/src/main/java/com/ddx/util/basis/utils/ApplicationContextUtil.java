@@ -1,4 +1,4 @@
-package com.ddx.common.utils;
+package com.ddx.util.basis.utils;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;

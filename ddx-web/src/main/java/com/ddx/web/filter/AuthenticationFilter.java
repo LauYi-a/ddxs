@@ -1,10 +1,9 @@
-package com.ddx.common.filter;
+package com.ddx.web.filter;
 
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.ddx.common.entity.LoginVal;
 import com.ddx.util.basis.constant.ConstantUtils;
 import com.ddx.util.basis.enums.CommonEnumConstant;
 import com.ddx.util.basis.exception.BusinessException;
@@ -14,6 +13,7 @@ import com.ddx.util.basis.utils.ResponseUtils;
 import com.ddx.util.basis.utils.StringUtil;
 import com.ddx.util.basis.utils.sm4.SM4Utils;
 import com.ddx.util.redis.template.RedisTemplateUtil;
+import com.ddx.web.entity.LoginVal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;

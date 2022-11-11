@@ -1,4 +1,4 @@
-package com.ddx.common.interceptor;
+package com.ddx.web.interceptor;
 
 import com.ddx.util.basis.utils.RequestContextUtils;
 import feign.RequestInterceptor;

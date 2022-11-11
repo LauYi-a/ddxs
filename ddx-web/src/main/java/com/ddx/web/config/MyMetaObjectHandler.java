@@ -1,7 +1,6 @@
-package com.ddx.common.config;
+package com.ddx.web.config;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
-import com.ddx.common.utils.OauthUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.stereotype.Component;
@@ -24,17 +23,17 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
 	public void insertFill(MetaObject metaObject) {
 		this.setFieldValByName("createTime", LocalDateTime.now(), metaObject);
 		this.setFieldValByName("updateTime", LocalDateTime.now(), metaObject);
-		this.setFieldValByName("createId", Long.valueOf(OauthUtils.getCurrentUser().getUserId()), metaObject);
-		this.setFieldValByName("updateId", Long.valueOf(OauthUtils.getCurrentUser().getUserId()), metaObject);
-		this.setFieldValByName("createName",OauthUtils.getCurrentUser().getNickname(), metaObject);
-		this.setFieldValByName("updateName",OauthUtils.getCurrentUser().getNickname(), metaObject);
+		this.setFieldValByName("createId", Long.valueOf(UserOauthInfo.getCurrentUser().getUserId()), metaObject);
+		this.setFieldValByName("updateId", Long.valueOf(UserOauthInfo.getCurrentUser().getUserId()), metaObject);
+		this.setFieldValByName("createName", UserOauthInfo.getCurrentUser().getNickname(), metaObject);
+		this.setFieldValByName("updateName", UserOauthInfo.getCurrentUser().getNickname(), metaObject);
 	}
 
 	@Override
 	public void updateFill(MetaObject metaObject) {
 		this.setFieldValByName("updateTime", LocalDateTime.now(), metaObject);
-		this.setFieldValByName("updateId",Long.valueOf(OauthUtils.getCurrentUser().getUserId()), metaObject);
-		this.setFieldValByName("updateName",OauthUtils.getCurrentUser().getNickname(), metaObject);
+		this.setFieldValByName("updateId",Long.valueOf(UserOauthInfo.getCurrentUser().getUserId()), metaObject);
+		this.setFieldValByName("updateName", UserOauthInfo.getCurrentUser().getNickname(), metaObject);
 
 	}
 }

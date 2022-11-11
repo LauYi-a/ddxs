@@ -12,7 +12,7 @@
 	<conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />
 	<conversionRule conversionWord="wEx"
 					converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
-    <conversionRule conversionWord="ip" converterClass="com.ddx.common.config.LogIpConfig" />
+    <conversionRule conversionWord="ip" converterClass="com.ddx.util.basis.config.LogIpConfig" />
     <!-- Console log output -->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder  class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
