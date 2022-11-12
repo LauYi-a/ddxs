@@ -32,7 +32,7 @@ public class ThreadPoolUtils {
      * @param poolName 线程池名称
      * @param runnable 需要运行的任务
      */
-    public static void execute(String poolName,Runnable runnable) {
+    public static void execute(String poolName,Runnable runnable){
         getThreadPool(poolName).execute(runnable);
     }
 

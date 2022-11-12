@@ -84,9 +84,7 @@ public class CommonEnumConstant {
         DELETE_USER_RESOURCE_ERROR(ConstantUtils.MSG_RESPONSE_CODE_ERROR, ConstantUtils.MSG_TYPE_ERROR,"删除用户资源失败"),
         KAFKA_SEND_ERROR(ConstantUtils.MSG_RESPONSE_CODE_ERROR,ConstantUtils.MSG_TYPE_ERROR,"发送消息失败: %s"),
         KAFKA_CONSUMER_ERROR(ConstantUtils.MSG_RESPONSE_CODE_ERROR,ConstantUtils.MSG_TYPE_ERROR,"消费消息失败: %s"),
-        WRITER_FILE_ERROR(ConstantUtils.MSG_RESPONSE_CODE_ERROR,ConstantUtils.MSG_TYPE_ERROR,"写入文件异常"),
-        SFTP_CREATE_CD_DIRS_ERROR(ConstantUtils.MSG_RESPONSE_CODE_ERROR,ConstantUtils.MSG_TYPE_ERROR,"创建并进入目录失败"),
-        REDE_FILE_ERROR(ConstantUtils.MSG_RESPONSE_CODE_ERROR,ConstantUtils.MSG_TYPE_ERROR,"读取文件异常")
+        LOG_COLLECTOR_ERROR(ConstantUtils.MSG_RESPONSE_CODE_ERROR,ConstantUtils.MSG_TYPE_ERROR,"日志采集后处理失败：%s")
         ;
 
         PromptMessage(Integer code, String type,String msg){

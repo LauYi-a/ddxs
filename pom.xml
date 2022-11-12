@@ -16,8 +16,6 @@
         <module>ddx-web</module>
         <module>ddx-auth</module>
         <module>ddx-system-manage</module>
-        <module>ddx-log</module>
-        <!--<module>ddx-basis</module>-->
         <module>ddx-file</module>
         <module>ddx-log-mc</module>
         <module>ddx-utils</module>
@@ -72,7 +70,7 @@
         <!-- 内部工程 -->
         <ddx-web.version>1.0-SNAPSHOT</ddx-web.version>
         <ddx-basis.version>1.0-SNAPSHOT</ddx-basis.version>
-        <ddx-log-mc.version>1.0-SNAPSHOT</ddx-log-mc.version>
+        <ddx-util-log-mc.version>1.0-SNAPSHOT</ddx-util-log-mc.version>
         <ddx-util-redis.version>1.0-SNAPSHOT</ddx-util-redis.version>
         <ddx-util-basis.version>1.0-SNAPSHOT</ddx-util-basis.version>
     </properties>

@@ -34,4 +34,4 @@ eureka:
       defaultZone: http://ddx:ddx@127.0.0.1:8761/eureka/
 ddxlog:
   monitor-collector:
-    path: D:\\logs
+    monitor-file-path: D:\\logs

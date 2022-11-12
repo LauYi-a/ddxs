@@ -151,7 +151,7 @@ public class ConstantUtils {
     /**
      * 线程持名称
      */
-    public final static String THREAD_POOL_LOG_NAME= "thread_pool_log_name";
+    public final static String THREAD_POOL_LOG_MC= "thread_pool_log_mc";
 
     /**
      * 监控日志文件名称
