@@ -26,7 +26,7 @@ public class ValidatedConfig {
                 ,String.format("请在yml文件中配置 ddxlog.monitor-collector.monitor-file-path 监控文件路径参数"));
         ExceptionUtils.businessException(!StringUtils.isNoneBlank(logmcConfig.getLogMcPath())
                 ,String.format("请在yml文件中配置 ddxlog.monitor-collector.logmc-path 配置文件路径参数"));
-        ExceptionUtils.businessException(!ConfigFileUtil.isConfigFile(logmcConfig.getLogMcPath(),logmcConfig.getLogmcName())
-                ,String.format("日志监控启动失败，需要在 %s 此路径下创建 %s 配置文件",logmcConfig.getLogMcPath(),logmcConfig.getLogmcName()));
+        ExceptionUtils.businessException(!ConfigFileUtil.isConfigFile(logmcConfig.getLogMcPath(),logmcConfig.getLogMcName())
+                ,String.format("日志监控启动失败，需要在 %s 此路径下创建 %s 配置文件",logmcConfig.getLogMcPath(),logmcConfig.getLogMcName()));
     };
 }

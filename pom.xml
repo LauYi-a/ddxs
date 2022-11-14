@@ -17,7 +17,6 @@
         <module>ddx-auth</module>
         <module>ddx-system-manage</module>
         <module>ddx-file</module>
-        <module>ddx-log-mc</module>
         <module>ddx-utils</module>
     </modules>
 
@@ -67,12 +66,15 @@
         <druid-spring-boot-starter.version>1.1.21</druid-spring-boot-starter.version>
         <!-- security-oauth2 -->
         <spring-security-oauth2-resource-server.version>5.2.2.RELEASE</spring-security-oauth2-resource-server.version>
+        <!-- es -->
+        <elasticsearch.version>8.5.0</elasticsearch.version>
         <!-- 内部工程 -->
         <ddx-web.version>1.0-SNAPSHOT</ddx-web.version>
         <ddx-basis.version>1.0-SNAPSHOT</ddx-basis.version>
         <ddx-util-log-mc.version>1.0-SNAPSHOT</ddx-util-log-mc.version>
         <ddx-util-redis.version>1.0-SNAPSHOT</ddx-util-redis.version>
         <ddx-util-basis.version>1.0-SNAPSHOT</ddx-util-basis.version>
+        <ddx-util-es.version>1.0-SNAPSHOT</ddx-util-es.version>
     </properties>
 
     <dependencies>

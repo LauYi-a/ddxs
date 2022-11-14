@@ -31,6 +31,12 @@
             <artifactId>ddx-util-log-mc</artifactId>
             <version>${ddx-util-log-mc.version}</version>
         </dependency>
+        <!-- es 公共服务 -->
+        <dependency>
+            <groupId>com.ddx</groupId>
+            <artifactId>ddx-util-es</artifactId>
+            <version>${ddx-util-es.version}</version>
+        </dependency>
         <!-- ddx-web -->
         <dependency>
             <groupId>com.ddx</groupId>

@@ -47,7 +47,7 @@ public class LogCollectorDevice {
                     long skip = logMonitorCollector.getOffset()<lineSum?logMonitorCollector.getOffset():0;
                     Stream<String> stringStream = bufferedReader.lines().skip(skip).limit(lineSum - skip);
                     String data = stringStream.collect(Collectors.joining("\n"))+"\n";
-                    System.out.println(data);
+                    //System.out.println(data);
                /* LogMonitorFileVo monitorFileVo = LogMonitorFileVo.builder()
                         .data(data)
                         .serviceName(serviceName)

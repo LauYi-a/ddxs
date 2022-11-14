@@ -134,3 +134,6 @@ sftp:
   username: ddxuser
   password: 123456
   port: 22
+es:
+  nodes: 127.0.0.1:9200
+  alias: true  # 是否使用别名的方式访问

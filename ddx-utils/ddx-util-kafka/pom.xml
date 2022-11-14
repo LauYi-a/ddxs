@@ -20,18 +20,6 @@
             <artifactId>ddx-util-basis</artifactId>
             <version>${ddx-util-basis.version}</version>
         </dependency>
-        <!-- lombok -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
-        </dependency>
-        <!-- json插件 -->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>${fastjson.version}</version>
-        </dependency>
         <!-- kafka -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>

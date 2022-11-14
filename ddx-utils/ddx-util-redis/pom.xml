@@ -21,17 +21,6 @@
             <artifactId>ddx-util-basis</artifactId>
             <version>${ddx-util-basis.version}</version>
         </dependency>
-        <!-- lombok -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
-        </dependency>
-        <!-- 工具插件 -->
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-        </dependency>
         <!--配置文件处理器-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
