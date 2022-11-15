@@ -55,4 +55,4 @@ management:
       show-details: ALWAYS
 ddxlog:
   monitor-collector:
-    path: D:\\logs
+    monitor-file-path: D:\\logs

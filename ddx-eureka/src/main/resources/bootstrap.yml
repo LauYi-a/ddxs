@@ -34,4 +34,4 @@ management:
         include: '*'
 ddxlog:
   monitor-collector:
-    path: D:\\logs
+    monitor-file-path: D:\\logs

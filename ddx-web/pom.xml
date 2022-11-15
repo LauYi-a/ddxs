@@ -140,12 +140,6 @@
             <artifactId>easypoi-annotation</artifactId>
             <version>${easypoi-annotation.version}</version>
         </dependency>
-        <!-- 基础服务 -->
-        <dependency>
-            <groupId>com.ddx</groupId>
-            <artifactId>ddx-util-basis</artifactId>
-            <version>${ddx-util-basis.version}</version>
-        </dependency>
         <!--redis 公共服务-->
         <dependency>
             <groupId>com.ddx</groupId>
