@@ -52,7 +52,6 @@
         <guava.version>29.0-jre</guava.version>
         <jackson-annotations.version>2.11.4</jackson-annotations.version>
         <ribbon-core.version>2.3.0</ribbon-core.version>
-        <httpclient.version>4.5.13</httpclient.version>
         <!-- redis -->
         <spring-boot-starter-data-redis.version>2.4.0</spring-boot-starter-data-redis.version>
         <commons-pool2.version>2.9.0</commons-pool2.version>
@@ -65,6 +64,7 @@
         <druid-spring-boot-starter.version>1.1.21</druid-spring-boot-starter.version>
         <!-- security-oauth2 -->
         <spring-security-oauth2-resource-server.version>5.2.2.RELEASE</spring-security-oauth2-resource-server.version>
+        <httpclient.version>4.5.13</httpclient.version>
         <!-- es -->
         <elasticsearch.version>8.5.0</elasticsearch.version>
         <!-- 内部工程 -->
@@ -88,6 +88,11 @@
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>${httpclient.version}</version>
         </dependency>
     </dependencies>
 

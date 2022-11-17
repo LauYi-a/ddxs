@@ -3,8 +3,8 @@ package com.ddx.auth.config;
 import com.ddx.auth.exception.OAuthServerAuthenticationEntryPoint;
 import com.ddx.auth.exception.OAuthServerWebResponseExceptionTranslator;
 import com.ddx.auth.filter.OAuthServerClientCredentialsTokenEndpointFilter;
-import com.ddx.util.basis.constant.ConstantUtils;
 import com.ddx.util.basis.model.vo.SysParamConfigVo;
+import com.ddx.util.redis.constant.LockConstant;
 import com.ddx.util.redis.template.RedisTemplateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,11 +79,11 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
      */
     @PostConstruct
     public void initSysParam(){
-        if (redisTemplateUtils.hasKey(ConstantUtils.SYS_PARAM_CONFIG)) {
-            SysParamConfigVo sysParamConfigVo = (SysParamConfigVo) redisTemplateUtils.get(ConstantUtils.SYS_PARAM_CONFIG);
-            redisTemplateUtils.set(ConstantUtils.SYS_PARAM_CONFIG, sysParamConfigVo);
+        if (redisTemplateUtils.hasKey(LockConstant.SYS_PARAM_CONFIG)) {
+            SysParamConfigVo sysParamConfigVo = (SysParamConfigVo) redisTemplateUtils.get(LockConstant.SYS_PARAM_CONFIG);
+            redisTemplateUtils.set(LockConstant.SYS_PARAM_CONFIG, sysParamConfigVo);
         } else {
-            redisTemplateUtils.set(ConstantUtils.SYS_PARAM_CONFIG, SysParamConfigVo.builder()
+            redisTemplateUtils.set(LockConstant.SYS_PARAM_CONFIG, SysParamConfigVo.builder()
                     .lpec(4)//登入错误次数默认四次
                     .accountLockTime(Long.valueOf(3600))//默认3600秒
                     .accessTokenTime(Long.valueOf(60 * 60 * 1))// 默认1小时
@@ -123,7 +123,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
      */
     @Bean
     public AuthorizationServerTokenServices tokenServices() {
-        SysParamConfigVo sysParamConfigVo = (SysParamConfigVo) redisTemplateUtils.get(ConstantUtils.SYS_PARAM_CONFIG);
+        SysParamConfigVo sysParamConfigVo = (SysParamConfigVo) redisTemplateUtils.get(LockConstant.SYS_PARAM_CONFIG);
         DefaultTokenServices services = new DefaultTokenServices();
         //客户端端配置策略
         services.setClientDetailsService(clientDetailsService);

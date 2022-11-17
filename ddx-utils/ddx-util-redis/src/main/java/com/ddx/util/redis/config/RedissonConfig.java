@@ -1,6 +1,6 @@
 package com.ddx.util.redis.config;
 
-import com.ddx.util.basis.constant.ConstantUtils;
+import com.ddx.util.redis.constant.LockConstant;
 import org.apache.commons.lang3.StringUtils;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,8 +28,8 @@ public class RedissonConfig {
     public RedissonClient redissonClient() {
         String pasw = StringUtils.isBlank(password)?null:password;
         String redissonAddress = "";
-        redissonAddress = redisPattern.equals(ConstantUtils.REDIS_PATTERN_MULTIPLE)? ConstantUtils.CLUSTER_SERVER + address:
-                redisPattern.equals(ConstantUtils.REDIS_PATTERN_STAND_ALONE)?ConstantUtils.SINGLE_SERVER + address:"";
+        redissonAddress = redisPattern.equals(LockConstant.REDIS_PATTERN_MULTIPLE)? LockConstant.CLUSTER_SERVER + address:
+                redisPattern.equals(LockConstant.REDIS_PATTERN_STAND_ALONE)?LockConstant.SINGLE_SERVER + address:"";
         return RedissonFactory.createRedisson(redissonAddress,pasw);
     }
 

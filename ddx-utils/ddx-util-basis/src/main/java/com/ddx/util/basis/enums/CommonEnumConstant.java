@@ -46,8 +46,6 @@ public class CommonEnumConstant {
         USERNAME_OR_PASSWORD_ERROR(ConstantUtils.MSG_RESPONSE_CODE_WARNING,ConstantUtils.MSG_TYPE_WARNING,"用户名或密码错误"),
         USER_OLD_PASSWORD_ERROR(ConstantUtils.MSG_RESPONSE_CODE_WARNING,ConstantUtils.MSG_TYPE_WARNING,"用户旧密码错误"),
         USER_NEW_PASSWORD_ERROR(ConstantUtils.MSG_RESPONSE_CODE_WARNING,ConstantUtils.MSG_TYPE_WARNING,"新密码不一致"),
-        IN_BUSINESS_PROCESS_ERROR(ConstantUtils.MSG_RESPONSE_CODE_WARNING,ConstantUtils.MSG_TYPE_WARNING,"业务处理中"),
-        REDIS_LOCK_KEY_ISNULL_ERROR(ConstantUtils.MSG_RESPONSE_CODE_WARNING,ConstantUtils.MSG_TYPE_WARNING,"分布式锁KEY为空"),
         USER_MENU_ISNULL_ERROR(ConstantUtils.MSG_RESPONSE_CODE_WARNING,ConstantUtils.MSG_TYPE_WARNING,"用户未分配可用菜单"),
         NO_TOKEN(ConstantUtils.MSG_RESPONSE_CODE_WARNING,ConstantUtils.MSG_TYPE_WARNING,"无TOKEN信息"),
         ROLE_CODE_ERROR(ConstantUtils.MSG_RESPONSE_CODE_WARNING,ConstantUtils.MSG_TYPE_WARNING,"角色编号已存在"),

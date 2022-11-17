@@ -15,12 +15,6 @@
     <packaging>jar</packaging>
     <name>ddx-util-redis</name>
     <dependencies>
-        <!-- 基础服务 -->
-        <dependency>
-            <groupId>com.ddx</groupId>
-            <artifactId>ddx-util-basis</artifactId>
-            <version>${ddx-util-basis.version}</version>
-        </dependency>
         <!--配置文件处理器-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -44,6 +38,17 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-pool2</artifactId>
             <version>${commons-pool2.version}</version>
+        </dependency>
+        <!-- 工具插件 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+        <!-- lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
         </dependency>
     </dependencies>
     <build>

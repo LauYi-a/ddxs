@@ -16,10 +16,15 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LogMonitorCollectorDTO {
+public class LogMonitorCollectorConfigDTO {
 
     /**
      * 日志文件读取偏移量
      */
     private Long offset;
+
+    /**
+     * 每次最大读日志行
+     */
+    private long maxReadLine;
 }

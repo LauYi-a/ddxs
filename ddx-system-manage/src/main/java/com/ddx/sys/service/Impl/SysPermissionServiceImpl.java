@@ -14,6 +14,7 @@ import com.ddx.sys.service.ISysPermissionService;
 import com.ddx.sys.service.ISysRolePermissionService;
 import com.ddx.sys.service.ISysRoleService;
 import com.ddx.util.basis.constant.ConstantUtils;
+import com.ddx.util.redis.constant.LockConstant;
 import com.ddx.util.redis.template.RedisTemplateUtil;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,7 +67,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
                         .build());
             });
             //先删除Redis中原来的权限hash表
-            redisTemplate.del(ConstantUtils.OAUTH_URLS);
+            redisTemplate.del(LockConstant.OAUTH_URLS);
             list.parallelStream().peek(k->{
                 List<Object> roles=new ArrayList<>();
                 if (CollectionUtil.isNotEmpty(k.getRoles())){
@@ -75,7 +76,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
                     }
                 }
                 //然后更新Redis中的权限
-                redisTemplate.hset(ConstantUtils.OAUTH_URLS,k.getUrl(), roles);
+                redisTemplate.hset(LockConstant.OAUTH_URLS,k.getUrl(), roles);
             }).collect(Collectors.toList());
             return true;
         }catch (Exception ex){

@@ -12,6 +12,7 @@ import com.ddx.util.basis.utils.ConversionUtils;
 import com.ddx.util.basis.utils.SerialNumber;
 import com.ddx.util.basis.utils.StringUtil;
 import com.ddx.util.basis.utils.sm4.SM4Utils;
+import com.ddx.util.redis.constant.LockConstant;
 import com.ddx.util.redis.template.RedisTemplateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -66,20 +67,20 @@ public class GlobalAuthenticationFilter implements GlobalFilter, Ordered {
         ServerHttpRequest request = exchange.getRequest();
         String ip = request.getRemoteAddress().getAddress().toString();
         //1.判断是否存在短时间请求频繁
-        if (redisTemplateUtils.isLock(ConstantUtils.SYSTEM_REQUEST+ip+requestUrl)){
+        if (redisTemplateUtils.isLock(LockConstant.SYSTEM_REQUEST+ip+requestUrl)){
             return frequentResponseError(exchange);
         }
 
         //2.请求时效白名单
-        List<String> requestTimeWhitelist =  ConversionUtils.castList(JSONObject.parseArray(redisTemplateUtils.get(ConstantUtils.REQUEST_TIME_WHITELIST).toString()),String.class);
+        List<String> requestTimeWhitelist =  ConversionUtils.castList(JSONObject.parseArray(redisTemplateUtils.get(LockConstant.REQUEST_TIME_WHITELIST).toString()),String.class);
         ExceptionUtils.businessException(requestTimeWhitelist.size() == 0, CommonEnumConstant.PromptMessage.INIT_WHITELIST_ERROR);
         if (!StringUtil.checkUrls(requestTimeWhitelist, requestUrl)) {
-            SysParamConfigVo sysParamConfigVo = (SysParamConfigVo) redisTemplateUtils.get(ConstantUtils.SYS_PARAM_CONFIG);
-            redisTemplateUtils.lock(ConstantUtils.SYSTEM_REQUEST + ip + requestUrl, sysParamConfigVo.getSysRequestTime());
+            SysParamConfigVo sysParamConfigVo = (SysParamConfigVo) redisTemplateUtils.get(LockConstant.SYS_PARAM_CONFIG);
+            redisTemplateUtils.lock(LockConstant.SYSTEM_REQUEST + ip + requestUrl, sysParamConfigVo.getSysRequestTime());
         }
 
         //3.白名单放行
-        List<String> ignoreUrls =  ConversionUtils.castList(JSONObject.parseArray(redisTemplateUtils.get(ConstantUtils.WHITELIST_REQUEST).toString()),String.class);
+        List<String> ignoreUrls =  ConversionUtils.castList(JSONObject.parseArray(redisTemplateUtils.get(LockConstant.WHITELIST_REQUEST).toString()),String.class);
         ExceptionUtils.businessException(ignoreUrls.size() == 0, CommonEnumConstant.PromptMessage.INIT_WHITELIST_ERROR);
         if (StringUtil.checkUrls(ignoreUrls, requestUrl)){
             exchange.getRequest().mutate()
@@ -100,7 +101,7 @@ public class GlobalAuthenticationFilter implements GlobalFilter, Ordered {
             //令牌的唯一ID
             String jti=additionalInformation.get(ConstantUtils.JTI).toString();
             /**查看黑名单中是否存在这个jti，如果存在则这个令牌不能用****/
-            Boolean hasKey = stringRedisTemplate.hasKey(ConstantUtils.JTI_KEY_PREFIX + jti);
+            Boolean hasKey = stringRedisTemplate.hasKey(LockConstant.JTI_KEY_PREFIX + jti);
             if (hasKey)
                 return invalidTokenMono(exchange);
             //取出用户身份信息

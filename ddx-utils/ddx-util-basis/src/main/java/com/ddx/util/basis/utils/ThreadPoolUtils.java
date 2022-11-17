@@ -76,10 +76,12 @@ public class ThreadPoolUtils {
     public static void main(String[] args) {
         int loop = 2000;
         for (int i = 0; i < loop; i++) {
+            log.info("干活好累"+i);
             ThreadPoolUtils.execute("干爆他",() -> {
-                log.info("干活好累");
+                log.info("干活中");
                 try {
-                    Thread.sleep(10);
+                    log.info("休息中");
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

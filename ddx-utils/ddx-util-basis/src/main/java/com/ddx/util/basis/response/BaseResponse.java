@@ -16,6 +16,7 @@ import org.slf4j.MDC;
  * @Version: 1.0
  */
 @Data
+@JsonInclude(value= JsonInclude.Include.NON_NULL)
 @ApiModel(value = "BaseResponse" ,description = "响应数据基类")
 public class BaseResponse {
 
@@ -25,7 +26,6 @@ public class BaseResponse {
     @ApiModelProperty("消息类型")
     private String type;
 
-    @JsonInclude(value= JsonInclude.Include.NON_NULL)
     @ApiModelProperty("流水号")
     private String serialNumber;
 

@@ -22,6 +22,12 @@ public class LogmcConfig {
     private String serviceName;
 
     /**
+     * 本机IP
+     */
+    @Value("${spring.cloud.client.ip-address}")
+    private String ipAddress;
+
+    /**
      * 监控文件名
      */
     @Value("${ddxlog.monitor-collector.monitor-file-name:}")

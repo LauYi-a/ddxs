@@ -12,6 +12,7 @@ import com.ddx.util.basis.utils.ConversionUtils;
 import com.ddx.util.basis.utils.ResponseUtils;
 import com.ddx.util.basis.utils.StringUtil;
 import com.ddx.util.basis.utils.sm4.SM4Utils;
+import com.ddx.util.redis.constant.LockConstant;
 import com.ddx.util.redis.template.RedisTemplateUtil;
 import com.ddx.web.entity.LoginVal;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         //白名单放行 防止直接用服务端口访问服务接口
-        List<String> ignoreUrls =  ConversionUtils.castList(JSONObject.parseArray(redisTemplateUtils.get(ConstantUtils.WHITELIST_REQUEST).toString()),String.class);
+        List<String> ignoreUrls =  ConversionUtils.castList(JSONObject.parseArray(redisTemplateUtils.get(LockConstant.WHITELIST_REQUEST).toString()),String.class);
         Boolean isDoFilter = false;
         if (StringUtil.checkUrls(ignoreUrls, request.getRequestURI())){
             filterChain.doFilter(request,response);

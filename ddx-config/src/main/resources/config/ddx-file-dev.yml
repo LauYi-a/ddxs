@@ -25,6 +25,3 @@ mybatis:
 mybatis-plus:
   #实体扫描,多个package用逗号或者分号分隔
   typeAliasesPackage: com.ddx.file.entity
-ddxlog:
-  monitor-collector:
-    monitor-file-path: D:\\logs

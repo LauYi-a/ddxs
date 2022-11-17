@@ -1,5 +1,10 @@
 package com.ddx.util.log.mc.config;
 
+import com.ddx.util.basis.enums.CommonEnumConstant;
+import com.ddx.util.basis.exception.ExceptionUtils;
+import com.ddx.util.basis.response.ResponseData;
+import com.ddx.util.es.service.IElasticsearchServiceApi;
+import com.ddx.util.log.mc.model.dto.EsLogCollectorDTO;
 import com.ddx.util.log.mc.monitor.FileMonitorUnit;
 import com.ddx.util.log.mc.monitor.LogFileListener;
 import com.ddx.util.log.mc.utils.ValidatedConfig;
@@ -23,6 +28,8 @@ public class MonitorStartUpDevice implements CommandLineRunner {
 
     @Autowired
     private LogmcConfig logmcConfig;
+    @Autowired
+    private IElasticsearchServiceApi elasticsearchServiceApi;
 
     @Override
     public void run(String... args) {
@@ -39,12 +46,18 @@ public class MonitorStartUpDevice implements CommandLineRunner {
     public void startServiceLogFileMonitor(LogmcConfig logmcConfig){
         try {
             if (logmcConfig.isOpen()) {
-                ValidatedConfig.validatedYmlConfig(logmcConfig);
-                String path = logmcConfig.getMonitorFilePath() + "/" + logmcConfig.getServiceName();
-                FileMonitorUnit fileMonitor = new FileMonitorUnit(Long.valueOf(logmcConfig.getMonitorInterval()));
-                fileMonitor.monitor(path, new LogFileListener(logmcConfig));
-                fileMonitor.start();
-                log.info("已启动日志监控采集程序...");
+                //启动时创建 按服务创建日志索引
+                ResponseData responseData = elasticsearchServiceApi.createIndexSettingsMappings(EsLogCollectorDTO.class);
+                if (ResponseData.isSuccess(responseData)) {
+                    ValidatedConfig.validatedYmlConfig(logmcConfig);
+                    String path = logmcConfig.getMonitorFilePath() + "/" + logmcConfig.getServiceName();
+                    FileMonitorUnit fileMonitor = new FileMonitorUnit(Long.valueOf(logmcConfig.getMonitorInterval()));
+                    fileMonitor.monitor(path, new LogFileListener(logmcConfig));
+                    fileMonitor.start();
+                    log.info("已启动日志监控采集程序...");
+                }else {
+                    ExceptionUtils.businessException(CommonEnumConstant.PromptMessage.SUCCESS,responseData.getMsg());
+                }
             }else{
                 log.info("未开启日志监控采集程序...");
             }

@@ -1,10 +1,10 @@
 package com.ddx.util.redis.redission;
 
-import com.ddx.util.basis.constant.ConstantUtils;
-import com.ddx.util.basis.enums.CommonEnumConstant;
-import com.ddx.util.basis.exception.ExceptionUtils;
-import com.ddx.util.basis.handle.ReturnHandle;
-import com.ddx.util.basis.handle.VoidHandle;
+import com.ddx.util.redis.constant.LockConstant;
+import com.ddx.util.redis.constant.LockEnum;
+import com.ddx.util.redis.handle.ReturnHandle;
+import com.ddx.util.redis.handle.VoidHandle;
+import com.ddx.util.redis.result.LockResultData;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.redisson.api.RLock;
@@ -29,22 +29,25 @@ public class RedisLock {
     @Autowired
     private RedissonClient redissonClient;
 
-
     /**
-     * 分布式获取锁实现 获取失败无返回值
+     * 不带返回值 分布式获取锁实现
      * @param lockName 锁名称
      * @param handle 业务处理
+     * @param <T> 返回泛型
+     * @return 返回业务处理值
      */
-    public void tryLock(String lockName,  VoidHandle handle)throws Exception {
-        RLock rLock = getLock(lockName);
-        if (!rLock.tryLock()) {
-            log.error("锁名：{}，获取锁失败，返回",lockName);
-            return;
+    public <T> LockResultData getLock(String lockName, VoidHandle handle){
+        LockResultData resultLockInfo = getLock(lockName);
+        if (!resultLockInfo.isOk()){
+            return resultLockInfo;
         }
         try {
-            log.info("锁名：{}，获取锁成功",lockName);
             handle.execute();
-        } finally {
+            return LockResultData.result(LockEnum.STATUS_TRUE);
+        }catch (Exception e){
+            return LockResultData.result(LockEnum.STATUS_FALSE,String.format("锁名：%s，业务处理失败：%s",lockName,e.getMessage()));
+        }finally {
+            RLock rLock = (RLock) resultLockInfo.getData();
             rLock.unlock();
         }
     }
@@ -53,59 +56,20 @@ public class RedisLock {
      * 带返回值 分布式获取锁实现 获取锁失败返回 null
      * @param lockName 锁名称
      * @param handle 业务处理
-     * @param <T> 返回值
-     * @return
+     * @param <T> 返回泛型
+     * @return 返回业务处理值
      */
-    public <T> T tryLock(String lockName,  ReturnHandle<T> handle)throws Exception {
-        RLock rLock = getLock(lockName);
-        if (!rLock.tryLock()) {
-            log.error("锁名：{}，获取锁失败，返回null",lockName);
-            return null;
+    public <T> LockResultData getLock(String lockName, ReturnHandle<T> handle){
+        LockResultData resultLockInfo = getLock(lockName);
+        if (!resultLockInfo.isOk()){
+            return resultLockInfo;
         }
         try {
-            log.info("锁名：{}，获取锁成功",lockName);
-            return handle.execute();
+            return LockResultData.result(LockEnum.STATUS_TRUE,handle.execute());
+        }catch (Exception e){
+            return LockResultData.result(LockEnum.STATUS_FALSE,String.format("锁名：%s，业务处理失败：%s",lockName,e.getMessage()));
         }finally {
-            rLock.unlock();
-        }
-    }
-
-    /**
-     * 分布式获取锁实现 获锁失败时抛出异常
-     * @param lockName 锁名称
-     * @param handle 业务处理
-     */
-    public void tryLockException(String lockName,  VoidHandle handle)throws Exception {
-        RLock rLock = getLock(lockName);
-        if (!rLock.tryLock()) {
-            log.error("锁名：{}，获取锁失败，抛异常处理",lockName);
-            ExceptionUtils.businessException(CommonEnumConstant.PromptMessage.IN_BUSINESS_PROCESS_ERROR);
-        }
-        try {
-            log.info("锁名：{}，获取锁成功",lockName);
-            handle.execute();
-        }finally {
-            rLock.unlock();
-        }
-    }
-
-    /**
-     * 带返回值 分布式获取锁实现 获锁失败时抛出异常
-     * @param lockName 锁名称
-     * @param handle 业务处理
-     * @param <T> 返回值
-     * @return
-     */
-    public <T> T tryLockException(String lockName, ReturnHandle<T> handle)throws Exception {
-        RLock rLock = getLock(lockName);
-        if (!rLock.tryLock()) {
-            log.error("锁名：{}，获取锁失败，抛异常处理",lockName);
-            ExceptionUtils.businessException(CommonEnumConstant.PromptMessage.IN_BUSINESS_PROCESS_ERROR);
-        }
-        try {
-            log.info("锁名：{}，获取锁成功",lockName);
-            return handle.execute();
-        }finally {
+            RLock rLock = (RLock) resultLockInfo.getData();
             rLock.unlock();
         }
     }
@@ -115,13 +79,20 @@ public class RedisLock {
      * @param lockName
      * @return
      */
-    private RLock getLock(String lockName ) {
-        log.info("获取分布式锁lockName:{}", lockName);
+    private <T> LockResultData getLock(String lockName ) {
         if (StringUtils.isEmpty(lockName)) {
-            ExceptionUtils.businessException(CommonEnumConstant.PromptMessage.REDIS_LOCK_KEY_ISNULL_ERROR);
+            return LockResultData.result(LockEnum.STATUS_FALSE,String.format("锁名：%s，分布式锁KEY为空！",lockName));
         }
-        String lockKey = ConstantUtils.SYSTEM_REQUEST+lockName;
-        return redissonClient.getLock(lockKey);
+        try {
+            String lockKey = LockConstant.SYSTEM_REQUEST+lockName;
+            RLock rLock = redissonClient.getLock(lockKey);
+            if (!rLock.tryLock()) {
+                return LockResultData.result(LockEnum.STATUS_FALSE,String.format("锁名：%s,业务处理中！",lockName));
+            }
+            return LockResultData.result(LockEnum.STATUS_TRUE,rLock);
+        }catch (Exception e){
+            return LockResultData.result(LockEnum.STATUS_FALSE,String.format("锁名：%s Message: ",e.getMessage()));
+        }
     }
  
 }

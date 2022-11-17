@@ -5,6 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import com.ddx.util.basis.constant.ConstantUtils;
 import com.ddx.util.basis.enums.CommonEnumConstant;
 import com.ddx.util.basis.exception.ExceptionUtils;
+import com.ddx.util.redis.constant.LockConstant;
 import com.ddx.util.redis.template.RedisTemplateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,7 @@ public class JwtAccessManager implements ReactiveAuthorizationManager<Authorizat
         
         String restFulPath = method + ConstantUtils.METHOD_SUFFIX + uri.getPath();
         //获取所有的uri->角色对应关系
-        Map<Object, Object> entries = redisTemplate.hmget(ConstantUtils.OAUTH_URLS);
+        Map<Object, Object> entries = redisTemplate.hmget(LockConstant.OAUTH_URLS);
         ExceptionUtils.businessException(entries.size() == 0, CommonEnumConstant.PromptMessage.REDIS_NOT_RESOURCES_ERROR);
         //角色集合
         List<String> authorities = (List<String>) entries.get(restFulPath);
