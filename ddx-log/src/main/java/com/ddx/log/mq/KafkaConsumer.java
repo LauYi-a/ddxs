@@ -25,7 +25,7 @@ import java.util.Optional;
 public class KafkaConsumer {
 
     @Autowired
-    private IKafkaConsumerLogToEsService kafkaConsumerLogToEsService;
+    private IKafkaConsumerLogToEsService iKafkaConsumerLogToEsService;
 
     /**
      * 系统服务日志监控消费
@@ -39,7 +39,7 @@ public class KafkaConsumer {
         Optional message = Optional.ofNullable(record.value());
         if (message.isPresent()) {
             try {
-                kafkaConsumerLogToEsService.kafkaConsumerSystemManageLogToEs(message);
+                iKafkaConsumerLogToEsService.kafkaConsumerSystemManageLogToEs(message);
                 ack.acknowledge();
             } catch (Exception e) {
                 e.printStackTrace();

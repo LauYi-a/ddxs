@@ -40,7 +40,6 @@ public class LogCollectorDevice {
         this.logmcConfig = logmcConfig;
     }
 
-    //由于监控服务运行日志会造成死循环 所以这里处理错误将错误写到本地文件中
     public void readLogContentAndSubmitOffset(File file){
         ThreadPoolUtils.execute(BasisConstantConstant.THREAD_POOL_LOG_MC,() -> {
             FileInputStream inputStream = null;
