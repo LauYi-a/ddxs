@@ -17,7 +17,7 @@ import java.util.Optional;
 
 /**
  * @ClassName: KafkaConsumerLogToEsServiceImpl
- * @Description:
+ * @Description: 消费日志到es存储
  * @Author: YI.LAU
  * @Date: 2022年11月18日 14:37
  * @Version: 1.0

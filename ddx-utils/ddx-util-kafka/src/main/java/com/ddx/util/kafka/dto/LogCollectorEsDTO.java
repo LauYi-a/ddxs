@@ -29,6 +29,11 @@ public class LogCollectorEsDTO {
     private String ip;
 
     /**
+     *
+     */
+    private String data;
+
+    /**
      * 服务名称
      */
     private String serviceName;

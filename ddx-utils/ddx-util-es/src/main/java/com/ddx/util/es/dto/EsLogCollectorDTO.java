@@ -32,6 +32,9 @@ public class EsLogCollectorDTO {
     @EsField(type = EsDataType.KEYWORD)
     private String serviceName;
 
+    @EsField(type = EsDataType.KEYWORD)
+    private String date;
+
     @EsField(type = EsDataType.TEXT,analyzer = "ik_max_word",searchAnalyzer = "ik_smart")
     private String text;
 }

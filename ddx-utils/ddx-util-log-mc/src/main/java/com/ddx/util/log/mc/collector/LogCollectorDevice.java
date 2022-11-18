@@ -10,12 +10,14 @@ import com.ddx.util.kafka.dto.LogCollectorEsDTO;
 import com.ddx.util.log.mc.config.LogmcConfig;
 import com.ddx.util.log.mc.model.LogMonitorCollectorConfigDTO;
 import com.ddx.util.log.mc.utils.ConfigFileUtil;
+import com.ddx.util.log.mc.utils.EsDateUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -60,6 +62,7 @@ public class LogCollectorDevice {
                             .docId(UUID.randomUUID().toString())
                             .ip(logmcConfig.getIpAddress())
                             .serviceName(logmcConfig.getServiceName())
+                            .data(EsDateUtil.date2Str(new Date(),EsDateUtil.DATE_FORMAT_1_2))
                             .text(data)
                             .build(),UUID.randomUUID().toString(),topic);
                     if (isOk){
