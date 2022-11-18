@@ -51,20 +51,20 @@ ddx -- 父项目
 
 ## 功能
 - 具体功能描述请进入链接查看
-  - [ddx-eureka 服务注册中心]()
-  - [ddx-config 配置管理中心]()
-  - [ddx-gateway 服务网关]()
-  - [ddx-web web服务管理包]()
-  - [ddx-auth 认证中心]()
-  - [ddx-system-manage 系统管理服务]()
-  - [ddx-log 日志处理服务]()
-  - [ddx-file 文件处理服务]()
-  - [ddx-util 公共工具包]()
-  - [ddx-util-basis 公共基础工具包]()
-  - [ddx-util-es 公共ES工具包]()
-  - [ddx-util-kafka 公共kafka工具包]()
-  - [ddx-util-redis 公共redis工具包]()
-  - [ddx-util-log-mc 公共微服务日志监控采集工具包]()
+  - [ddx-eureka 服务注册中心](https://github.com/LauYi-a/ddxs/tree/master/ddx-eureka)
+  - [ddx-config 配置管理中心](https://github.com/LauYi-a/ddxs/tree/master/ddx-config)
+  - [ddx-gateway 服务网关](https://github.com/LauYi-a/ddxs/tree/master/ddx-gateway)
+  - [ddx-web web服务管理包](https://github.com/LauYi-a/ddxs/tree/master/ddx-web)
+  - [ddx-auth 认证中心](https://github.com/LauYi-a/ddxs/tree/master/ddx-auth)
+  - [ddx-system-manage 系统管理服务](https://github.com/LauYi-a/ddxs/tree/master/ddx-system-manage)
+  - [ddx-log 日志处理服务](https://github.com/LauYi-a/ddxs/tree/master/ddx-log)
+  - [ddx-file 文件处理服务](https://github.com/LauYi-a/ddxs/tree/master/ddx-file)
+  - [ddx-util 公共工具包](https://github.com/LauYi-a/ddxs/tree/master/ddx-util)
+  - [ddx-util-basis 公共基础工具包](https://github.com/LauYi-a/ddxs/tree/master/ddx-util/ddx-util-basis)
+  - [ddx-util-es 公共ES工具包](https://github.com/LauYi-a/ddxs/tree/master/ddx-util/ddx-util-es)
+  - [ddx-util-kafka 公共kafka工具包](https://github.com/LauYi-a/ddxs/tree/master/ddx-util/ddx-util-kafka)
+  - [ddx-util-redis 公共redis工具包](https://github.com/LauYi-a/ddxs/tree/master/ddx-util/ddx-util-redis)
+  - [ddx-util-log-mc 公共微服务日志监控采集工具包](https://github.com/LauYi-a/ddxs/tree/master/ddx-util/ddx-util-log-mc)
 ## 编译环境
 
 > 运行编译需安装环境，以下环境版本实测编译成功：
