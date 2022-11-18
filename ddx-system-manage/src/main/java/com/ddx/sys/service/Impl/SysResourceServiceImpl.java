@@ -14,8 +14,8 @@ import com.ddx.sys.model.vo.resource.MenuMetaVo;
 import com.ddx.sys.model.vo.resource.TreeMenuVo;
 import com.ddx.sys.model.vo.resource.UserTreeMenuVo;
 import com.ddx.sys.service.ISysResourceService;
-import com.ddx.util.basis.constant.ConstantUtils;
-import com.ddx.util.basis.enums.CommonEnumConstant;
+import com.ddx.util.basis.constant.BasisConstantConstant;
+import com.ddx.util.basis.constant.CommonEnumConstant;
 import com.google.common.collect.Lists;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -132,7 +132,7 @@ public class SysResourceServiceImpl extends ServiceImpl<SysResourceMapper, SysRe
             Collections.sort(treeMenuVos, Comparator.comparing(TreeMenuVo::getSort));
             serviceMenuResps.add(ServiceMenuResp.builder()
                     .serviceCode(String.valueOf(resourceKey))
-                    .serviceName(CommonEnumConstant.Dict.getDictValueByDictKeyAndGroupType(String.valueOf(resourceKey),ConstantUtils.SERVICE_MODULES_NAME))
+                    .serviceName(CommonEnumConstant.Dict.getDictValueByDictKeyAndGroupType(String.valueOf(resourceKey), BasisConstantConstant.SERVICE_MODULES_NAME))
                     .treeMenuVo(treeMenuVos)
                     .build());
         }

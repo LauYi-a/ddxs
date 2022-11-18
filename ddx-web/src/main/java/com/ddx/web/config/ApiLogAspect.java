@@ -1,6 +1,6 @@
 package com.ddx.web.config;
 
-import com.ddx.util.basis.constant.ConstantUtils;
+import com.ddx.util.basis.constant.BasisConstantConstant;
 import com.ddx.util.basis.model.vo.Header;
 import com.ddx.util.basis.model.vo.SysApiLogVo;
 import com.ddx.util.basis.response.BaseResponse;
@@ -50,7 +50,7 @@ public class ApiLogAspect {
         HttpServletRequest request = RequestContextUtils.getRequest();
         if (request != null) {
             RequestContextUtils.settingSerialNumber();
-            SysApiLogVo sysLogAspectVo = setLogEntityVo(ConstantUtils.REQUEST_TYPE_REQ,RequestContextUtils.getRequest(),joinPoint.getArgs());
+            SysApiLogVo sysLogAspectVo = setLogEntityVo(BasisConstantConstant.REQUEST_TYPE_REQ,RequestContextUtils.getRequest(),joinPoint.getArgs());
             log.info("request content is:\n{}", StringUtil.jsonFormatter(sysLogAspectVo,isFormatterLog));
         }
     }
@@ -73,12 +73,12 @@ public class ApiLogAspect {
                 responseData.setSerialNumber(baseResponse.getSerialNumber());
                 responseData.setMsg(baseResponse.getMsg());
             }
-            SysApiLogVo sysLogAspectVo = setLogEntityVo(ConstantUtils.REQUEST_TYPE_RESP,request,responseData);
-            if (responseData.getType().equals(ConstantUtils.MSG_TYPE_INFO)||responseData.getType().equals(ConstantUtils.MSG_TYPE_SUCCESS)){
+            SysApiLogVo sysLogAspectVo = setLogEntityVo(BasisConstantConstant.REQUEST_TYPE_RESP,request,responseData);
+            if (responseData.getType().equals(BasisConstantConstant.MSG_TYPE_INFO)||responseData.getType().equals(BasisConstantConstant.MSG_TYPE_SUCCESS)){
                 log.info("response content is:\n{}",  StringUtil.jsonFormatter(sysLogAspectVo,isFormatterLog));
-            }else if (responseData.getType().equals(ConstantUtils.MSG_TYPE_WARNING)){
+            }else if (responseData.getType().equals(BasisConstantConstant.MSG_TYPE_WARNING)){
                 log.warn("response content is:\n{}",  StringUtil.jsonFormatter(sysLogAspectVo,isFormatterLog));
-            }else if (responseData.getType().equals(ConstantUtils.MSG_TYPE_ERROR)){
+            }else if (responseData.getType().equals(BasisConstantConstant.MSG_TYPE_ERROR)){
                 log.error("response content is:\n{}", StringUtil.jsonFormatter(sysLogAspectVo,isFormatterLog));
             }
         }
@@ -88,14 +88,14 @@ public class ApiLogAspect {
         return  SysApiLogVo.builder()
                 .result(result)
                 .header(Header.builder()
-                        .serialNumber(MDC.get(ConstantUtils.REQUEST_SERIAL_NUMBER))
+                        .serialNumber(MDC.get(BasisConstantConstant.REQUEST_SERIAL_NUMBER))
                         .url(request.getRequestURL().toString())
                         .type(type)
                         .nickname(UserOauthInfo.getCurrentUser().getNickname())
                         .userId(UserOauthInfo.getCurrentUser().getUserId())
                         .ip(IPUtils.getIpAddr(request))
                         .contentType(request.getContentType())
-                        .dateTime(DateUtil.date2Str(new Date(),ConstantUtils.DATE_FORMAT_8))
+                        .dateTime(DateUtil.date2Str(new Date(), BasisConstantConstant.DATE_FORMAT_8))
                         .build())
                 .build();
     }

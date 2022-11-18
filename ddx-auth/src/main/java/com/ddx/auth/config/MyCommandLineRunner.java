@@ -8,9 +8,9 @@ import com.ddx.auth.entity.SysWhitelistRequest;
 import com.ddx.auth.model.resp.SysRolePermissionResp;
 import com.ddx.auth.service.ISysPermissionService;
 import com.ddx.auth.service.ISysWhitelistRequestService;
-import com.ddx.util.basis.constant.ConstantUtils;
-import com.ddx.util.basis.enums.CommonEnumConstant;
-import com.ddx.util.redis.constant.LockConstant;
+import com.ddx.util.basis.constant.BasisConstantConstant;
+import com.ddx.util.basis.constant.CommonEnumConstant;
+import com.ddx.util.redis.constant.RedisConstant;
 import com.ddx.util.redis.template.RedisTemplateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,15 +65,15 @@ public class MyCommandLineRunner implements CommandLineRunner {
     public void initRolePermission(){
         List<SysRolePermissionResp> list = sysPermissionService.listRolePermission();
         //先删除Redis中原来的资源hash表
-        redisTemplate.del(LockConstant.OAUTH_URLS);
+        redisTemplate.del(RedisConstant.OAUTH_URLS);
         list.parallelStream().peek(k -> {
             if (CollectionUtil.isNotEmpty(k.getRoles())) {
                 List<Object> roles = new ArrayList<>();
                 for (SysRole role : k.getRoles()) {
-                    roles.add(ConstantUtils.ROLE_PREFIX + role.getCode());
+                    roles.add(BasisConstantConstant.ROLE_PREFIX + role.getCode());
                 }
                 //然后更新Redis中的资源
-                redisTemplate.hset(LockConstant.OAUTH_URLS, k.getUrl(), roles);
+                redisTemplate.hset(RedisConstant.OAUTH_URLS, k.getUrl(), roles);
             }
         }).collect(Collectors.toList());
         log.info("初始化角色权限完成...");
@@ -85,12 +85,12 @@ public class MyCommandLineRunner implements CommandLineRunner {
     public void initWhite(){
         List<String> requestWhitelist = sysWhitelistRequestService.list(new QueryWrapper<SysWhitelistRequest>().lambda().eq(SysWhitelistRequest::getType, CommonEnumConstant.Dict.WHITELIST_TYPE_0.getDictKey()))
                 .stream().map(e -> { return e.getUrl(); }).collect(Collectors.toList());
-        redisTemplate.del(LockConstant.WHITELIST_REQUEST);
-        redisTemplate.set(LockConstant.WHITELIST_REQUEST, JSON.toJSONString(requestWhitelist));
+        redisTemplate.del(RedisConstant.WHITELIST_REQUEST);
+        redisTemplate.set(RedisConstant.WHITELIST_REQUEST, JSON.toJSONString(requestWhitelist));
         List<String> requestTimeWhitelist = sysWhitelistRequestService.list(new QueryWrapper<SysWhitelistRequest>().lambda().eq(SysWhitelistRequest::getType,CommonEnumConstant.Dict.WHITELIST_TYPE_1.getDictKey()))
                 .stream().map(e -> { return e.getUrl(); }).collect(Collectors.toList());
-        redisTemplate.del(LockConstant.REQUEST_TIME_WHITELIST);
-        redisTemplate.set(LockConstant.REQUEST_TIME_WHITELIST, JSON.toJSONString(requestTimeWhitelist));
+        redisTemplate.del(RedisConstant.REQUEST_TIME_WHITELIST);
+        redisTemplate.set(RedisConstant.REQUEST_TIME_WHITELIST, JSON.toJSONString(requestTimeWhitelist));
         log.info("初始化系统参白名单完成...");
     }
 }

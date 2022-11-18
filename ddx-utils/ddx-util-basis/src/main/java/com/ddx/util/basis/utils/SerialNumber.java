@@ -1,6 +1,6 @@
 package com.ddx.util.basis.utils;
 
-import com.ddx.util.basis.constant.ConstantUtils;
+import com.ddx.util.basis.constant.BasisConstantConstant;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
@@ -97,7 +97,7 @@ public class SerialNumber {
 
     private static void main(String[] args) {
         for (int j = 0;j<100;j++){
-            System.out.println(SerialNumber.newInstance("ID", ConstantUtils.DATE_FORMAT_5));
+            System.out.println(SerialNumber.newInstance("ID", BasisConstantConstant.DATE_FORMAT_5));
         }
     }
 }

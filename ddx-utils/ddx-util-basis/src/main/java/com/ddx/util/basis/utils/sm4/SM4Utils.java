@@ -1,7 +1,7 @@
 package com.ddx.util.basis.utils.sm4;
 
 import cn.hutool.core.codec.Base64;
-import com.ddx.util.basis.constant.ConstantUtils;
+import com.ddx.util.basis.constant.BasisConstantConstant;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.pqc.math.linearalgebra.ByteUtils;
 
@@ -40,7 +40,7 @@ public class SM4Utils {
      * @return 返回Base64加密字符串
      */
     public static String encryptBase64 (String paramStr){
-        return Base64.encode(encryptEcb(ByteUtils.toHexString(ConstantUtils.SM4_KEY.getBytes()),paramStr));
+        return Base64.encode(encryptEcb(ByteUtils.toHexString(BasisConstantConstant.SM4_KEY.getBytes()),paramStr));
     }
 
     /**
@@ -59,7 +59,7 @@ public class SM4Utils {
      * @return 返回文明字符
      */
     public static String decryptBase64(String cipherText){
-        return decryptEcb(ByteUtils.toHexString(ConstantUtils.SM4_KEY.getBytes()),Base64.decodeStr(cipherText));
+        return decryptEcb(ByteUtils.toHexString(BasisConstantConstant.SM4_KEY.getBytes()),Base64.decodeStr(cipherText));
     }
 
     //============================ 加密部分 ============================
@@ -77,7 +77,7 @@ public class SM4Utils {
             // 16进制字符串-->byte[]
             byte[] keyData = ByteUtils.fromHexString(hexKey);
             // String-->byte[]
-            byte[] srcData = paramStr.getBytes(ConstantUtils.ENCODING);
+            byte[] srcData = paramStr.getBytes(BasisConstantConstant.ENCODING);
             // 加密后的数组
             byte[] cipherArray = encrypt_Ecb_Padding(keyData, srcData);
             // byte[]-->hexString
@@ -96,7 +96,7 @@ public class SM4Utils {
      * @throws Exception
      */
     private static byte[] encrypt_Ecb_Padding(byte[] key, byte[] data) throws Exception {
-        Cipher cipher = generateEcbCipher(ConstantUtils.ALGORITHM_NAME_ECB_PADDING, Cipher.ENCRYPT_MODE, key);
+        Cipher cipher = generateEcbCipher(BasisConstantConstant.ALGORITHM_NAME_ECB_PADDING, Cipher.ENCRYPT_MODE, key);
         return cipher.doFinal(data);
     }
 
@@ -119,7 +119,7 @@ public class SM4Utils {
             // 解密
             byte[] srcData = decrypt_Ecb_Padding(keyData, cipherData);
             // byte[]-->String
-            decryptStr = new String(srcData, ConstantUtils.ENCODING);
+            decryptStr = new String(srcData, BasisConstantConstant.ENCODING);
 
         }catch (Exception e){
             e.printStackTrace();
@@ -136,7 +136,7 @@ public class SM4Utils {
      * @throws Exception
      */
     private static byte[] decrypt_Ecb_Padding(byte[] key, byte[] cipherText) throws  Exception{
-        Cipher cipher = generateEcbCipher(ConstantUtils.ALGORITHM_NAME_ECB_PADDING, Cipher.DECRYPT_MODE, key);
+        Cipher cipher = generateEcbCipher(BasisConstantConstant.ALGORITHM_NAME_ECB_PADDING, Cipher.DECRYPT_MODE, key);
         return cipher.doFinal(cipherText);
     }
 
@@ -153,7 +153,7 @@ public class SM4Utils {
      */
     private static Cipher generateEcbCipher(String algorithmName, int mode, byte[] key) throws Exception {
         Cipher cipher = Cipher.getInstance(algorithmName, BouncyCastleProvider.PROVIDER_NAME);
-        Key sm4Key = new SecretKeySpec(key, ConstantUtils.ALGORITHM_NAME);
+        Key sm4Key = new SecretKeySpec(key, BasisConstantConstant.ALGORITHM_NAME);
         cipher.init(mode, sm4Key);
         return cipher;
     }
@@ -165,7 +165,7 @@ public class SM4Utils {
             String json2 = "{\"name\":\"test\",\"描述\":\"测试SM4加密解密\"}";
             System.out.println("加密前："+json);
             //自定义的32位16进制秘钥
-            String key = ByteUtils.toHexString(ConstantUtils.SM4_KEY.getBytes());
+            String key = ByteUtils.toHexString(BasisConstantConstant.SM4_KEY.getBytes());
             System.out.println("密钥："+key);
             String cipher2 = encryptBase64(json2);//sm4加密
             System.out.println("加密后："+cipher2);

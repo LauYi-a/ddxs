@@ -15,8 +15,8 @@ import com.ddx.sys.model.resp.sysRole.SysRoleResp;
 import com.ddx.sys.service.ISysPermissionService;
 import com.ddx.sys.service.ISysRolePermissionService;
 import com.ddx.sys.service.ISysRoleService;
-import com.ddx.util.basis.constant.ConstantUtils;
-import com.ddx.util.basis.enums.CommonEnumConstant;
+import com.ddx.util.basis.constant.BasisConstantConstant;
+import com.ddx.util.basis.constant.CommonEnumConstant;
 import com.ddx.util.basis.exception.ExceptionUtils;
 import com.ddx.util.basis.model.resp.PaginatedResult;
 import com.ddx.util.basis.response.BaseResponse;
@@ -101,7 +101,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     public BaseResponse addRoleInfo(SysRoleAddReq sysRoleAddReq) {
         SysRole sysRole = new SysRole();
         BeanUtils.copyProperties(sysRoleAddReq,sysRole);
-        sysRole.setCode(SerialNumber.newInstance(ConstantUtils.ROLE_CODE,ConstantUtils.DATE_FORMAT_7).toString());
+        sysRole.setCode(SerialNumber.newInstance(BasisConstantConstant.ROLE_CODE, BasisConstantConstant.DATE_FORMAT_7).toString());
         sysRole.setStatus(CommonEnumConstant.Dict.ROLE_STATUS_0.getDictKey());
         ExceptionUtils.businessException(!SqlHelper.retBool(baseMapper.insert(sysRole)),CommonEnumConstant.PromptMessage.FAILED);
         ExceptionUtils.businessException(!iSysRolePermissionService.addRolePermissionId(sysRoleAddReq.getRolePermissionId(),sysRole.getId()),CommonEnumConstant.PromptMessage.ADD_ROLE_PERMISSION_ERROR);

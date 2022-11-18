@@ -212,6 +212,7 @@ public class ElasticsearchServiceApiImpl implements IElasticsearchServiceApi {
            }
            return EsResultData.result(EsEnum.EsResult.STATUS_TRUE,list);
        }catch (Exception e){
+           e.printStackTrace();
            return EsResultData.result(EsEnum.EsResult.STATUS_FALSE,"查询数据失败："+e.getMessage());
        }
     }
@@ -225,6 +226,7 @@ public class ElasticsearchServiceApiImpl implements IElasticsearchServiceApi {
                     .aggregations("aggregations", fn), clazz);
             return EsResultData.result(EsEnum.EsResult.STATUS_TRUE,response.aggregations().get("aggregations"));
         }catch (Exception e){
+            e.printStackTrace();
             return EsResultData.result(EsEnum.EsResult.STATUS_FALSE,"查询数据失败："+e.getMessage());
         }
     }
@@ -249,6 +251,7 @@ public class ElasticsearchServiceApiImpl implements IElasticsearchServiceApi {
             }
             return EsResultData.result(EsEnum.EsResult.STATUS_TRUE,list);
         }catch (Exception e){
+            e.printStackTrace();
             return EsResultData.result(EsEnum.EsResult.STATUS_FALSE,"查询数据失败："+e.getMessage());
         }
     }
@@ -390,6 +393,7 @@ public class ElasticsearchServiceApiImpl implements IElasticsearchServiceApi {
             return EsResultData.result(EsEnum.EsResult.STATUS_TRUE,
                     esClient.getClient().exists(s -> s.index(EsUtil.getAlias(tClass)).id(docId)).value());
         }catch (Exception e){
+            e.printStackTrace();
             return EsResultData.result(EsEnum.EsResult.STATUS_FALSE,e.getMessage());
         }
     }
@@ -402,6 +406,7 @@ public class ElasticsearchServiceApiImpl implements IElasticsearchServiceApi {
             esClient.getClient().delete(de);
             return EsResultData.result(EsEnum.EsResult.STATUS_TRUE);
         }catch (Exception e){
+            e.printStackTrace();
             return EsResultData.result(EsEnum.EsResult.STATUS_FALSE,e.getMessage());
         }
     }
@@ -414,6 +419,7 @@ public class ElasticsearchServiceApiImpl implements IElasticsearchServiceApi {
             esClient.getClient().deleteByQuery(de);
             return EsResultData.result(EsEnum.EsResult.STATUS_TRUE);
         }catch (Exception e){
+            e.printStackTrace();
             return EsResultData.result(EsEnum.EsResult.STATUS_FALSE,e.getMessage());
         }
     }

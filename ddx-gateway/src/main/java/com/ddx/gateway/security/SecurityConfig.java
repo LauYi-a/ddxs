@@ -5,10 +5,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.ddx.gateway.exception.RequestAccessDeniedHandler;
 import com.ddx.gateway.exception.RequestAuthenticationEntryPoint;
 import com.ddx.gateway.filter.CorsFilter;
-import com.ddx.util.basis.enums.CommonEnumConstant;
+import com.ddx.util.basis.constant.CommonEnumConstant;
 import com.ddx.util.basis.exception.ExceptionUtils;
 import com.ddx.util.basis.utils.ConversionUtils;
-import com.ddx.util.redis.constant.LockConstant;
+import com.ddx.util.redis.constant.RedisConstant;
 import com.ddx.util.redis.template.RedisTemplateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -75,7 +75,7 @@ public class SecurityConfig {
         //认证过滤器，放入认证管理器tokenAuthenticationManager
         AuthenticationWebFilter authenticationWebFilter = new AuthenticationWebFilter(tokenAuthenticationManager);
         authenticationWebFilter.setServerAuthenticationConverter(new ServerBearerTokenAuthenticationConverter());
-        List<String> ignoreUrls =  ConversionUtils.castList(JSONObject.parseArray(redisTemplateUtils.get(LockConstant.WHITELIST_REQUEST).toString()),String.class);
+        List<String> ignoreUrls =  ConversionUtils.castList(JSONObject.parseArray(redisTemplateUtils.get(RedisConstant.WHITELIST_REQUEST).toString()),String.class);
         ExceptionUtils.businessException(ignoreUrls.size() == 0, CommonEnumConstant.PromptMessage.INIT_WHITELIST_ERROR);
         http.httpBasic().disable()
                 .csrf().disable()

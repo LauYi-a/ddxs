@@ -8,8 +8,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ddx.sys.entity.SysWhitelistRequest;
 import com.ddx.sys.mapper.SysWhitelistRequestMapper;
 import com.ddx.sys.service.ISysWhitelistRequestService;
-import com.ddx.util.basis.enums.CommonEnumConstant;
-import com.ddx.util.redis.constant.LockConstant;
+import com.ddx.util.basis.constant.CommonEnumConstant;
+import com.ddx.util.redis.constant.RedisConstant;
 import com.ddx.util.redis.template.RedisTemplateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,12 +40,12 @@ public class SysWhitelistRequestServiceImpl extends ServiceImpl<SysWhitelistRequ
         try {
             List<String> requestWhitelist = baseMapper.selectList(new QueryWrapper<SysWhitelistRequest>().lambda().eq(SysWhitelistRequest::getType, CommonEnumConstant.Dict.WHITELIST_TYPE_0.getDictKey()))
                     .stream().map(e -> { return e.getUrl(); }).collect(Collectors.toList());
-            redisTemplate.del(LockConstant.WHITELIST_REQUEST);
-            redisTemplate.set(LockConstant.WHITELIST_REQUEST, JSON.toJSONString(requestWhitelist));
+            redisTemplate.del(RedisConstant.WHITELIST_REQUEST);
+            redisTemplate.set(RedisConstant.WHITELIST_REQUEST, JSON.toJSONString(requestWhitelist));
             List<String> requestTimeWhitelist = baseMapper.selectList(new QueryWrapper<SysWhitelistRequest>().lambda().eq(SysWhitelistRequest::getType,CommonEnumConstant.Dict.WHITELIST_TYPE_1.getDictKey()))
                     .stream().map(e -> { return e.getUrl(); }).collect(Collectors.toList());
-            redisTemplate.del(LockConstant.REQUEST_TIME_WHITELIST);
-            redisTemplate.set(LockConstant.REQUEST_TIME_WHITELIST, JSON.toJSONString(requestTimeWhitelist));
+            redisTemplate.del(RedisConstant.REQUEST_TIME_WHITELIST);
+            redisTemplate.set(RedisConstant.REQUEST_TIME_WHITELIST, JSON.toJSONString(requestTimeWhitelist));
             return true;
         }catch (Exception e){
             e.printStackTrace();

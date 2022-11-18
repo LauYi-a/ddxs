@@ -1,6 +1,6 @@
 package com.ddx.util.basis.utils;
 
-import com.ddx.util.basis.constant.ConstantUtils;
+import com.ddx.util.basis.constant.BasisConstantConstant;
 import org.slf4j.MDC;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -50,7 +50,7 @@ public class RequestContextUtils {
     public static void settingSerialNumber(){
         HttpServletRequest request = getRequest();
         if (request != null){
-            MDC.put(ConstantUtils.REQUEST_SERIAL_NUMBER,RequestContextUtils.getRequestHeaderMap(request).get(ConstantUtils.REQUEST_SERIAL_NUMBER));
+            MDC.put(BasisConstantConstant.REQUEST_SERIAL_NUMBER,RequestContextUtils.getRequestHeaderMap(request).get(BasisConstantConstant.REQUEST_SERIAL_NUMBER));
         }
     }
 }

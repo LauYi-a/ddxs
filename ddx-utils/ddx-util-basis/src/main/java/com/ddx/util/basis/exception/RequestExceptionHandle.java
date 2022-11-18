@@ -1,6 +1,6 @@
 package com.ddx.util.basis.exception;
 
-import com.ddx.util.basis.enums.CommonEnumConstant;
+import com.ddx.util.basis.constant.CommonEnumConstant;
 import com.ddx.util.basis.response.BaseResponse;
 import com.ddx.util.basis.response.ResponseData;
 import com.ddx.util.basis.utils.RequestContextUtils;

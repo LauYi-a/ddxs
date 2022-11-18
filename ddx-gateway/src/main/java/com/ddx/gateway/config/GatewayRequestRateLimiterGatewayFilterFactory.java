@@ -1,7 +1,7 @@
 package com.ddx.gateway.config;
 
 import cn.hutool.json.JSONUtil;
-import com.ddx.util.basis.enums.CommonEnumConstant;
+import com.ddx.util.basis.constant.CommonEnumConstant;
 import com.ddx.util.basis.response.ResponseData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;

@@ -1,13 +1,7 @@
 package com.ddx.util.log.mc.monitor;
 
-import com.ddx.util.basis.utils.ApplicationContextUtil;
 import com.ddx.util.log.mc.collector.LogCollectorDevice;
 import com.ddx.util.log.mc.config.LogmcConfig;
-import com.ddx.util.log.mc.model.dto.LogMonitorCollectorConfigDTO;
-import com.ddx.util.log.mc.utils.ConfigFileUtil;
-import com.ddx.util.redis.constant.LockConstant;
-import com.ddx.util.redis.redission.RedisLock;
-import com.ddx.util.redis.result.LockResultData;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.monitor.FileAlterationListenerAdaptor;
 import org.apache.commons.io.monitor.FileAlterationObserver;
@@ -26,10 +20,6 @@ import java.util.Objects;
 public class LogFileListener extends FileAlterationListenerAdaptor {
 
 	private LogmcConfig logmcConfig;
-	private static RedisLock redisLock;
-	static {
-		redisLock = ApplicationContextUtil.getBean(RedisLock.class);
-	}
 
 	public LogFileListener(LogmcConfig logmcConfig){
 		this.logmcConfig = logmcConfig;
@@ -55,15 +45,8 @@ public class LogFileListener extends FileAlterationListenerAdaptor {
 	public void onFileChange(File file) {
 		if (Objects.equals(file.getName(),logmcConfig.getMonitorFileName())){
 			try {
-				LogMonitorCollectorConfigDTO logMonitorCollector = ConfigFileUtil.readConfigJsonFile(logmcConfig.getLogMcName(), LogMonitorCollectorConfigDTO.class);
-				String lockName = logmcConfig.getServiceName()+":"+logmcConfig.getIpAddress()+":"+LockConstant.LOG_OFFSET_LOCK + logMonitorCollector.getOffset();
-				LockResultData resultLockInfo = redisLock.getLock(lockName,()->{
-					LogCollectorDevice logCollectorDevice = new LogCollectorDevice(logmcConfig);
-					logCollectorDevice.readLogContentAndSubmitOffset(file);
-				});
-				if (!resultLockInfo.isOk()){
-					log.error(resultLockInfo.getMsg());
-				}
+				LogCollectorDevice logCollectorDevice = new LogCollectorDevice(logmcConfig);
+				logCollectorDevice.readLogContentAndSubmitOffset(file);
 			}catch (Exception e){
 				e.printStackTrace();
 			}

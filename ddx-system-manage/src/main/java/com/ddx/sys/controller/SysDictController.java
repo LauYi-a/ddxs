@@ -2,7 +2,7 @@ package com.ddx.sys.controller;
 
 
 import com.ddx.sys.service.ISysDictService;
-import com.ddx.util.basis.enums.CommonEnumConstant;
+import com.ddx.util.basis.constant.CommonEnumConstant;
 import com.ddx.util.basis.response.ResponseData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

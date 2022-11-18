@@ -9,7 +9,7 @@ import com.ddx.sys.model.resp.sysResource.MenuTreeListResp;
 import com.ddx.sys.model.resp.sysResource.ServiceMenuResp;
 import com.ddx.sys.service.ISysResourceService;
 import com.ddx.sys.service.ISysUserResourceService;
-import com.ddx.util.basis.enums.CommonEnumConstant;
+import com.ddx.util.basis.constant.CommonEnumConstant;
 import com.ddx.util.basis.exception.ExceptionUtils;
 import com.ddx.util.basis.response.BaseResponse;
 import com.ddx.util.basis.response.ResponseData;

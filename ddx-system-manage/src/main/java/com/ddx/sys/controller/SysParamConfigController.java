@@ -1,12 +1,12 @@
 package com.ddx.sys.controller;
 
-import com.ddx.util.basis.enums.CommonEnumConstant;
+import com.ddx.util.basis.constant.CommonEnumConstant;
 import com.ddx.util.basis.model.vo.SysParamConfigVo;
 import com.ddx.util.basis.response.BaseResponse;
 import com.ddx.util.basis.response.ResponseData;
 import com.ddx.util.basis.utils.DateUtil;
 import com.ddx.util.basis.utils.rsa.RSAUtils;
-import com.ddx.util.redis.constant.LockConstant;
+import com.ddx.util.redis.constant.RedisConstant;
 import com.ddx.util.redis.template.RedisTemplateUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -40,7 +40,7 @@ public class SysParamConfigController {
     @ApiOperation(httpMethod = "POST",value = "系统参数查询")
     public ResponseData getSysParamConfig(){
         log.info("get sys param config start ....");
-        SysParamConfigVo sysParamConfigVo = (SysParamConfigVo) redisTemplateUtils.get(LockConstant.SYS_PARAM_CONFIG);
+        SysParamConfigVo sysParamConfigVo = (SysParamConfigVo) redisTemplateUtils.get(RedisConstant.SYS_PARAM_CONFIG);
         sysParamConfigVo.setAccessTokenTime(Long.valueOf(DateUtil.formatDuringHH(sysParamConfigVo.getAccessTokenTime(),false)));
         sysParamConfigVo.setRefreshTokenTime(Long.valueOf(DateUtil.formatMsDuring(sysParamConfigVo.getRefreshTokenTime(),false)));
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS,sysParamConfigVo);
@@ -52,8 +52,8 @@ public class SysParamConfigController {
         log.info("update param config start ....");
         sysParamConfigVo.setAccessTokenTime(DateUtil.fromatHHMm(sysParamConfigVo.getAccessTokenTime()));
         sysParamConfigVo.setRefreshTokenTime(DateUtil.fromatDayMm(sysParamConfigVo.getRefreshTokenTime()));
-        redisTemplateUtils.del(LockConstant.SYS_PARAM_CONFIG);
-        redisTemplateUtils.set(LockConstant.SYS_PARAM_CONFIG,sysParamConfigVo);
+        redisTemplateUtils.del(RedisConstant.SYS_PARAM_CONFIG);
+        redisTemplateUtils.set(RedisConstant.SYS_PARAM_CONFIG,sysParamConfigVo);
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
     }
 
@@ -62,7 +62,7 @@ public class SysParamConfigController {
     public BaseResponse getPublicKey(){
         log.info("get public key start ....");
         Map<Integer,String> keyMap = RSAUtils.genKeyPair();
-        redisTemplateUtils.set(LockConstant.SYS_PARAM_CONFIG_PRIVATE_KEY,keyMap.get(1));
+        redisTemplateUtils.set(RedisConstant.SYS_PARAM_CONFIG_PRIVATE_KEY,keyMap.get(1));
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS,keyMap.get(0));
     }
 

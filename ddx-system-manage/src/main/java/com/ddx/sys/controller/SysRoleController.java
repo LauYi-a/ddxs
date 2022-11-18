@@ -11,8 +11,8 @@ import com.ddx.sys.model.resp.sysRole.RoleKeyValResp;
 import com.ddx.sys.service.ISysPermissionService;
 import com.ddx.sys.service.ISysRolePermissionService;
 import com.ddx.sys.service.ISysRoleService;
-import com.ddx.util.basis.constant.ConstantUtils;
-import com.ddx.util.basis.enums.CommonEnumConstant;
+import com.ddx.util.basis.constant.BasisConstantConstant;
+import com.ddx.util.basis.constant.CommonEnumConstant;
 import com.ddx.util.basis.exception.ExceptionUtils;
 import com.ddx.util.basis.model.req.BatchDeleteKey;
 import com.ddx.util.basis.model.req.DeleteKey;
@@ -67,8 +67,8 @@ public class SysRoleController {
     @ApiOperation(httpMethod = "POST",value = "查询角色列表")
     public ResponseData<PaginatedResult> getList(@Validated @RequestBody SysRoleQueryReq sysRoleQueryReq) {
         log.info("get SysRole list..");
-        int page = PageUtil.parsePage(sysRoleQueryReq.getPage(), ConstantUtils.PAGE);
-        int perPage = PageUtil.parsePerPage(sysRoleQueryReq.getPerPage(), ConstantUtils.PER_PAGE);
+        int page = PageUtil.parsePage(sysRoleQueryReq.getPage(), BasisConstantConstant.PAGE);
+        int perPage = PageUtil.parsePerPage(sysRoleQueryReq.getPerPage(), BasisConstantConstant.PER_PAGE);
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS, iSysRoleService.selectPage(new Page<>(page, perPage), sysRoleQueryReq));
     }
 

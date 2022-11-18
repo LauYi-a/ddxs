@@ -4,15 +4,15 @@ import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.ddx.util.basis.constant.ConstantUtils;
-import com.ddx.util.basis.enums.CommonEnumConstant;
+import com.ddx.util.basis.constant.BasisConstantConstant;
+import com.ddx.util.basis.constant.CommonEnumConstant;
 import com.ddx.util.basis.exception.BusinessException;
 import com.ddx.util.basis.response.ResponseData;
 import com.ddx.util.basis.utils.ConversionUtils;
 import com.ddx.util.basis.utils.ResponseUtils;
 import com.ddx.util.basis.utils.StringUtil;
 import com.ddx.util.basis.utils.sm4.SM4Utils;
-import com.ddx.util.redis.constant.LockConstant;
+import com.ddx.util.redis.constant.RedisConstant;
 import com.ddx.util.redis.template.RedisTemplateUtil;
 import com.ddx.web.entity.LoginVal;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,24 +46,24 @@ public class AuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         //白名单放行 防止直接用服务端口访问服务接口
-        List<String> ignoreUrls =  ConversionUtils.castList(JSONObject.parseArray(redisTemplateUtils.get(LockConstant.WHITELIST_REQUEST).toString()),String.class);
+        List<String> ignoreUrls =  ConversionUtils.castList(JSONObject.parseArray(redisTemplateUtils.get(RedisConstant.WHITELIST_REQUEST).toString()),String.class);
         Boolean isDoFilter = false;
         if (StringUtil.checkUrls(ignoreUrls, request.getRequestURI())){
             filterChain.doFilter(request,response);
             isDoFilter = true;
         }
         //获取请求头中的加密的用户信息，只接受网关过带了token的请求
-        String token = request.getHeader(ConstantUtils.TOKEN_NAME);
+        String token = request.getHeader(BasisConstantConstant.TOKEN_NAME);
         if (StrUtil.isNotBlank(token)){
             String json =  SM4Utils.decryptBase64(token);
             JSONObject jsonObject = JSON.parseObject(json);
             //获取用户身份信息、权限信息
-            String principal = jsonObject.getString(ConstantUtils.PRINCIPAL_NAME);
-            String nickName = jsonObject.getString(ConstantUtils.NICKNAME);
-            String userId=jsonObject.getString(ConstantUtils.USER_ID);
-            String jti = jsonObject.getString(ConstantUtils.JTI);
-            Long expireIn = jsonObject.getLong(ConstantUtils.EXPR);
-            JSONArray tempJsonArray = jsonObject.getJSONArray(ConstantUtils.AUTHORITIES_NAME);
+            String principal = jsonObject.getString(BasisConstantConstant.PRINCIPAL_NAME);
+            String nickName = jsonObject.getString(BasisConstantConstant.NICKNAME);
+            String userId=jsonObject.getString(BasisConstantConstant.USER_ID);
+            String jti = jsonObject.getString(BasisConstantConstant.JTI);
+            Long expireIn = jsonObject.getLong(BasisConstantConstant.EXPR);
+            JSONArray tempJsonArray = jsonObject.getJSONArray(BasisConstantConstant.AUTHORITIES_NAME);
             //权限
             String[] authorities =  tempJsonArray.toArray(new String[0]);
             //放入LoginVal
@@ -75,7 +75,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             loginVal.setJti(jti);
             loginVal.setExpireIn(expireIn);
             //放入request的attribute中
-            request.setAttribute(ConstantUtils.LOGIN_VAL_ATTRIBUTE,loginVal);
+            request.setAttribute(BasisConstantConstant.LOGIN_VAL_ATTRIBUTE,loginVal);
             try {
                 filterChain.doFilter(request,response);
             }catch (Exception e){

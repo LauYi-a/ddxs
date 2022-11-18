@@ -7,7 +7,7 @@ package com.ddx.util.redis.constant;
  * @Date: 2022年11月17日 09:51
  * @Version: 1.0
  */
-public class LockConstant {
+public class RedisConstant {
 
     /**
      * 获锁状态

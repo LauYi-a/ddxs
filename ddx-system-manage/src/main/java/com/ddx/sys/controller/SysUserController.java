@@ -14,8 +14,8 @@ import com.ddx.sys.service.ISysResourceService;
 import com.ddx.sys.service.ISysUserResourceService;
 import com.ddx.sys.service.ISysUserRoleService;
 import com.ddx.sys.service.ISysUserService;
-import com.ddx.util.basis.constant.ConstantUtils;
-import com.ddx.util.basis.enums.CommonEnumConstant;
+import com.ddx.util.basis.constant.BasisConstantConstant;
+import com.ddx.util.basis.constant.CommonEnumConstant;
 import com.ddx.util.basis.exception.ExceptionUtils;
 import com.ddx.util.basis.model.req.BatchDeleteKey;
 import com.ddx.util.basis.model.req.DeleteKey;
@@ -121,8 +121,8 @@ public class SysUserController {
     @ApiOperation(httpMethod = "POST",value = "查询用户信息列表")
     public ResponseData<PaginatedResult> getList(@Validated @RequestBody SysUserQueryReq sysUserQuotaReq) {
         log.info("get SysUser list...");
-        int page = PageUtil.parsePage(sysUserQuotaReq.getPage(), ConstantUtils.PAGE);
-        int perPage = PageUtil.parsePerPage(sysUserQuotaReq.getPerPage(), ConstantUtils.PER_PAGE);
+        int page = PageUtil.parsePage(sysUserQuotaReq.getPage(), BasisConstantConstant.PAGE);
+        int perPage = PageUtil.parsePerPage(sysUserQuotaReq.getPerPage(), BasisConstantConstant.PER_PAGE);
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS, iSysUserService.selectPage(new Page<>(page, perPage),sysUserQuotaReq));
     }
 

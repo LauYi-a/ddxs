@@ -1,6 +1,6 @@
 package com.ddx.auth.exception;
 
-import com.ddx.util.basis.enums.CommonEnumConstant;
+import com.ddx.util.basis.constant.CommonEnumConstant;
 import com.ddx.util.basis.response.ResponseData;
 import com.ddx.util.basis.utils.ResponseUtils;
 import lombok.extern.slf4j.Slf4j;

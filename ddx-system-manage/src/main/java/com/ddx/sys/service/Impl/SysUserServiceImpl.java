@@ -18,7 +18,7 @@ import com.ddx.sys.model.vo.resource.MenuElVo;
 import com.ddx.sys.model.vo.resource.UserTreeMenuVo;
 import com.ddx.sys.model.vo.user.UserAddVo;
 import com.ddx.sys.service.*;
-import com.ddx.util.basis.enums.CommonEnumConstant;
+import com.ddx.util.basis.constant.CommonEnumConstant;
 import com.ddx.util.basis.exception.ExceptionUtils;
 import com.ddx.util.basis.model.resp.PaginatedResult;
 import com.ddx.util.basis.response.BaseResponse;

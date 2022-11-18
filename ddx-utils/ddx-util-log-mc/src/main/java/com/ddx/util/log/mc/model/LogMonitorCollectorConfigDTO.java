@@ -1,4 +1,4 @@
-package com.ddx.util.log.mc.model.dto;
+package com.ddx.util.log.mc.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,8 +23,4 @@ public class LogMonitorCollectorConfigDTO {
      */
     private Long offset;
 
-    /**
-     * 每次最大读日志行
-     */
-    private long maxReadLine;
 }

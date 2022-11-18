@@ -3,8 +3,8 @@ package com.ddx.auth.config;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ddx.auth.entity.SysUser;
 import com.ddx.auth.service.ISysUserService;
-import com.ddx.util.basis.constant.ConstantUtils;
-import com.ddx.util.basis.enums.CommonEnumConstant;
+import com.ddx.util.basis.constant.BasisConstantConstant;
+import com.ddx.util.basis.constant.CommonEnumConstant;
 import com.ddx.util.basis.model.vo.AccessTokenVo;
 import com.ddx.util.basis.response.ResponseData;
 import io.swagger.models.Response;
@@ -45,10 +45,10 @@ public class AuthTokenAspect {
                             .token_type(body.getTokenType())
                             .expires_in(body.getExpiresIn())
                             .scope(body.getScope().toString())
-                            .user_id(body.getAdditionalInformation().get(ConstantUtils.USER_ID).toString())
-                            .nickname(body.getAdditionalInformation().get(ConstantUtils.NICKNAME).toString())
-                            .loginService(body.getAdditionalInformation().get(ConstantUtils.LOGIN_SERVICE).toString())
-                            .jti(body.getAdditionalInformation().get(ConstantUtils.JTI).toString())
+                            .user_id(body.getAdditionalInformation().get(BasisConstantConstant.USER_ID).toString())
+                            .nickname(body.getAdditionalInformation().get(BasisConstantConstant.NICKNAME).toString())
+                            .loginService(body.getAdditionalInformation().get(BasisConstantConstant.LOGIN_SERVICE).toString())
+                            .jti(body.getAdditionalInformation().get(BasisConstantConstant.JTI).toString())
                     .build()));
         }
         return ResponseEntity.ok(ResponseData.out(CommonEnumConstant.PromptMessage.LOING_SUCCESS,response));

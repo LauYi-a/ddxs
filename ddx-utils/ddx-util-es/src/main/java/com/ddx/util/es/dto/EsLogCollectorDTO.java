@@ -1,4 +1,4 @@
-package com.ddx.util.log.mc.model.dto;
+package com.ddx.util.es.dto;
 
 import com.ddx.util.es.annotation.DocId;
 import com.ddx.util.es.annotation.EsClass;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * @ClassName: LogCollectorEsDTO
- * @Description: 日志采集ES 文档类
+ * @Description: 日志采集
  * @Author: YI.LAU
  * @Date: 2022年11月16日 17:18
  * @Version: 1.0

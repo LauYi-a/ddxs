@@ -1,6 +1,6 @@
 package com.ddx.util.redis.config;
 
-import com.ddx.util.redis.constant.LockConstant;
+import com.ddx.util.redis.constant.RedisConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.redisson.Redisson;
@@ -25,13 +25,13 @@ public class RedissonFactory {
     private static final int PING_INTERVAL = 1000;
 
     public static RedissonClient createRedisson(String address, String password) {
-        if (StringUtils.startsWith(address, LockConstant.SINGLE_SERVER)) {
-            String serverAddress = StringUtils.substring(address, LockConstant.SINGLE_SERVER.length());
+        if (StringUtils.startsWith(address, RedisConstant.SINGLE_SERVER)) {
+            String serverAddress = StringUtils.substring(address, RedisConstant.SINGLE_SERVER.length());
             Config config = new Config().setCodec(JsonJacksonCodec.INSTANCE);
             config.useSingleServer().setAddress(getRedissonAddress(serverAddress));
             return Redisson.create(config);
-        } else if (StringUtils.startsWith(address, LockConstant.CLUSTER_SERVER)) {
-            String serverAddress = StringUtils.substring(address, LockConstant.CLUSTER_SERVER.length());
+        } else if (StringUtils.startsWith(address, RedisConstant.CLUSTER_SERVER)) {
+            String serverAddress = StringUtils.substring(address, RedisConstant.CLUSTER_SERVER.length());
             Set<String> nodes = org.springframework.util.StringUtils.commaDelimitedListToSet(serverAddress);
             Config config = new Config().setCodec(JsonJacksonCodec.INSTANCE);
             ClusterServersConfig clusterServersConfig = config.useClusterServers()
@@ -42,7 +42,7 @@ public class RedissonFactory {
                     .setSlaveConnectionMinimumIdleSize(1) // default 24
                     .setSubscriptionConnectionPoolSize(10) // default 50
                     .setSubscriptionConnectionMinimumIdleSize(1) // default 1
-                    .setScanInterval(LockConstant.CLUSTER_SCAN_TIME)
+                    .setScanInterval(RedisConstant.CLUSTER_SCAN_TIME)
                     .setReadMode(ReadMode.MASTER_SLAVE)
                     .setPingConnectionInterval(PING_INTERVAL);
             for (String node : nodes) {
@@ -55,6 +55,6 @@ public class RedissonFactory {
     }
     
     private static String getRedissonAddress(String address) {
-        return String.format(LockConstant.REDISSON_SINGLE_SERVER_FORMAT, address);
+        return String.format(RedisConstant.REDISSON_SINGLE_SERVER_FORMAT, address);
     }
 }

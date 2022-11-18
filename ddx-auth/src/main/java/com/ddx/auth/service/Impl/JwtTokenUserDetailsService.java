@@ -8,10 +8,10 @@ import com.ddx.auth.entity.SysUserRole;
 import com.ddx.auth.service.ISysRoleService;
 import com.ddx.auth.service.ISysUserRoleService;
 import com.ddx.auth.service.ISysUserService;
-import com.ddx.util.basis.constant.ConstantUtils;
-import com.ddx.util.basis.enums.CommonEnumConstant;
+import com.ddx.util.basis.constant.BasisConstantConstant;
+import com.ddx.util.basis.constant.CommonEnumConstant;
 import com.ddx.util.basis.exception.ExceptionUtils;
-import com.ddx.util.redis.constant.LockConstant;
+import com.ddx.util.redis.constant.RedisConstant;
 import com.ddx.util.redis.template.RedisTemplateUtil;
 import com.ddx.web.entity.SecurityUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +49,7 @@ public class JwtTokenUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        ExceptionUtils.businessException(redisTemplateUtils.hasKey(LockConstant.ACCOUNT_NON_LOCKED+username), CommonEnumConstant.PromptMessage.USER_DISABLE_TIME_ERROR, redisTemplateUtils.getExpire(LockConstant.ACCOUNT_NON_LOCKED+username));
+        ExceptionUtils.businessException(redisTemplateUtils.hasKey(RedisConstant.ACCOUNT_NON_LOCKED+username), CommonEnumConstant.PromptMessage.USER_DISABLE_TIME_ERROR, redisTemplateUtils.getExpire(RedisConstant.ACCOUNT_NON_LOCKED+username));
         SysUser user = sysUserService.getOne(new QueryWrapper<SysUser>().lambda().eq(SysUser::getUsername,username).or().eq(SysUser::getMobile,username).last("limit 1"));
         ExceptionUtils.businessException(Objects.isNull(user),CommonEnumConstant.PromptMessage.USER_NOT_FOUND_ERROR);
         ExceptionUtils.businessException(user.getStatus().equals(CommonEnumConstant.Dict.USER_STATUS_0.getDictKey()),CommonEnumConstant.PromptMessage.USER_DISABLE_ERROR);
@@ -64,7 +64,7 @@ public class JwtTokenUserDetailsService implements UserDetailsService {
         List<String> roles=new ArrayList<>();
         for (SysUserRole userRole : sysUserRoles) {
            sysRoleService.list(new QueryWrapper<SysRole>().lambda().eq(SysRole::getId,userRole.getRoleId()).eq(SysRole::getStatus,CommonEnumConstant.Dict.ROLE_STATUS_0.getDictKey()))
-                   .forEach(o-> roles.add(ConstantUtils.ROLE_PREFIX+o.getCode()));
+                   .forEach(o-> roles.add(BasisConstantConstant.ROLE_PREFIX+o.getCode()));
         }
         ExceptionUtils.businessException(roles.size() == 0,CommonEnumConstant.PromptMessage.ID_AUTHENTICATION_FAILED );
         return SecurityUser.builder()

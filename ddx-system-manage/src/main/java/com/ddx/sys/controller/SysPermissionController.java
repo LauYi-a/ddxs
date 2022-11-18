@@ -12,8 +12,8 @@ import com.ddx.sys.model.req.sysPermission.SysPermissionQueryReq;
 import com.ddx.sys.model.resp.sysPermission.PermissionResp;
 import com.ddx.sys.service.ISysPermissionService;
 import com.ddx.sys.service.ISysRolePermissionService;
-import com.ddx.util.basis.constant.ConstantUtils;
-import com.ddx.util.basis.enums.CommonEnumConstant;
+import com.ddx.util.basis.constant.BasisConstantConstant;
+import com.ddx.util.basis.constant.CommonEnumConstant;
 import com.ddx.util.basis.exception.ExceptionUtils;
 import com.ddx.util.basis.model.resp.PaginatedResult;
 import com.ddx.util.basis.response.BaseResponse;
@@ -69,8 +69,8 @@ public class SysPermissionController {
     @ApiOperation(httpMethod = "POST",value = "查询权限列表")
     public ResponseData<PaginatedResult> getList(@Validated @RequestBody SysPermissionQueryReq sysPermissionQueryReq) {
         log.info("get SysPermission list..");
-        int page = PageUtil.parsePage(sysPermissionQueryReq.getPage(), ConstantUtils.PAGE);
-        int perPage = PageUtil.parsePerPage(sysPermissionQueryReq.getPerPage(), ConstantUtils.PER_PAGE);
+        int page = PageUtil.parsePage(sysPermissionQueryReq.getPage(), BasisConstantConstant.PAGE);
+        int perPage = PageUtil.parsePerPage(sysPermissionQueryReq.getPerPage(), BasisConstantConstant.PER_PAGE);
         IPage<SysPermission> dataList=iSysPermissionService.selectPage(new Page<SysPermission>(page, perPage),new QueryWrapper<SysPermission>().lambda()
         .eq(StringUtils.isNoneBlank(sysPermissionQueryReq.getServiceModule()),SysPermission::getServiceModule, sysPermissionQueryReq.getServiceModule())
         .eq(StringUtils.isNoneBlank(sysPermissionQueryReq.getIsRole()),SysPermission::getIsRole, sysPermissionQueryReq.getIsRole())

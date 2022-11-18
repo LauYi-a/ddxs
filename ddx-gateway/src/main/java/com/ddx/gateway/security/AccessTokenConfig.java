@@ -1,6 +1,6 @@
 package com.ddx.gateway.security;
 
-import com.ddx.util.basis.constant.ConstantUtils;
+import com.ddx.util.basis.constant.BasisConstantConstant;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
@@ -38,7 +38,7 @@ public class AccessTokenConfig {
     public JwtAccessTokenConverter jwtAccessTokenConverter(){
         JwtAccessTokenConverter converter = new JwtAccessTokenEnhancer();
         // 设置秘钥
-        converter.setSigningKey(ConstantUtils.SIGN_KEY);
+        converter.setSigningKey(BasisConstantConstant.SIGN_KEY);
         return converter;
     }
 
@@ -57,9 +57,9 @@ public class AccessTokenConfig {
             //将额外的信息放入到LinkedHashMap中
             LinkedHashMap<String,Object> extendInformation=new LinkedHashMap<>();
             //设置用户的userId
-            extendInformation.put(ConstantUtils.USER_ID,user.getUserId());
-            extendInformation.put(ConstantUtils.NICKNAME,user.getNickname());
-            extendInformation.put(ConstantUtils.LOGIN_SERVICE,user.getLoginService());
+            extendInformation.put(BasisConstantConstant.USER_ID,user.getUserId());
+            extendInformation.put(BasisConstantConstant.NICKNAME,user.getNickname());
+            extendInformation.put(BasisConstantConstant.LOGIN_SERVICE,user.getLoginService());
             //添加到additionalInformation
             ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(extendInformation);
             return super.enhance(accessToken, authentication);

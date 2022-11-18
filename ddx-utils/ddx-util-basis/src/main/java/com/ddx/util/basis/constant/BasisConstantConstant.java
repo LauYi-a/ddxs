@@ -1,13 +1,13 @@
 package com.ddx.util.basis.constant;
 
 /**
- * @ClassName: ConstantUtils
+ * @ClassName: BasisConstantConstant
  * @Description: 业务统一常量池类
  * @Author: YI.LAU
  * @Date: 2022年03月28日
  * @Version: 1.0
  */
-public class ConstantUtils {
+public class BasisConstantConstant {
 
     /**
      * 提示消息级别
@@ -117,12 +117,6 @@ public class ConstantUtils {
     public final static String DATE_FORMAT_6 = "HHmmss";
     public final static String DATE_FORMAT_7 = DATE_FORMAT_5+DATE_FORMAT_6;
     public final static String DATE_FORMAT_8 = DATE_FORMAT_1+" "+DATE_FORMAT_2;
-
-    /**
-     * kafka topic
-     */
-    public final static String DDX_SYSTEM_MANAGE_TOPIC = "ddx-system-manage-log";
-    public final static String DDX_AUTH_TOPIC = "ddx-auth-log";
 
     /**
      * 线程持名称

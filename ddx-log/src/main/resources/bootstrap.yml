@@ -1,0 +1,37 @@
+server:
+  port: 5555
+  servlet:
+    context-path: /ddx/log
+
+spring:
+  application:
+    name: ddx-log
+  profiles:
+    active: dev
+  # 配置中心
+  cloud:
+    config:
+      fail-fast: true
+      name: common,${spring.application.name}
+      profile: ${spring.profiles.active}
+      discovery:
+        enabled: true
+        service-id: ddx-config
+# 注册中心
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    health-check-url-path: ${server.servlet.context-path}/actuator/health
+    status-page-url-path: ${server.servlet.context-path}/actuator/info
+    home-page-url-path: ${server.servlet.context-path}
+    metadata-map:
+      management:
+        context-path: ${server.servlet.context-path}/actuator
+  client:
+    service-url:
+      defaultZone: http://ddx:ddx@127.0.0.1:8761/eureka/
+#日志监控采集配置 可参考 LogmcConfig 类的参数进行配置
+ddxlog:
+  monitor-collector:
+    monitor-file-path: D:\\logs

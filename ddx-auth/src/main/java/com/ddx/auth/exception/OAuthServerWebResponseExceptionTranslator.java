@@ -1,7 +1,7 @@
 package com.ddx.auth.exception;
 
-import com.ddx.util.basis.constant.ConstantUtils;
-import com.ddx.util.basis.enums.CommonEnumConstant;
+import com.ddx.util.basis.constant.BasisConstantConstant;
+import com.ddx.util.basis.constant.CommonEnumConstant;
 import com.ddx.util.basis.exception.BusinessException;
 import com.ddx.util.basis.response.ResponseData;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +38,7 @@ public class OAuthServerWebResponseExceptionTranslator implements WebResponseExc
                 BusinessException ex = (BusinessException) e.getCause();
                 return ResponseEntity.ok(ResponseData.out(ex.getCode(),ex.getType(),ex.getMsg()));
             }catch (Exception e1){
-                return ResponseEntity.ok(ResponseData.out(CommonEnumConstant.PromptMessage.ID_AUTHENTICATION_FAILED,CommonEnumConstant.PromptMessage.ID_AUTHENTICATION_FAILED+ ConstantUtils.COLON+e.getMessage()));
+                return ResponseEntity.ok(ResponseData.out(CommonEnumConstant.PromptMessage.ID_AUTHENTICATION_FAILED,CommonEnumConstant.PromptMessage.ID_AUTHENTICATION_FAILED+ BasisConstantConstant.COLON+e.getMessage()));
             }
         } else if (e instanceof InvalidTokenException) {
             //Token无效或过期

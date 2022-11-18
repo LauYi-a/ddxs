@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ddx.sys.entity.SysUserRole;
 import com.ddx.sys.mapper.SysUserRoleMapper;
 import com.ddx.sys.service.ISysUserRoleService;
-import com.ddx.util.basis.enums.CommonEnumConstant;
+import com.ddx.util.basis.constant.CommonEnumConstant;
 import com.ddx.util.basis.exception.ExceptionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;

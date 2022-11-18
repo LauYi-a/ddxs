@@ -1,6 +1,6 @@
 package com.ddx.util.basis.utils;
 
-import com.ddx.util.basis.enums.CommonEnumConstant;
+import com.ddx.util.basis.constant.CommonEnumConstant;
 import com.ddx.util.basis.exception.ExceptionUtils;
 
 /**
