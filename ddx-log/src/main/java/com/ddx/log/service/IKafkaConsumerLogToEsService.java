@@ -1,6 +1,7 @@
 package com.ddx.log.service;
 
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
 
 /**
  * @ClassName: ILogToEsService
@@ -11,5 +12,9 @@ import java.util.Optional;
  */
 public interface IKafkaConsumerLogToEsService {
 
-    public void kafkaConsumerSystemManageLogToEs(Optional message);
+    /**
+     * kafka消费系统管理日志信息异步存储ES
+     * @param message
+     */
+    public void kafkaConsumerSystemManageAsyncLogToEs(Optional message) throws ExecutionException, InterruptedException;
 }

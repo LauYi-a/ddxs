@@ -4,7 +4,7 @@ import com.ddx.util.basis.constant.BasisConstantConstant;
 import com.ddx.util.basis.constant.CommonEnumConstant;
 import com.ddx.util.basis.exception.ExceptionUtils;
 import com.ddx.util.basis.utils.ApplicationContextUtil;
-import com.ddx.util.basis.utils.ThreadPoolUtils;
+import com.ddx.util.basis.utils.ThreadPoolUtil;
 import com.ddx.util.kafka.api.IProducerApi;
 import com.ddx.util.kafka.dto.LogCollectorEsDTO;
 import com.ddx.util.log.mc.config.LogmcConfig;
@@ -43,7 +43,7 @@ public class LogCollectorDevice {
     }
 
     public void readLogContentAndSubmitOffset(File file){
-        ThreadPoolUtils.execute(BasisConstantConstant.THREAD_POOL_LOG_MC,() -> {
+        ThreadPoolUtil.execute(BasisConstantConstant.THREAD_POOL_LOG_MC,() -> {
             FileInputStream inputStream = null;
             BufferedReader bufferedReader = null;
             try {

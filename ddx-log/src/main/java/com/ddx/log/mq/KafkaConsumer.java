@@ -39,7 +39,7 @@ public class KafkaConsumer {
         Optional message = Optional.ofNullable(record.value());
         if (message.isPresent()) {
             try {
-                iKafkaConsumerLogToEsService.kafkaConsumerSystemManageLogToEs(message);
+                iKafkaConsumerLogToEsService.kafkaConsumerSystemManageAsyncLogToEs(message);
                 ack.acknowledge();
             } catch (Exception e) {
                 e.printStackTrace();

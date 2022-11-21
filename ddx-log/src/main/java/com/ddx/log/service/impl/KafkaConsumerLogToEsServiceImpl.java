@@ -30,14 +30,14 @@ public class KafkaConsumerLogToEsServiceImpl implements IKafkaConsumerLogToEsSer
     private IElasticsearchServiceApi iElasticsearchServiceApi;
 
     @Override
-    public void kafkaConsumerSystemManageLogToEs(Optional message) {
+    public void kafkaConsumerSystemManageAsyncLogToEs(Optional message){
         String msg = (String) message.get();
         LogCollectorEsDTO logCollectorEsDTO = JSON.parseObject(msg, LogCollectorEsDTO.class);
         EsLogCollectorDTO esLogCollectorDTO = new EsLogCollectorDTO();
-        BeanUtils.copyProperties(logCollectorEsDTO,esLogCollectorDTO);
-        EsResultData esResultData = iElasticsearchServiceApi.addData(esLogCollectorDTO,true);
-        if (!EsResultData.isSuccess(esResultData)){
-            ExceptionUtils.businessException(CommonEnumConstant.PromptMessage.FAILED,esResultData.getMsg());
+        BeanUtils.copyProperties(logCollectorEsDTO, esLogCollectorDTO);
+        EsResultData esResultData = iElasticsearchServiceApi.addData(esLogCollectorDTO, true);
+        if (!EsResultData.isSuccess(esResultData)) {
+            ExceptionUtils.businessException(CommonEnumConstant.PromptMessage.FAILED, esResultData.getMsg());
         }
     }
 }
