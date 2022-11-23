@@ -4,7 +4,7 @@ spring:
   application:
     name: ddx-config
   profiles:
-    active: native
+    active: dev
   # 配置中心
   cloud:
     config:

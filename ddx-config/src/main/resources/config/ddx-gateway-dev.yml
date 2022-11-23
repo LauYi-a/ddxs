@@ -1,3 +1,6 @@
+#日志格式化报文
+logging:
+  isFormatterLog: true
 spring:
   cloud:
     gateway:

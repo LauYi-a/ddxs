@@ -24,3 +24,6 @@ mybatis:
 mybatis-plus:
   #实体扫描,多个package用逗号或者分号分隔
   typeAliasesPackage: com.ddx.sys.entity
+#日志格式化报文
+logging:
+  isFormatterLog: true

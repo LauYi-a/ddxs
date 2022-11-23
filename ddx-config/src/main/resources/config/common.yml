@@ -60,11 +60,6 @@ redisson:
   common:
     redis-nodes: 127.0.0.1:6379
     redis-pattern: stand-alone      #stand-alone 单机模式 multiple 集群模式
-#日志级别
-logging:
-  isFormatterLog: true
-  level:
-    org.springframework: INFO
 #mybatis
 mybatis-plus:
   mapper-locations: classpath:/mapper/*Mapper.xml

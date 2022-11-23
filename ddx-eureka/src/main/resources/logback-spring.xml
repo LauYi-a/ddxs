@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <configuration debug="false" scan="false">
-    <springProperty scop="context" name="ddxlog.monitor-collector.monitor-file-path" source="ddxlog.monitor-collector.monitor-file-path" defaultValue=""/>
+    <springProperty scop="context" name="ddxlog.file-path" source="ddxlog.file-path" defaultValue=""/>
+    <springProperty scop="context" name="spring.profiles.active" source="spring.profiles.active" defaultValue=""/>
     <springProperty scop="context" name="spring.application.name" source="spring.application.name" defaultValue=""/>
-	<property name="log.path" value="${ddxlog.monitor-collector.monitor-file-path}/${spring.application.name}" />
-	<!-- 彩色日志格式 -->
-	<property name="CONSOLE_LOG_PATTERN"
-			  value="%clr(${LOG_LEVEL_PATTERN:-%5p})  %clr(${PID:- }){magenta} %clr(${CONSOLE_LOG_PATTERN:-%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint}) %clr(-){faint} %clr([%15.15t]){faint} %clr([%X{serialNumber}]) %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}" />
-	<!-- 彩色日志依赖的渲染类 -->
-	<conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
-	<conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />
-	<conversionRule conversionWord="wEx"
-					converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
-    <!-- Console log output -->
+    <springProperty scope="context" name="serverIp" source="spring.cloud.client.ip-address" defaultValue=""/>
+    <!-- 日志依赖的渲染类 -->
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
+    <conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />
+    <conversionRule conversionWord="wEx" converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
+    <!-- 属性格式 -->
+	<property name="log.path" value="${ddxlog.file-path}/${spring.application.name}" />
+	<property name="CONSOLE_LOG_PATTERN" value="%clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(${CONSOLE_LOG_PATTERN:-%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint}) %clr(-){faint} %clr([%15.15t]){faint} %clr([%serverIp]) %clr([%X{serialNumber}]) %clr([%logger-%line]){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}" />
+
+    <!-- 控制台输出日志 -->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder  class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>${CONSOLE_LOG_PATTERN}</pattern>
         </encoder>
     </appender>
 
-    <!-- Log file info output -->
+    <!-- 日志输出文件 -->
     <appender name="info" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${log.path}/info.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
@@ -28,18 +29,27 @@
             <maxHistory>7</maxHistory>
         </rollingPolicy>
         <encoder>
-            <pattern>%-5level [%thread] [%date] [%X{serialNumber}] [%logger{50}] %file:%line - %msg%n</pattern>
+            <pattern>%-5level ${spring.profiles.active} [%date] [%thread] [%serverIp] [%X{serialNumber}] [%logger-%line] : %msg%n</pattern>
         </encoder>
     </appender>
 
-    <!--关闭消费者日志-->
+    <!-- 日志输出 kafka servers多个逗号隔离-->
+    <appender name="kafkaLog" class="com.ddx.util.log.collector.appender.KafkaLogAppender">
+        <serviceName>${spring.application.name}</serviceName>
+        <env>${spring.profiles.active}</env>
+        <servers>127.0.0.1:9092</servers>
+        <layout>
+            <pattern>%-5level ${spring.profiles.active} [%date] [%thread] [%serverIp] [%X{serialNumber}] [%logger-%line] : %msg%n</pattern>
+        </layout>
+    </appender>
+
+    <!--关闭Kafka生产消费者日志-->
     <logger name="org.apache.kafka.clients.consumer.ConsumerConfig" level="off" />
-    <!--关闭生产者日志-->
     <logger name="org.apache.kafka.clients.producer.ProducerConfig" level="off" />
     <logger name="org.apache.kafka.clients.admin.AdminClientConfig" level="off" />
+
     <!-- Level: FATAL 0  ERROR 3  WARN 4  INFO 6  DEBUG 7 -->
     <root level="INFO">
         <appender-ref ref="console" />
-        <appender-ref ref="info" />
     </root>
 </configuration>
