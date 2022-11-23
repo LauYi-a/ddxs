@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <configuration debug="false" scan="false">
-    <springProperty scop="context" name="ddxlog.monitor-collector.monitor-file-path" source="ddxlog.monitor-collector.monitor-file-path" defaultValue=""/>
+    <springProperty scop="context" name="ddxlog.file-path" source="ddxlog.file-path" defaultValue=""/>
+    <springProperty scop="context" name="spring.profiles.active" source="spring.profiles.active" defaultValue=""/>
     <springProperty scop="context" name="spring.application.name" source="spring.application.name" defaultValue=""/>
-	<property name="log.path" value="${ddxlog.monitor-collector.monitor-file-path}/${spring.application.name}" />
+	<property name="log.path" value="${ddxlog.file-path}/${spring.application.name}" />
 	<!-- 彩色日志格式 -->
-	<property name="CONSOLE_LOG_PATTERN"
-			  value="%clr(${LOG_LEVEL_PATTERN:-%5p})  %clr(${PID:- }){magenta} %clr(${CONSOLE_LOG_PATTERN:-%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint}) %clr(-){faint} %clr([%15.15t]){faint} %clr([%ip]) %clr([%X{serialNumber}]) %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}" />
+	<property name="CONSOLE_LOG_PATTERN" value="%clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(${CONSOLE_LOG_PATTERN:-%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint}) %clr(-){faint} %clr([%15.15t]){faint} %clr([%host]) %clr([%X{serialNumber}]) %clr([%logger-%line]){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}" />
 	<!-- 彩色日志依赖的渲染类 -->
 	<conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
 	<conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />
-	<conversionRule conversionWord="wEx"
-					converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
-    <conversionRule conversionWord="ip" converterClass="com.ddx.util.basis.config.LogIpConfig" />
+	<conversionRule conversionWord="wEx" converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
+    <conversionRule conversionWord="host" converterClass="com.ddx.util.basis.config.LogIpConfig" />
     <!-- Console log output -->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder  class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
@@ -29,8 +28,17 @@
             <maxHistory>7</maxHistory>
         </rollingPolicy>
         <encoder>
-            <pattern>%-5level [%thread] [%date] [%ip] [%X{serialNumber}] [%logger{50}] %file:%line - %msg%n</pattern>
+            <pattern>%-5level ${spring.profiles.active} [%date] [%thread] [%host] [%X{serialNumber}] [%logger-%line] : %msg%n</pattern>
         </encoder>
+    </appender>
+
+    <appender name="kafkaLog" class="com.ddx.util.log.collector.appender.KafkaLogAppender">
+        <serviceName>${spring.application.name}</serviceName>
+        <env>${spring.profiles.active}</env>
+        <servers>127.0.0.1:9092</servers>
+        <layout>
+            <pattern>%-5level ${spring.profiles.active} [%date] [%thread] [%host] [%X{serialNumber}] [%logger-%line] : %msg%n</pattern>
+        </layout>
     </appender>
 
     <!--关闭消费者日志-->
@@ -41,6 +49,6 @@
     <!-- Level: FATAL 0  ERROR 3  WARN 4  INFO 6  DEBUG 7 -->
     <root level="INFO">
         <appender-ref ref="console" />
-        <appender-ref ref="info" />
+        <appender-ref ref="kafkaLog" />
     </root>
 </configuration>

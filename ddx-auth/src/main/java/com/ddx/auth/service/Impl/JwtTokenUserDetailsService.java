@@ -8,7 +8,7 @@ import com.ddx.auth.entity.SysUserRole;
 import com.ddx.auth.service.ISysRoleService;
 import com.ddx.auth.service.ISysUserRoleService;
 import com.ddx.auth.service.ISysUserService;
-import com.ddx.util.basis.constant.BasisConstantConstant;
+import com.ddx.util.basis.constant.BasisConstant;
 import com.ddx.util.basis.constant.CommonEnumConstant;
 import com.ddx.util.basis.exception.ExceptionUtils;
 import com.ddx.util.redis.constant.RedisConstant;
@@ -64,7 +64,7 @@ public class JwtTokenUserDetailsService implements UserDetailsService {
         List<String> roles=new ArrayList<>();
         for (SysUserRole userRole : sysUserRoles) {
            sysRoleService.list(new QueryWrapper<SysRole>().lambda().eq(SysRole::getId,userRole.getRoleId()).eq(SysRole::getStatus,CommonEnumConstant.Dict.ROLE_STATUS_0.getDictKey()))
-                   .forEach(o-> roles.add(BasisConstantConstant.ROLE_PREFIX+o.getCode()));
+                   .forEach(o-> roles.add(BasisConstant.ROLE_PREFIX+o.getCode()));
         }
         ExceptionUtils.businessException(roles.size() == 0,CommonEnumConstant.PromptMessage.ID_AUTHENTICATION_FAILED );
         return SecurityUser.builder()

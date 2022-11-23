@@ -16,5 +16,5 @@ public interface IKafkaConsumerLogToEsService {
      * kafka消费系统管理日志信息异步存储ES
      * @param message
      */
-    public void kafkaConsumerSystemManageAsyncLogToEs(Optional message) throws ExecutionException, InterruptedException;
+    public void kafkaConsumerSystemManageLogToEs(Optional message) throws ExecutionException, InterruptedException;
 }

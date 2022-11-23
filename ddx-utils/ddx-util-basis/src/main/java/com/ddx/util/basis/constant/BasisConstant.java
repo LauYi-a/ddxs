@@ -7,7 +7,7 @@ package com.ddx.util.basis.constant;
  * @Date: 2022年03月28日
  * @Version: 1.0
  */
-public class BasisConstantConstant {
+public class BasisConstant {
 
     /**
      * 提示消息级别
@@ -121,5 +121,5 @@ public class BasisConstantConstant {
     /**
      * 线程持名称
      */
-    public final static String THREAD_POOL_LOG_MC= "thread_pool_log_mc";
+    public final static String THREAD_POOL_LOG_C_C= "thread_pool_log_collector_Consumer";
 }

@@ -2,7 +2,7 @@ package com.ddx.gateway.filter;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.ddx.util.basis.constant.BasisConstantConstant;
+import com.ddx.util.basis.constant.BasisConstant;
 import com.ddx.util.basis.constant.CommonEnumConstant;
 import com.ddx.util.basis.exception.ExceptionUtils;
 import com.ddx.util.basis.model.vo.SysParamConfigVo;
@@ -61,8 +61,8 @@ public class GlobalAuthenticationFilter implements GlobalFilter, Ordered {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        String serialNumber = SerialNumber.newInstance(BasisConstantConstant.SERIAL_LOG, BasisConstantConstant.DATE_FORMAT_7).toString();
-        MDC.put(BasisConstantConstant.REQUEST_SERIAL_NUMBER,serialNumber);
+        String serialNumber = SerialNumber.newInstance(BasisConstant.SERIAL_LOG, BasisConstant.DATE_FORMAT_7).toString();
+        MDC.put(BasisConstant.REQUEST_SERIAL_NUMBER,serialNumber);
         String requestUrl = exchange.getRequest().getPath().value();
         ServerHttpRequest request = exchange.getRequest();
         String ip = request.getRemoteAddress().getAddress().toString();
@@ -84,7 +84,7 @@ public class GlobalAuthenticationFilter implements GlobalFilter, Ordered {
         ExceptionUtils.businessException(ignoreUrls.size() == 0, CommonEnumConstant.PromptMessage.INIT_WHITELIST_ERROR);
         if (StringUtil.checkUrls(ignoreUrls, requestUrl)){
             exchange.getRequest().mutate()
-                    .header(BasisConstantConstant.REQUEST_SERIAL_NUMBER, serialNumber).build();
+                    .header(BasisConstant.REQUEST_SERIAL_NUMBER, serialNumber).build();
             return chain.filter(exchange);
         }
         //4.检查token是否存在
@@ -99,7 +99,7 @@ public class GlobalAuthenticationFilter implements GlobalFilter, Ordered {
             oAuth2AccessToken = tokenStore.readAccessToken(token);
             Map<String, Object> additionalInformation = oAuth2AccessToken.getAdditionalInformation();
             //令牌的唯一ID
-            String jti=additionalInformation.get(BasisConstantConstant.JTI).toString();
+            String jti=additionalInformation.get(BasisConstant.JTI).toString();
             /**查看黑名单中是否存在这个jti，如果存在则这个令牌不能用****/
             Boolean hasKey = stringRedisTemplate.hasKey(RedisConstant.JTI_KEY_PREFIX + jti);
             if (hasKey)
@@ -107,23 +107,23 @@ public class GlobalAuthenticationFilter implements GlobalFilter, Ordered {
             //取出用户身份信息
             String user_name = additionalInformation.get("user_name").toString();
             //获取用户权限
-            List<String> authorities = (List<String>) additionalInformation.get(BasisConstantConstant.AUTHORITIES_NAME);
+            List<String> authorities = (List<String>) additionalInformation.get(BasisConstant.AUTHORITIES_NAME);
             //从additionalInformation取出userId
-            String userId = additionalInformation.get(BasisConstantConstant.USER_ID).toString();
-            String nickname = additionalInformation.get(BasisConstantConstant.NICKNAME).toString();
+            String userId = additionalInformation.get(BasisConstant.USER_ID).toString();
+            String nickname = additionalInformation.get(BasisConstant.NICKNAME).toString();
             JSONObject jsonObject=new JSONObject();
-            jsonObject.put(BasisConstantConstant.PRINCIPAL_NAME, user_name);
-            jsonObject.put(BasisConstantConstant.AUTHORITIES_NAME,authorities);
+            jsonObject.put(BasisConstant.PRINCIPAL_NAME, user_name);
+            jsonObject.put(BasisConstant.AUTHORITIES_NAME,authorities);
             //过期时间，单位秒
-            jsonObject.put(BasisConstantConstant.EXPR,oAuth2AccessToken.getExpiresIn());
-            jsonObject.put(BasisConstantConstant.JTI,jti);
+            jsonObject.put(BasisConstant.EXPR,oAuth2AccessToken.getExpiresIn());
+            jsonObject.put(BasisConstant.JTI,jti);
             //封装到JSON数据中
-            jsonObject.put(BasisConstantConstant.USER_ID, userId);
-            jsonObject.put(BasisConstantConstant.NICKNAME, nickname);
+            jsonObject.put(BasisConstant.USER_ID, userId);
+            jsonObject.put(BasisConstant.NICKNAME, nickname);
             //将解析后的token加密放入请求头中，方便下游微服务解析获取用户信息
             ServerHttpRequest tokenRequest = exchange.getRequest().mutate()
-                    .header(BasisConstantConstant.TOKEN_NAME, SM4Utils.encryptBase64(jsonObject.toJSONString()))
-                    .header(BasisConstantConstant.REQUEST_SERIAL_NUMBER, serialNumber).build();
+                    .header(BasisConstant.TOKEN_NAME, SM4Utils.encryptBase64(jsonObject.toJSONString()))
+                    .header(BasisConstant.REQUEST_SERIAL_NUMBER, serialNumber).build();
             ServerWebExchange build = exchange.mutate().request(tokenRequest).build();
             return chain.filter(build);
         } catch (InvalidTokenException e) {

@@ -2,7 +2,7 @@ package com.ddx.sys.model.vo.user;
 
 import com.ddx.sys.entity.SysUser;
 import com.ddx.sys.model.req.sysUser.SysUserAddReq;
-import com.ddx.util.basis.constant.BasisConstantConstant;
+import com.ddx.util.basis.constant.BasisConstant;
 import com.ddx.util.basis.constant.CommonEnumConstant;
 import com.ddx.util.basis.utils.SerialNumber;
 import com.ddx.util.basis.utils.sm3.SM3Digest;
@@ -57,8 +57,8 @@ public class UserAddVo {
     public static SysUser getSysUser(SysUserAddReq sysUserAddReq,String loginService){
         SysUser sysUser = new SysUser();
         BeanUtils.copyProperties(sysUserAddReq,sysUser);
-        sysUser.setPassword(SM3Digest.decode(BasisConstantConstant.INIT_PASSWORD+sysUser.getUsername()));
-        sysUser.setUserId(SerialNumber.newInstance(BasisConstantConstant.SERIAL_ID, BasisConstantConstant.DATE_FORMAT_5).toString());
+        sysUser.setPassword(SM3Digest.decode(BasisConstant.INIT_PASSWORD+sysUser.getUsername()));
+        sysUser.setUserId(SerialNumber.newInstance(BasisConstant.SERIAL_ID, BasisConstant.DATE_FORMAT_5).toString());
         sysUser.setStatus(CommonEnumConstant.Dict.USER_STATUS_1.getDictKey());
         sysUser.setLoginService(loginService);
         return sysUser;

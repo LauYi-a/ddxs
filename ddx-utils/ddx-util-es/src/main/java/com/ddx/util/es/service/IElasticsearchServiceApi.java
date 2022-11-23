@@ -91,6 +91,18 @@ public interface IElasticsearchServiceApi {
     public <T> EsResultData addData(T o, boolean async);
 
     /**
+     * 添加数据自定义索引名
+     * @param o
+     * @param indexName 索引名称
+     * @param async 是否异步 true异步 ,false同步
+     * @param <T>
+     * @return 同步成功返回 数据ID ,异步返回 true 除非抛出异常
+     * 同步或异常抛出异常失败时 返回失败信息
+     * 可通过 EsResultData.isSuccess() 检查请求是否失败
+     */
+    public <T> EsResultData addData(T o,String indexName, boolean async);
+
+    /**
      * 批量添加数据
      * @param list 数据集合
      * @param async 是否异步 true异步 ,false同步

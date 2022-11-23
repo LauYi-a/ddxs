@@ -13,7 +13,7 @@ import com.ddx.sys.model.vo.permission.RolePermissionVo;
 import com.ddx.sys.service.ISysPermissionService;
 import com.ddx.sys.service.ISysRolePermissionService;
 import com.ddx.sys.service.ISysRoleService;
-import com.ddx.util.basis.constant.BasisConstantConstant;
+import com.ddx.util.basis.constant.BasisConstant;
 import com.ddx.util.redis.constant.RedisConstant;
 import com.ddx.util.redis.template.RedisTemplateUtil;
 import com.google.common.collect.Lists;
@@ -72,7 +72,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
                 List<Object> roles=new ArrayList<>();
                 if (CollectionUtil.isNotEmpty(k.getRoles())){
                     for (SysRole role : k.getRoles()) {
-                        roles.add(BasisConstantConstant.ROLE_PREFIX+role.getCode());
+                        roles.add(BasisConstant.ROLE_PREFIX+role.getCode());
                     }
                 }
                 //然后更新Redis中的权限

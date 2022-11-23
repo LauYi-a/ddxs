@@ -9,11 +9,11 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>ddx-util-log-mc</artifactId>
+    <artifactId>ddx-util-log-collector</artifactId>
     <groupId>com.ddx</groupId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>ddx-util-log-mc</name>
+    <name>ddx-util-log-collector</name>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -24,17 +24,16 @@
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
         </dependency>
-        <!-- es工具包 -->
+        <!-- kafka工具包 -->
         <dependency>
             <groupId>com.ddx</groupId>
             <artifactId>ddx-util-kafka</artifactId>
             <version>${ddx-util-kafka.version}</version>
         </dependency>
-        <!-- 基础服务 -->
         <dependency>
-            <groupId>com.ddx</groupId>
-            <artifactId>ddx-util-basis</artifactId>
-            <version>${ddx-util-basis.version}</version>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
         </dependency>
     </dependencies>
     <build>

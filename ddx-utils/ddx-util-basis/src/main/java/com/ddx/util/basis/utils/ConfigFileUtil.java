@@ -1,4 +1,4 @@
-package com.ddx.util.log.mc.utils;
+package com.ddx.util.basis.utils;
 
 import com.alibaba.fastjson.JSON;
 import org.apache.commons.io.FileUtils;

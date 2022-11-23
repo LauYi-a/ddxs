@@ -9,7 +9,7 @@ import com.ddx.sys.model.req.sysWhitelistRequest.SysWhitelistRequestAddReq;
 import com.ddx.sys.model.req.sysWhitelistRequest.SysWhitelistRequestEditReq;
 import com.ddx.sys.model.req.sysWhitelistRequest.SysWhitelistRequestQueryReq;
 import com.ddx.sys.service.ISysWhitelistRequestService;
-import com.ddx.util.basis.constant.BasisConstantConstant;
+import com.ddx.util.basis.constant.BasisConstant;
 import com.ddx.util.basis.constant.CommonEnumConstant;
 import com.ddx.util.basis.exception.ExceptionUtils;
 import com.ddx.util.basis.model.req.BatchDeleteKey;
@@ -52,8 +52,8 @@ public class SysWhitelistRequestController {
     @ApiOperation(httpMethod = "POST",value = "查询白名单路由列表")
     public ResponseData<PaginatedResult> getList(@Validated @RequestBody SysWhitelistRequestQueryReq sysWhitelistRequestQueryReq) {
         log.info("get SysWhitelistRequest list..");
-        int page = PageUtil.parsePage(sysWhitelistRequestQueryReq.getPage(), BasisConstantConstant.PAGE);
-        int perPage = PageUtil.parsePerPage(sysWhitelistRequestQueryReq.getPerPage(), BasisConstantConstant.PER_PAGE);
+        int page = PageUtil.parsePage(sysWhitelistRequestQueryReq.getPage(), BasisConstant.PAGE);
+        int perPage = PageUtil.parsePerPage(sysWhitelistRequestQueryReq.getPerPage(), BasisConstant.PER_PAGE);
         IPage<SysWhitelistRequest> dataList=iSysWhitelistRequestService.selectPage(new Page<SysWhitelistRequest>(page, perPage),new QueryWrapper<SysWhitelistRequest>().lambda()
         .eq(StringUtils.isNoneBlank(sysWhitelistRequestQueryReq.getServiceModule()),SysWhitelistRequest::getServiceModule, sysWhitelistRequestQueryReq.getServiceModule())
         .eq(StringUtils.isNoneBlank(sysWhitelistRequestQueryReq.getType()),SysWhitelistRequest::getType,sysWhitelistRequestQueryReq.getType())

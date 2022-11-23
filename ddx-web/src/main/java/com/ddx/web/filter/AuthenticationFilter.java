@@ -4,7 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.ddx.util.basis.constant.BasisConstantConstant;
+import com.ddx.util.basis.constant.BasisConstant;
 import com.ddx.util.basis.constant.CommonEnumConstant;
 import com.ddx.util.basis.exception.BusinessException;
 import com.ddx.util.basis.response.ResponseData;
@@ -53,17 +53,17 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             isDoFilter = true;
         }
         //获取请求头中的加密的用户信息，只接受网关过带了token的请求
-        String token = request.getHeader(BasisConstantConstant.TOKEN_NAME);
+        String token = request.getHeader(BasisConstant.TOKEN_NAME);
         if (StrUtil.isNotBlank(token)){
             String json =  SM4Utils.decryptBase64(token);
             JSONObject jsonObject = JSON.parseObject(json);
             //获取用户身份信息、权限信息
-            String principal = jsonObject.getString(BasisConstantConstant.PRINCIPAL_NAME);
-            String nickName = jsonObject.getString(BasisConstantConstant.NICKNAME);
-            String userId=jsonObject.getString(BasisConstantConstant.USER_ID);
-            String jti = jsonObject.getString(BasisConstantConstant.JTI);
-            Long expireIn = jsonObject.getLong(BasisConstantConstant.EXPR);
-            JSONArray tempJsonArray = jsonObject.getJSONArray(BasisConstantConstant.AUTHORITIES_NAME);
+            String principal = jsonObject.getString(BasisConstant.PRINCIPAL_NAME);
+            String nickName = jsonObject.getString(BasisConstant.NICKNAME);
+            String userId=jsonObject.getString(BasisConstant.USER_ID);
+            String jti = jsonObject.getString(BasisConstant.JTI);
+            Long expireIn = jsonObject.getLong(BasisConstant.EXPR);
+            JSONArray tempJsonArray = jsonObject.getJSONArray(BasisConstant.AUTHORITIES_NAME);
             //权限
             String[] authorities =  tempJsonArray.toArray(new String[0]);
             //放入LoginVal
@@ -75,7 +75,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             loginVal.setJti(jti);
             loginVal.setExpireIn(expireIn);
             //放入request的attribute中
-            request.setAttribute(BasisConstantConstant.LOGIN_VAL_ATTRIBUTE,loginVal);
+            request.setAttribute(BasisConstant.LOGIN_VAL_ATTRIBUTE,loginVal);
             try {
                 filterChain.doFilter(request,response);
             }catch (Exception e){

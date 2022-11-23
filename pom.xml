@@ -71,7 +71,7 @@
         <!-- 内部工程 -->
         <ddx-web.version>1.0-SNAPSHOT</ddx-web.version>
         <ddx-basis.version>1.0-SNAPSHOT</ddx-basis.version>
-        <ddx-util-log-mc.version>1.0-SNAPSHOT</ddx-util-log-mc.version>
+        <ddx-util-log-collector.version>1.0-SNAPSHOT</ddx-util-log-collector.version>
         <ddx-util-redis.version>1.0-SNAPSHOT</ddx-util-redis.version>
         <ddx-util-basis.version>1.0-SNAPSHOT</ddx-util-basis.version>
         <ddx-util-es.version>1.0-SNAPSHOT</ddx-util-es.version>

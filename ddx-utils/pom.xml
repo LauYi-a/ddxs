@@ -14,7 +14,7 @@
         <module>ddx-util-redis</module>
         <module>ddx-util-basis</module>
         <module>ddx-util-kafka</module>
-        <module>ddx-util-log-mc</module>
+        <module>ddx-util-log-collector</module>
         <module>ddx-util-es</module>
     </modules>
     <groupId>com.ddx</groupId>

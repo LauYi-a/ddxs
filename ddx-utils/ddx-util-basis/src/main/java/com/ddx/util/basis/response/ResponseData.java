@@ -1,6 +1,6 @@
 package com.ddx.util.basis.response;
 
-import com.ddx.util.basis.constant.BasisConstantConstant;
+import com.ddx.util.basis.constant.BasisConstant;
 import com.ddx.util.basis.constant.CommonEnumConstant;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
@@ -116,7 +116,7 @@ public class ResponseData<T> extends BaseResponse {
      * @return Boolean true 调用成功返回 false 失败返回
      */
     public static Boolean isSuccess(ResponseData responseData){
-        return Objects.equals(responseData.getType(), BasisConstantConstant.MSG_TYPE_SUCCESS)||Objects.equals(responseData.getType(), BasisConstantConstant.MSG_TYPE_INFO);
+        return Objects.equals(responseData.getType(), BasisConstant.MSG_TYPE_SUCCESS)||Objects.equals(responseData.getType(), BasisConstant.MSG_TYPE_INFO);
     }
 
     /**
@@ -127,6 +127,6 @@ public class ResponseData<T> extends BaseResponse {
      * @return Boolean true 调用成功返回 false 失败返回
      */
     public static Boolean isSuccess(BaseResponse baseResponse){
-        return Objects.equals(baseResponse.getType(), BasisConstantConstant.MSG_TYPE_SUCCESS)||Objects.equals(baseResponse.getType(), BasisConstantConstant.MSG_TYPE_INFO);
+        return Objects.equals(baseResponse.getType(), BasisConstant.MSG_TYPE_SUCCESS)||Objects.equals(baseResponse.getType(), BasisConstant.MSG_TYPE_INFO);
     }
 }

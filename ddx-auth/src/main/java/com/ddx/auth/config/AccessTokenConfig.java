@@ -1,7 +1,7 @@
 package com.ddx.auth.config;
 
 
-import com.ddx.util.basis.constant.BasisConstantConstant;
+import com.ddx.util.basis.constant.BasisConstant;
 import com.ddx.web.entity.SecurityUser;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -41,7 +41,7 @@ public class AccessTokenConfig {
     public JwtAccessTokenConverter jwtAccessTokenConverter(){
         JwtAccessTokenConverter converter = new JwtAccessTokenEnhancer();
         // 设置秘钥
-        converter.setSigningKey(BasisConstantConstant.SIGN_KEY);
+        converter.setSigningKey(BasisConstant.SIGN_KEY);
         /*
          * 设置自定义得的令牌转换器，从map中转换身份信息
          * fix(*)：修复刷新令牌无法获取用户详细信息的问题
@@ -67,9 +67,9 @@ public class AccessTokenConfig {
                 //将额外的信息放入到LinkedHashMap中
                 LinkedHashMap<String,Object> extendInformation=new LinkedHashMap<>();
                 //设置用户的userId
-                extendInformation.put(BasisConstantConstant.USER_ID,user.getUserId());
-                extendInformation.put(BasisConstantConstant.NICKNAME,user.getNickname());
-                extendInformation.put(BasisConstantConstant.LOGIN_SERVICE,user.getLoginService());
+                extendInformation.put(BasisConstant.USER_ID,user.getUserId());
+                extendInformation.put(BasisConstant.NICKNAME,user.getNickname());
+                extendInformation.put(BasisConstant.LOGIN_SERVICE,user.getLoginService());
                 //添加到additionalInformation
                 ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(extendInformation);
             }

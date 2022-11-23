@@ -2,7 +2,7 @@ package com.ddx.sys.model.resp.sysUser;
 
 import com.ddx.sys.model.resp.sysResource.TreeMenuAndElAuthResp;
 import com.ddx.sys.model.resp.sysRole.SysRoleResp;
-import com.ddx.util.basis.constant.BasisConstantConstant;
+import com.ddx.util.basis.constant.BasisConstant;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -68,11 +68,11 @@ public class SysUserResp {
     @ApiModelProperty(value = "用户资源")
     private TreeMenuAndElAuthResp resource;
 
-    @JsonFormat(pattern = BasisConstantConstant.DATE_FORMAT_8, timezone = "GMT+8")
+    @JsonFormat(pattern = BasisConstant.DATE_FORMAT_8, timezone = "GMT+8")
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;
 
-    @JsonFormat(pattern = BasisConstantConstant.DATE_FORMAT_8, timezone = "GMT+8")
+    @JsonFormat(pattern = BasisConstant.DATE_FORMAT_8, timezone = "GMT+8")
     @ApiModelProperty(value = "修改时间")
     private LocalDateTime updateTime;
 

@@ -2,7 +2,7 @@ package com.ddx.gateway.security;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
-import com.ddx.util.basis.constant.BasisConstantConstant;
+import com.ddx.util.basis.constant.BasisConstant;
 import com.ddx.util.basis.constant.CommonEnumConstant;
 import com.ddx.util.basis.exception.ExceptionUtils;
 import com.ddx.util.redis.constant.RedisConstant;
@@ -45,7 +45,7 @@ public class JwtAccessManager implements ReactiveAuthorizationManager<Authorizat
         //请求方法 POST,GET
         String method = authorizationContext.getExchange().getRequest().getMethodValue();
         
-        String restFulPath = method + BasisConstantConstant.METHOD_SUFFIX + uri.getPath();
+        String restFulPath = method + BasisConstant.METHOD_SUFFIX + uri.getPath();
         //获取所有的uri->角色对应关系
         Map<Object, Object> entries = redisTemplate.hmget(RedisConstant.OAUTH_URLS);
         ExceptionUtils.businessException(entries.size() == 0, CommonEnumConstant.PromptMessage.REDIS_NOT_RESOURCES_ERROR);
@@ -61,7 +61,7 @@ public class JwtAccessManager implements ReactiveAuthorizationManager<Authorizat
                 //如果权限包含则判断为true
                 .any(authority->{
                     //超级管理员直接放行
-                    if (StrUtil.equals(BasisConstantConstant.ROLE_ROOT_CODE,authority))
+                    if (StrUtil.equals(BasisConstant.ROLE_ROOT_CODE,authority))
                         return true;
                     //其他必须要判断角色是否存在交集
                     return CollectionUtil.isNotEmpty(authorities) && authorities.contains(authority);

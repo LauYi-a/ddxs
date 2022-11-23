@@ -1,6 +1,6 @@
 package com.ddx.web.config;
 
-import com.ddx.util.basis.constant.BasisConstantConstant;
+import com.ddx.util.basis.constant.BasisConstant;
 import com.ddx.util.basis.constant.CommonEnumConstant;
 import com.ddx.util.basis.exception.ExceptionUtils;
 import com.ddx.util.basis.utils.RequestContextUtils;
@@ -22,7 +22,7 @@ public class UserOauthInfo {
      */
     public static LoginVal getCurrentUser(){
         try {
-            LoginVal loginVal = (LoginVal) RequestContextUtils.getRequest().getAttribute(BasisConstantConstant.LOGIN_VAL_ATTRIBUTE);
+            LoginVal loginVal = (LoginVal) RequestContextUtils.getRequest().getAttribute(BasisConstant.LOGIN_VAL_ATTRIBUTE);
             ExceptionUtils.businessException(loginVal == null, CommonEnumConstant.PromptMessage.NO_TOKEN);
             return loginVal;
         }catch (Exception e){

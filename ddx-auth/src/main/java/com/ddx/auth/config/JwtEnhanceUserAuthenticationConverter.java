@@ -1,6 +1,6 @@
 package com.ddx.auth.config;
 
-import com.ddx.util.basis.constant.BasisConstantConstant;
+import com.ddx.util.basis.constant.BasisConstant;
 import com.ddx.web.entity.SecurityUser;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -29,9 +29,9 @@ public class JwtEnhanceUserAuthenticationConverter extends DefaultUserAuthentica
         if (map.containsKey(USERNAME)) {
             Collection<? extends GrantedAuthority> authorities = getAuthorities(map);
             String username = (String) map.get(USERNAME);
-            String nickname = (String) map.get(BasisConstantConstant.NICKNAME);
-            String loginService = (String) map.get(BasisConstantConstant.LOGIN_SERVICE);
-            Long userId = Long.valueOf(map.get(BasisConstantConstant.USER_ID).toString());
+            String nickname = (String) map.get(BasisConstant.NICKNAME);
+            String loginService = (String) map.get(BasisConstant.LOGIN_SERVICE);
+            Long userId = Long.valueOf(map.get(BasisConstant.USER_ID).toString());
             SecurityUser user =new SecurityUser(userId,username,nickname,loginService,"",authorities);
             return new UsernamePasswordAuthenticationToken(user, "", authorities);
         }

@@ -20,14 +20,14 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EsClass(index = "logs",alias = "logs")
+@EsClass
 public class EsLogCollectorDTO {
 
     @DocId
-    private String docId;
+    private String id;
 
-    @EsField(type = EsDataType.IP)
-    private String ip;
+    @EsField(type = EsDataType.KEYWORD)
+    private String env;
 
     @EsField(type = EsDataType.KEYWORD)
     private String serviceName;
@@ -36,5 +36,5 @@ public class EsLogCollectorDTO {
     private String date;
 
     @EsField(type = EsDataType.TEXT,analyzer = "ik_max_word",searchAnalyzer = "ik_smart")
-    private String text;
+    private String message;
 }

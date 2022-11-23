@@ -8,7 +8,7 @@ import com.ddx.auth.entity.SysWhitelistRequest;
 import com.ddx.auth.model.resp.SysRolePermissionResp;
 import com.ddx.auth.service.ISysPermissionService;
 import com.ddx.auth.service.ISysWhitelistRequestService;
-import com.ddx.util.basis.constant.BasisConstantConstant;
+import com.ddx.util.basis.constant.BasisConstant;
 import com.ddx.util.basis.constant.CommonEnumConstant;
 import com.ddx.util.redis.constant.RedisConstant;
 import com.ddx.util.redis.template.RedisTemplateUtil;
@@ -70,7 +70,7 @@ public class MyCommandLineRunner implements CommandLineRunner {
             if (CollectionUtil.isNotEmpty(k.getRoles())) {
                 List<Object> roles = new ArrayList<>();
                 for (SysRole role : k.getRoles()) {
-                    roles.add(BasisConstantConstant.ROLE_PREFIX + role.getCode());
+                    roles.add(BasisConstant.ROLE_PREFIX + role.getCode());
                 }
                 //然后更新Redis中的资源
                 redisTemplate.hset(RedisConstant.OAUTH_URLS, k.getUrl(), roles);

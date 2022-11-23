@@ -2,12 +2,14 @@ package com.ddx.log.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.ddx.log.service.IKafkaConsumerLogToEsService;
+import com.ddx.util.basis.constant.BasisConstant;
 import com.ddx.util.basis.constant.CommonEnumConstant;
 import com.ddx.util.basis.exception.ExceptionUtils;
+import com.ddx.util.basis.utils.ThreadPoolUtil;
 import com.ddx.util.es.dto.EsLogCollectorDTO;
 import com.ddx.util.es.result.EsResultData;
 import com.ddx.util.es.service.IElasticsearchServiceApi;
-import com.ddx.util.kafka.dto.LogCollectorEsDTO;
+import com.ddx.util.log.collector.model.KafkaSendSystemLogBaseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,14 +32,17 @@ public class KafkaConsumerLogToEsServiceImpl implements IKafkaConsumerLogToEsSer
     private IElasticsearchServiceApi iElasticsearchServiceApi;
 
     @Override
-    public void kafkaConsumerSystemManageAsyncLogToEs(Optional message){
-        String msg = (String) message.get();
-        LogCollectorEsDTO logCollectorEsDTO = JSON.parseObject(msg, LogCollectorEsDTO.class);
-        EsLogCollectorDTO esLogCollectorDTO = new EsLogCollectorDTO();
-        BeanUtils.copyProperties(logCollectorEsDTO, esLogCollectorDTO);
-        EsResultData esResultData = iElasticsearchServiceApi.addData(esLogCollectorDTO, true);
-        if (!EsResultData.isSuccess(esResultData)) {
-            ExceptionUtils.businessException(CommonEnumConstant.PromptMessage.FAILED, esResultData.getMsg());
-        }
+    public void kafkaConsumerSystemManageLogToEs(Optional message){
+        ThreadPoolUtil.execute(BasisConstant.THREAD_POOL_LOG_C_C,()->{
+            String msg = (String) message.get();
+            KafkaSendSystemLogBaseDto kafkaSendSystemLogBaseDto = JSON.parseObject(msg, KafkaSendSystemLogBaseDto.class);
+            String indexName = kafkaSendSystemLogBaseDto.getServiceName()+"-log";
+            EsLogCollectorDTO esLogCollectorDTO = new EsLogCollectorDTO();
+            BeanUtils.copyProperties(kafkaSendSystemLogBaseDto, esLogCollectorDTO);
+            EsResultData esResultData = iElasticsearchServiceApi.addData(esLogCollectorDTO,indexName, true);
+            if (!EsResultData.isSuccess(esResultData)) {
+                ExceptionUtils.businessException(CommonEnumConstant.PromptMessage.FAILED, esResultData.getMsg());
+            }
+        });
     }
 }

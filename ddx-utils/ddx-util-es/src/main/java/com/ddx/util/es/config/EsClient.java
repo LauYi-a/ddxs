@@ -5,6 +5,7 @@ import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.json.jackson.JacksonJsonpMapper;
 import co.elastic.clients.transport.ElasticsearchTransport;
 import co.elastic.clients.transport.rest_client.RestClientTransport;
+import com.ddx.util.es.annotation.EsEnum;
 import com.ddx.util.es.common.EsUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpHost;
@@ -56,13 +57,23 @@ public class EsClient implements InitializingBean {
     /**
      * 使用索引还是使用别名
      * @param clazz
+     * @param indexName 索引名称
+     * @param <T>
+     * @return
+     */
+    public <T> String getClassAliasOrIndex(Class<T> clazz,String indexName){
+        return EsUtil.getIndex(clazz, alias?EsEnum.EsIndexPrefix.ALIAS_PREFIX.getPrefix():
+                EsEnum.EsIndexPrefix.ALIAS_PREFIX.getPrefix(),indexName);
+    }
+
+    /**
+     * 使用索引还是使用别名
+     * @param clazz
      * @param <T>
      * @return
      */
     public <T> String getClassAliasOrIndex(Class<T> clazz){
-        if(alias){
-            return EsUtil.getAlias(clazz);
-        }
-        return EsUtil.getIndex(clazz);
+        return EsUtil.getIndex(clazz, alias?EsEnum.EsIndexPrefix.ALIAS_PREFIX.getPrefix():
+                EsEnum.EsIndexPrefix.ALIAS_PREFIX.getPrefix(),"");
     }
 }

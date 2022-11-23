@@ -1,6 +1,6 @@
 package com.ddx.util.basis.response;
 
-import com.ddx.util.basis.constant.BasisConstantConstant;
+import com.ddx.util.basis.constant.BasisConstant;
 import com.ddx.util.basis.constant.CommonEnumConstant;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
@@ -39,20 +39,20 @@ public class BaseResponse {
         this.code = enums.getCode();
         this.type = enums.getType();
         this.msg = enums.getMsg();
-        this.serialNumber = MDC.get(BasisConstantConstant.REQUEST_SERIAL_NUMBER);
+        this.serialNumber = MDC.get(BasisConstant.REQUEST_SERIAL_NUMBER);
     }
 
     protected BaseResponse(Integer code,String type,String msg) {
         this.code = code;
         this.type = type;
         this.msg = msg;
-        this.serialNumber = MDC.get(BasisConstantConstant.REQUEST_SERIAL_NUMBER);
+        this.serialNumber = MDC.get(BasisConstant.REQUEST_SERIAL_NUMBER);
     }
 
     protected BaseResponse(CommonEnumConstant.PromptMessage enums,String msg) {
         this.code = enums.getCode();
         this.type = enums.getType();
         this.msg = msg;
-        this.serialNumber = MDC.get(BasisConstantConstant.REQUEST_SERIAL_NUMBER);
+        this.serialNumber = MDC.get(BasisConstant.REQUEST_SERIAL_NUMBER);
     }
 }

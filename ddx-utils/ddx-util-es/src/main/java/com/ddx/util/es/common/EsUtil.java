@@ -5,6 +5,8 @@ import com.ddx.util.es.annotation.EsClass;
 import com.ddx.util.es.annotation.EsEnum;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Proxy;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -21,31 +23,39 @@ import java.util.regex.Pattern;
 public class EsUtil {
 
     /**
-     * 获取类的索引名称 小写
+     * 获取注解的索引名
      * 前缀+索引
      * @param clazz
      * @param <T>
      * @return
      */
-    public static <T> String getIndex(Class<T>  clazz){
+    public static <T> String getIndex(Class<T>  clazz,String IndexOrAliasPrefix,String indexOrAliasName){
+        if (Objects.nonNull(indexOrAliasName)&&""!=indexOrAliasName){
+            upIndexAndAlias(clazz,indexOrAliasName);
+        }
         EsClass annotation = clazz.getAnnotation(EsClass.class);
-        String index = annotation.index();
+        String index = Objects.equals(IndexOrAliasPrefix,EsEnum.EsIndexPrefix.INDEX_PREFIX.getPrefix())?annotation.index():annotation.alias();
         index = "".equals(index) ? Objects.requireNonNull(clazz.getSimpleName().toLowerCase()) : index.toLowerCase();
-        return EsEnum.EsIndexPrefix.INDEX_PREFIX.getPrefix()+index;
+        return IndexOrAliasPrefix+index;
     }
 
     /**
-     * 获取类的索引别名 小写
-     * 前缀+索引
+     * 自定义索引
      * @param clazz
      * @param <T>
-     * @return
      */
-    public static <T>  String getAlias(Class<T>  clazz){
-        EsClass annotation = clazz.getAnnotation(EsClass.class);
-        String alias = annotation.alias();
-        alias ="".equals(alias) ? Objects.requireNonNull(clazz.getSimpleName().toLowerCase()) : alias.toLowerCase();
-        return EsEnum.EsIndexPrefix.ALIAS_PREFIX.getPrefix()+alias;
+    public static <T> void upIndexAndAlias(Class<T>  clazz,String indexName){
+        EsClass esClass = clazz.getAnnotation(EsClass.class);
+        try {
+            InvocationHandler h = Proxy.getInvocationHandler(esClass);
+            Field hField = h.getClass().getDeclaredField("memberValues");
+            hField.setAccessible(true);
+            Map memberValues = (Map) hField.get(h);
+            memberValues.put("index", indexName);
+            memberValues.put("alias", indexName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**

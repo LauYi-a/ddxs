@@ -49,8 +49,8 @@ public class ElasticsearchServiceApiImpl implements IElasticsearchServiceApi {
     @Override
     public <T> EsResultData createIndexSettingsMappings(Class<T> tClass) {
         try {
-            String index = EsUtil.getIndex(tClass);
-            String alias = EsUtil.getAlias(tClass);
+            String index = EsUtil.getIndex(tClass,EsEnum.EsIndexPrefix.INDEX_PREFIX.getPrefix(),"");
+            String alias = EsUtil.getIndex(tClass,EsEnum.EsIndexPrefix.ALIAS_PREFIX.getPrefix(),"");
             EsResultData validatedIndex = validatedIndex(index,alias);
             if (!EsResultData.isSuccess(validatedIndex)){
                 return validatedIndex;
@@ -205,7 +205,7 @@ public class ElasticsearchServiceApiImpl implements IElasticsearchServiceApi {
     public <T> EsResultData<List<T>> complexQuery(Query query, Class<T> clazz) {
        try {
            List<T> list = new ArrayList<>();
-           SearchResponse<T> response = esClient.getClient().search(s -> s.index(EsUtil.getAlias(clazz)).query(query), clazz);
+           SearchResponse<T> response = esClient.getClient().search(s -> s.index(esClient.getClassAliasOrIndex(clazz)).query(query), clazz);
            List<Hit<T>> hits = response.hits().hits();
            for (Hit<T> hit : hits) {
                list.add(hit.source());
@@ -220,7 +220,7 @@ public class ElasticsearchServiceApiImpl implements IElasticsearchServiceApi {
     @Override
     public <T> EsResultData<Aggregate> complexQueryAggregations(Query query, Function<Aggregation.Builder, ObjectBuilder<Aggregation>> fn, Class<T> clazz) {
         try {
-            SearchResponse<T> response = esClient.getClient().search(s ->s.index(EsUtil.getAlias(clazz))
+            SearchResponse<T> response = esClient.getClient().search(s ->s.index(esClient.getClassAliasOrIndex(clazz))
                     .size(0) // 不需要显示数据 ,只想要聚合结果
                     .query(query)
                     .aggregations("aggregations", fn), clazz);
@@ -258,13 +258,22 @@ public class ElasticsearchServiceApiImpl implements IElasticsearchServiceApi {
 
     @Override
     public <T> EsResultData addData(T o, boolean async) {
+        IndexRequest.Builder<T> indexReqBuilder = new IndexRequest.Builder<>();
+        indexReqBuilder.index(esClient.getClassAliasOrIndex(o.getClass()));
+        return add(o,indexReqBuilder,async);
+    }
+
+    @Override
+    public <T> EsResultData addData(T o, String indexName, boolean async) {
+        IndexRequest.Builder<T> indexReqBuilder = new IndexRequest.Builder<>();
+        indexReqBuilder.index(esClient.getClassAliasOrIndex(o.getClass(),indexName));
+        return add(o,indexReqBuilder,async);
+    }
+
+    public <T> EsResultData add(T o,IndexRequest.Builder indexReqBuilder, boolean async) {
         try {
             Object id = EsUtil.getId(o);
-            if (id == null) {
-                id = UUID.randomUUID().toString();
-            }
-            IndexRequest.Builder<T> indexReqBuilder = new IndexRequest.Builder<>();
-            indexReqBuilder.index(EsUtil.getAlias(o.getClass()));
+            id = Objects.nonNull(EsUtil.getId(o))?id:UUID.randomUUID().toString();
             indexReqBuilder.id(String.valueOf(id));
             indexReqBuilder.document(o);
             if (async) {
@@ -290,7 +299,7 @@ public class ElasticsearchServiceApiImpl implements IElasticsearchServiceApi {
                     id = UUID.randomUUID().getMostSignificantBits();
                 }
                 Object finalId = id;
-                br.operations(op -> op.index(idx -> idx.index(EsUtil.getAlias(o.getClass())).id(String.valueOf(finalId)).document(o)));
+                br.operations(op -> op.index(idx -> idx.index(esClient.getClassAliasOrIndex(o.getClass())).id(String.valueOf(finalId)).document(o)));
             }
             if (async) {
                 esClient.getAsyncClient().bulk(br.build());
@@ -378,7 +387,7 @@ public class ElasticsearchServiceApiImpl implements IElasticsearchServiceApi {
 
     public <T> EsResultData<T> getDocId(String docId, Class<T> clazz) {
         try {
-            GetResponse<T> response = esClient.getClient().get(g -> g.index(EsUtil.getAlias(clazz)).id(docId), clazz);
+            GetResponse<T> response = esClient.getClient().get(g -> g.index(esClient.getClassAliasOrIndex(clazz)).id(docId), clazz);
             assert response != null;
             return EsResultData.result(EsEnum.EsResult.STATUS_TRUE,response.source());
         } catch (IOException e) {
@@ -391,7 +400,7 @@ public class ElasticsearchServiceApiImpl implements IElasticsearchServiceApi {
     public <T> EsResultData docIdExists(Class<T> tClass, String docId) {
         try {
             return EsResultData.result(EsEnum.EsResult.STATUS_TRUE,
-                    esClient.getClient().exists(s -> s.index(EsUtil.getAlias(tClass)).id(docId)).value());
+                    esClient.getClient().exists(s -> s.index(esClient.getClassAliasOrIndex(tClass)).id(docId)).value());
         }catch (Exception e){
             e.printStackTrace();
             return EsResultData.result(EsEnum.EsResult.STATUS_FALSE,e.getMessage());
