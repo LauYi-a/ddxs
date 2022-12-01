@@ -5,6 +5,7 @@
     <springProperty scop="context" name="spring.profiles.active" source="spring.profiles.active" defaultValue=""/>
     <springProperty scop="context" name="spring.application.name" source="spring.application.name" defaultValue=""/>
     <springProperty scope="context" name="serverIp" source="spring.cloud.client.ip-address" defaultValue=""/>
+    <springProperty scope="context" name="isSyncKafka" source="ddxlog.isSyncKafka" defaultValue="false" />
     <!-- 日志依赖的渲染类 -->
     <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
     <conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />
@@ -51,5 +52,10 @@
     <!-- Level: FATAL 0  ERROR 3  WARN 4  INFO 6  DEBUG 7 -->
     <root level="INFO">
         <appender-ref ref="console" />
+        <if condition='property("isSyncKafka").contains("true")'>
+            <then>
+                <appender-ref ref="kafkaLog" />
+            </then>
+        </if>
     </root>
 </configuration>

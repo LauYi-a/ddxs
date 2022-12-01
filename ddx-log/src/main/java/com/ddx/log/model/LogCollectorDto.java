@@ -1,9 +1,9 @@
-package com.ddx.util.es.dto;
+package com.ddx.log.model;
 
 import com.ddx.util.es.annotation.DocId;
-import com.ddx.util.es.annotation.EsClass;
-import com.ddx.util.es.annotation.EsDataType;
 import com.ddx.util.es.annotation.EsField;
+import com.ddx.util.es.annotation.EsIndex;
+import com.ddx.util.es.common.EsEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,21 +20,21 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EsClass
-public class EsLogCollectorDTO {
+@EsIndex(strategy = EsEnum.IndexStrategy.STRATEGY_DATE_YYYY_MMM)
+public class LogCollectorDto {
 
-    @DocId
+    @DocId(type = EsEnum.DataType.KEYWORD)
     private String id;
 
-    @EsField(type = EsDataType.KEYWORD)
+    @EsField(type = EsEnum.DataType.KEYWORD)
     private String env;
 
-    @EsField(type = EsDataType.KEYWORD)
+    @EsField(type = EsEnum.DataType.KEYWORD)
     private String serviceName;
 
-    @EsField(type = EsDataType.KEYWORD)
+    @EsField(type = EsEnum.DataType.KEYWORD)
     private String date;
 
-    @EsField(type = EsDataType.TEXT,analyzer = "ik_max_word",searchAnalyzer = "ik_smart")
+    @EsField(type = EsEnum.DataType.TEXT,analyzer = "ik_max_word",searchAnalyzer = "ik_smart")
     private String message;
 }

@@ -1,14 +1,11 @@
 package com.ddx.log.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.ddx.log.model.LogCollectorDto;
 import com.ddx.log.service.IKafkaConsumerLogToEsService;
-import com.ddx.util.basis.constant.BasisConstant;
-import com.ddx.util.basis.constant.CommonEnumConstant;
-import com.ddx.util.basis.exception.ExceptionUtils;
-import com.ddx.util.basis.utils.ThreadPoolUtil;
-import com.ddx.util.es.dto.EsLogCollectorDTO;
-import com.ddx.util.es.result.EsResultData;
+import com.ddx.util.es.common.EsUtils;
 import com.ddx.util.es.service.IElasticsearchServiceApi;
+import com.ddx.util.es.service.IIndexManageServiceApi;
 import com.ddx.util.log.collector.model.KafkaSendSystemLogBaseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -30,19 +27,18 @@ public class KafkaConsumerLogToEsServiceImpl implements IKafkaConsumerLogToEsSer
 
     @Autowired
     private IElasticsearchServiceApi iElasticsearchServiceApi;
+    @Autowired
+    private IIndexManageServiceApi iIndexManageServiceApi;
 
     @Override
     public void kafkaConsumerSystemManageLogToEs(Optional message){
-        ThreadPoolUtil.execute(BasisConstant.THREAD_POOL_LOG_C_C,()->{
-            String msg = (String) message.get();
-            KafkaSendSystemLogBaseDto kafkaSendSystemLogBaseDto = JSON.parseObject(msg, KafkaSendSystemLogBaseDto.class);
-            String indexName = kafkaSendSystemLogBaseDto.getServiceName()+"-log";
-            EsLogCollectorDTO esLogCollectorDTO = new EsLogCollectorDTO();
+        String msg = (String) message.get();
+        KafkaSendSystemLogBaseDto kafkaSendSystemLogBaseDto = JSON.parseObject(msg, KafkaSendSystemLogBaseDto.class);
+        LogCollectorDto esLogCollectorDTO = new LogCollectorDto();
+        EsUtils.upIndexName(esLogCollectorDTO.getClass(), kafkaSendSystemLogBaseDto.getServiceName());
+        if (iIndexManageServiceApi.createIndexSettingsMappings(esLogCollectorDTO.getClass())) {
             BeanUtils.copyProperties(kafkaSendSystemLogBaseDto, esLogCollectorDTO);
-            EsResultData esResultData = iElasticsearchServiceApi.addData(esLogCollectorDTO,indexName, true);
-            if (!EsResultData.isSuccess(esResultData)) {
-                ExceptionUtils.businessException(CommonEnumConstant.PromptMessage.FAILED, esResultData.getMsg());
-            }
-        });
+            iElasticsearchServiceApi.addData(esLogCollectorDTO, true);
+        }
     }
 }

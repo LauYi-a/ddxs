@@ -109,14 +109,19 @@ public class BasisConstant {
     /**
      * 日期格式化
      */
-    public final static String DATE_FORMAT_1 = "yyyy-MM-dd";
-    public final static String DATE_FORMAT_2 = "HH:mm:ss";
-    public final static String DATE_FORMAT_3 = "yyyy年MM月dd日";
-    public final static String DATE_FORMAT_4 = "HH时mm分ss秒";
-    public final static String DATE_FORMAT_5 = "yyyyMMdd";
-    public final static String DATE_FORMAT_6 = "HHmmss";
-    public final static String DATE_FORMAT_7 = DATE_FORMAT_5+DATE_FORMAT_6;
-    public final static String DATE_FORMAT_8 = DATE_FORMAT_1+" "+DATE_FORMAT_2;
+    public final static String DATE_FORMAT_1 = "yyyy";
+    public final static String DATE_FORMAT_2 = "yyyy-MM";
+    public final static String DATE_FORMAT_3 = "yyyy-MM-dd";
+    public final static String DATE_FORMAT_4 = "HH:mm:ss";
+    public final static String DATE_FORMAT_5 = "yyyy年";
+    public final static String DATE_FORMAT_6 = "yyyy年MM月";
+    public final static String DATE_FORMAT_7 = "yyyy年MM月dd日";
+    public final static String DATE_FORMAT_8 = "HH时mm分ss秒";
+    public final static String DATE_FORMAT_9 = "yyyyMM";
+    public final static String DATE_FORMAT_10 = "yyyyMMdd";
+    public final static String DATE_FORMAT_11 = "HHmmss";
+    public final static String DATE_FORMAT_12 = DATE_FORMAT_10+DATE_FORMAT_11;
+    public final static String DATE_FORMAT_13 = DATE_FORMAT_3+" "+DATE_FORMAT_4;
 
     /**
      * 线程持名称

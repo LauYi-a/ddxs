@@ -30,6 +30,8 @@ eureka:
   client:
     service-url:
       defaultZone: http://ddx:ddx@127.0.0.1:8761/eureka/
-#日志监控采集配置 可参考 LogmcConfig 类的参数进行配置
+#日志配置
 ddxlog:
   file-path: D:\\logs
+  isSyncKafka: true
+  isFormatterHttp: true

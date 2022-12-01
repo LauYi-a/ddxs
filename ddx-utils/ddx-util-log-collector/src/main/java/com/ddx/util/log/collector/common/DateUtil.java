@@ -1,4 +1,4 @@
-package com.ddx.util.log.collector.utils;
+package com.ddx.util.log.collector.common;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

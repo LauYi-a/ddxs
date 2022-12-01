@@ -61,7 +61,7 @@ public class GlobalAuthenticationFilter implements GlobalFilter, Ordered {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        String serialNumber = SerialNumber.newInstance(BasisConstant.SERIAL_LOG, BasisConstant.DATE_FORMAT_7).toString();
+        String serialNumber = SerialNumber.newInstance(BasisConstant.SERIAL_LOG, BasisConstant.DATE_FORMAT_12).toString();
         MDC.put(BasisConstant.REQUEST_SERIAL_NUMBER,serialNumber);
         String requestUrl = exchange.getRequest().getPath().value();
         ServerHttpRequest request = exchange.getRequest();

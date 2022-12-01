@@ -38,8 +38,8 @@ public class ApiLogAspect {
     @Pointcut("execution(* com.ddx.*.controller.*.*(..))")
     private void controllerAspect() {}
 
-    @Value("${logging.isFormatterLog:}")
-    private Boolean isFormatterLog;
+    @Value("${ddxlog.isFormatterHttp:false}")
+    private Boolean isFormatterHttp;
 
     /*
      * 请求入口
@@ -51,7 +51,7 @@ public class ApiLogAspect {
         if (request != null) {
             RequestContextUtils.settingSerialNumber();
             SysApiLogVo sysLogAspectVo = setLogEntityVo(BasisConstant.REQUEST_TYPE_REQ,RequestContextUtils.getRequest(),joinPoint.getArgs());
-            log.info("request content is:\n{}", StringUtil.jsonFormatter(sysLogAspectVo,isFormatterLog));
+            log.info("request content is:\n{}", StringUtil.jsonFormatter(sysLogAspectVo,isFormatterHttp));
         }
     }
 
@@ -75,11 +75,11 @@ public class ApiLogAspect {
             }
             SysApiLogVo sysLogAspectVo = setLogEntityVo(BasisConstant.REQUEST_TYPE_RESP,request,responseData);
             if (responseData.getType().equals(BasisConstant.MSG_TYPE_INFO)||responseData.getType().equals(BasisConstant.MSG_TYPE_SUCCESS)){
-                log.info("response content is:\n{}",  StringUtil.jsonFormatter(sysLogAspectVo,isFormatterLog));
+                log.info("response content is:\n{}",  StringUtil.jsonFormatter(sysLogAspectVo,isFormatterHttp));
             }else if (responseData.getType().equals(BasisConstant.MSG_TYPE_WARNING)){
-                log.warn("response content is:\n{}",  StringUtil.jsonFormatter(sysLogAspectVo,isFormatterLog));
+                log.warn("response content is:\n{}",  StringUtil.jsonFormatter(sysLogAspectVo,isFormatterHttp));
             }else if (responseData.getType().equals(BasisConstant.MSG_TYPE_ERROR)){
-                log.error("response content is:\n{}", StringUtil.jsonFormatter(sysLogAspectVo,isFormatterLog));
+                log.error("response content is:\n{}", StringUtil.jsonFormatter(sysLogAspectVo,isFormatterHttp));
             }
         }
     }
@@ -95,7 +95,7 @@ public class ApiLogAspect {
                         .userId(UserOauthInfo.getCurrentUser().getUserId())
                         .ip(IPUtils.getIpAddr(request))
                         .contentType(request.getContentType())
-                        .dateTime(DateUtil.date2Str(new Date(), BasisConstant.DATE_FORMAT_8))
+                        .dateTime(DateUtil.date2Str(new Date(), BasisConstant.DATE_FORMAT_13))
                         .build())
                 .build();
     }

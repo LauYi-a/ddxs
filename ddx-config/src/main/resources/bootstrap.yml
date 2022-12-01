@@ -4,7 +4,7 @@ spring:
   application:
     name: ddx-config
   profiles:
-    active: dev
+    active: native
   # 配置中心
   cloud:
     config:
@@ -54,5 +54,4 @@ management:
     health:
       show-details: ALWAYS
 ddxlog:
-  monitor-collector:
-    monitor-file-path: D:\\logs
+  file-path: D:\\logs

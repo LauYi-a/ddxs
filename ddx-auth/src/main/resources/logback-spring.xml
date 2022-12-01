@@ -11,7 +11,7 @@
     <conversionRule conversionWord="wEx" converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
     <!-- 属性格式 -->
 	<property name="log.path" value="${ddxlog.file-path}/${spring.application.name}" />
-	<property name="CONSOLE_LOG_PATTERN" value="%clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(${CONSOLE_LOG_PATTERN:-%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint}) %clr(-){faint} %clr([%15.15t]){faint} %clr([%serverIp]) %clr([%X{serialNumber}]) %clr([%logger-%line]){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}" />
+    <property name="CONSOLE_LOG_PATTERN" value="%clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(${CONSOLE_LOG_PATTERN:-%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint}) %clr(-){faint} %clr([%15.15t]){faint} %clr([${serverIp}]) %clr([%X{serialNumber}]) %clr([%logger-%line]){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}" />
 
     <!-- 控制台输出日志 -->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
@@ -29,18 +29,8 @@
             <maxHistory>7</maxHistory>
         </rollingPolicy>
         <encoder>
-            <pattern>%-5level ${spring.profiles.active} [%date] [%thread] [%serverIp] [%X{serialNumber}] [%logger-%line] : %msg%n</pattern>
+            <pattern>%-5level ${spring.profiles.active} [%date] [%thread] [${serverIp}] [%X{serialNumber}] [%logger-%line] : %msg%n</pattern>
         </encoder>
-    </appender>
-
-    <!-- 日志输出 kafka servers多个逗号隔离-->
-    <appender name="kafkaLog" class="com.ddx.util.log.collector.appender.KafkaLogAppender">
-        <serviceName>${spring.application.name}</serviceName>
-        <env>${spring.profiles.active}</env>
-        <servers>127.0.0.1:9092</servers>
-        <layout>
-            <pattern>%-5level ${spring.profiles.active} [%date] [%thread] [%serverIp] [%X{serialNumber}] [%logger-%line] : %msg%n</pattern>
-        </layout>
     </appender>
 
     <!--关闭Kafka生产消费者日志-->
@@ -51,5 +41,6 @@
     <!-- Level: FATAL 0  ERROR 3  WARN 4  INFO 6  DEBUG 7 -->
     <root level="INFO">
         <appender-ref ref="console" />
+        <appender-ref ref="info" />
     </root>
 </configuration>

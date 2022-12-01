@@ -68,11 +68,11 @@ public class SysUserResp {
     @ApiModelProperty(value = "用户资源")
     private TreeMenuAndElAuthResp resource;
 
-    @JsonFormat(pattern = BasisConstant.DATE_FORMAT_8, timezone = "GMT+8")
+    @JsonFormat(pattern = BasisConstant.DATE_FORMAT_13, timezone = "GMT+8")
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;
 
-    @JsonFormat(pattern = BasisConstant.DATE_FORMAT_8, timezone = "GMT+8")
+    @JsonFormat(pattern = BasisConstant.DATE_FORMAT_13, timezone = "GMT+8")
     @ApiModelProperty(value = "修改时间")
     private LocalDateTime updateTime;
 

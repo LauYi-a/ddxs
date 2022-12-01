@@ -1,8 +1,7 @@
 package com.ddx.util.es.common;
 
 import com.ddx.util.es.annotation.DocId;
-import com.ddx.util.es.annotation.EsClass;
-import com.ddx.util.es.annotation.EsEnum;
+import com.ddx.util.es.annotation.EsIndex;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
@@ -20,39 +19,36 @@ import java.util.regex.Pattern;
  * @Date: 2022年11月16日 10:14
  * @Version: 1.0
  */
-public class EsUtil {
+public class EsUtils {
 
     /**
-     * 获取注解的索引名
-     * 前缀+索引
+     * 获取注解或自定义的索引名
+     * 前缀+索引+策略
      * @param clazz
      * @param <T>
      * @return
      */
-    public static <T> String getIndex(Class<T>  clazz,String IndexOrAliasPrefix,String indexOrAliasName){
-        if (Objects.nonNull(indexOrAliasName)&&""!=indexOrAliasName){
-            upIndexAndAlias(clazz,indexOrAliasName);
-        }
-        EsClass annotation = clazz.getAnnotation(EsClass.class);
-        String index = Objects.equals(IndexOrAliasPrefix,EsEnum.EsIndexPrefix.INDEX_PREFIX.getPrefix())?annotation.index():annotation.alias();
-        index = "".equals(index) ? Objects.requireNonNull(clazz.getSimpleName().toLowerCase()) : index.toLowerCase();
-        return IndexOrAliasPrefix+index;
+    public static <T> String getIndexOrAlias(Class<T>  clazz,Boolean IndexOrAliasPrefix){
+        EsIndex annotation = clazz.getAnnotation(EsIndex.class);
+        String indexOrAlias = IndexOrAliasPrefix? annotation.aliasPrefix():annotation.indexPrefix();
+        String indexName = "".equals(annotation.indexName()) ? Objects.requireNonNull(clazz.getSimpleName().toLowerCase()) : annotation.indexName().toLowerCase();
+        String strategy = Objects.isNull(annotation.strategy())?"":"-"+annotation.strategy().getStrategy();
+        return indexOrAlias+indexName+strategy;
     }
 
     /**
-     * 自定义索引
+     * 修改索引名
      * @param clazz
      * @param <T>
      */
-    public static <T> void upIndexAndAlias(Class<T>  clazz,String indexName){
-        EsClass esClass = clazz.getAnnotation(EsClass.class);
+    public static <T> void upIndexName(Class<T>  clazz,String indexName){
+        EsIndex esClass = clazz.getAnnotation(EsIndex.class);
         try {
             InvocationHandler h = Proxy.getInvocationHandler(esClass);
             Field hField = h.getClass().getDeclaredField("memberValues");
             hField.setAccessible(true);
             Map memberValues = (Map) hField.get(h);
-            memberValues.put("index", indexName);
-            memberValues.put("alias", indexName);
+            memberValues.put("indexName", indexName);
         } catch (Exception e) {
             e.printStackTrace();
         }

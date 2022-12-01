@@ -1,5 +1,6 @@
 package com.ddx.util.es.annotation;
 
+import com.ddx.util.es.common.EsEnum;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.*;
@@ -12,7 +13,7 @@ public @interface EsField {
     //默认属性名
     String name()default "" ;
     //数据类型
-    EsDataType type();
+    EsEnum.DataType type();
     String analyzer()default ""; //分词
     String searchAnalyzer()default ""; //搜索分词
 }

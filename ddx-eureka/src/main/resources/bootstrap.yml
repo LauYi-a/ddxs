@@ -33,5 +33,4 @@ management:
       exposure:
         include: '*'
 ddxlog:
-  monitor-collector:
-    monitor-file-path: D:\\logs
+  file-path: D:\\logs
