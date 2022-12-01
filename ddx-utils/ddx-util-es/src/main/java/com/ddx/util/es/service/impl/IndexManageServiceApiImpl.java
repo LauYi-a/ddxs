@@ -45,7 +45,6 @@ public class IndexManageServiceApiImpl implements IIndexManageServiceApi {
             String index = EsUtils.getIndexOrAlias(tClass,false);
             String alias = EsUtils.getIndexOrAlias(tClass,true);
             if (existsIndex(index)){
-                log.info("create index warn,the index existing.");
                 return true;
             }
             return createIndexSettingsMappings(index, alias,tClass);
@@ -79,9 +78,9 @@ public class IndexManageServiceApiImpl implements IIndexManageServiceApi {
             for (Field declaredField : tClass.getDeclaredFields()) {
                 declaredField.setAccessible(true);
                 JSONObject jsonObject = new JSONObject();
-                DocId DocId = declaredField.getAnnotation(DocId.class);
-                if (DocId != null) {
-                    EsEnum.DataType type = DocId.type();
+                DocId docId = declaredField.getAnnotation(DocId.class);
+                if (docId != null) {
+                    EsEnum.DataType type = docId.type();
                     jsonObject.put("type", type.getType());
                     fieIds.put(declaredField.getName(), jsonObject);
                     continue;
