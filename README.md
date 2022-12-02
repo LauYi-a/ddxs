@@ -39,7 +39,7 @@ ddx -- 父项目
 |-ddx-web -- web服务管理包
 |-ddx-auth -- 认证中心
 |-ddx-system-manage -- 系统管理服务
-|-ddx-log -- 日志处理服务
+|-ddx-log -- 中央日志处理服务
 |-ddx-file -- 文件处理服务
 |-ddx-util -- 公共工具包
 |--|-ddx-util-basis 公共基础工具包
@@ -57,7 +57,7 @@ ddx -- 父项目
   - [ddx-web web服务管理包](https://github.com/LauYi-a/ddxs/tree/master/ddx-web)
   - [ddx-auth 认证中心](https://github.com/LauYi-a/ddxs/tree/master/ddx-auth)
   - [ddx-system-manage 系统管理服务](https://github.com/LauYi-a/ddxs/tree/master/ddx-system-manage)
-  - [ddx-log 日志处理服务](https://github.com/LauYi-a/ddxs/tree/master/ddx-log)
+  - [ddx-log 中央日志处理服务](https://github.com/LauYi-a/ddxs/tree/master/ddx-log)
   - [ddx-file 文件处理服务](https://github.com/LauYi-a/ddxs/tree/master/ddx-file)
   - [ddx-util 公共工具包](https://github.com/LauYi-a/ddxs/tree/master/ddx-util)
   - [ddx-util-basis 公共基础工具包](https://github.com/LauYi-a/ddxs/tree/master/ddx-util/ddx-util-basis)
