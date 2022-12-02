@@ -12,5 +12,5 @@
     最长等待线程队列为1000个，线程存活时间为1小时，
     超过一小时没有日志进行传输将会自动关闭线程池，下次调用时在创建线程池
 
-## 使用方法
-ddx-util-log-collector 分布式微服务日志采集使用教程 [点击跳转飞书文档查看](https://j0dttt306j.feishu.cn/docx/WLHVdaLxGoZRO2xkSpyc3K6SnHe) 
+## 相关文档
+ddx-util-log-collector 分布式微服务日志采集集成教程 [点击跳转飞书文档查看](https://j0dttt306j.feishu.cn/docx/WLHVdaLxGoZRO2xkSpyc3K6SnHe) 
