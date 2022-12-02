@@ -23,6 +23,7 @@ import java.io.StringReader;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -91,6 +92,9 @@ public class IndexManageServiceApiImpl implements IIndexManageServiceApi {
                     name = "".equals(name) ? declaredField.getName() : name;
                     EsEnum.DataType type = annotationFieId.type();
                     jsonObject.put("type", type.getType());
+                    if (Objects.equals(type,EsEnum.DataType.DATE)||Objects.equals(type,EsEnum.DataType.DATE_NANOS)){
+                        jsonObject.put("format", "yyyy-MM-dd HH:mm:ss.SSS||yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis");
+                    }
                     fieIds.put(name, jsonObject);
                 }
             }

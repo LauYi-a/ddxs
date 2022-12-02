@@ -5,6 +5,7 @@
     <springProperty scop="context" name="spring.profiles.active" source="spring.profiles.active" defaultValue=""/>
     <springProperty scop="context" name="spring.application.name" source="spring.application.name" defaultValue=""/>
     <springProperty scope="context" name="serverIp" source="spring.cloud.client.ip-address" defaultValue=""/>
+    <springProperty scope="context" name="servers" source="ddxlog.kafka-servers" defaultValue=""/>
     <!-- 日志依赖的渲染类 -->
     <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
     <conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />
@@ -33,6 +34,16 @@
         </encoder>
     </appender>
 
+    <!-- 日志输出 kafka servers多个逗号隔离-->
+    <appender name="kafkaLog" class="com.ddx.util.log.collector.appender.KafkaLogAppender">
+        <serviceName>${spring.application.name}</serviceName>
+        <env>${spring.profiles.active}</env>
+        <servers>${servers}</servers>
+        <layout>
+            <pattern>%-5level ${spring.profiles.active} [%date] [%thread] [${serverIp}] [%X{serialNumber}] [%logger-%line] : %msg%n</pattern>
+        </layout>
+    </appender>
+
     <!--关闭Kafka生产消费者日志-->
     <logger name="org.apache.kafka.clients.consumer.ConsumerConfig" level="off" />
     <logger name="org.apache.kafka.clients.producer.ProducerConfig" level="off" />
@@ -42,5 +53,6 @@
     <root level="INFO">
         <appender-ref ref="console" />
         <appender-ref ref="info" />
+        <appender-ref ref="kafkaLog" />
     </root>
 </configuration>

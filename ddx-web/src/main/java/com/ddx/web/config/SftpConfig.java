@@ -1,4 +1,4 @@
-package com.ddx.util.basis.config;
+package com.ddx.web.config;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;

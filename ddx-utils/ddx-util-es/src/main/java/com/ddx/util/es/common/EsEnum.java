@@ -45,6 +45,7 @@ public class EsEnum {
         SCALED_FLOAT("scaled_float"),
         BYTE("byte"),
         DATE("date"),
+        DATE_NANOS("date_nanos"),
         BOOLEAN("boolean"),
         RANGE("rang"),
         BINARY("binary"),

@@ -65,7 +65,7 @@ public class KafkaLogAppender extends UnsynchronizedAppenderBase<ILoggingEvent> 
                     .id(UUID.randomUUID().toString())
                     .serviceName(serviceName)
                     .env(env)
-                    .date(DateUtil.millis2Str(iLoggingEvent.getTimeStamp(), DateUtil.DATE_FORMAT_1_2))
+                    .date(DateUtil.millisToDate(iLoggingEvent.getTimeStamp()))
                     .message(eventStr)
                     .build();
             ProducerRecord<String, String> producerRecord = new ProducerRecord<>(serviceName+"-log", UUID.randomUUID().toString(),JSONObject.toJSONString(kafkaSendSystemLogBaseDto));

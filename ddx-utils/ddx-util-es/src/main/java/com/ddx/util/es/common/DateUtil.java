@@ -18,6 +18,7 @@ public class DateUtil {
     /**
      * 日期格式化
      */
+    public final static String SPLIT = " ";
     public final static String DATE_FORMAT_1 = "yyyy";
     public final static String DATE_FORMAT_2 = "yyyy-MM";
     public final static String DATE_FORMAT_3 = "yyyy-MM-dd";
@@ -28,6 +29,8 @@ public class DateUtil {
     public final static String DATE_FORMAT_8 = "HH时mm分ss秒";
     public final static String DATE_FORMAT_9 = "yyyyMM";
     public final static String DATE_FORMAT_10 = "yyyyMMdd";
+    public final static String DATE_FORMAT_12 = DATE_FORMAT_3+SPLIT+DATE_FORMAT_4;
+
 
 
     /**

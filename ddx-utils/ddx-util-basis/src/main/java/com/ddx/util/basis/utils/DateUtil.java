@@ -157,27 +157,14 @@ public class DateUtil {
      * @return 该秒数转换为 * 小时 后的格式
      */
     public static String formatDuringHH(long mss, boolean isAddSuffix) {
-        long hours = (mss % (1000 * 60 * 60 * 24))/3600;
+        long hours = (mss % (1000 * 60 * 60 * 24)) / 3600;
         String result = "";
-        if (hours > 0 ){
-            if (!isAddSuffix){
+        if (hours > 0) {
+            if (!isAddSuffix) {
                 return result += hours;
             }
-            result += hours+"小时";
+            result += hours + "小时";
         }
         return result;
-    }
-
-    public static void main(String[] args) {
-        Calendar calendar = Calendar.getInstance();
-       /* System.out.println(calendar2Str(calendar, ConstantUtils.DATE_FORMAT_1));
-        System.out.println(calendar2Str(calendar, ConstantUtils.DATE_FORMAT_2));
-        System.out.println(calendar2Str(calendar, ConstantUtils.DATE_FORMAT_3+" "+ConstantUtils.DATE_FORMAT_4));
-
-        System.out.println(millis2Str(System.currentTimeMillis()+"", ConstantUtils.DATE_FORMAT_1));
-        System.out.println(millis2Str(System.currentTimeMillis()+"", ConstantUtils.DATE_FORMAT_2));
-        System.out.println(millis2Str("3600", ConstantUtils.DATE_FORMAT_1+" "+ConstantUtils.DATE_FORMAT_2));*/
-        System.out.println(formatDuringHH(3600, true));
-
     }
 }

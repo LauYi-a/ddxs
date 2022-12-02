@@ -1,4 +1,4 @@
-package com.ddx.util.basis.utils;
+package com.ddx.web.config;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;

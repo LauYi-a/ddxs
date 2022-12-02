@@ -1,6 +1,5 @@
 package com.ddx.util.basis.utils;
 
-import com.ddx.util.basis.config.SftpConfig;
 import com.ddx.util.basis.constant.CommonEnumConstant;
 import com.ddx.util.basis.exception.ExceptionUtils;
 import com.jcraft.jsch.*;
@@ -114,12 +113,12 @@ public class SftpUtil {
      * 登录SFTP
      * @return
      */
-    public static ChannelSftp loginSftp(SftpConfig sftpConfig) {
+    public static ChannelSftp loginSftp(String host,String username,String password,int port) {
         ChannelSftp channelSftp = null;
         try {
             JSch jsch = new JSch();
-            Session sshSession = jsch.getSession(sftpConfig.getUsername(),sftpConfig.getHost(),sftpConfig.getPort());
-            sshSession.setPassword(sftpConfig.getPassword());
+            Session sshSession = jsch.getSession(username,host,port);
+            sshSession.setPassword(password);
             sshSession.setConfig("StrictHostKeyChecking", "no");
             sshSession.connect(30000);
             Channel channel = sshSession.openChannel("sftp");

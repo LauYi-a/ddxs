@@ -9,6 +9,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 /**
  * @ClassName: LogCollectorEsDTO
  * @Description: 日志采集
@@ -20,7 +22,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EsIndex(strategy = EsEnum.IndexStrategy.STRATEGY_DATE_YYYY_MMM)
+@EsIndex(indexPrefix = "log-index-",aliasPrefix = "log-alias-",strategy = EsEnum.IndexStrategy.STRATEGY_DATE_YYYY_MMM)
 public class LogCollectorDto {
 
     @DocId(type = EsEnum.DataType.KEYWORD)
@@ -32,8 +34,8 @@ public class LogCollectorDto {
     @EsField(type = EsEnum.DataType.KEYWORD)
     private String serviceName;
 
-    @EsField(type = EsEnum.DataType.KEYWORD)
-    private String date;
+    @EsField(type = EsEnum.DataType.DATE_NANOS)
+    private Date date;
 
     @EsField(type = EsEnum.DataType.TEXT,analyzer = "ik_max_word",searchAnalyzer = "ik_smart")
     private String message;

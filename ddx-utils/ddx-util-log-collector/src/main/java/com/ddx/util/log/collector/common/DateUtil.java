@@ -23,7 +23,7 @@ public class DateUtil {
      * @param format 格式
      * @return 格式化后的数据
      */
-    public static String date2Str(Date date, String format ){
+    public static String dateToStrDate(Date date, String format ){
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         return sdf.format(date);
     }
@@ -34,7 +34,16 @@ public class DateUtil {
      * @param format 格式
      * @return 格式化后的数据
      */
-    public static String millis2Str(long millis, String format){
-        return date2Str(new Date(millis), format);
+    public static String millisToStrDate(String millis, String format){
+        return dateToStrDate(new Date(Long.valueOf(millis)), format);
+    }
+
+    /**
+     * 根据毫秒获取日期对象
+     * @param millis
+     * @return
+     */
+    public static Date millisToDate(long millis) {
+        return new Date(millis);
     }
 }

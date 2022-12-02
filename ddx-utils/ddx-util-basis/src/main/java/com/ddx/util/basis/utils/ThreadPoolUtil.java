@@ -78,15 +78,4 @@ public class ThreadPoolUtil {
         }
         return threadPool;
     }
-
-    public static void main(String[] args) {
-        int loop = 2000;
-        for (int i = 0; i < loop; i++) {
-            log.info("干活好累"+i);
-            ThreadPoolUtil.execute("干爆他1",() -> {
-                log.info("终于干完了1");
-            });
-        }
-    }
-
 }

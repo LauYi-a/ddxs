@@ -28,14 +28,34 @@ public class KafkaConsumer {
     private IKafkaConsumerLogToEsService iKafkaConsumerLogToEsService;
 
     /**
-     * 系统服务日志监控消费
+     * 系统服务日志消费
      * 单条消息消费
      * @param record
      * @param ack
      * @param topic
      */
     @KafkaListener(id= KafkaConstant.DDX_SYSTEM_MANAGE_TOPIC,topics ={KafkaConstant.DDX_SYSTEM_MANAGE_TOPIC})
-    public void consumerLogAspect(ConsumerRecord<?, ?> record, Acknowledgment ack, @Header(KafkaHeaders.RECEIVED_TOPIC) String topic) {
+    public void consumerSystemManageLogAspect(ConsumerRecord<?, ?> record, Acknowledgment ack, @Header(KafkaHeaders.RECEIVED_TOPIC) String topic) {
+        Optional message = Optional.ofNullable(record.value());
+        if (message.isPresent()) {
+            try {
+                iKafkaConsumerLogToEsService.kafkaConsumerSystemManageLogToEs(message);
+                ack.acknowledge();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * 认证服务日志消费
+     * 单条消息消费
+     * @param record
+     * @param ack
+     * @param topic
+     */
+    @KafkaListener(id= KafkaConstant.DDX_AUTH_TOPIC,topics ={KafkaConstant.DDX_AUTH_TOPIC})
+    public void consumerAuthLogAspect(ConsumerRecord<?, ?> record, Acknowledgment ack, @Header(KafkaHeaders.RECEIVED_TOPIC) String topic) {
         Optional message = Optional.ofNullable(record.value());
         if (message.isPresent()) {
             try {

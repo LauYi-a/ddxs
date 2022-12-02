@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 /**
  * @ClassName: ElasticsearchBaseDto
  * @Description:
@@ -24,7 +26,7 @@ public class KafkaSendSystemLogBaseDto {
 
     public String env;
 
-    public String date;
+    public Date date;
 
     public String message;
 

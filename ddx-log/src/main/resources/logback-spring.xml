@@ -26,7 +26,7 @@
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${log.path}/%d{yyyy-MM, aux}/%d{yyyy-MM-dd}/info.%i.log.gz</fileNamePattern>
             <maxFileSize>10GB</maxFileSize>
-            <maxHistory>7</maxHistory>
+            <maxHistory>90</maxHistory>
         </rollingPolicy>
         <encoder>
             <pattern>%-5level ${spring.profiles.active} [%date] [%thread] [${serverIp}] [%X{serialNumber}] [%logger-%line] : %msg%n</pattern>
