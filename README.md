@@ -52,20 +52,20 @@ ddx -- 父项目
 
 ## 功能
 - 具体功能描述请进入链接查看
-  - [ddx-eureka 服务注册中心](https://github.com/LauYi-a/ddxs/tree/master/ddx-eureka)
-  - [ddx-config 配置管理中心](https://github.com/LauYi-a/ddxs/tree/master/ddx-config)
-  - [ddx-gateway 服务网关](https://github.com/LauYi-a/ddxs/tree/master/ddx-gateway)
-  - [ddx-web web服务管理包](https://github.com/LauYi-a/ddxs/tree/master/ddx-web)
-  - [ddx-auth 认证中心](https://github.com/LauYi-a/ddxs/tree/master/ddx-auth)
-  - [ddx-system-manage 系统管理服务](https://github.com/LauYi-a/ddxs/tree/master/ddx-system-manage)
-  - [ddx-log 中央日志处理服务](https://github.com/LauYi-a/ddxs/tree/master/ddx-log)
-  - [ddx-file 文件处理服务](https://github.com/LauYi-a/ddxs/tree/master/ddx-file)
-  - [ddx-util 公共工具包](https://github.com/LauYi-a/ddxs/tree/master/ddx-util)
-  - [ddx-util-basis 公共基础工具包](https://github.com/LauYi-a/ddxs/tree/master/ddx-util/ddx-util-basis)
+  - [ddx-eureka 服务注册中心](https://github.com/LauYi-a/ddxs/tree/dev/ddx-eureka)
+  - [ddx-config 配置管理中心](https://github.com/LauYi-a/ddxs/tree/dev/ddx-config)
+  - [ddx-gateway 服务网关](https://github.com/LauYi-a/ddxs/tree/dev/ddx-gateway)
+  - [ddx-web web服务管理包](https://github.com/LauYi-a/ddxs/tree/dev/ddx-web)
+  - [ddx-auth 认证中心](https://github.com/LauYi-a/ddxs/tree/dev/ddx-auth)
+  - [ddx-system-manage 系统管理服务](https://github.com/LauYi-a/ddxs/tree/dev/ddx-system-manage)
+  - [ddx-log 中央日志处理服务](https://github.com/LauYi-a/ddxs/tree/dev/ddx-log)
+  - [ddx-file 文件处理服务](https://github.com/LauYi-a/ddxs/tree/dev/ddx-file)
+  - [ddx-util 公共工具包](https://github.com/LauYi-a/ddxs/tree/dev/ddx-util)
+  - [ddx-util-basis 公共基础工具包](https://github.com/LauYi-a/ddxs/tree/dev/ddx-util/ddx-util-basis)
   - [ddx-util-es 公共ES工具包](https://github.com/LauYi-a/ddxs/tree/master/ddx-util/ddx-util-es)
-  - [ddx-util-kafka 公共kafka工具包](https://github.com/LauYi-a/ddxs/tree/master/ddx-util/ddx-util-kafka)
-  - [ddx-util-redis 公共redis工具包](https://github.com/LauYi-a/ddxs/tree/master/ddx-util/ddx-util-redis)
-  - [ddx-util-log-collector logback日志采集工具包](https://github.com/LauYi-a/ddxs/tree/master/ddx-utils/ddx-util-log-collector)
+  - [ddx-util-kafka 公共kafka工具包](https://github.com/LauYi-a/ddxs/tree/dev/ddx-util/ddx-util-kafka)
+  - [ddx-util-redis 公共redis工具包](https://github.com/LauYi-a/ddxs/tree/dev/ddx-util/ddx-util-redis)
+  - [ddx-util-log-collector logback日志采集工具包](https://github.com/LauYi-a/ddxs/tree/dev/ddx-utils/ddx-util-log-collector)
 ## 编译环境
 
 > 运行编译需安装环境，以下环境版本实测编译成功：
