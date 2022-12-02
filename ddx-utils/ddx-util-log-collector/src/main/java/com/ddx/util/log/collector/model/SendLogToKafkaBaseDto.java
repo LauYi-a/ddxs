@@ -18,7 +18,7 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class KafkaSendSystemLogBaseDto {
+public class SendLogToKafkaBaseDto {
 
     public String id;
 

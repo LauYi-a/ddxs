@@ -7,7 +7,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.ddx.util.log.collector.common.DateUtil;
 import com.ddx.util.log.collector.common.ThreadPoolUtil;
 import com.ddx.util.log.collector.constant.CollectorConstant;
-import com.ddx.util.log.collector.model.KafkaSendSystemLogBaseDto;
+import com.ddx.util.log.collector.model.SendLogToKafkaBaseDto;
 import lombok.Data;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -61,7 +61,7 @@ public class KafkaLogAppender extends UnsynchronizedAppenderBase<ILoggingEvent> 
                 return;
             }
             String eventStr = this.layout.doLayout(iLoggingEvent);
-            KafkaSendSystemLogBaseDto kafkaSendSystemLogBaseDto = KafkaSendSystemLogBaseDto.builder()
+            SendLogToKafkaBaseDto kafkaSendSystemLogBaseDto = SendLogToKafkaBaseDto.builder()
                     .id(UUID.randomUUID().toString())
                     .serviceName(serviceName)
                     .env(env)

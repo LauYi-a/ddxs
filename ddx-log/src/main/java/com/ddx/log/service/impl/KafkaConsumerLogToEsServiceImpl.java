@@ -6,7 +6,7 @@ import com.ddx.log.service.IKafkaConsumerLogToEsService;
 import com.ddx.util.es.common.EsUtils;
 import com.ddx.util.es.service.IElasticsearchServiceApi;
 import com.ddx.util.es.service.IIndexManageServiceApi;
-import com.ddx.util.log.collector.model.KafkaSendSystemLogBaseDto;
+import com.ddx.util.log.collector.model.SendLogToKafkaBaseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ public class KafkaConsumerLogToEsServiceImpl implements IKafkaConsumerLogToEsSer
     @Override
     public void kafkaConsumerSystemManageLogToEs(Optional message){
         String msg = (String) message.get();
-        KafkaSendSystemLogBaseDto kafkaSendSystemLogBaseDto = JSON.parseObject(msg, KafkaSendSystemLogBaseDto.class);
+        SendLogToKafkaBaseDto kafkaSendSystemLogBaseDto = JSON.parseObject(msg, SendLogToKafkaBaseDto.class);
         LogCollectorDto esLogCollectorDTO = new LogCollectorDto();
         EsUtils.upIndexName(esLogCollectorDTO.getClass(), kafkaSendSystemLogBaseDto.getServiceName());
         if (iIndexManageServiceApi.createIndexSettingsMappings(esLogCollectorDTO.getClass())) {
