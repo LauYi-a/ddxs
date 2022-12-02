@@ -64,7 +64,7 @@ ddx -- 父项目
   - [ddx-util-es 公共ES工具包](https://github.com/LauYi-a/ddxs/tree/master/ddx-util/ddx-util-es)
   - [ddx-util-kafka 公共kafka工具包](https://github.com/LauYi-a/ddxs/tree/master/ddx-util/ddx-util-kafka)
   - [ddx-util-redis 公共redis工具包](https://github.com/LauYi-a/ddxs/tree/master/ddx-util/ddx-util-redis)
-  - [ddx-util-log-collector logback日志采集工具包](https://github.com/LauYi-a/ddxs/tree/master/ddx-util/ddx-util-log-collector)
+  - [ddx-util-log-collector logback日志采集工具包](https://github.com/LauYi-a/ddxs/tree/master/ddx-utils/ddx-util-log-collector)
 ## 编译环境
 
 > 运行编译需安装环境，以下环境版本实测编译成功：
