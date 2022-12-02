@@ -12,7 +12,8 @@
 - 后端采用分布式微服务架构
     - 采用 spring-cloud+spring-boot+mysql+mysql+mybatis-plus 为主，并集成了 redis、kafka、elasticsearch、minio 等中间件，
     采用 openfeign 作为远程服务调用，使用 redisson 实现分布式锁，并使用 oauth2 实现了系统认证鉴权功能。
-
+    - 通过 gateway 对访问路由做统一处理，所有服务请求都是通过 gateway 来进行转发，并实现了限流 熔断 等功能
+    - 更多介绍请进入单个模块查看描述
 ## 集成环境
 |  技术点   |   版本    | 描述 |
 | :-----: | :-------: | :-----: |
