@@ -13,7 +13,7 @@
     超过一小时没有日志进行传输将会自动关闭线程池，下次调用时在创建线程池
 
 ## 集成
-> ###1、添加 maven 
+###1、添加 maven 
 ```xml
 <!--redis 公共服务-->
 <dependency>
@@ -22,8 +22,8 @@
     <version>${ddx-util-redis.version}</version>
 </dependency>
 ```
-> ###2. 添加yml配置文件 
->>####2.1.添加采集服务 bootstrap.yml
+###2. 添加yml配置文件 
+####2.1.添加采集服务 bootstrap.yml
 ```yaml
 #日志配置
 ddxlog:
@@ -34,7 +34,7 @@ ddxlog:
 - file-path 日志本地文件存储路径
 - isFormatterHttp 是否对HTTP请求信息进行格式化打印
 - kafka-servers Kafka服务地址
->> ####2.2config 服务 common.yml 配置
+####2.2config 服务 common.yml 配置
 ```yaml
 #配置 Kafka topic
 spring:
@@ -42,8 +42,8 @@ spring:
     ddx-system-manage-topic: ddx-xxx-log
 ```
 - Kafka topic 以服务名称加 -log 命名
->###3. 添加 logback-spring.xml 配置文件
->>####3.1.获取配置文件上下文
+###3. 添加 logback-spring.xml 配置文件
+####3.1.获取配置文件上下文
 ```xml
 <springProperty scop="context" name="ddxlog.file-path" source="ddxlog.file-path" defaultValue=""/>
 <springProperty scop="context" name="spring.profiles.active" source="spring.profiles.active" defaultValue=""/>
@@ -56,7 +56,7 @@ spring:
 - spring.application.name 服务名称
 - serverIp 服务本机ip
 - servers Kafka服务地址
->>####3.2.配置logback 自定义 appender
+####3.2.配置logback 自定义 appender
 ```xml
 <!-- 日志输出 kafka servers多个逗号隔离-->
 <appender name="kafkaLog" class="com.ddx.util.log.collector.appender.KafkaLogAppender">
@@ -78,7 +78,8 @@ spring:
 - env 环境
 - servers Kafka服务地址 多个受用（,）逗号分割
 - layout 输出日志格式
->###4. Application 微服务启动器配置扫描包
+
+###4. Application 微服务启动器配置扫描包
 ```markdown
 @ComponentScan(basePackages = {"com.ddx.util.log.collector.*"})
 ```

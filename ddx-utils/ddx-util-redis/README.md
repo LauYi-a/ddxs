@@ -23,7 +23,7 @@ T t = RedisLock.getLock("REDIS_KEY",()->{
 >业务执行完成后将会自动释放锁
 
 ## 集成
-> ####1、添加 maven 
+####1、添加 maven 
 ```xml
 <!--redis 公共服务-->
 <dependency>
@@ -32,7 +32,7 @@ T t = RedisLock.getLock("REDIS_KEY",()->{
     <version>${ddx-util-redis.version}</version>
 </dependency>
 ```
-> ####2、配置 redis yml 连接配置
+####2、配置 redis yml 连接配置
 ```yaml
 #redis 配置
 spring:
@@ -57,7 +57,7 @@ spring:
 - max-idle:  连接池中的最大空闲连接
 - min-idle:  连接池中的最小空闲连接
 
-> ####3、配置 redission 分布式锁 yml 配置文件
+####3、配置 redission 分布式锁 yml 配置文件
 ```yaml
 # redisson 分布式锁
 redisson:
@@ -68,7 +68,7 @@ redisson:
 - redis-pattern: stand-alone 单机模式 multiple 集群模式
 - redis-nodes: 集群使用豆号分割
 
-> ####4、在 Application 启动类配置扫描包
+####4、在 Application 启动类配置扫描包
 ```markdown
 @ComponentScan(basePackages = {"com.ddx.util.redis.*"})
 ```
