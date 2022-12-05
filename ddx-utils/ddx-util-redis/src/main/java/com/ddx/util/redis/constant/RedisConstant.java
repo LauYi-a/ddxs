@@ -26,7 +26,6 @@ public class RedisConstant {
     public final static String WHITELIST_REQUEST="system:whitelist_request:";//访问白名单配置
     public final static String REQUEST_TIME_WHITELIST="system:request_time_whitelist:";//请求时间白名单配置
     public final static String SYSTEM_REQUEST="system:lock:request_url:";//系统请求锁
-    public final static String LOG_OFFSET_LOCK="log:offset:lock_";//系统日志偏移量锁
 
     /**
      * redis 分布式锁
