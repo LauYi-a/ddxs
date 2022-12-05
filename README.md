@@ -43,11 +43,11 @@ ddx -- 父项目
 |-ddx-log -- 中央日志处理服务
 |-ddx-file -- 文件处理服务
 |-ddx-util -- 公共工具包
-|--|-ddx-util-basis 公共基础工具包
-|--|-ddx-util-es 公共ES工具包
-|--|-ddx-util-kafka 公共kafka工具包
-|--|-ddx-util-redis 公共redis工具包
-|--|-ddx-util-log-collector logback日志采集工具包
+|--|-ddx-util-basis -- 公共基础工具包
+|--|-ddx-util-es -- 公共ES工具包
+|--|-ddx-util-kafka -- 公共kafka工具包
+|--|-ddx-util-redis -- 公共redis工具包
+|--|-ddx-util-log-collector -- logback日志采集工具包
 ```
 
 ## 功能
