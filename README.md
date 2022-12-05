@@ -60,11 +60,11 @@ ddx -- 父项目
   - [ddx-system-manage 系统管理服务](https://github.com/LauYi-a/ddxs/tree/master/ddx-system-manage)
   - [ddx-log 中央日志处理服务](https://github.com/LauYi-a/ddxs/tree/master/ddx-log)
   - [ddx-file 文件处理服务](https://github.com/LauYi-a/ddxs/tree/master/ddx-file)
-  - [ddx-util 公共工具包](https://github.com/LauYi-a/ddxs/tree/master/ddx-util)
+  - [ddx-util 公共工具包](https://github.com/LauYi-a/ddxs/tree/master/ddx-utils)
   - [ddx-util-basis 公共基础工具包](https://github.com/LauYi-a/ddxs/tree/master/ddx-util/ddx-util-basis)
-  - [ddx-util-es 公共ES工具包](https://github.com/LauYi-a/ddxs/tree/master/ddx-util/ddx-util-es)
-  - [ddx-util-kafka 公共kafka工具包](https://github.com/LauYi-a/ddxs/tree/master/ddx-util/ddx-util-kafka)
-  - [ddx-util-redis 公共redis工具包](https://github.com/LauYi-a/ddxs/tree/master/ddx-util/ddx-util-redis)
+  - [ddx-util-es 公共ES工具包](https://github.com/LauYi-a/ddxs/tree/master/ddx-utils/ddx-util-es)
+  - [ddx-util-kafka 公共kafka工具包](https://github.com/LauYi-a/ddxs/tree/master/ddx-utils/ddx-util-kafka)
+  - [ddx-util-redis 公共redis工具包](https://github.com/LauYi-a/ddxs/tree/master/ddx-utils/ddx-util-redis)
   - [ddx-util-log-collector logback日志采集工具包](https://github.com/LauYi-a/ddxs/tree/master/ddx-utils/ddx-util-log-collector)
 ## 编译环境
 
