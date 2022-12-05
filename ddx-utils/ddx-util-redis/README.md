@@ -1,7 +1,7 @@
 <h1 align="center">ddx--util-redis</h1>
 
 ## 简介
-redis 工具模块，主要对redis进行封装，对redis相关工具进行统一服装
+redis 工具模块，主要对redis进行封装，将redis相关工具进行统一服装
 
 ## 介绍
 1. 主要对redis连接池相关工厂进行统一的配置封装，并对redis调用模板的api进行简单的工具类封装，使其在各服务调用redis时更加方便快捷，并具有一定的统一性方便后期的维护与改造。
