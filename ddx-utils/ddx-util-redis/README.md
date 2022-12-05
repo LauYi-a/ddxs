@@ -38,17 +38,12 @@ public class Example {
 ```
 >业务执行完成后将会自动释放锁
 4. redis Temp 工具模板代码演示
->注入ICO
-```java
-public class Example {
-    @Autowired
-    private RedisTemplateUtil redisTemplateUtils;   
-}
-```
 >调用模板工具示例
 ```java
 public class Example {
-   
+    @Autowired
+    private RedisTemplateUtil redisTemplateUtils; 
+    
     public void test(){
         redisTemplateUtils.set("REDIS_KEY",val);
     }
