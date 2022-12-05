@@ -65,6 +65,7 @@ public class ExampleDto{
     - type 数据类型
     - analyzer 分词
     - searchAnalyzer 搜索分词
+
 2.接口示例
 > 索引操作
 ```java
