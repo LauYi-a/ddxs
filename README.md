@@ -86,10 +86,6 @@ ddx -- 父项目
 * Linux
     > 后续补充
 ## 相关文档
-### ddx-util-log-collector 工具模块
-- <a href="https://j0dttt306j.feishu.cn/docx/WLHVdaLxGoZRO2xkSpyc3K6SnHe" target="_blank">分布式微服务日志采集集成教程</a>
-### ddx-util-redis 工具模块
-- <a href="https://j0dttt306j.feishu.cn/docx/FUFjdGAu3ocjRLxsgKUcMhRAn2g" target="_blank">redis工具集成方法</a>
-- <a href="https://j0dttt306j.feishu.cn/docx/A0QSdA9RJo0UY0xhtFNc71JPnJb" target="_blank">redis工具示例代码</a>
+- [进入飞书查看知识库](https://j0dttt306j.feishu.cn/wiki/wikcnwcfeqzj4ZywAWKiND4X9jd)
 ## 版本
 - 1.0

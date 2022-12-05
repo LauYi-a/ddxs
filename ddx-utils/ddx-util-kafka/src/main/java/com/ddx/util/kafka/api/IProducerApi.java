@@ -10,7 +10,7 @@ import com.ddx.util.kafka.handle.ReturnHandle;
  * @Date: 2022年04月28日
  * @Version: 1.0
  */
-public interface IProducerApi<T> {
+public interface IProducerApi{
 
     /**
      * 按key的hash计算topic的发送分区
@@ -20,7 +20,7 @@ public interface IProducerApi<T> {
      * @param topic
      * @return
      */
-    Boolean send(T entity, String key, String topic);
+    <T> Boolean send(T entity, String key, String topic);
 
     /**
      * 按key的hash计算topic的发送分区，定制业务处理
@@ -30,7 +30,7 @@ public interface IProducerApi<T> {
      * @param key
      * @return
      */
-    Boolean send(String topic, String key, ReturnHandle<T> handle);
+    <T> Boolean send(String topic, String key, ReturnHandle<T> handle);
 
     /**
      * 向指定分区进行发送信息
@@ -39,7 +39,7 @@ public interface IProducerApi<T> {
      * @param topic
      * @return
      */
-    Boolean send(T entity, Integer partition, String topic);
+    <T> Boolean send(T entity, Integer partition, String topic);
 
     /**
      * 向指定分区发送消息，定制业务处理
@@ -48,5 +48,5 @@ public interface IProducerApi<T> {
      * @param partition
      * @return
      */
-    Boolean send(String topic, Integer partition, ReturnHandle<T> handle);
+    <T> Boolean send(String topic, Integer partition, ReturnHandle<T> handle);
 }
