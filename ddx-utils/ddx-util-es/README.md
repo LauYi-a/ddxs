@@ -10,11 +10,11 @@ es 工具模块，对 elasticsearch API 进行封装,使得调用 es 客户端 A
 ## 集成
 #### 1、添加 maven 
 ```xml
-<!--kafka 公共服务-->
+<!-- es -->
 <dependency>
     <groupId>com.ddx</groupId>
-    <artifactId>ddx-util-kafka</artifactId>
-    <version>${ddx-util-kafka.version}</version>
+    <artifactId>ddx-util-es</artifactId>
+    <version>${ddx-util-es.version}</version>
 </dependency>
 ```
 #### 2、配置 es yml 配置
