@@ -21,6 +21,8 @@ public @interface EsField {
     String name()default "" ;
     //数据类型
     EsEnum.DataType type();
-    String analyzer()default ""; //分词
-    String searchAnalyzer()default ""; //搜索分词
+    //分词
+    String analyzer()default "";
+    //搜索分词
+    String searchAnalyzer()default "";
 }

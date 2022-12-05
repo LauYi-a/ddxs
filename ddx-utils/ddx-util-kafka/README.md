@@ -5,32 +5,8 @@ kafka 工具模块，主要对 kafka 进行封装，将 kafka 生产端代码逻
 
 ## 介绍
 我们将 kafka `kafkaTemplate` 模板类的消息生产端逻辑进行了统一的业务包装，采用函数式接口与泛型设计的方法对`kafkaTemplate`进行了简单的封装提供全新的
-Api 调用方法提供给第三方集成服务，使其更加方便快捷的使用 Kafka 消息队列进行业务开发
-## 示例代码
-1.泛型式接口
-```java
-public class Example {
-    @Autowired
-    private IProducerApi iProducerApi; 
-    
-    public void test(){
-        iProducerApi.send(t,key,topic);
-    }
-}
-```
-1.函数式泛型接口
-```java
-public class Example {
-    @Autowired
-    private IProducerApi iProducerApi; 
-    
-    public void test(){
-        iProducerApi.send(topic,key,()->{
-            //业务逻辑代码...
-        });
-    }
-}
-```
+API 调用方法提供给第三方集成服务，使其更加方便快捷的使用 Kafka 消息队列进行业务开发
+
 ## 集成
 #### 1、添加 maven 
 ```xml
@@ -90,5 +66,30 @@ earliest ：在偏移量无效的情况下，消费者将从起始位置读取�
 ```java
 @ComponentScan(basePackages = {"com.ddx.util.kafka.*"})
 public class Application {
+}
+```
+## 示例代码
+1.泛型式接口
+```java
+public class Example {
+    @Autowired
+    private IProducerApi iProducerApi; 
+    
+    public void test(){
+        iProducerApi.send(t,key,topic);
+    }
+}
+```
+1.函数式泛型接口
+```java
+public class Example {
+    @Autowired
+    private IProducerApi iProducerApi; 
+    
+    public void test(){
+        iProducerApi.send(topic,key,()->{
+            //业务逻辑代码...
+        });
+    }
 }
 ```

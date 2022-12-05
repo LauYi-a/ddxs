@@ -19,7 +19,7 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringCloudApplication
 @EnableAutoConfiguration(exclude= DruidDataSourceAutoConfigure.class)
 @EnableFeignClients(basePackages={"com.ddx"})
-@ComponentScan(basePackages = {"com.ddx.log.*","com.ddx.util.redis.*","com.ddx.util.es.*","com.ddx.util.kafka.*","com.ddx.web.*"})
+@ComponentScan(basePackages = {"com.ddx.log.*","com.ddx.util.redis.*","com.ddx.util.es.*","com.ddx.web.*"})
 public class DDXLogApplication {
     public static void main(String[] args) {
         try {
