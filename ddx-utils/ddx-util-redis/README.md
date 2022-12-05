@@ -1,4 +1,4 @@
-<h1 align="center">ddx--util-redis</h1>
+<h1 align="center">ddx-util-redis</h1>
 
 ## 简介
 redis 工具模块，主要对redis进行封装，将redis相关工具进行统一服装
