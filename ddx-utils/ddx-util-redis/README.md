@@ -4,24 +4,56 @@
 redis 工具模块，主要对redis进行封装，对redis相关工具进行统一服装
 
 ## 介绍
-- 主要对redis连接池相关工厂进行统一的配置封装，并对redis调用模板的api进行简单的工具类封装，使其在各服务调用redis时更加方便快捷，并具有一定的统一性方便后期的维护与改造。
-- 对于分布式锁我们采用redis的 redission 来实现，并对其调用方法做了简单封装，采用函数式接口的方式进行封装
+1. 主要对redis连接池相关工厂进行统一的配置封装，并对redis调用模板的api进行简单的工具类封装，使其在各服务调用redis时更加方便快捷，并具有一定的统一性方便后期的维护与改造。
+2. 对于分布式锁我们采用redis的 redission 来实现，并对其调用方法做了简单封装，采用函数式接口的方式进行封装
+3. redission锁代码演示
+> 注入ICO
+```java
+public class Example {
+    @Autowired
+    private RedisLock redisLock;   
+}
+```
 > 不带返回值的
-```markdown
-RedisLock.getLock("REDIS_KEY",()->{
-    //业务逻辑...
-});
+```java
+public class Example {
+  public void test(){
+      RedisLock.getLock("REDIS_KEY",()->{
+          //业务逻辑...
+      });
+  }   
+}
 ```
  > 返回任意类型的
-```markdown
-T t = RedisLock.getLock("REDIS_KEY",()->{
-    Object object = new Object();
-	//业务逻辑...
-    return object;
-});
+```java
+public class Example {
+    public <T> T test(){
+        return t = RedisLock.getLock("REDIS_KEY",()->{
+            Object object = new Object();
+        	//业务逻辑...
+            return object;
+        });
+    }   
+}
 ```
 >业务执行完成后将会自动释放锁
-
+4. redis Temp 工具模板代码演示
+>注入ICO
+```java
+public class Example {
+    @Autowired
+    private RedisTemplateUtil redisTemplateUtils;   
+}
+```
+>调用模板工具示例
+```java
+public class Example {
+   
+    public void test(){
+        redisTemplateUtils.set("REDIS_KEY",val);
+    }
+}
+```
 ## 集成
 #### 1、添加 maven 
 ```xml
@@ -69,6 +101,8 @@ redisson:
 - redis-nodes: 集群使用豆号分割
 
 #### 4、在 Application 启动类配置扫描包
-```markdown
+```java
 @ComponentScan(basePackages = {"com.ddx.util.redis.*"})
+public class Application {
+}
 ```
