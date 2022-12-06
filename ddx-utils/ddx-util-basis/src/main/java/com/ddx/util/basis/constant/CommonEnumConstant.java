@@ -131,12 +131,6 @@ public class CommonEnumConstant {
         IS_ROLE_PERMISSION_1("1","不授予", BasisConstant.IS_ROLE_PERMISSION,0,"sys","不授予角色，角色不可关联此权限"),
         SERVICE_MODULES_NAME_0("sys","系统基础应用", BasisConstant.SERVICE_MODULES_NAME,0,"all","系统服务模块"),
         SERVICE_MODULES_NAME_1("auth","认证服务", BasisConstant.SERVICE_MODULES_NAME,1,"all","系统认证服务模块"),
-        SELECT_LOG_LINES_100(100,"显示100行", BasisConstant.SELECT_LOG_LINES,0,"sys","显示日志最新100行内容"),
-        SELECT_LOG_LINES_500(500,"显示500行", BasisConstant.SELECT_LOG_LINES,1,"sys","显示日志最新500行内容"),
-        SELECT_LOG_LINES_1000(1000,"显示1000行", BasisConstant.SELECT_LOG_LINES,2,"sys","显示日志最新1000行内容"),
-        SELECT_LOG_LINES_1500(1500,"显示1500行", BasisConstant.SELECT_LOG_LINES,3,"sys","显示日志最新1500行内容"),
-        SELECT_LOG_LINES_2000(2000,"显示2000行", BasisConstant.SELECT_LOG_LINES,4,"sys","显示日志最新1000行内容"),
-        SELECT_LOG_LINES_10000(10000,"显示10000行", BasisConstant.SELECT_LOG_LINES,5,"sys","显示日志最新10000行内容"),
         ;
 
         /**

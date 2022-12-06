@@ -122,9 +122,4 @@ public class BasisConstant {
     public final static String DATE_FORMAT_11 = "HHmmss";
     public final static String DATE_FORMAT_12 = DATE_FORMAT_10+DATE_FORMAT_11;
     public final static String DATE_FORMAT_13 = DATE_FORMAT_3+" "+DATE_FORMAT_4;
-
-    /**
-     * 线程持名称
-     */
-    public final static String THREAD_POOL_LOG_C_C= "thread_pool_log_collector_Consumer";
 }
