@@ -29,6 +29,7 @@ ddxlog:
   file-path: D:\\logs
   isFormatterHttp: true
   kafka-servers: 127.0.0.1:9092
+  is-collector: false
 ```
 - file-path 日志本地文件存储路径
 - isFormatterHttp 是否对HTTP请求信息进行格式化打印
@@ -49,12 +50,14 @@ spring:
 <springProperty scop="context" name="spring.application.name" source="spring.application.name" defaultValue=""/>
 <springProperty scope="context" name="serverIp" source="spring.cloud.client.ip-address" defaultValue=""/>
 <springProperty scope="context" name="servers" source="ddxlog.kafka-servers" defaultValue=""/>
+<springProperty scope="context" name="isCollector" source="ddxlog.is-collector" defaultValue=""/>
 ```
 - ddxlog.file-path 日志文件本地存储路径
 - spring.profiles.active 服务环境
 - spring.application.name 服务名称
 - serverIp 服务本机ip
 - servers Kafka服务地址
+- isCollector 是否开启日志采集
 #### 3.2.配置logback 自定义 appender
 ```xml
 <!-- 日志输出 kafka servers多个逗号隔离-->
@@ -62,6 +65,7 @@ spring:
     <serviceName>${spring.application.name}</serviceName>
     <env>${spring.profiles.active}</env>
     <servers>${servers}</servers>
+    <isCollector>${isCollector}</isCollector>
     <layout>
         <pattern>%-5level ${spring.profiles.active} [%date] [%thread] [${serverIp}] [%X{serialNumber}] [%logger-%line] : %msg%n</pattern>
     </layout>
@@ -76,6 +80,7 @@ spring:
 - serviceName 服务名
 - env 环境
 - servers Kafka服务地址 多个受用（,）逗号分割
+- isCollector 是否开启日志采集
 - layout 输出日志格式
 ### 4. Application 微服务启动器配置扫描包
 ```markdown

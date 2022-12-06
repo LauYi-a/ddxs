@@ -37,3 +37,4 @@ ddxlog:
   file-path: D:\\logs
   isFormatterHttp: true
   kafka-servers: 127.0.0.1:9092
+  is-collector: false

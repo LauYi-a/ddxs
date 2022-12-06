@@ -29,6 +29,7 @@ public class KafkaLogAppender extends UnsynchronizedAppenderBase<ILoggingEvent> 
     public String serviceName;
     public String env;
     public String servers;
+    public String isCollector;
     protected Layout<ILoggingEvent> layout;
     protected static KafkaProducer<String, String> producer;
     protected static final String KAFKA_LOGGER_NAME_PREFIX = "org.apache.kafka.";
@@ -36,6 +37,10 @@ public class KafkaLogAppender extends UnsynchronizedAppenderBase<ILoggingEvent> 
     protected String valueSerializer;
     @Override
     public void start() {
+        if (!Boolean.valueOf(isCollector)){
+            addInfo("未开启 KafkaLogAppender 日志采集程序 配置文件 isCollector:"+isCollector);
+            return;
+        }
         if (isStarted()) {
             return;
         }

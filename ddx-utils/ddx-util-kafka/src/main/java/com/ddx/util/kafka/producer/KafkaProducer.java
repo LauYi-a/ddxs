@@ -19,13 +19,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 @Slf4j
 @Component
-public class KafkaProducer<T> implements IProducerApi<T> {
+public class KafkaProducer<T> implements IProducerApi {
 
     @Autowired
     private KafkaTemplate<String, Object> kafkaTemplate;
 
     @Override
-    public Boolean send(T entity,String key,String topic) {
+    public <T> Boolean send(T entity,String key,String topic) {
         String entityStr = JSONObject.toJSONString(entity);
         AtomicBoolean isOk = new AtomicBoolean(true);
         kafkaTemplate.send(topic,key,entityStr).addCallback(onSuccess ->{ },onFailure->{
@@ -37,7 +37,7 @@ public class KafkaProducer<T> implements IProducerApi<T> {
     }
 
     @Override
-    public Boolean send(T entity, Integer partition, String topic) {
+    public <T> Boolean send(T entity, Integer partition, String topic) {
         String entityStr = JSONObject.toJSONString(entity);
         AtomicBoolean isOk = new AtomicBoolean(true);
         kafkaTemplate.send(topic,partition,topic,entityStr).addCallback(onSuccess ->{ },onFailure->{
@@ -49,7 +49,7 @@ public class KafkaProducer<T> implements IProducerApi<T> {
     }
 
     @Override
-    public Boolean send(String topic,Integer partition, ReturnHandle<T> handle){
+    public <T> Boolean send(String topic,Integer partition, ReturnHandle<T> handle){
         T t;
         try {
             t = handle.execute();
@@ -68,7 +68,7 @@ public class KafkaProducer<T> implements IProducerApi<T> {
     }
 
     @Override
-    public Boolean send(String topic,String key, ReturnHandle<T> handle){
+    public <T> Boolean send(String topic,String key, ReturnHandle<T> handle){
         T t;
         try {
             t = handle.execute();

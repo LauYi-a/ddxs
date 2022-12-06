@@ -6,6 +6,7 @@
     <springProperty scop="context" name="spring.application.name" source="spring.application.name" defaultValue=""/>
     <springProperty scope="context" name="serverIp" source="spring.cloud.client.ip-address" defaultValue=""/>
     <springProperty scope="context" name="servers" source="ddxlog.kafka-servers" defaultValue=""/>
+    <springProperty scope="context" name="isCollector" source="ddxlog.is-collector" defaultValue=""/>
     <!-- 日志依赖的渲染类 -->
     <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
     <conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />
@@ -39,6 +40,7 @@
         <serviceName>${spring.application.name}</serviceName>
         <env>${spring.profiles.active}</env>
         <servers>${servers}</servers>
+        <isCollector>${isCollector}</isCollector>
         <layout>
             <pattern>%-5level ${spring.profiles.active} [%date] [%thread] [${serverIp}] [%X{serialNumber}] [%logger-%line] : %msg%n</pattern>
         </layout>
