@@ -26,7 +26,7 @@ public class UserOauthInfo {
             ExceptionUtils.businessException(loginVal == null, CommonEnumConstant.PromptMessage.NO_TOKEN);
             return loginVal;
         }catch (Exception e){
-            return LoginVal.builder().userId("-1").nickname("未登入").build();
+            return LoginVal.builder().userId("-1").nickname("-").build();
         }
     }
 }

@@ -60,8 +60,9 @@ public class CommonEnumConstant {
         CLIENT_FAILED(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"客户端连接失败"),
         ID_AUTHENTICATION_FAILED(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"身份验证失败"),
         INIT_ROLE_PERMISSION_ERROR(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"初始化角色权限失败"),
+        INIT_PERMISSION_ERROR(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"初始化权限失败"),
         INIT_USER_KEY_VAL_ERROR(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"初始化用户键值失败"),
-        INIT_WHITELIST_ERROR(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"初始化白名单失败"),
+        INIT_WHITELIST_ERROR(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"初始化时效白名单失败"),
         SYS_ERROR(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"服务异常,错误信息为：%s"),
         SYS_NULL_POINTER_ERROR(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"系统空指针异常"),
         API_READ_TIMED_OUT_ERROR(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"接口超时请稍后再试，超时接口：%s"),
@@ -233,6 +234,50 @@ public class CommonEnumConstant {
                     .filter(e -> Objects.equals(e.getGroupType(),groupType)&&Objects.equals(e.getDictKey(),dictKey))
                     .findFirst().map(CommonEnumConstant.Dict::getDictValue)
                     .orElse("");
+        }
+    }
+
+    /**
+     * 客户端枚举通过系统标识区分客户端
+     * 根据客户端区分网关的验证
+     */
+    public enum ClientDict{
+
+        CLIENT_PC_WEB_SYS("sys","PC_WEB","电脑客户端,系统服务"),
+        CLIENT_PC_WEB_AUTH("auth","PC_WEB","电脑客户端,系统认证服务"),
+        ;
+        private String key;
+        private String code;
+        private String disc;
+
+        ClientDict(String key,String code,String disc){
+            this.key = key;
+            this.code = code;
+            this.disc = disc;
+        }
+
+        public String getKey() {
+            return key;
+        }
+
+        public String getCode() {
+            return code;
+        }
+
+        public String getDisc() {
+            return disc;
+        }
+
+        /**
+         * 通过 key 获取系统模块的客户端标识
+         * @param key
+         * @return
+         */
+        public static String getModuleClientByKey(String key){
+            return Arrays.stream(CommonEnumConstant.ClientDict.values())
+                    .filter(e -> Objects.equals(e.getKey(),key))
+                    .findFirst().map(CommonEnumConstant.ClientDict::getCode)
+                    .orElse(null);
         }
     }
 

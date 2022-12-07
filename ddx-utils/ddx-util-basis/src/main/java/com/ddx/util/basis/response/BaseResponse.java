@@ -3,10 +3,14 @@ package com.ddx.util.basis.response;
 import com.ddx.util.basis.constant.BasisConstant;
 import com.ddx.util.basis.constant.CommonEnumConstant;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.google.common.collect.Maps;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.MDC;
+
+import java.util.Map;
 
 /**
  * @ClassName: BaseResponse
@@ -54,5 +58,16 @@ public class BaseResponse {
         this.type = enums.getType();
         this.msg = msg;
         this.serialNumber = MDC.get(BasisConstant.REQUEST_SERIAL_NUMBER);
+    }
+
+    public static Map<String,Object> toMap(BaseResponse baseResponse){
+        Map<String,Object> result = Maps.newHashMap();
+        result.put("msg",baseResponse.getMsg());
+        result.put("code",baseResponse.getCode());
+        result.put("type",baseResponse.getType());
+        if (StringUtils.isNoneBlank(baseResponse.getSerialNumber())) {
+            result.put(BasisConstant.REQUEST_SERIAL_NUMBER,baseResponse.getSerialNumber());
+        }
+        return result;
     }
 }

@@ -22,6 +22,6 @@ import java.io.IOException;
 public class RequestAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException {
-        ResponseUtils.result(response, ResponseData.out(CommonEnumConstant.PromptMessage.NO_PERMISSION));
+        ResponseUtils.resultError(response, ResponseData.out(CommonEnumConstant.PromptMessage.NO_PERMISSION));
     }
 }

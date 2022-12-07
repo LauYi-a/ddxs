@@ -19,6 +19,7 @@ public class RedisConstant {
      * redis 锁 key
      */
     public final static String OAUTH_URLS="oauth2:oauth_urls"; //权限<->url对应的KEY
+    public final static String PERMISSION_URLS="permission:urls"; //接口权限集合key
     public final static String JTI_KEY_PREFIX="oauth2:black:"; //JWT令牌黑名单的KEY
     public final static String ACCOUNT_NON_LOCKED ="oauth2:account_locked:";//账号锁 key
     public final static String SYS_PARAM_CONFIG="system:param:config:";//系统配置key
@@ -37,7 +38,4 @@ public class RedisConstant {
     //redis 分布式锁配置文件选择模式
     public final static String REDIS_PATTERN_STAND_ALONE= "stand-alone"; //单机模式
     public final static String REDIS_PATTERN_MULTIPLE= "multiple"; //集群模式
-
-    public final static String BUSINESS_OK = "业务处理成功";
-
 }

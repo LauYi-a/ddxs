@@ -5,8 +5,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ddx.sys.entity.SysPermission;
 
-import java.util.List;
-
 /**
  * @ClassName: ISysPermissionService
  * @Description: 权限表 服务类
@@ -26,6 +24,13 @@ public interface ISysPermissionService extends IService<SysPermission> {
 
     /**
      * 初始化角色权限
+     * @return
      */
     Boolean initRolePermission();
+
+    /**
+     * 初始化权限
+     * @return
+     */
+    Boolean initPermission();
 }

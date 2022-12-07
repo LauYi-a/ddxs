@@ -28,6 +28,6 @@ public class OAuthServerAuthenticationEntryPoint implements AuthenticationEntryP
      */
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
-        ResponseUtils.result(response, ResponseData.out(CommonEnumConstant.PromptMessage.CLIENT_AUTHENTICATION_FAILED));
+        ResponseUtils.resultError(response, ResponseData.out(CommonEnumConstant.PromptMessage.CLIENT_AUTHENTICATION_FAILED));
     }
 }

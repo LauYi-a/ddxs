@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ddx.sys.entity.SysPermission;
-import com.ddx.sys.entity.SysRolePermission;
 import com.ddx.sys.model.req.sysPermission.PermissionQueryNoPageReq;
 import com.ddx.sys.model.req.sysPermission.SysPermissionEditReq;
 import com.ddx.sys.model.req.sysPermission.SysPermissionQueryReq;
@@ -34,7 +33,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Objects;
 
 
 /**
@@ -95,10 +93,6 @@ public class SysPermissionController {
         BeanUtils.copyProperties(sysPermissionEditReq, sysPermission);
         Boolean yesOrNo = iSysPermissionService.update(sysPermission,new QueryWrapper<SysPermission>().lambda().eq(SysPermission::getId,sysPermission.getId()));
         ExceptionUtils.businessException(!yesOrNo,CommonEnumConstant.PromptMessage.FAILED);
-        if (Objects.equals(sysPermission.getIsRole(),CommonEnumConstant.Dict.IS_ROLE_PERMISSION_1)){
-            ExceptionUtils.businessException(!iSysRolePermissionService.remove(new QueryWrapper<SysRolePermission>().lambda().eq(SysRolePermission::getPermissionId,sysPermission.getId())),CommonEnumConstant.PromptMessage.DELETE_ROLE_PERMISSION_ERROR);
-            ExceptionUtils.businessException(!iSysPermissionService.initRolePermission(),CommonEnumConstant.PromptMessage.INIT_ROLE_PERMISSION_ERROR);
-        }
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
     }
 
@@ -107,6 +101,7 @@ public class SysPermissionController {
     @Transactional(rollbackFor = Exception.class)
     public BaseResponse refreshCache(){
         ExceptionUtils.businessException(!iSysPermissionService.initRolePermission(),CommonEnumConstant.PromptMessage.INIT_ROLE_PERMISSION_ERROR);
+        ExceptionUtils.businessException(!iSysPermissionService.initPermission(),CommonEnumConstant.PromptMessage.INIT_PERMISSION_ERROR);
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
     }
 }

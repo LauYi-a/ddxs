@@ -40,7 +40,6 @@ public class BasisConstant {
     public static final String ROLE_STATUS = "roleStatus";
     public static final String IS_ROLE_PERMISSION = "isRolePermission";
     public static final String SERVICE_MODULES_NAME = "serviceModulesName";
-    public static final String SELECT_LOG_LINES = "selectLogLines";
 
 
     /**
@@ -78,6 +77,8 @@ public class BasisConstant {
     public static final String LOGIN_SERVICE="loginService;";
     public static final String JTI="jti";
     public static final String EXPR="expr";
+    public static final String GATEWAY_REQUEST="gateway_request";
+    public static final String AUTHORIZATION="Authorization";
 
     /**
      * SM4 国密加密
@@ -104,6 +105,7 @@ public class BasisConstant {
     public final static String REQUEST_SERIAL_NUMBER="serialNumber";//请求流水号key
     public final static String REQUEST_TYPE_REQ="REQUEST";//请求
     public final static String REQUEST_TYPE_RESP="RESPONSE";//响应
+    public final static String POST="POST:";//响应
 
 
     /**

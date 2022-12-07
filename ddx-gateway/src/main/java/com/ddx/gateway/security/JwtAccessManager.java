@@ -15,7 +15,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.server.authorization.AuthorizationContext;
 import org.springframework.stereotype.Component;
-import org.springframework.util.AntPathMatcher;
 import reactor.core.publisher.Mono;
 
 import java.net.URI;
@@ -38,13 +37,10 @@ public class JwtAccessManager implements ReactiveAuthorizationManager<Authorizat
 
     @Override
     public Mono<AuthorizationDecision> check(Mono<Authentication> mono, AuthorizationContext authorizationContext) {
-        //匹配url
-        AntPathMatcher antPathMatcher = new AntPathMatcher();
         //从Redis中获取当前路径可访问角色列表
         URI uri = authorizationContext.getExchange().getRequest().getURI();
         //请求方法 POST,GET
         String method = authorizationContext.getExchange().getRequest().getMethodValue();
-        
         String restFulPath = method + BasisConstant.METHOD_SUFFIX + uri.getPath();
         //获取所有的uri->角色对应关系
         Map<Object, Object> entries = redisTemplate.hmget(RedisConstant.OAUTH_URLS);
@@ -52,21 +48,20 @@ public class JwtAccessManager implements ReactiveAuthorizationManager<Authorizat
         //角色集合
         List<String> authorities = (List<String>) entries.get(restFulPath);
         //认证通过且角色匹配的用户可访问当前路径
-        return mono
+        Mono<AuthorizationDecision> decisionMono = mono.filter(Authentication::isAuthenticated)
                 //判断是否认证成功
-                .filter(Authentication::isAuthenticated)
-                //获取认证后的全部权限
                 .flatMapIterable(Authentication::getAuthorities)
+                //获取认证后的全部权限
                 .map(GrantedAuthority::getAuthority)
                 //如果权限包含则判断为true
                 .any(authority->{
                     //超级管理员直接放行
-                    if (StrUtil.equals(BasisConstant.ROLE_ROOT_CODE,authority))
+                    if (StrUtil.equals(BasisConstant.ROLE_ROOT_CODE,authority)) {
                         return true;
+                    }
                     //其他必须要判断角色是否存在交集
                     return CollectionUtil.isNotEmpty(authorities) && authorities.contains(authority);
-                })
-                .map(AuthorizationDecision::new)
-                .defaultIfEmpty(new AuthorizationDecision(false));
+                }).map(AuthorizationDecision::new).defaultIfEmpty(new AuthorizationDecision(false));
+        return decisionMono;
     }
 }

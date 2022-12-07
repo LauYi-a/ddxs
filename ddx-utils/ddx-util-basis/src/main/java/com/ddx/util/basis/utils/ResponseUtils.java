@@ -16,11 +16,11 @@ import java.io.IOException;
  */
 public class ResponseUtils {
 
-    public static void result(HttpServletResponse response, BaseResponse baseResponse) throws IOException {
+    public static void resultError(HttpServletResponse response, BaseResponse baseResponse) throws IOException {
         response.setContentType("application/json;charset=UTF-8");
         ServletOutputStream out = response.getOutputStream();
         ObjectMapper objectMapper = new ObjectMapper();
-        out.write(objectMapper.writeValueAsString(baseResponse).getBytes("UTF-8"));
+        out.write(objectMapper.writeValueAsString(BaseResponse.toMap(baseResponse)).getBytes("UTF-8"));
         out.flush();
         out.close();
     }

@@ -3,6 +3,7 @@ package com.ddx.auth.config;
 import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.ddx.auth.entity.SysPermission;
 import com.ddx.auth.entity.SysRole;
 import com.ddx.auth.entity.SysWhitelistRequest;
 import com.ddx.auth.model.resp.SysRolePermissionResp;
@@ -13,6 +14,7 @@ import com.ddx.util.basis.constant.CommonEnumConstant;
 import com.ddx.util.redis.constant.RedisConstant;
 import com.ddx.util.redis.template.RedisTemplateUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
@@ -46,11 +48,17 @@ public class MyCommandLineRunner implements CommandLineRunner {
     @Override
     public void run(String... args){
         log.info("开始初始化数据...");
-        //获取资源初始化权限
+        //获取资源初始化角色权限
         Thread initRolePermission = new Thread(()-> {
             initRolePermission();
         });
         initRolePermission.start();
+
+        //初始化权限资源
+        Thread initPermission = new Thread(()->{
+            initPermission();
+        });
+        initPermission.start();
 
         //初始化白名单
         Thread initWhite = new Thread(()-> {
@@ -62,7 +70,7 @@ public class MyCommandLineRunner implements CommandLineRunner {
     /**
      * 初始化权限
      */
-    public void initRolePermission(){
+    private void initRolePermission(){
         List<SysRolePermissionResp> list = sysPermissionService.listRolePermission();
         //先删除Redis中原来的资源hash表
         redisTemplate.del(RedisConstant.OAUTH_URLS);
@@ -80,9 +88,25 @@ public class MyCommandLineRunner implements CommandLineRunner {
     }
 
     /**
+     * 初始化权限
+     */
+    private void initPermission(){
+        List<SysPermission> permissions = sysPermissionService.list(new QueryWrapper<SysPermission>());
+        //先删除Redis中原来的资源hash表
+        redisTemplate.del(RedisConstant.PERMISSION_URLS);
+        permissions.parallelStream().peek(k -> {
+            if (StringUtils.isNoneBlank(k.getServiceModule())) {
+                //然后更新Redis中的资源
+                redisTemplate.hset(RedisConstant.PERMISSION_URLS,  k.getUrl().contains(BasisConstant.POST)?k.getUrl():BasisConstant.POST+k.getUrl(), k.getServiceModule());
+            }
+        }).collect(Collectors.toList());
+        log.info("初始化权限完成...");
+    }
+
+    /**
      * 初始化白名单
      */
-    public void initWhite(){
+     private void initWhite(){
         List<String> requestWhitelist = sysWhitelistRequestService.list(new QueryWrapper<SysWhitelistRequest>().lambda().eq(SysWhitelistRequest::getType, CommonEnumConstant.Dict.WHITELIST_TYPE_0.getDictKey()))
                 .stream().map(e -> { return e.getUrl(); }).collect(Collectors.toList());
         redisTemplate.del(RedisConstant.WHITELIST_REQUEST);

@@ -34,6 +34,7 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 public class GlobalErrorExceptionHandler implements ErrorWebExceptionHandler {
+
     public Mono<Void> handle(ServerWebExchange exchange, Throwable ex) {
         ServerHttpResponse response = exchange.getResponse();
         if (response.isCommitted()) {
@@ -60,10 +61,8 @@ public class GlobalErrorExceptionHandler implements ErrorWebExceptionHandler {
         return response.writeWith(Mono.fromSupplier(() -> {
             DataBufferFactory bufferFactory = response.bufferFactory();
             try {
-                //todo 返回响应结果，根据业务需求，自己定制
                 return bufferFactory.wrap(new ObjectMapper().writeValueAsBytes(finalResultMsg));
-            }
-            catch (Exception e) {
+            }catch (Exception e) {
                 log.error("Error writing response", ex);
                 return bufferFactory.wrap(new byte[0]);
             }

@@ -64,65 +64,43 @@ public class GlobalAuthenticationFilter implements GlobalFilter, Ordered {
         String serialNumber = SerialNumber.newInstance(BasisConstant.SERIAL_LOG, BasisConstant.DATE_FORMAT_12).toString();
         MDC.put(BasisConstant.REQUEST_SERIAL_NUMBER,serialNumber);
         String requestUrl = exchange.getRequest().getPath().value();
-        ServerHttpRequest request = exchange.getRequest();
-        String ip = request.getRemoteAddress().getAddress().toString();
-        //1.判断是否存在短时间请求频繁
-        if (redisTemplateUtils.isLock(RedisConstant.SYSTEM_REQUEST+ip+requestUrl)){
-            return frequentResponseError(exchange);
+        Object object = redisTemplateUtils.hget(RedisConstant.PERMISSION_URLS,BasisConstant.POST+requestUrl);
+        Mono<Void> mono = validatedRequest(exchange,chain,serialNumber,requestUrl);
+        if (!mono.equals(Mono.empty())){
+            return mono;
         }
-
-        //2.请求时效白名单
-        List<String> requestTimeWhitelist =  ConversionUtils.castList(JSONObject.parseArray(redisTemplateUtils.get(RedisConstant.REQUEST_TIME_WHITELIST).toString()),String.class);
-        ExceptionUtils.businessException(requestTimeWhitelist.size() == 0, CommonEnumConstant.PromptMessage.INIT_WHITELIST_ERROR);
-        if (!StringUtil.checkUrls(requestTimeWhitelist, requestUrl)) {
-            SysParamConfigVo sysParamConfigVo = (SysParamConfigVo) redisTemplateUtils.get(RedisConstant.SYS_PARAM_CONFIG);
-            redisTemplateUtils.lock(RedisConstant.SYSTEM_REQUEST + ip + requestUrl, sysParamConfigVo.getSysRequestTime());
-        }
-
-        //3.白名单放行
-        List<String> ignoreUrls =  ConversionUtils.castList(JSONObject.parseArray(redisTemplateUtils.get(RedisConstant.WHITELIST_REQUEST).toString()),String.class);
-        ExceptionUtils.businessException(ignoreUrls.size() == 0, CommonEnumConstant.PromptMessage.INIT_WHITELIST_ERROR);
-        if (StringUtil.checkUrls(ignoreUrls, requestUrl)){
-            exchange.getRequest().mutate()
-                    .header(BasisConstant.REQUEST_SERIAL_NUMBER, serialNumber).build();
-            return chain.filter(exchange);
-        }
-        //4.检查token是否存在
+        //检查token是否存在
         String token = getToken(exchange);
         if (StringUtils.isBlank(token)) {
             return invalidTokenMono(exchange);
         }
-        //5.判断是否是有效的token
-        OAuth2AccessToken oAuth2AccessToken;
+
         try {
+            //OAuth2判断是否是有效的token
+            OAuth2AccessToken oAuth2AccessToken = tokenStore.readAccessToken(token);
             //解析token，使用tokenStore
-            oAuth2AccessToken = tokenStore.readAccessToken(token);
             Map<String, Object> additionalInformation = oAuth2AccessToken.getAdditionalInformation();
             //令牌的唯一ID
-            String jti=additionalInformation.get(BasisConstant.JTI).toString();
-            /**查看黑名单中是否存在这个jti，如果存在则这个令牌不能用****/
-            Boolean hasKey = stringRedisTemplate.hasKey(RedisConstant.JTI_KEY_PREFIX + jti);
-            if (hasKey)
+            String jti = additionalInformation.get(BasisConstant.JTI).toString();
+            //查看黑名单中是否存在这个jti，如果存在则这个令牌不能用
+            if (stringRedisTemplate.hasKey(RedisConstant.JTI_KEY_PREFIX + jti)) {
                 return invalidTokenMono(exchange);
-            //取出用户身份信息
-            String user_name = additionalInformation.get("user_name").toString();
+            }
+            JSONObject jsonObject=new JSONObject();
+            jsonObject.put(BasisConstant.PRINCIPAL_NAME, additionalInformation.get("user_name").toString());
             //获取用户权限
             List<String> authorities = (List<String>) additionalInformation.get(BasisConstant.AUTHORITIES_NAME);
-            //从additionalInformation取出userId
-            String userId = additionalInformation.get(BasisConstant.USER_ID).toString();
-            String nickname = additionalInformation.get(BasisConstant.NICKNAME).toString();
-            JSONObject jsonObject=new JSONObject();
-            jsonObject.put(BasisConstant.PRINCIPAL_NAME, user_name);
             jsonObject.put(BasisConstant.AUTHORITIES_NAME,authorities);
             //过期时间，单位秒
             jsonObject.put(BasisConstant.EXPR,oAuth2AccessToken.getExpiresIn());
             jsonObject.put(BasisConstant.JTI,jti);
             //封装到JSON数据中
-            jsonObject.put(BasisConstant.USER_ID, userId);
-            jsonObject.put(BasisConstant.NICKNAME, nickname);
+            jsonObject.put(BasisConstant.USER_ID, additionalInformation.get(BasisConstant.USER_ID).toString());
+            jsonObject.put(BasisConstant.NICKNAME, additionalInformation.get(BasisConstant.NICKNAME).toString());
             //将解析后的token加密放入请求头中，方便下游微服务解析获取用户信息
             ServerHttpRequest tokenRequest = exchange.getRequest().mutate()
                     .header(BasisConstant.TOKEN_NAME, SM4Utils.encryptBase64(jsonObject.toJSONString()))
+                    .header(BasisConstant.GATEWAY_REQUEST, SM4Utils.encryptBase64(String.valueOf(false)))
                     .header(BasisConstant.REQUEST_SERIAL_NUMBER, serialNumber).build();
             ServerWebExchange build = exchange.mutate().request(tokenRequest).build();
             return chain.filter(build);
@@ -138,10 +116,46 @@ public class GlobalAuthenticationFilter implements GlobalFilter, Ordered {
     }
 
     /**
+     * 验证请求
+     * @param exchange
+     * @param chain
+     * @param serialNumber
+     * @return
+     */
+    private Mono<Void> validatedRequest(ServerWebExchange exchange,GatewayFilterChain chain,String serialNumber,String requestUrl){
+        ServerHttpRequest request = exchange.getRequest();
+        String ip = request.getRemoteAddress().getAddress().toString();
+        //判断请求是否频繁发起
+        if (redisTemplateUtils.isLock(RedisConstant.SYSTEM_REQUEST+ip+requestUrl)){
+            return frequentResponseError(exchange);
+        }
+        //可频繁发起请求白名单
+        List<String> requestTimeWhitelist =  ConversionUtils.castList(JSONObject.parseArray(redisTemplateUtils.get(RedisConstant.REQUEST_TIME_WHITELIST).toString()),String.class);
+        ExceptionUtils.businessException(requestTimeWhitelist.size() == 0, CommonEnumConstant.PromptMessage.INIT_WHITELIST_ERROR);
+        if (!StringUtil.checkUrls(requestTimeWhitelist, requestUrl)) {
+            SysParamConfigVo sysParamConfigVo = (SysParamConfigVo) redisTemplateUtils.get(RedisConstant.SYS_PARAM_CONFIG);
+            redisTemplateUtils.lock(RedisConstant.SYSTEM_REQUEST + ip + requestUrl, sysParamConfigVo.getSysRequestTime());
+        }
+        //白名单请求
+        List<String> ignoreUrls =  ConversionUtils.castList(JSONObject.parseArray(redisTemplateUtils.get(RedisConstant.WHITELIST_REQUEST).toString()),String.class);
+        ExceptionUtils.businessException(ignoreUrls.size() == 0, CommonEnumConstant.PromptMessage.INIT_WHITELIST_ERROR);
+        if (StringUtil.checkUrls(ignoreUrls, requestUrl)){
+            ServerHttpRequest httpRequest = exchange.getRequest().mutate()
+                    .header(BasisConstant.GATEWAY_REQUEST, SM4Utils.encryptBase64(String.valueOf(true)))
+                    .header(BasisConstant.REQUEST_SERIAL_NUMBER, serialNumber).build();
+            ServerWebExchange build = exchange.mutate().request(httpRequest).build();
+            return chain.filter(build);
+        }
+        return Mono.empty();
+    }
+
+    /**
      * 从请求头中获取Token
+     * @param exchange
+     * @return
      */
     private String getToken(ServerWebExchange exchange) {
-        String tokenStr = exchange.getRequest().getHeaders().getFirst("Authorization");
+        String tokenStr = exchange.getRequest().getHeaders().getFirst(BasisConstant.AUTHORIZATION);
         if (StringUtils.isBlank(tokenStr)) {
             return null;
         }
@@ -154,6 +168,8 @@ public class GlobalAuthenticationFilter implements GlobalFilter, Ordered {
 
     /**
      * 无效的token
+     * @param exchange
+     * @return
      */
     private Mono<Void> invalidTokenMono(ServerWebExchange exchange) {
         BaseResponse baseResponse = ResponseData.out(CommonEnumConstant.PromptMessage.INVALID_TOKEN);
@@ -161,7 +177,9 @@ public class GlobalAuthenticationFilter implements GlobalFilter, Ordered {
     }
 
     /**
-     * 频繁响应请求
+     * 频繁发送响应请求
+     * @param exchange
+     * @return
      */
     private Mono<Void> frequentResponseError(ServerWebExchange exchange) {
         BaseResponse baseResponse = ResponseData.out(CommonEnumConstant.PromptMessage.FREQUENT_RESPONSE_ERROR);
@@ -169,9 +187,16 @@ public class GlobalAuthenticationFilter implements GlobalFilter, Ordered {
     }
 
 
+    /**
+     * 返回请求
+     * @param baseResponse
+     * @param exchange
+     * @param httpStatus
+     * @return
+     */
     private Mono<Void> buildReturnMono(BaseResponse baseResponse, ServerWebExchange exchange,HttpStatus httpStatus) {
         ServerHttpResponse response = exchange.getResponse();
-        byte[] bits = JSON.toJSONString(baseResponse).getBytes(StandardCharsets.UTF_8);
+        byte[] bits = JSON.toJSONString(BaseResponse.toMap(baseResponse)).getBytes(StandardCharsets.UTF_8);
         DataBuffer buffer = response.bufferFactory().wrap(bits);
         response.setStatusCode(httpStatus);
         response.getHeaders().add("Content-Type", "application/json;charset:utf-8");
