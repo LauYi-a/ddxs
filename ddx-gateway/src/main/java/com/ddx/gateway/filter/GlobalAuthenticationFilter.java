@@ -130,7 +130,8 @@ public class GlobalAuthenticationFilter implements GlobalFilter, Ordered {
     }
 
     /**
-     * 解析请求 token
+     * 根据token认证方式进行解析token请求
+     * 目前只有两种解析方式
      * @param tokenMap
      * @return
      */
@@ -140,6 +141,7 @@ public class GlobalAuthenticationFilter implements GlobalFilter, Ordered {
                 return null;
             }
             if (Objects.equals(tokenMap.get(BasisConstant.TOKEN_PREFIX_KEY),BasisConstant.AUTHORIZATION_TYPE_BASIC)){
+                //basic 方式解析
                 String token = String.valueOf(tokenMap.get(BasisConstant.TOKEN_KEY));
                 String json =  SM4Utils.decryptBase64(token);
                 JSONObject tokenJson = JSON.parseObject(json);
@@ -154,21 +156,16 @@ public class GlobalAuthenticationFilter implements GlobalFilter, Ordered {
                 jsonObject.put(BasisConstant.NICKNAME, securityUser.get(BasisConstant.NICKNAME));
                 return jsonObject;
             }else {
+                //bearer oAuth方式解析
                 JSONObject jsonObject=new JSONObject();
-                //OAuth2判断是否是有效的token
                 OAuth2AccessToken oAuth2AccessToken = tokenStore.readAccessToken(tokenMap.get(BasisConstant.TOKEN_KEY));
-                //解析token，使用tokenStore
                 Map<String, Object> additionalInformation = oAuth2AccessToken.getAdditionalInformation();
-                //令牌的唯一ID
                 String jti = additionalInformation.get(BasisConstant.JTI).toString();
                 jsonObject.put(BasisConstant.PRINCIPAL_NAME, additionalInformation.get("user_name").toString());
-                //获取用户权限
                 List<String> authorities = (List<String>) additionalInformation.get(BasisConstant.AUTHORITIES_NAME);
                 jsonObject.put(BasisConstant.AUTHORITIES_NAME, authorities);
-                //过期时间，单位秒
                 jsonObject.put(BasisConstant.EXPR, oAuth2AccessToken.getExpiresIn());
                 jsonObject.put(BasisConstant.JTI, jti);
-                //封装到JSON数据中
                 jsonObject.put(BasisConstant.USER_ID, additionalInformation.get(BasisConstant.USER_ID).toString());
                 jsonObject.put(BasisConstant.NICKNAME, additionalInformation.get(BasisConstant.NICKNAME).toString());
                 return jsonObject;
