@@ -1,5 +1,6 @@
 package com.ddx.util.basis.exception;
 
+import com.ddx.util.basis.constant.CommonEnumConstant;
 import lombok.Data;
 
 /**
@@ -21,5 +22,12 @@ public class BusinessException extends RuntimeException{
         this.code = code;
         this.type = type;
         this.msg = msg;
+    }
+
+    public BusinessException(CommonEnumConstant.PromptMessage promptMessage){
+        super(promptMessage.getMsg());
+        this.code = promptMessage.getCode();
+        this.type = promptMessage.getType();
+        this.msg = promptMessage.getMsg();
     }
 }

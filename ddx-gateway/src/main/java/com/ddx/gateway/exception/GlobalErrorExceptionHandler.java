@@ -61,7 +61,7 @@ public class GlobalErrorExceptionHandler implements ErrorWebExceptionHandler {
         return response.writeWith(Mono.fromSupplier(() -> {
             DataBufferFactory bufferFactory = response.bufferFactory();
             try {
-                return bufferFactory.wrap(new ObjectMapper().writeValueAsBytes(finalResultMsg));
+                return bufferFactory.wrap(new ObjectMapper().writeValueAsBytes(BaseResponse.toMap(finalResultMsg)));
             }catch (Exception e) {
                 log.error("Error writing response", ex);
                 return bufferFactory.wrap(new byte[0]);

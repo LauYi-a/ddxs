@@ -9,23 +9,15 @@ package com.ddx.util.redis.constant;
  */
 public class RedisConstant {
 
-    /**
-     * 获锁状态
-     */
-    public final static boolean STATUS_TRUE = true;
-    public final static boolean STATUS_FALSE = false;
-
-    /**
-     * redis 锁 key
-     */
     public final static String OAUTH_URLS="oauth2:oauth_urls"; //权限<->url对应的KEY
-    public final static String PERMISSION_URLS="permission:urls"; //接口权限集合key
     public final static String JTI_KEY_PREFIX="oauth2:black:"; //JWT令牌黑名单的KEY
     public final static String ACCOUNT_NON_LOCKED ="oauth2:account_locked:";//账号锁 key
+    public final static String BASIC_TOKEN="basic:"; //basic token 模式key
     public final static String SYS_PARAM_CONFIG="system:param:config:";//系统配置key
     public final static String SYS_PARAM_CONFIG_PRIVATE_KEY="system:param:config:private_key";//系统密钥
-    public final static String WHITELIST_REQUEST="system:whitelist_request:";//访问白名单配置
-    public final static String REQUEST_TIME_WHITELIST="system:request_time_whitelist:";//请求时间白名单配置
+    public final static String WHITELIST_RESOURCES="system:whitelist:resources:";//系统资源白名单
+    public final static String WHITELIST_REQUEST="system:whitelist:request:";//访问白名单配置
+    public final static String REQUEST_TIME_WHITELIST="system:whitelist:request:time:";//请求时间白名单配置
     public final static String SYSTEM_REQUEST="system:lock:request_url:";//系统请求锁
 
     /**

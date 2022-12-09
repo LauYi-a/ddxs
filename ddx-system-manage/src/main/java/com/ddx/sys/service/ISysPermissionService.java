@@ -27,10 +27,4 @@ public interface ISysPermissionService extends IService<SysPermission> {
      * @return
      */
     Boolean initRolePermission();
-
-    /**
-     * 初始化权限
-     * @return
-     */
-    Boolean initPermission();
 }

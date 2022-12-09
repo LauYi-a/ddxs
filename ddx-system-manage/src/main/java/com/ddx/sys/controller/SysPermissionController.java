@@ -101,7 +101,6 @@ public class SysPermissionController {
     @Transactional(rollbackFor = Exception.class)
     public BaseResponse refreshCache(){
         ExceptionUtils.businessException(!iSysPermissionService.initRolePermission(),CommonEnumConstant.PromptMessage.INIT_ROLE_PERMISSION_ERROR);
-        ExceptionUtils.businessException(!iSysPermissionService.initPermission(),CommonEnumConstant.PromptMessage.INIT_PERMISSION_ERROR);
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
     }
 }

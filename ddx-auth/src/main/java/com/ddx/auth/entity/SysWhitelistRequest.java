@@ -43,6 +43,12 @@ public class SysWhitelistRequest implements Serializable {
     @TableField("url")
     private String url;
 
+    /**
+     * 白名单类型
+     * 0 资源白名单
+     * 1 接口白名单
+     * 2 接口频繁发起白名单
+     */
     @TableField("type")
     private String type;
 

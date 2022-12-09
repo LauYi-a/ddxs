@@ -38,12 +38,13 @@ public class SysWhitelistRequestServiceImpl extends ServiceImpl<SysWhitelistRequ
     @Override
     public Boolean initWhitelistConfig() {
         try {
-            List<String> requestWhitelist = baseMapper.selectList(new QueryWrapper<SysWhitelistRequest>().lambda().eq(SysWhitelistRequest::getType, CommonEnumConstant.Dict.WHITELIST_TYPE_0.getDictKey()))
-                    .stream().map(e -> { return e.getUrl(); }).collect(Collectors.toList());
+            List<SysWhitelistRequest> whitelistRequests =  baseMapper.selectList(new QueryWrapper<SysWhitelistRequest>());
+            //接口白名单
+            List<String> requestWhitelist = whitelistRequests.stream().filter(e -> e.getType().equals(CommonEnumConstant.Dict.WHITELIST_TYPE_1.getDictKey())).map(e -> { return e.getUrl(); }).collect(Collectors.toList());
             redisTemplate.del(RedisConstant.WHITELIST_REQUEST);
             redisTemplate.set(RedisConstant.WHITELIST_REQUEST, JSON.toJSONString(requestWhitelist));
-            List<String> requestTimeWhitelist = baseMapper.selectList(new QueryWrapper<SysWhitelistRequest>().lambda().eq(SysWhitelistRequest::getType,CommonEnumConstant.Dict.WHITELIST_TYPE_1.getDictKey()))
-                    .stream().map(e -> { return e.getUrl(); }).collect(Collectors.toList());
+            //接口时效白名单
+            List<String> requestTimeWhitelist = whitelistRequests.stream().filter(e->e.getType().equals(CommonEnumConstant.Dict.WHITELIST_TYPE_2.getDictKey())).map(e -> { return e.getUrl(); }).collect(Collectors.toList());
             redisTemplate.del(RedisConstant.REQUEST_TIME_WHITELIST);
             redisTemplate.set(RedisConstant.REQUEST_TIME_WHITELIST, JSON.toJSONString(requestTimeWhitelist));
             return true;

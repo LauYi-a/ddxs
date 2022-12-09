@@ -8,6 +8,7 @@ import com.google.gson.JsonParser;
 import org.springframework.util.AntPathMatcher;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -26,10 +27,12 @@ public class StringUtil {
      * @return true 存在 false 不存在
      */
     public static Boolean checkUrls(List<String> urls, String path){
-        AntPathMatcher pathMatcher = new AntPathMatcher();
-        for (String url : urls) {
-            if (pathMatcher.match(url,path))
-                return true;
+        if (Objects.nonNull(urls)) {
+            AntPathMatcher pathMatcher = new AntPathMatcher();
+            for (String url : urls) {
+                if (pathMatcher.match(url, path))
+                    return true;
+            }
         }
         return false;
     }

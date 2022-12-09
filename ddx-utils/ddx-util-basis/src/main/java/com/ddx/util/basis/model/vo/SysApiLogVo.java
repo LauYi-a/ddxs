@@ -29,7 +29,7 @@ public class SysApiLogVo<T> {
      * 请求或返回参数
      */
     @JsonProperty(index = 2)
-    private T result;
+    private T data;
 
 
 

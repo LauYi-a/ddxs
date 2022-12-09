@@ -76,6 +76,8 @@ public class BasisConstant {
     public static final String NICKNAME="nickname";
     public static final String LOGIN_SERVICE="loginService;";
     public static final String JTI="jti";
+    public static final String JWT="jwt";
+    public static final String JWT_CONFIG="jwt-config";
     public static final String EXPR="expr";
     public static final String GATEWAY_REQUEST="gateway_request";
     public static final String AUTHORIZATION="Authorization";
@@ -105,7 +107,10 @@ public class BasisConstant {
     public final static String REQUEST_SERIAL_NUMBER="serialNumber";//请求流水号key
     public final static String REQUEST_TYPE_REQ="REQUEST";//请求
     public final static String REQUEST_TYPE_RESP="RESPONSE";//响应
-    public final static String POST="POST:";//响应
+    public final static String AUTHORIZATION_TYPE_BASIC="basic";//请求认证类型
+    public final static String TOKEN_PREFIX_KEY="prefix";//请求中的 token前缀
+    public final static String TOKEN_KEY="token";//请求中的 token前缀
+
 
 
     /**

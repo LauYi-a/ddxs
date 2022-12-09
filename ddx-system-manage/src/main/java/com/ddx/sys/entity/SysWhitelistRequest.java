@@ -38,7 +38,7 @@ public class SysWhitelistRequest implements Serializable {
     @TableField("url")
     private String url;
 
-    @ApiModelProperty(value = "请求白名单类型 1 系统资源白名单 2接口访问时效")
+    @ApiModelProperty(value = "请求白名单类型 0 系统资源白名单 1接口白名单 2接口访问时效白名单")
     @TableField("type")
     private String type;
 

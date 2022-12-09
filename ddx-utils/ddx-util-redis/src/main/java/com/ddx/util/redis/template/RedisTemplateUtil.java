@@ -98,7 +98,10 @@ public class RedisTemplateUtil {
      * @return 值
      */
     public Object get(String key) {
-        return key == null ? null : redisTemplate.opsForValue().get(key);
+        if (hasKey(key)){
+            return key == null ? null : redisTemplate.opsForValue().get(key);
+        }
+        return null;
     }
  
     /**

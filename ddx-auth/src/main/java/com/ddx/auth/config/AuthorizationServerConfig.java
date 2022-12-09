@@ -27,6 +27,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 
 import javax.annotation.PostConstruct;
+import java.util.Objects;
 
 
 /**
@@ -79,10 +80,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
      */
     @PostConstruct
     public void initSysParam(){
-        if (redisTemplateUtils.hasKey(RedisConstant.SYS_PARAM_CONFIG)) {
-            SysParamConfigVo sysParamConfigVo = (SysParamConfigVo) redisTemplateUtils.get(RedisConstant.SYS_PARAM_CONFIG);
+        SysParamConfigVo sysParamConfigVo = (SysParamConfigVo) redisTemplateUtils.get(RedisConstant.SYS_PARAM_CONFIG);
+        if (Objects.nonNull(sysParamConfigVo)){
             redisTemplateUtils.set(RedisConstant.SYS_PARAM_CONFIG, sysParamConfigVo);
-        } else {
+        }else{
             redisTemplateUtils.set(RedisConstant.SYS_PARAM_CONFIG, SysParamConfigVo.builder()
                     .lpec(4)//登入错误次数默认四次
                     .accountLockTime(Long.valueOf(3600))//默认3600秒

@@ -84,9 +84,9 @@ public class ApiLogAspect {
         }
     }
 
-    private SysApiLogVo setLogEntityVo(String type, HttpServletRequest request, Object result){
+    private SysApiLogVo setLogEntityVo(String type, HttpServletRequest request, Object data){
         return  SysApiLogVo.builder()
-                .result(result)
+                .data(data)
                 .header(Header.builder()
                         .serialNumber(MDC.get(BasisConstant.REQUEST_SERIAL_NUMBER))
                         .url(request.getRequestURL().toString())

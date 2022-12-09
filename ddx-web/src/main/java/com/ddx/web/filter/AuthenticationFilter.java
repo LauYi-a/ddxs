@@ -15,10 +15,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * @ClassName: AuthenticationFilter
@@ -36,40 +36,32 @@ public class AuthenticationFilter extends OncePerRequestFilter {
      * 2. 将解密之后的信息封装放入到request中
      */
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)throws IOException{
         //校验是否通过网关转发请求
         String gatewayRequest = request.getHeader(BasisConstant.GATEWAY_REQUEST);
         if (StrUtil.isNotBlank(gatewayRequest)){
+            //校验是否白名单请求
             if (Boolean.valueOf(SM4Utils.decryptBase64(gatewayRequest))){
-                filterChain.doFilter(request,response);
+                JSONObject jsonObject = null;
+                String token = request.getHeader(BasisConstant.TOKEN_NAME);
+                if (StrUtil.isNotBlank(token)){
+                    String json =  SM4Utils.decryptBase64(token);
+                    jsonObject = JSON.parseObject(json);
+                }
+                request.setAttribute(BasisConstant.LOGIN_VAL_ATTRIBUTE,setTokenInfo(jsonObject));
+                doFilter(request,response,filterChain);
             }else{
                 //获取请求头中的加密的用户信息，只接受网关过带了token的请求
                 String token = request.getHeader(BasisConstant.TOKEN_NAME);
                 if (StrUtil.isNotBlank(token)){
-                    String json =  SM4Utils.decryptBase64(token);
-                    JSONObject jsonObject = JSON.parseObject(json);
-                    //权限
-                    JSONArray tempJsonArray = jsonObject.getJSONArray(BasisConstant.AUTHORITIES_NAME);
-                    String[] authorities =  tempJsonArray.toArray(new String[0]);
-                    //获取用户身份信息、权限信息
-                    LoginVal loginVal = new LoginVal();
-                    loginVal.setUserId(jsonObject.getString(BasisConstant.USER_ID));
-                    loginVal.setUsername(jsonObject.getString(BasisConstant.PRINCIPAL_NAME));
-                    loginVal.setNickname(jsonObject.getString(BasisConstant.NICKNAME));
-                    loginVal.setAuthorities(authorities);
-                    loginVal.setJti(jsonObject.getString(BasisConstant.JTI));
-                    loginVal.setExpireIn(jsonObject.getLong(BasisConstant.EXPR));
-                    //放入request的attribute中
-                    request.setAttribute(BasisConstant.LOGIN_VAL_ATTRIBUTE,loginVal);
                     try {
-                        filterChain.doFilter(request,response);
+                        String json =  SM4Utils.decryptBase64(token);
+                        JSONObject jsonObject = JSON.parseObject(json);
+                        //放入request的attribute中
+                        request.setAttribute(BasisConstant.LOGIN_VAL_ATTRIBUTE,setTokenInfo(jsonObject));
+                        doFilter(request,response,filterChain);
                     }catch (Exception e){
-                        try {
-                            BusinessException be = (BusinessException) e.getCause();
-                            ResponseUtils.resultError(response,ResponseData.out(be.getCode(),be.getType(),be.getMessage()));
-                        }catch (Exception e1){
-                            ResponseUtils.resultError(response,ResponseData.out(CommonEnumConstant.PromptMessage.SYS_ERROR,e.getMessage()));
-                        }
+                        ResponseUtils.resultError(response, ResponseData.out(CommonEnumConstant.PromptMessage.INVALID_TOKEN));
                     }
                 }else{
                     ResponseUtils.resultError(response, ResponseData.out(CommonEnumConstant.PromptMessage.NO_TOKEN));
@@ -77,6 +69,50 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             }
         }else{
             ResponseUtils.resultError(response,ResponseData.out(CommonEnumConstant.PromptMessage.ILLEGAL_REQUEST_ERROR));
+        }
+    }
+
+    /**
+     * 设置用户身份权限信息
+     * @param jsonObject
+     * @return
+     */
+    private LoginVal setTokenInfo(JSONObject jsonObject){
+        LoginVal loginVal = new LoginVal();
+        if (Objects.nonNull(jsonObject)) {
+            JSONArray tempJsonArray = jsonObject.getJSONArray(BasisConstant.AUTHORITIES_NAME);
+            String[] authorities = tempJsonArray.toArray(new String[0]);
+            loginVal.setUserId(jsonObject.getString(BasisConstant.USER_ID));
+            loginVal.setUsername(jsonObject.getString(BasisConstant.PRINCIPAL_NAME));
+            loginVal.setNickname(jsonObject.getString(BasisConstant.NICKNAME));
+            loginVal.setAuthorities(authorities);
+            loginVal.setJti(jsonObject.getString(BasisConstant.JTI));
+            loginVal.setExpireIn(jsonObject.getLong(BasisConstant.EXPR));
+        }else{
+            loginVal.setUserId("ID0000000000");
+            loginVal.setUsername("-");
+            loginVal.setNickname("-");
+        }
+        return loginVal;
+    }
+
+    /**
+     * 执行下一步
+     * @param request
+     * @param response
+     * @param filterChain
+     * @throws IOException
+     */
+    private void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException{
+        try {
+            filterChain.doFilter(request,response);
+        }catch (Exception e){
+            try {
+                BusinessException be = (BusinessException) e.getCause();
+                ResponseUtils.resultError(response,ResponseData.out(be.getCode(),be.getType(),be.getMessage()));
+            }catch (Exception e1){
+                ResponseUtils.resultError(response,ResponseData.out(CommonEnumConstant.PromptMessage.SYS_ERROR,e.getMessage()));
+            }
         }
     }
 }

@@ -17,7 +17,6 @@ import com.ddx.util.basis.constant.BasisConstant;
 import com.ddx.util.redis.constant.RedisConstant;
 import com.ddx.util.redis.template.RedisTemplateUtil;
 import com.google.common.collect.Lists;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -82,25 +81,6 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
             return true;
         }catch (Exception ex){
             ex.printStackTrace();
-            return false;
-        }
-    }
-
-    @Override
-    public Boolean initPermission(){
-        try {
-            List<SysPermission> permissionList = baseMapper.selectList(new QueryWrapper<SysPermission>());
-            //先删除Redis中原来的资源hash表
-            redisTemplate.del(RedisConstant.PERMISSION_URLS);
-            permissionList.parallelStream().peek(k -> {
-                if (StringUtils.isNoneBlank(k.getServiceModule())) {
-                    //然后更新Redis中的资源
-                    redisTemplate.hset(RedisConstant.OAUTH_URLS, k.getUrl().contains(BasisConstant.POST)?k.getUrl():BasisConstant.POST+k.getUrl(), k.getServiceModule());
-                }
-            }).collect(Collectors.toList());
-            return true;
-        }catch (Exception e){
-            e.printStackTrace();
             return false;
         }
     }
