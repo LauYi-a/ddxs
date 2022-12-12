@@ -1,6 +1,7 @@
 package com.ddx.gateway.exception;
 
 import com.ddx.util.basis.constant.CommonEnumConstant;
+import com.ddx.util.basis.exception.BusinessException;
 import com.ddx.util.basis.response.BaseResponse;
 import com.ddx.util.basis.response.ResponseData;
 import lombok.RequiredArgsConstructor;
@@ -16,10 +17,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @ClassName: GlobalErrorExceptionHandler
@@ -41,22 +38,19 @@ public class GlobalErrorExceptionHandler implements ErrorWebExceptionHandler {
             return Mono.error(ex);
         }
         //自定义枚举异常信息提示
-        List<CommonEnumConstant.PromptMessage> enumPromptMsg = Arrays.stream(CommonEnumConstant.PromptMessage.values()).filter(e -> e.getMsg().equals(ex.getMessage())).collect(Collectors.toList());
         BaseResponse resultMsg = ResponseData.out(CommonEnumConstant.PromptMessage.SYS_ERROR,String.format(CommonEnumConstant.PromptMessage.SYS_ERROR.getMsg(),ex.getMessage()));
-        if ( enumPromptMsg.size()>0 ){
-            resultMsg = ResponseData.out(enumPromptMsg.get(0));
+        if (ex instanceof BusinessException) {
+            resultMsg  = ResponseData.out(((BusinessException) ex).getCode(),((BusinessException) ex).getType(),ex.getMessage());
         }
         // JOSN格式返回
         response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
         if (ex instanceof ResponseStatusException) {
             response.setStatusCode(((ResponseStatusException) ex).getStatus());
         }
-
         //处理TOKEN失效的异常
         if (ex instanceof InvalidTokenException){
             resultMsg = ResponseData.out(CommonEnumConstant.PromptMessage.INVALID_TOKEN);
         }
-
         BaseResponse finalResultMsg = resultMsg;
         return response.writeWith(Mono.fromSupplier(() -> {
             DataBufferFactory bufferFactory = response.bufferFactory();

@@ -5,6 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.ddx.util.basis.constant.BasisConstant;
 import com.ddx.util.basis.constant.CommonEnumConstant;
+import com.ddx.util.basis.exception.BusinessException;
 import com.ddx.util.basis.exception.ExceptionUtils;
 import com.ddx.util.basis.utils.ConversionUtils;
 import com.ddx.util.basis.utils.StringUtil;
@@ -12,6 +13,7 @@ import com.ddx.util.redis.constant.RedisConstant;
 import com.ddx.util.redis.template.RedisTemplateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.ReactiveAuthorizationManager;
@@ -43,6 +45,7 @@ public class JwtAccessManager implements ReactiveAuthorizationManager<Authorizat
 
     @Override
     public Mono<AuthorizationDecision> check(Mono<Authentication> mono, AuthorizationContext authorizationContext) {
+        MDC.clear();//清除上次请求的流水号
         ServerWebExchange exchange = authorizationContext.getExchange();
         String path = exchange.getRequest().getURI().getPath();
         String method = exchange.getRequest().getMethodValue();
@@ -54,7 +57,13 @@ public class JwtAccessManager implements ReactiveAuthorizationManager<Authorizat
         }
         //根据不同token类型采用不同方式进行鉴权
         String authorization = exchange.getRequest().getHeaders().getFirst(BasisConstant.AUTHORIZATION);
-        if (!StringUtils.startsWithIgnoreCase(authorization, BasisConstant.AUTHORIZATION_TYPE_BASIC+" ")) {
+        if (StringUtils.isBlank(authorization)){
+            return Mono.error(new BusinessException(CommonEnumConstant.PromptMessage.NO_TOKEN));
+        }
+        if (StringUtils.startsWithIgnoreCase(authorization, BasisConstant.AUTHORIZATION_TYPE_BASIC+" ")) {
+            //目前basic不需要额外的鉴权
+            return  Mono.just(new AuthorizationDecision(true));
+        }else{
             Map<Object, Object> entries = redisTemplate.hmget(RedisConstant.OAUTH_URLS);  //获取所有的uri->角色对应关系
             ExceptionUtils.businessException(entries.size() == 0, CommonEnumConstant.PromptMessage.REDIS_NOT_RESOURCES_ERROR);
             List<String> authorities = (List<String>) entries.get(restFulPath);
@@ -72,9 +81,6 @@ public class JwtAccessManager implements ReactiveAuthorizationManager<Authorizat
                         //其他必须要判断角色是否存在交集
                         return CollectionUtil.isNotEmpty(authorities) && authorities.contains(authority);
                     }).map(AuthorizationDecision::new).defaultIfEmpty(new AuthorizationDecision(false));
-        }else{
-            //目前basic不需要额外的鉴权
-            return  Mono.just(new AuthorizationDecision(true));
         }
     }
 }

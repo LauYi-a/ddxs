@@ -11,6 +11,7 @@ import com.ddx.auth.service.ISysUserService;
 import com.ddx.util.basis.constant.BasisConstant;
 import com.ddx.util.basis.constant.CommonEnumConstant;
 import com.ddx.util.basis.exception.ExceptionUtils;
+import com.ddx.util.basis.model.vo.AccessTokenVo;
 import com.ddx.util.redis.constant.RedisConstant;
 import com.ddx.util.redis.template.RedisTemplateUtil;
 import com.ddx.web.entity.SecurityUser;
@@ -75,6 +76,19 @@ public class JwtTokenUserDetailsService implements UserDetailsService {
                 .password(user.getPassword())
                 //将角色放入authorities中
                 .authorities(AuthorityUtils.createAuthorityList(ArrayUtil.toArray(roles,String.class)))
+                .build();
+    }
+
+    public AccessTokenVo basicAuthorizeToken(String username){
+        return  AccessTokenVo.builder()
+                .access_token("")
+                .token_type(BasisConstant.AUTHORIZATION_TYPE_BASIC)
+                .expires_in(123456)
+                .scope("")
+                .user_id("")
+                .nickname("")
+                .loginService("")
+                .jti("")
                 .build();
     }
 }

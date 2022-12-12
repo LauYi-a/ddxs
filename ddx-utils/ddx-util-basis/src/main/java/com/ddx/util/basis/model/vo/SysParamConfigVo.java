@@ -52,4 +52,10 @@ public class SysParamConfigVo {
     @Min(value = 5,message = "系统请求间隔时间最小5秒")
     @NotNull(message = "系统请求间隔时间不能为空")
     private Long sysRequestTime;
+
+    @ApiModelProperty("网关令牌过期时间 - 秒")
+    @Max(value = 3600,message = "网关令牌过期时间最大3600秒")
+    @Min(value = 5,message = "网关令牌过期时间最小5秒")
+    @NotNull(message = "网关令牌过期时间不能为空")
+    private  Long gatewayTokenExpireTime;
 }

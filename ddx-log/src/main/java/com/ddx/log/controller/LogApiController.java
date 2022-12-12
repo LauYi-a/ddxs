@@ -1,35 +1,30 @@
-package com.ddx.sys.controller;
+package com.ddx.log.controller;
 
 import com.ddx.log.api.service.ILogApiService;
+import com.ddx.util.basis.constant.CommonEnumConstant;
 import com.ddx.util.basis.response.BaseResponse;
-import io.swagger.annotations.Api;
+import com.ddx.util.basis.response.ResponseData;
 import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @ClassName: LogController
- * @Description: 日志控制器
+ * @ClassName: LogApiController
+ * @Description:
  * @Author: YI.LAU
- * @Date: 2022年04月09日
+ * @Date: 2022年11月04日 13:58
  * @Version: 1.0
  */
-
-@Slf4j
 @RestController
-@RequestMapping("/log")
-@Api(tags = "日志")
-public class LogController {
+@RequestMapping("/api")
+public class LogApiController implements ILogApiService {
 
-    @Autowired
-    private ILogApiService iLogApiService;
 
+    @Override
     @PostMapping("/select-log")
     @ApiOperation(httpMethod = "POST",value = "查询日志")
-    public BaseResponse getInfo(){
-        return iLogApiService.selectLog();
+    public BaseResponse selectLog() {
+        return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS,"查询日志");
     }
 }

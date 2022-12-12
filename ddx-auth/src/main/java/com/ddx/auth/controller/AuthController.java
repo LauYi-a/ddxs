@@ -1,5 +1,6 @@
 package com.ddx.auth.controller;
 
+import com.ddx.auth.service.Impl.JwtTokenUserDetailsService;
 import com.ddx.util.basis.constant.CommonEnumConstant;
 import com.ddx.util.basis.response.BaseResponse;
 import com.ddx.util.basis.response.ResponseData;
@@ -28,6 +29,8 @@ public class AuthController {
 
     @Autowired
     private RedisTemplateUtil redisTemplateUtils;
+    @Autowired
+    private JwtTokenUserDetailsService jwtTokenUserDetailsService;
 
     @PostMapping("/logout")
     public BaseResponse logout(){
@@ -35,5 +38,11 @@ public class AuthController {
         log.info("令牌唯一ID：{},退出用户：{} 过期时间：{}",loginVal.getJti(),loginVal.getUsername(),loginVal.getExpireIn());
         redisTemplateUtils.set(RedisConstant.JTI_KEY_PREFIX+loginVal.getJti(),loginVal.getUsername(),loginVal.getExpireIn());
         return ResponseData.out(CommonEnumConstant.PromptMessage.REVOKE_TOKEN_YES);
+    }
+
+    @PostMapping("/basic/authorize")
+    public BaseResponse basicAuthorize(){
+        log.info("basic user authorize...");
+        return ResponseData.out(CommonEnumConstant.PromptMessage.LOING_SUCCESS,jwtTokenUserDetailsService.basicAuthorizeToken(""));
     }
 }

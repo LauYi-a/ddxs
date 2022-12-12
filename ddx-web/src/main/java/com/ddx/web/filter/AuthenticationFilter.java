@@ -10,7 +10,10 @@ import com.ddx.util.basis.exception.BusinessException;
 import com.ddx.util.basis.response.ResponseData;
 import com.ddx.util.basis.utils.ResponseUtils;
 import com.ddx.util.basis.utils.sm4.SM4Utils;
+import com.ddx.util.redis.constant.RedisConstant;
+import com.ddx.util.redis.template.RedisTemplateUtil;
 import com.ddx.web.entity.LoginVal;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -30,45 +33,51 @@ import java.util.Objects;
 @Component
 public class AuthenticationFilter extends OncePerRequestFilter {
 
+    @Autowired
+    private RedisTemplateUtil redisTemplateUtils;
+
     /**
-     * 具体方法主要分为两步
-     * 1. 解密网关传递的信息
-     * 2. 将解密之后的信息封装放入到request中
+     * 1.校验网关发放的令牌
+     * 2.解密网关传递的信息
+     * 3.将解密之后的信息封装放入到request中
      */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)throws IOException{
         //校验是否通过网关转发请求
         String gatewayRequest = request.getHeader(BasisConstant.GATEWAY_REQUEST);
-        if (StrUtil.isNotBlank(gatewayRequest)){
-            //校验是否白名单请求
-            if (Boolean.valueOf(SM4Utils.decryptBase64(gatewayRequest))){
-                JSONObject jsonObject = null;
-                String token = request.getHeader(BasisConstant.TOKEN_NAME);
-                if (StrUtil.isNotBlank(token)){
-                    String json =  SM4Utils.decryptBase64(token);
-                    jsonObject = JSON.parseObject(json);
-                }
-                request.setAttribute(BasisConstant.LOGIN_VAL_ATTRIBUTE,setTokenInfo(jsonObject));
-                doFilter(request,response,filterChain);
-            }else{
-                //获取请求头中的加密的用户信息，只接受网关过带了token的请求
-                String token = request.getHeader(BasisConstant.TOKEN_NAME);
-                if (StrUtil.isNotBlank(token)){
-                    try {
-                        String json =  SM4Utils.decryptBase64(token);
-                        JSONObject jsonObject = JSON.parseObject(json);
-                        //放入request的attribute中
-                        request.setAttribute(BasisConstant.LOGIN_VAL_ATTRIBUTE,setTokenInfo(jsonObject));
-                        doFilter(request,response,filterChain);
-                    }catch (Exception e){
-                        ResponseUtils.resultError(response, ResponseData.out(CommonEnumConstant.PromptMessage.INVALID_TOKEN));
-                    }
-                }else{
-                    ResponseUtils.resultError(response, ResponseData.out(CommonEnumConstant.PromptMessage.NO_TOKEN));
-                }
-            }
-        }else{
+        if (StrUtil.isBlank(gatewayRequest)){
             ResponseUtils.resultError(response,ResponseData.out(CommonEnumConstant.PromptMessage.ILLEGAL_REQUEST_ERROR));
+        }
+        if (!redisTemplateUtils.hasKey(RedisConstant.SYSTEM_REQUEST_TOKEN+gatewayRequest)){
+            ResponseUtils.resultError(response,ResponseData.out(CommonEnumConstant.PromptMessage.GATEWAY_REQUEST_EXCEED_TOKEN));
+        }
+        //校验是否白名单请求
+        String requestToken = redisTemplateUtils.get(RedisConstant.SYSTEM_REQUEST_TOKEN+gatewayRequest).toString();
+        if (Boolean.valueOf(SM4Utils.decryptBase64(requestToken))){
+            JSONObject jsonObject = null;
+            String token = request.getHeader(BasisConstant.TOKEN_NAME);
+            if (StrUtil.isNotBlank(token)){
+                String json =  SM4Utils.decryptBase64(token);
+                jsonObject = JSON.parseObject(json);
+            }
+            request.setAttribute(BasisConstant.LOGIN_VAL_ATTRIBUTE,setTokenInfo(jsonObject));
+            doFilter(request,response,filterChain);
+        }else{
+            //获取请求头中的加密的用户信息，只接受网关过来带了token的请求
+            String token = request.getHeader(BasisConstant.TOKEN_NAME);
+            if (StrUtil.isNotBlank(token)){
+                try {
+                    String json =  SM4Utils.decryptBase64(token);
+                    JSONObject jsonObject = JSON.parseObject(json);
+                    //放入request的attribute中
+                    request.setAttribute(BasisConstant.LOGIN_VAL_ATTRIBUTE,setTokenInfo(jsonObject));
+                    doFilter(request,response,filterChain);
+                }catch (Exception e){
+                    ResponseUtils.resultError(response, ResponseData.out(CommonEnumConstant.PromptMessage.INVALID_TOKEN));
+                }
+            }else{
+                ResponseUtils.resultError(response, ResponseData.out(CommonEnumConstant.PromptMessage.NO_TOKEN));
+            }
         }
     }
 

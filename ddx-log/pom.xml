@@ -50,6 +50,12 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!-- 日志API -->
+        <dependency>
+            <groupId>com.ddx</groupId>
+            <artifactId>ddx-log-api</artifactId>
+            <version>${ddx-log-api.version}</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

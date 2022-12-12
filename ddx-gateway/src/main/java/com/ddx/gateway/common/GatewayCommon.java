@@ -1,19 +1,11 @@
 package com.ddx.gateway.common;
 
-import com.alibaba.fastjson.JSON;
 import com.ddx.util.basis.constant.BasisConstant;
-import com.ddx.util.basis.constant.CommonEnumConstant;
-import com.ddx.util.basis.response.BaseResponse;
-import com.ddx.util.basis.response.ResponseData;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.core.io.buffer.DataBuffer;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.server.reactive.ServerHttpResponse;
+import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
-import reactor.core.publisher.Mono;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 /**
@@ -23,6 +15,7 @@ import java.util.Map;
  * @Date: 2022年12月08日 10:54
  * @Version: 1.0
  */
+@Component
 public class GatewayCommon {
 
     /**
@@ -44,42 +37,4 @@ public class GatewayCommon {
         tokenMap.put(BasisConstant.TOKEN_KEY,token[1]);
         return tokenMap;
     }
-
-    /**
-     * 无效的token
-     * @param exchange
-     * @return
-     */
-    public static Mono<Void> invalidTokenMono(ServerWebExchange exchange) {
-        BaseResponse baseResponse = ResponseData.out(CommonEnumConstant.PromptMessage.INVALID_TOKEN);
-        return buildReturnMono(baseResponse,exchange, HttpStatus.OK);
-    }
-
-
-    /**
-     * 频繁发送响应请求
-     * @param exchange
-     * @return
-     */
-    public static Mono<Void> frequentResponseError(ServerWebExchange exchange) {
-        BaseResponse baseResponse = ResponseData.out(CommonEnumConstant.PromptMessage.FREQUENT_RESPONSE_ERROR);
-        return buildReturnMono(baseResponse,exchange, HttpStatus.OK);
-    }
-
-    /**
-     * 返回请求
-     * @param baseResponse
-     * @param exchange
-     * @param httpStatus
-     * @return
-     */
-    public static Mono<Void> buildReturnMono(BaseResponse baseResponse, ServerWebExchange exchange,HttpStatus httpStatus) {
-        ServerHttpResponse response = exchange.getResponse();
-        byte[] bits = JSON.toJSONString(BaseResponse.toMap(baseResponse)).getBytes(StandardCharsets.UTF_8);
-        DataBuffer buffer = response.bufferFactory().wrap(bits);
-        response.setStatusCode(httpStatus);
-        response.getHeaders().add("Content-Type", "application/json;charset:utf-8");
-        return response.writeWith(Mono.just(buffer));
-    }
-
 }

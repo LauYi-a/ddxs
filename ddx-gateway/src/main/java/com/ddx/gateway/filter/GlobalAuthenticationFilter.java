@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.ddx.gateway.common.GatewayCommon;
 import com.ddx.util.basis.constant.BasisConstant;
 import com.ddx.util.basis.constant.CommonEnumConstant;
+import com.ddx.util.basis.exception.BusinessException;
 import com.ddx.util.basis.exception.ExceptionUtils;
 import com.ddx.util.basis.model.vo.SysParamConfigVo;
 import com.ddx.util.basis.utils.ConversionUtils;
@@ -19,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
@@ -50,8 +50,6 @@ public class GlobalAuthenticationFilter implements GlobalFilter, Ordered {
     @Autowired
     private TokenStore tokenStore;
     @Autowired
-    private StringRedisTemplate stringRedisTemplate;
-    @Autowired
     private RedisTemplateUtil redisTemplateUtils;
 
     @Override
@@ -59,7 +57,8 @@ public class GlobalAuthenticationFilter implements GlobalFilter, Ordered {
         String serialNumber = SerialNumber.newInstance(BasisConstant.SERIAL_LOG, BasisConstant.DATE_FORMAT_12).toString();
         MDC.put(BasisConstant.REQUEST_SERIAL_NUMBER,serialNumber);
         String requestUrl = exchange.getRequest().getPath().value();
-        Mono<Void> mono = validatedRequest(exchange,chain,serialNumber,requestUrl);
+        SysParamConfigVo sysParamConfigVo = (SysParamConfigVo) redisTemplateUtils.get(RedisConstant.SYS_PARAM_CONFIG);
+        Mono<Void> mono = validatedRequest(exchange,chain,serialNumber,requestUrl,sysParamConfigVo);
         if (!mono.equals(Mono.empty())){
             return mono;
         }
@@ -68,22 +67,17 @@ public class GlobalAuthenticationFilter implements GlobalFilter, Ordered {
             Map<String,String> tokenMap = GatewayCommon.getToken(exchange);
             JSONObject jsonObject = analysisRequestToken(tokenMap);
             if (Objects.isNull(jsonObject)){
-                return GatewayCommon.invalidTokenMono(exchange);
+                return Mono.error(new BusinessException(CommonEnumConstant.PromptMessage.INVALID_TOKEN));
             }
             //查看黑名单中是否存在这个jti，如果存在则这个令牌不能用
-            if (stringRedisTemplate.hasKey(RedisConstant.JTI_KEY_PREFIX + jsonObject.get(BasisConstant.JTI))) {
-                return GatewayCommon.invalidTokenMono(exchange);
+            if (redisTemplateUtils.hasKey(RedisConstant.JTI_KEY_PREFIX + jsonObject.get(BasisConstant.JTI))) {
+                return Mono.error(new BusinessException(CommonEnumConstant.PromptMessage.INVALID_TOKEN));
             }
             //将解析后的token加密放入请求头中，方便下游微服务解析获取用户信息
-            ServerHttpRequest tokenRequest = exchange.getRequest().mutate()
-                    .header(BasisConstant.TOKEN_NAME, SM4Utils.encryptBase64(jsonObject.toJSONString()))
-                    .header(BasisConstant.GATEWAY_REQUEST, SM4Utils.encryptBase64(String.valueOf(false)))
-                    .header(BasisConstant.REQUEST_SERIAL_NUMBER, serialNumber).build();
-            ServerWebExchange build = exchange.mutate().request(tokenRequest).build();
-            return chain.filter(build);
+            return chain.filter(settingRequestHeader(exchange,jsonObject,serialNumber,sysParamConfigVo,false));
         } catch (InvalidTokenException e) {
             //解析token异常，直接返回token无效
-            return GatewayCommon.invalidTokenMono(exchange);
+            return Mono.error(new BusinessException(CommonEnumConstant.PromptMessage.INVALID_TOKEN));
         }
     }
 
@@ -99,33 +93,24 @@ public class GlobalAuthenticationFilter implements GlobalFilter, Ordered {
      * @param serialNumber
      * @return
      */
-    private Mono<Void> validatedRequest(ServerWebExchange exchange,GatewayFilterChain chain,String serialNumber,String requestUrl){
+    private Mono<Void> validatedRequest(ServerWebExchange exchange,GatewayFilterChain chain,String serialNumber,String requestUrl,SysParamConfigVo sysParamConfigVo){
         String ip = exchange.getRequest().getRemoteAddress().getAddress().toString();
         //判断请求是否频繁发起
         if (redisTemplateUtils.isLock(RedisConstant.SYSTEM_REQUEST+ip+requestUrl)){
-            return GatewayCommon.frequentResponseError(exchange);
+            return Mono.error(new BusinessException(CommonEnumConstant.PromptMessage.FREQUENT_RESPONSE_ERROR));
         }
         //不可频繁发起请求的路由进行上锁并设置锁过期时间
         List<String> requestTimeWhitelist =  ConversionUtils.castList(JSONObject.parseArray(redisTemplateUtils.get(RedisConstant.REQUEST_TIME_WHITELIST).toString()),String.class);
         ExceptionUtils.businessException(requestTimeWhitelist.size() == 0, CommonEnumConstant.PromptMessage.INIT_WHITELIST_ERROR);
         if (!StringUtil.checkUrls(requestTimeWhitelist, requestUrl)) {
-            SysParamConfigVo sysParamConfigVo = (SysParamConfigVo) redisTemplateUtils.get(RedisConstant.SYS_PARAM_CONFIG);
             redisTemplateUtils.lock(RedisConstant.SYSTEM_REQUEST + ip + requestUrl, sysParamConfigVo.getSysRequestTime());
         }
         //白名单放行 如请求携带token则解析信息放入请求
         List<String> whitelistUrls = ConversionUtils.castList(JSONObject.parseArray(redisTemplateUtils.get(RedisConstant.WHITELIST_REQUEST).toString()),String.class);
         whitelistUrls.addAll(ConversionUtils.castList(JSONObject.parseArray(redisTemplateUtils.get(RedisConstant.WHITELIST_RESOURCES).toString()),String.class));
         if (StringUtil.checkUrls(whitelistUrls, requestUrl)) {
-            Map<String,String> tokenMap = GatewayCommon.getToken(exchange);
-            JSONObject jsonObject = analysisRequestToken(tokenMap);
-            ServerHttpRequest httpRequest = exchange.getRequest().mutate()
-                    .header(BasisConstant.TOKEN_NAME, Objects.isNull(jsonObject)?"":SM4Utils.encryptBase64(jsonObject.toJSONString()))
-                    .header(BasisConstant.GATEWAY_REQUEST, SM4Utils.encryptBase64(String.valueOf(true)))
-                    .header(BasisConstant.REQUEST_SERIAL_NUMBER, serialNumber).build();
-            ServerWebExchange build = exchange.mutate().request(httpRequest).build();
-            return chain.filter(build);
+            return chain.filter(settingRequestHeader(exchange,analysisRequestToken(GatewayCommon.getToken(exchange)),serialNumber,sysParamConfigVo,true));
         }
-
         return Mono.empty();
     }
 
@@ -137,9 +122,6 @@ public class GlobalAuthenticationFilter implements GlobalFilter, Ordered {
      */
     private JSONObject analysisRequestToken(Map<String,String> tokenMap){
         try {
-            if (Objects.isNull(tokenMap)) {
-                return null;
-            }
             if (Objects.equals(tokenMap.get(BasisConstant.TOKEN_PREFIX_KEY),BasisConstant.AUTHORIZATION_TYPE_BASIC)){
                 //basic 方式解析
                 String token = String.valueOf(tokenMap.get(BasisConstant.TOKEN_KEY));
@@ -173,5 +155,16 @@ public class GlobalAuthenticationFilter implements GlobalFilter, Ordered {
         }catch (Exception e){
             return null;
         }
+    }
+
+    public ServerWebExchange settingRequestHeader(ServerWebExchange exchange, JSONObject tokenJson, String serialNumber, SysParamConfigVo sysParamConfigVo,Boolean isWhitelist){
+        String gatewayTokenId = StringUtil.getUUID();
+        ServerHttpRequest httpRequest = exchange.getRequest().mutate()
+                .header(BasisConstant.TOKEN_NAME, Objects.isNull(tokenJson)?"": SM4Utils.encryptBase64(tokenJson.toJSONString()))
+                .header(BasisConstant.GATEWAY_REQUEST, gatewayTokenId)
+                .header(BasisConstant.REQUEST_SERIAL_NUMBER, serialNumber).build();
+        ServerWebExchange build = exchange.mutate().request(httpRequest).build();
+        redisTemplateUtils.set(RedisConstant.SYSTEM_REQUEST_TOKEN+gatewayTokenId,SM4Utils.encryptBase64(String.valueOf(isWhitelist)),sysParamConfigVo.getGatewayTokenExpireTime());
+        return build;
     }
 }

@@ -75,6 +75,7 @@ public class CommonEnumConstant {
         FREQUENT_RESPONSE_ERROR(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"请求繁忙"),
         INVALID_TOKEN(BasisConstant.MSG_RESPONSE_CODE_INVALID_TOKEN, BasisConstant.MSG_TYPE_ERROR,"TOKEN无效"),
         EXCEED_TOKEN(BasisConstant.MSG_RESPONSE_CODE_INVALID_TOKEN, BasisConstant.MSG_TYPE_ERROR,"TOKEN过期"),
+        GATEWAY_REQUEST_EXCEED_TOKEN(BasisConstant.MSG_RESPONSE_CODE_INVALID_TOKEN, BasisConstant.MSG_TYPE_ERROR,"网关令牌过期"),
         ADD_ROLE_PERMISSION_ERROR(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"绑定角色权限失败"),
         DELETE_ROLE_PERMISSION_ERROR(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"删除角色权限失败"),
         ADD_USER_ROLE_ERROR(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"绑定用户角色失败"),
