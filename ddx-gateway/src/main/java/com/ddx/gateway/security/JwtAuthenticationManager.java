@@ -25,6 +25,9 @@ import reactor.core.publisher.Mono;
  * 请求携带了token 对携带过来的token进行校验
  * 一旦token校验通过，则交给鉴权管理器进行鉴权
  * 如未携带token 直接进入鉴权管理
+ * 按携带的token区分验证方式
+ * BearerTokenAuthenticationToken平台管理端验证
+ * BasicAuthenticationToken 客户端验证
  * @Author: YI.LAU
  * @Date: 2022年03月28日
  * @Version: 1.0
@@ -43,6 +46,7 @@ public class JwtAuthenticationManager implements ReactiveAuthenticationManager {
     @Override
     public Mono<Authentication> authenticate(Authentication authentication) {
         if (authentication instanceof BearerTokenAuthenticationToken){
+            //平台管理端验证
             return Mono.justOrEmpty(authentication)
                     .filter(a -> a instanceof BearerTokenAuthenticationToken)
                     .cast(BearerTokenAuthenticationToken.class)
@@ -63,6 +67,7 @@ public class JwtAuthenticationManager implements ReactiveAuthenticationManager {
                         }
                     })).cast(Authentication.class);
         }else if(authentication instanceof BasicAuthenticationToken){
+            //客户端验证
             return Mono.justOrEmpty(authentication)
                     .filter(a -> a instanceof BasicAuthenticationToken)
                     .cast(BasicAuthenticationToken.class)

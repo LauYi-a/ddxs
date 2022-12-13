@@ -11,6 +11,7 @@ import com.ddx.auth.service.ISysUserService;
 import com.ddx.util.basis.constant.BasisConstant;
 import com.ddx.util.basis.constant.CommonEnumConstant;
 import com.ddx.util.basis.exception.ExceptionUtils;
+import com.ddx.util.basis.model.req.BasicAuthorize;
 import com.ddx.util.basis.model.vo.AccessTokenVo;
 import com.ddx.util.redis.constant.RedisConstant;
 import com.ddx.util.redis.template.RedisTemplateUtil;
@@ -48,12 +49,19 @@ public class JwtTokenUserDetailsService implements UserDetailsService {
     @Autowired
     private RedisTemplateUtil redisTemplateUtils;
 
+    /**
+     * oauth 平台管理端 bearer类型 获取token
+     * @param username
+     * @return
+     * @throws UsernameNotFoundException
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         ExceptionUtils.businessException(redisTemplateUtils.hasKey(RedisConstant.ACCOUNT_NON_LOCKED+username), CommonEnumConstant.PromptMessage.USER_DISABLE_TIME_ERROR, redisTemplateUtils.getExpire(RedisConstant.ACCOUNT_NON_LOCKED+username));
-        SysUser user = sysUserService.getOne(new QueryWrapper<SysUser>().lambda().eq(SysUser::getUsername,username).or().eq(SysUser::getMobile,username).last("limit 1"));
+        SysUser user = sysUserService.getOne(new QueryWrapper<SysUser>().lambda().eq(SysUser::getUsername,username).or().eq(SysUser::getMobile,username).or().eq(SysUser::getEmail,username).last("limit 1"));
         ExceptionUtils.businessException(Objects.isNull(user),CommonEnumConstant.PromptMessage.USER_NOT_FOUND_ERROR);
-        ExceptionUtils.businessException(user.getStatus().equals(CommonEnumConstant.Dict.USER_STATUS_0.getDictKey()),CommonEnumConstant.PromptMessage.USER_DISABLE_ERROR);
+        ExceptionUtils.businessException(!Objects.equals(user.getAuthorizationType(),BasisConstant.AUTHORIZATION_TYPE_OAUTH), CommonEnumConstant.PromptMessage.USER_AUTHORIZATION_ERROR);
+        ExceptionUtils.businessException(Objects.equals(user.getStatus(),CommonEnumConstant.Dict.USER_STATUS_0.getDictKey()),CommonEnumConstant.PromptMessage.USER_DISABLE_ERROR);
         if (user.getStatus().equals(CommonEnumConstant.Dict.USER_STATUS_2.getDictKey())) {
             user.setErrorCount(0);
             user.setStatus(CommonEnumConstant.Dict.USER_STATUS_1.getDictKey());
@@ -79,7 +87,12 @@ public class JwtTokenUserDetailsService implements UserDetailsService {
                 .build();
     }
 
-    public AccessTokenVo basicAuthorizeToken(String username){
+    /**
+     * basic 客户端类型 获取token
+     * @param basicAuthorize
+     * @return
+     */
+    public AccessTokenVo basicAuthorizeToken(BasicAuthorize basicAuthorize){
         return  AccessTokenVo.builder()
                 .access_token("")
                 .token_type(BasisConstant.AUTHORIZATION_TYPE_BASIC)

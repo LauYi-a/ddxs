@@ -38,6 +38,12 @@ public class SysRoleResp {
     @ApiModelProperty(value = "角色状态：0-正常；1-停用")
     private String status;
 
+    @ApiModelProperty(value = "角色类型 0-平台端；1-用户端")
+    private String roleType;
+
+    @ApiModelProperty(value = "是否为默认选择角色 0不默认选择 1默认选择")
+    private String defaultSelect;
+
     @ApiModelProperty(value = "角色权限对象集合")
     private List<SysPermission> rolePermission;
 

@@ -36,8 +36,10 @@ public class CommonEnumConstant {
         VALIDATED_FAILED(BasisConstant.MSG_RESPONSE_CODE_WARNING, BasisConstant.MSG_TYPE_WARNING,"未查询到原数据，验证失败"),
         REDIS_NOT_RESOURCES_ERROR(BasisConstant.MSG_RESPONSE_CODE_WARNING, BasisConstant.MSG_TYPE_WARNING,"缓存中未获取到访问资源"),
         USER_NOT_FOUND_ERROR(BasisConstant.MSG_RESPONSE_CODE_WARNING, BasisConstant.MSG_TYPE_WARNING,"用户未注册"),
+        USER_AUTHORIZATION_ERROR(BasisConstant.MSG_RESPONSE_CODE_WARNING, BasisConstant.MSG_TYPE_WARNING,"用户认证失败"),
         USER_USERNAME_EXISTING_ERROR(BasisConstant.MSG_RESPONSE_CODE_WARNING, BasisConstant.MSG_TYPE_WARNING,"账号已注册"),
         USER_MOBILE_EXISTING_ERROR(BasisConstant.MSG_RESPONSE_CODE_WARNING, BasisConstant.MSG_TYPE_WARNING,"手机号码已使用"),
+        USER_EMAIL_EXISTING_ERROR(BasisConstant.MSG_RESPONSE_CODE_WARNING, BasisConstant.MSG_TYPE_WARNING,"邮箱已使用"),
         QUOTA_USER_NOT_ERROR(BasisConstant.MSG_RESPONSE_CODE_WARNING, BasisConstant.MSG_TYPE_WARNING,"未找到用户"),
         USER_DISABLE_ERROR(BasisConstant.MSG_RESPONSE_CODE_WARNING, BasisConstant.MSG_TYPE_WARNING,"用户已禁用"),
         USER_LOCK_ERROR(BasisConstant.MSG_RESPONSE_CODE_WARNING, BasisConstant.MSG_TYPE_WARNING,"账户已锁定"),
@@ -46,6 +48,7 @@ public class CommonEnumConstant {
         USER_OLD_PASSWORD_ERROR(BasisConstant.MSG_RESPONSE_CODE_WARNING, BasisConstant.MSG_TYPE_WARNING,"用户旧密码错误"),
         USER_NEW_PASSWORD_ERROR(BasisConstant.MSG_RESPONSE_CODE_WARNING, BasisConstant.MSG_TYPE_WARNING,"新密码不一致"),
         USER_MENU_ISNULL_ERROR(BasisConstant.MSG_RESPONSE_CODE_WARNING, BasisConstant.MSG_TYPE_WARNING,"用户未分配可用菜单"),
+        BOUND_USER_ROLE_ERROR(BasisConstant.MSG_RESPONSE_CODE_WARNING, BasisConstant.MSG_TYPE_WARNING,"角色已绑定用户不允许删除，若需要删除请将相关用户角色解绑【%s】"),
         NO_TOKEN(BasisConstant.MSG_RESPONSE_CODE_WARNING, BasisConstant.MSG_TYPE_WARNING,"无TOKEN信息"),
         ROLE_CODE_ERROR(BasisConstant.MSG_RESPONSE_CODE_WARNING, BasisConstant.MSG_TYPE_WARNING,"角色编号已存在"),
         WHITELIST_ERROR(BasisConstant.MSG_RESPONSE_CODE_WARNING, BasisConstant.MSG_TYPE_WARNING,"白名单已存在"),
@@ -115,6 +118,8 @@ public class CommonEnumConstant {
         USER_STATUS_0("0","禁用", BasisConstant.USER_STATUS,0,"sys","用户禁止使用"),
         USER_STATUS_1("1","正常", BasisConstant.USER_STATUS,1,"sys","用户可正常使用"),
         USER_STATUS_2("2","已锁", BasisConstant.USER_STATUS,2,"sys","用户已被锁定"),
+        AUTHORIZATION_TYPE_BASIC("basic","客户端", BasisConstant.AUTHORIZATION_TYPE,0,"sys","客户端用户"),
+        AUTHORIZATION_TYPE_OAUTH("oauth","平台端", BasisConstant.AUTHORIZATION_TYPE,1,"sys","平台端用户"),
         MENU_TYPE_0("0","页签", BasisConstant.MENU_TYPE,0,"sys","页签类型"),
         MENU_TYPE_1("1","菜单", BasisConstant.MENU_TYPE,1,"sys","菜单类型"),
         MENU_TYPE_2("2","元素", BasisConstant.MENU_TYPE,2,"sys","元素类型"),
@@ -131,9 +136,13 @@ public class CommonEnumConstant {
         WHITELIST_TYPE_2("2","接口访问时效白名单", BasisConstant.WHITELIST_TYPE,2,"sys","接口连续访问不受重放时间限制"),
         ROLE_STATUS_0("0","正常", BasisConstant.ROLE_STATUS,0,"sys","可用的角色状态"),
         ROLE_STATUS_1("1","停用", BasisConstant.ROLE_STATUS,1,"sys","不可用的角色状态"),
+        ROLE_TYPE_0("0","平台端角色", BasisConstant.ROLE_TYPE,0,"sys","平台管理端角色，平台账号使用"),
+        ROLE_TYPE_1("1","客户端角色", BasisConstant.ROLE_TYPE,1,"sys","用户客户端角色，客户账号使用"),
+        ROLE_DEFAULT_SELECT_0("0","不默认", BasisConstant.ROLE_DEFAULT_SELECT,0,"sys","注册用户时角色是否被默认选择，不被默认选择"),
+        ROLE_DEFAULT_SELECT_1("1","默认选择", BasisConstant.ROLE_DEFAULT_SELECT,1,"sys","注册用户时角色是否被默认选择，被默认选择"),
         IS_ROLE_PERMISSION_0("0","授予", BasisConstant.IS_ROLE_PERMISSION,0,"sys","授予角色，角色可关联此权限"),
         IS_ROLE_PERMISSION_1("1","不授予", BasisConstant.IS_ROLE_PERMISSION,0,"sys","不授予角色，角色不可关联此权限"),
-        SERVICE_MODULES_NAME_0("sys","系统基础应用", BasisConstant.SERVICE_MODULES_NAME,0,"all","系统服务模块"),
+        SERVICE_MODULES_NAME_0("sys","平台管理端", BasisConstant.SERVICE_MODULES_NAME,0,"all","系统服务模块"),
         SERVICE_MODULES_NAME_1("auth","认证服务", BasisConstant.SERVICE_MODULES_NAME,1,"all","系统认证服务模块"),
         ;
 
@@ -239,49 +248,4 @@ public class CommonEnumConstant {
                     .orElse("");
         }
     }
-
-    /**
-     * 客户端枚举通过系统标识区分客户端
-     * 根据客户端区分网关的验证
-     */
-    public enum ClientDict{
-
-        CLIENT_PC_WEB_SYS("sys","PC_WEB","电脑客户端,系统服务"),
-        CLIENT_PC_WEB_AUTH("auth","PC_WEB","电脑客户端,系统认证服务"),
-        ;
-        private String key;
-        private String code;
-        private String disc;
-
-        ClientDict(String key,String code,String disc){
-            this.key = key;
-            this.code = code;
-            this.disc = disc;
-        }
-
-        public String getKey() {
-            return key;
-        }
-
-        public String getCode() {
-            return code;
-        }
-
-        public String getDisc() {
-            return disc;
-        }
-
-        /**
-         * 通过 key 获取系统模块的客户端标识
-         * @param key
-         * @return
-         */
-        public static String getModuleClientByKey(String key){
-            return Arrays.stream(CommonEnumConstant.ClientDict.values())
-                    .filter(e -> Objects.equals(e.getKey(),key))
-                    .findFirst().map(CommonEnumConstant.ClientDict::getCode)
-                    .orElse(null);
-        }
-    }
-
 }

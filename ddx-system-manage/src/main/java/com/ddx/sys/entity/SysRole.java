@@ -42,6 +42,14 @@ public class SysRole implements Serializable {
     @TableField("status")
     private String status;
 
+    @ApiModelProperty(value = "角色类型 0-平台端；1-用户端")
+    @TableField("role_type")
+    private String roleType;
+
+    @ApiModelProperty(value = "是否为默认选择角色 0不默认选择 1默认选择")
+    @TableField("default_select")
+    private String defaultSelect;
+
     @ApiModelProperty(value = "创建时间")
     @TableField(value = "create_time",fill = FieldFill.INSERT)
     private LocalDateTime createTime;

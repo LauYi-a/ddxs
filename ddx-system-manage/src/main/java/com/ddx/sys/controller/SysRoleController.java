@@ -11,6 +11,7 @@ import com.ddx.sys.model.resp.sysRole.RoleKeyValResp;
 import com.ddx.sys.service.ISysPermissionService;
 import com.ddx.sys.service.ISysRolePermissionService;
 import com.ddx.sys.service.ISysRoleService;
+import com.ddx.sys.service.ISysUserRoleService;
 import com.ddx.util.basis.constant.BasisConstant;
 import com.ddx.util.basis.constant.CommonEnumConstant;
 import com.ddx.util.basis.exception.ExceptionUtils;
@@ -23,6 +24,7 @@ import com.ddx.util.basis.utils.PageUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -55,6 +58,8 @@ public class SysRoleController {
     private ISysPermissionService iSysPermissionService;
     @Autowired
     private ISysRolePermissionService iSysRolePermissionService;
+    @Autowired
+    private ISysUserRoleService iSysUserRoleService;
 
     @PostMapping("/select-role-key-val-all")
     @ApiOperation(httpMethod = "POST",value = "查询所有角色键值")
@@ -100,6 +105,8 @@ public class SysRoleController {
     @Transactional(rollbackFor = Exception.class)
     public BaseResponse delete(@Validated @RequestBody DeleteKey deleteKey) {
         log.info("delete SysRole start...");
+        String roleName = iSysUserRoleService.checkRoleByUser(Arrays.asList(deleteKey.getKeyWord()));
+        ExceptionUtils.businessException(StringUtils.isNoneBlank(roleName),CommonEnumConstant.PromptMessage.BOUND_USER_ROLE_ERROR,roleName);
         ExceptionUtils.businessException(!iSysRoleService.removeById(Long.valueOf(deleteKey.getKeyWord().toString())),CommonEnumConstant.PromptMessage.FAILED);
         ExceptionUtils.businessException(!iSysRolePermissionService.saveOrDeleteRolePermissionId(Long.valueOf(deleteKey.getKeyWord().toString()),null,true,false), CommonEnumConstant.PromptMessage.DELETE_ROLE_PERMISSION_ERROR);
         ExceptionUtils.businessException(!iSysPermissionService.initRolePermission(),CommonEnumConstant.PromptMessage.INIT_ROLE_PERMISSION_ERROR);
@@ -111,6 +118,8 @@ public class SysRoleController {
     @Transactional(rollbackFor = Exception.class)
     public BaseResponse batchDelete(@Validated @RequestBody BatchDeleteKey batchDeleteKey) {
         log.info("batchDelete SysRole start...");
+        String roleName = iSysUserRoleService.checkRoleByUser(batchDeleteKey.getKeyWords());
+        ExceptionUtils.businessException(StringUtils.isNoneBlank(roleName),CommonEnumConstant.PromptMessage.BOUND_USER_ROLE_ERROR,roleName);
         ExceptionUtils.businessException(!iSysRoleService.removeByIds(batchDeleteKey.getKeyWords()),CommonEnumConstant.PromptMessage.FAILED);
         ExceptionUtils.businessException(!iSysRolePermissionService.batchDeleteByRoleIds(batchDeleteKey.getKeyWords()), CommonEnumConstant.PromptMessage.DELETE_ROLE_PERMISSION_ERROR);
         ExceptionUtils.businessException(!iSysPermissionService.initRolePermission(),CommonEnumConstant.PromptMessage.INIT_ROLE_PERMISSION_ERROR);

@@ -1,13 +1,11 @@
 package com.ddx.auth.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
-
-import java.time.LocalDateTime;
-import java.io.Serializable;
-
 import lombok.*;
-import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * @ClassName: SysUser
@@ -91,6 +89,12 @@ public class SysUser implements Serializable {
      */
     @TableField("error_count")
     private Integer errorCount;
+
+    /**
+     * 用户认证类型 bearer类型平台管理端认证 basic 用户客户端认证
+     */
+    @TableField("authorization_type ")
+    private Integer authorizationType;
 
     /**
      * 创建时间

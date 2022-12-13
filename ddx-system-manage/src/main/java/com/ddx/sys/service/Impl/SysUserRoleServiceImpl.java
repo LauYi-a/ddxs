@@ -2,11 +2,14 @@ package com.ddx.sys.service.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ddx.sys.entity.SysRole;
 import com.ddx.sys.entity.SysUserRole;
 import com.ddx.sys.mapper.SysUserRoleMapper;
+import com.ddx.sys.service.ISysRoleService;
 import com.ddx.sys.service.ISysUserRoleService;
 import com.ddx.util.basis.constant.CommonEnumConstant;
 import com.ddx.util.basis.exception.ExceptionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -22,6 +25,9 @@ import java.util.stream.Collectors;
  */
 @Service
 public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUserRole> implements ISysUserRoleService {
+
+    @Autowired
+    private ISysRoleService iSysRoleService;
 
     @Override
     public Boolean addUserRoleId(List<Long> roles, Long userId) {
@@ -79,5 +85,17 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
             ex.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    public String checkRoleByUser(List<?> roleIds){
+        StringBuffer roleName = new StringBuffer();
+        roleIds.forEach(roleId->{
+            if (baseMapper.selectList(new QueryWrapper<SysUserRole>().lambda().in(SysUserRole::getRoleId,Long.valueOf(roleId.toString()))).size()>0){
+                SysRole sysRole = iSysRoleService.getOne(new QueryWrapper<SysRole>().lambda().eq(SysRole::getId,roleId));
+                roleName.append(sysRole.getName());
+            }
+        });
+        return roleName.toString();
     }
 }

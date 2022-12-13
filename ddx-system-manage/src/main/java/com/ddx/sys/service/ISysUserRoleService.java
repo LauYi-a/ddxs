@@ -38,4 +38,11 @@ public interface ISysUserRoleService extends IService<SysUserRole> {
      * @return
      */
     Boolean batchDeleteByUserIds(List<?> userIds);
+
+    /**
+     * 验证角色是否绑定用户
+     * @param roleIds
+     * @return 返回被绑定的角色名称
+     */
+    String checkRoleByUser(List<?> roleIds);
 }

@@ -38,8 +38,11 @@ public class BasisConstant {
     public static final String MENU_HIDE = "menuHide";
     public static final String WHITELIST_TYPE = "whitelistType";
     public static final String ROLE_STATUS = "roleStatus";
+    public static final String ROLE_TYPE = "roleType";
+    public static final String ROLE_DEFAULT_SELECT = "defaultSelect";
     public static final String IS_ROLE_PERMISSION = "isRolePermission";
     public static final String SERVICE_MODULES_NAME = "serviceModulesName";
+    public static final String AUTHORIZATION_TYPE = "authorizationTpye";
 
 
     /**
@@ -107,9 +110,10 @@ public class BasisConstant {
     public final static String REQUEST_SERIAL_NUMBER="serialNumber";//请求流水号key
     public final static String REQUEST_TYPE_REQ="REQUEST";//请求
     public final static String REQUEST_TYPE_RESP="RESPONSE";//响应
-    public final static String AUTHORIZATION_TYPE_BASIC="basic";//请求认证类型
+    public final static String AUTHORIZATION_TYPE_BASIC="basic";//请求basic认证类型
+    public final static String AUTHORIZATION_TYPE_OAUTH="oauth";//请求oauth认证类型
     public final static String TOKEN_PREFIX_KEY="prefix";//请求中的 token前缀
-    public final static String TOKEN_KEY="token";//请求中的 token前缀
+    public final static String TOKEN_KEY="token";// 请求携带的token
 
 
 

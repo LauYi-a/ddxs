@@ -18,6 +18,7 @@ import com.ddx.sys.model.vo.resource.MenuElVo;
 import com.ddx.sys.model.vo.resource.UserTreeMenuVo;
 import com.ddx.sys.model.vo.user.UserAddVo;
 import com.ddx.sys.service.*;
+import com.ddx.util.basis.constant.BasisConstant;
 import com.ddx.util.basis.constant.CommonEnumConstant;
 import com.ddx.util.basis.exception.ExceptionUtils;
 import com.ddx.util.basis.model.resp.PaginatedResult;
@@ -115,8 +116,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public BaseResponse addUserInfo(SysUserAddReq sysUserAddReq) {
         List<String> services = iSysResourceService.getServiceList(sysUserAddReq.getResourceIds());
         SysUser sysUser = UserAddVo.getSysUser(sysUserAddReq,CollectionUtils.isNotEmpty(services)?services.get(0):null);
-        ExceptionUtils.businessException(SqlHelper.retBool(this.baseMapper.selectCount(new QueryWrapper<SysUser>().lambda().eq(SysUser::getUsername,sysUser.getUsername()))),CommonEnumConstant.PromptMessage.USER_USERNAME_EXISTING_ERROR);
-        ExceptionUtils.businessException(SqlHelper.retBool(this.baseMapper.selectCount(new QueryWrapper<SysUser>().lambda().eq(SysUser::getMobile,sysUser.getMobile()))),CommonEnumConstant.PromptMessage.USER_MOBILE_EXISTING_ERROR);
+        ExceptionUtils.businessException(SqlHelper.retBool(this.baseMapper.selectCount(new QueryWrapper<SysUser>().lambda().eq(SysUser::getUsername,sysUser.getUsername()).eq(SysUser::getAuthorizationType, BasisConstant.AUTHORIZATION_TYPE_OAUTH))),CommonEnumConstant.PromptMessage.USER_USERNAME_EXISTING_ERROR);
+        ExceptionUtils.businessException(SqlHelper.retBool(this.baseMapper.selectCount(new QueryWrapper<SysUser>().lambda().eq(SysUser::getMobile,sysUser.getMobile()).eq(SysUser::getAuthorizationType, BasisConstant.AUTHORIZATION_TYPE_OAUTH))),CommonEnumConstant.PromptMessage.USER_MOBILE_EXISTING_ERROR);
+        ExceptionUtils.businessException(SqlHelper.retBool(this.baseMapper.selectCount(new QueryWrapper<SysUser>().lambda().eq(SysUser::getMobile,sysUser.getEmail()).eq(SysUser::getAuthorizationType, BasisConstant.AUTHORIZATION_TYPE_OAUTH))),CommonEnumConstant.PromptMessage.USER_EMAIL_EXISTING_ERROR);
         ExceptionUtils.businessException(!SqlHelper.retBool(this.baseMapper.insert(sysUser)),CommonEnumConstant.PromptMessage.FAILED);
         ExceptionUtils.businessException(!iSysUserRoleService.addUserRoleId(sysUserAddReq.getRoleIds(),sysUser.getId()),CommonEnumConstant.PromptMessage.ADD_USER_ROLE_ERROR);
         ExceptionUtils.businessException(!iSysUserResourceService.addUserResourceId(sysUserAddReq.getResourceIds(),sysUser.getId()),CommonEnumConstant.PromptMessage.ADD_ROLE_PERMISSION_ERROR);

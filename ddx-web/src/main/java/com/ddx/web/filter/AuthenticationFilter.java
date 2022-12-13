@@ -25,7 +25,8 @@ import java.util.Objects;
 
 /**
  * @ClassName: AuthenticationFilter
- * @Description: 微服务过滤器，解密网关传递的用户信息，将其放入request中，便于后期业务方法直接获取用户信息
+ * @Description: 微服务过滤器，解密网关传递的用户信息
+ * 将其放入request中，便于后期业务方法直接获取用户信息
  * @Author: YI.LAU
  * @Date: 2022年03月24日
  * @Version: 1.0
@@ -60,7 +61,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
                 String json =  SM4Utils.decryptBase64(token);
                 jsonObject = JSON.parseObject(json);
             }
-            request.setAttribute(BasisConstant.LOGIN_VAL_ATTRIBUTE,setTokenInfo(jsonObject));
+            request.setAttribute(BasisConstant.LOGIN_VAL_ATTRIBUTE,setTokenInfo(jsonObject,requestToken));
             doFilter(request,response,filterChain);
         }else{
             //获取请求头中的加密的用户信息，只接受网关过来带了token的请求
@@ -70,7 +71,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
                     String json =  SM4Utils.decryptBase64(token);
                     JSONObject jsonObject = JSON.parseObject(json);
                     //放入request的attribute中
-                    request.setAttribute(BasisConstant.LOGIN_VAL_ATTRIBUTE,setTokenInfo(jsonObject));
+                    request.setAttribute(BasisConstant.LOGIN_VAL_ATTRIBUTE,setTokenInfo(jsonObject,requestToken));
                     doFilter(request,response,filterChain);
                 }catch (Exception e){
                     ResponseUtils.resultError(response, ResponseData.out(CommonEnumConstant.PromptMessage.INVALID_TOKEN));
@@ -86,7 +87,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
      * @param jsonObject
      * @return
      */
-    private LoginVal setTokenInfo(JSONObject jsonObject){
+    private LoginVal setTokenInfo(JSONObject jsonObject,String requestToken){
         LoginVal loginVal = new LoginVal();
         if (Objects.nonNull(jsonObject)) {
             JSONArray tempJsonArray = jsonObject.getJSONArray(BasisConstant.AUTHORITIES_NAME);
@@ -96,8 +97,10 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             loginVal.setNickname(jsonObject.getString(BasisConstant.NICKNAME));
             loginVal.setAuthorities(authorities);
             loginVal.setJti(jsonObject.getString(BasisConstant.JTI));
+            loginVal.setRequestToken(requestToken);
             loginVal.setExpireIn(jsonObject.getLong(BasisConstant.EXPR));
         }else{
+            loginVal.setRequestToken(requestToken);
             loginVal.setUserId("ID0000000000");
             loginVal.setUsername("-");
             loginVal.setNickname("-");

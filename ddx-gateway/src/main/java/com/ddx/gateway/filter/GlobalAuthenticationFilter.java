@@ -123,7 +123,7 @@ public class GlobalAuthenticationFilter implements GlobalFilter, Ordered {
     private JSONObject analysisRequestToken(Map<String,String> tokenMap){
         try {
             if (Objects.equals(tokenMap.get(BasisConstant.TOKEN_PREFIX_KEY),BasisConstant.AUTHORIZATION_TYPE_BASIC)){
-                //basic 方式解析
+                //basic token方式解析
                 String token = String.valueOf(tokenMap.get(BasisConstant.TOKEN_KEY));
                 String json =  SM4Utils.decryptBase64(token);
                 JSONObject tokenJson = JSON.parseObject(json);
@@ -138,7 +138,7 @@ public class GlobalAuthenticationFilter implements GlobalFilter, Ordered {
                 jsonObject.put(BasisConstant.NICKNAME, securityUser.get(BasisConstant.NICKNAME));
                 return jsonObject;
             }else {
-                //bearer oAuth方式解析
+                //bearer oAuth token方式解析
                 JSONObject jsonObject=new JSONObject();
                 OAuth2AccessToken oAuth2AccessToken = tokenStore.readAccessToken(tokenMap.get(BasisConstant.TOKEN_KEY));
                 Map<String, Object> additionalInformation = oAuth2AccessToken.getAdditionalInformation();

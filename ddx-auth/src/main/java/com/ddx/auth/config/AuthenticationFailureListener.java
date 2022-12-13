@@ -35,7 +35,7 @@ public class AuthenticationFailureListener implements ApplicationListener<Authen
 	public void onApplicationEvent(AuthenticationFailureBadCredentialsEvent authenticationFailureBadCredentialsEvent) {
 		String username = authenticationFailureBadCredentialsEvent.getAuthentication().getPrincipal().toString();
 		SysParamConfigVo sysParamConfigVo = (SysParamConfigVo) redisTemplateUtils.get(RedisConstant.SYS_PARAM_CONFIG);
-		SysUser user = iSysUserService.getOne(new QueryWrapper<SysUser>().lambda().eq(SysUser::getUsername,username).or().eq(SysUser::getMobile,username).last("limit 1"));
+		SysUser user = iSysUserService.getOne(new QueryWrapper<SysUser>().lambda().eq(SysUser::getUsername,username).or().eq(SysUser::getMobile,username).or().eq(SysUser::getEmail,username).last("limit 1"));
 		if(!Objects.isNull(user)) {
 			if (user.getErrorCount() >= sysParamConfigVo.getLpec()) {
 				user.setStatus(CommonEnumConstant.Dict.USER_STATUS_2.getDictKey());

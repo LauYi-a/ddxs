@@ -32,6 +32,10 @@ public class SysRoleEditReq {
     @NotBlank(message = "角色状态不能为空")
     private String status;
 
+    @ApiModelProperty(value = "是否为默认选择角色")
+    @NotBlank(message = "是否为默认选择角色不能为空")
+    private String defaultSelect;
+
     @ApiModelProperty(value = "角色资源ID")
     @NotEmpty(message = "角色资源ID不能为空")
     private List<Long> rolePermissionId;

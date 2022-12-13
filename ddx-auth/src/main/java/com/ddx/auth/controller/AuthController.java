@@ -2,6 +2,8 @@ package com.ddx.auth.controller;
 
 import com.ddx.auth.service.Impl.JwtTokenUserDetailsService;
 import com.ddx.util.basis.constant.CommonEnumConstant;
+import com.ddx.util.basis.model.req.BasicAuthorize;
+import com.ddx.util.basis.model.vo.AccessTokenVo;
 import com.ddx.util.basis.response.BaseResponse;
 import com.ddx.util.basis.response.ResponseData;
 import com.ddx.util.redis.constant.RedisConstant;
@@ -11,6 +13,7 @@ import com.ddx.web.entity.LoginVal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -41,8 +44,8 @@ public class AuthController {
     }
 
     @PostMapping("/basic/authorize")
-    public BaseResponse basicAuthorize(){
+    public ResponseData<AccessTokenVo> basicAuthorize(@RequestBody BasicAuthorize basicAuthorize){
         log.info("basic user authorize...");
-        return ResponseData.out(CommonEnumConstant.PromptMessage.LOING_SUCCESS,jwtTokenUserDetailsService.basicAuthorizeToken(""));
+        return ResponseData.out(CommonEnumConstant.PromptMessage.LOING_SUCCESS,jwtTokenUserDetailsService.basicAuthorizeToken(basicAuthorize));
     }
 }

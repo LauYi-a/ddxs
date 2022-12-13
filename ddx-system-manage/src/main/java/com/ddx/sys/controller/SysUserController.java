@@ -52,7 +52,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestController
 @RequestMapping("/sys-user")
-@Api(tags = "用户信息控制层")
+@Api(tags = "平台用户信息控制层")
 public class SysUserController {
 
     @Autowired

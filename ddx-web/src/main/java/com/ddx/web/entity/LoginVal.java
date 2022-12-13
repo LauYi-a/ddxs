@@ -24,5 +24,7 @@ public class LoginVal extends JwtInformation{
 
     private String nickname;
 
+    private String requestToken;
+
     private String[] authorities;
 }

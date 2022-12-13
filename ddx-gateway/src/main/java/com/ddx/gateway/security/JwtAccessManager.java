@@ -61,9 +61,10 @@ public class JwtAccessManager implements ReactiveAuthorizationManager<Authorizat
             return Mono.error(new BusinessException(CommonEnumConstant.PromptMessage.NO_TOKEN));
         }
         if (StringUtils.startsWithIgnoreCase(authorization, BasisConstant.AUTHORIZATION_TYPE_BASIC+" ")) {
-            //目前basic不需要额外的鉴权
+            //basic类型token 客户端 目前不需要额外的权限鉴权
             return  Mono.just(new AuthorizationDecision(true));
         }else{
+            //bearer类型token平台管理端权限鉴权
             Map<Object, Object> entries = redisTemplate.hmget(RedisConstant.OAUTH_URLS);  //获取所有的uri->角色对应关系
             ExceptionUtils.businessException(entries.size() == 0, CommonEnumConstant.PromptMessage.REDIS_NOT_RESOURCES_ERROR);
             List<String> authorities = (List<String>) entries.get(restFulPath);

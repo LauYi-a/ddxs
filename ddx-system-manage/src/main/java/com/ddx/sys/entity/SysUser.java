@@ -74,6 +74,10 @@ public class SysUser implements Serializable {
     @TableField("email")
     private String email;
 
+    @ApiModelProperty(value = "用户认证类型 bearer类型平台管理端认证 basic 用户客户端认证")
+    @TableField("authorization_type")
+    private String authorizationType;
+
     @ApiModelProperty(value = "创建时间")
     @TableField(value = "create_time",fill = FieldFill.INSERT)
     private LocalDateTime createTime;

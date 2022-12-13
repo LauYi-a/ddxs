@@ -1,13 +1,11 @@
 package com.ddx.auth.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
-
-import java.time.LocalDateTime;
-import java.io.Serializable;
-
 import lombok.*;
-import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * @ClassName: SysRole
@@ -47,6 +45,18 @@ public class SysRole implements Serializable {
      */
     @TableField("status")
     private String status;
+
+    /**
+     * 角色类型 0-平台端；1-用户端
+     */
+    @TableField("role_type")
+    private String roleType;
+
+    /**
+     * 是否为默认选择角色 0不默认选择 1默认选择
+     */
+    @TableField("default_select")
+    private String defaultSelect;
 
     /**
      * 创建时间

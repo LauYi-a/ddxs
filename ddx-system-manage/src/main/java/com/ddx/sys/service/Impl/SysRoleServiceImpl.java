@@ -77,6 +77,8 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
                     .name(sysRole.getName())
                     .code(sysRole.getCode())
                     .status(sysRole.getStatus())
+                    .roleType(sysRole.getRoleType())
+                    .defaultSelect(sysRole.getDefaultSelect())
                     .rolePermission(CollectionUtils.isNotEmpty(sysPermissions)? sysPermissions:null)
                     .createTime(sysRole.getCreateTime())
                     .updateTime(sysRole.getUpdateTime())
