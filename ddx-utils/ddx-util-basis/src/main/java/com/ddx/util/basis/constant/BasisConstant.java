@@ -42,7 +42,7 @@ public class BasisConstant {
     public static final String ROLE_DEFAULT_SELECT = "defaultSelect";
     public static final String IS_ROLE_PERMISSION = "isRolePermission";
     public static final String SERVICE_MODULES_NAME = "serviceModulesName";
-    public static final String AUTHORIZATION_TYPE = "authorizationTpye";
+    public static final String AUTHORIZATION_TYPE = "authorizationType";
 
 
     /**
@@ -111,7 +111,7 @@ public class BasisConstant {
     public final static String REQUEST_TYPE_REQ="REQUEST";//请求
     public final static String REQUEST_TYPE_RESP="RESPONSE";//响应
     public final static String AUTHORIZATION_TYPE_BASIC="basic";//请求basic认证类型
-    public final static String AUTHORIZATION_TYPE_OAUTH="oauth";//请求oauth认证类型
+    public final static String AUTHORIZATION_TYPE_OAUTH="bearer";//oauth请求bearer认证类型
     public final static String TOKEN_PREFIX_KEY="prefix";//请求中的 token前缀
     public final static String TOKEN_KEY="token";// 请求携带的token
 

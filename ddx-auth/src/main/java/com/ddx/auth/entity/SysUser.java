@@ -94,7 +94,7 @@ public class SysUser implements Serializable {
      * 用户认证类型 bearer类型平台管理端认证 basic 用户客户端认证
      */
     @TableField("authorization_type ")
-    private Integer authorizationType;
+    private String authorizationType;
 
     /**
      * 创建时间

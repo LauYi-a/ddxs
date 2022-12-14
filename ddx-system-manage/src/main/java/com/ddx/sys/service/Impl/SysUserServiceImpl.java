@@ -98,6 +98,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                     .loginService(sysUser.getLoginService())
                     .email(sysUser.getEmail())
                     .errorCount(sysUser.getErrorCount())
+                    .authorizationType(sysUser.getAuthorizationType())
                     .roleList(sysRoleResps)
                     .resource(TreeMenuAndElAuthResp.builder()
                             .treeMenu(treeMenuRespList)
