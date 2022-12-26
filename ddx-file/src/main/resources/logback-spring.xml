@@ -5,7 +5,8 @@
     <springProperty scop="context" name="spring.profiles.active" source="spring.profiles.active" defaultValue=""/>
     <springProperty scop="context" name="spring.application.name" source="spring.application.name" defaultValue=""/>
     <springProperty scope="context" name="serverIp" source="spring.cloud.client.ip-address" defaultValue=""/>
-    <springProperty scope="context" name="isSyncKafka" source="ddxlog.isSyncKafka" defaultValue="false" />
+    <springProperty scope="context" name="servers" source="ddxlog.kafka-servers" defaultValue=""/>
+    <springProperty scope="context" name="isCollector" source="ddxlog.is-collector" defaultValue=""/>
     <!-- 日志依赖的渲染类 -->
     <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
     <conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />
@@ -38,9 +39,10 @@
     <appender name="kafkaLog" class="com.ddx.util.log.collector.appender.KafkaLogAppender">
         <serviceName>${spring.application.name}</serviceName>
         <env>${spring.profiles.active}</env>
-        <servers>127.0.0.1:9092</servers>
+        <servers>${servers}</servers>
+        <isCollector>${isCollector}</isCollector>
         <layout>
-            <pattern>%-5level ${spring.profiles.active} [%date] [%thread] [%serverIp] [%X{serialNumber}] [%logger-%line] : %msg%n</pattern>
+            <pattern>%-5level ${spring.profiles.active} [%date] [%thread] [${serverIp}] [%X{serialNumber}] [%logger-%line] : %msg%n</pattern>
         </layout>
     </appender>
 
@@ -52,10 +54,7 @@
     <!-- Level: FATAL 0  ERROR 3  WARN 4  INFO 6  DEBUG 7 -->
     <root level="INFO">
         <appender-ref ref="console" />
-        <if condition='property("isSyncKafka").contains("true")'>
-            <then>
-                <appender-ref ref="kafkaLog" />
-            </then>
-        </if>
+        <appender-ref ref="kafkaLog" />
+        <appender-ref ref="info" />
     </root>
 </configuration>

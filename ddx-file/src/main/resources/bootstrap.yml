@@ -30,6 +30,9 @@ eureka:
   client:
     service-url:
       defaultZone: http://ddx:ddx@127.0.0.1:8761/eureka/
+#日志配置
 ddxlog:
-  monitor-collector:
-    monitor-file-path: D:\\logs
+  file-path: D:\\logs
+  isFormatterHttp: true
+  kafka-servers: 127.0.0.1:9092
+  is-collector: false

@@ -5,16 +5,20 @@ import ch.qos.logback.core.Layout;
 import ch.qos.logback.core.UnsynchronizedAppenderBase;
 import com.alibaba.fastjson.JSONObject;
 import com.ddx.util.log.collector.common.DateUtil;
-import com.ddx.util.log.collector.common.ThreadPoolUtil;
 import com.ddx.util.log.collector.constant.CollectorConstant;
 import com.ddx.util.log.collector.model.SendLogToKafkaBaseDto;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 
 import java.util.Properties;
 import java.util.UUID;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @ClassName: KafkaLogAppender
@@ -23,7 +27,9 @@ import java.util.UUID;
  * @Date: 2022年11月22日 09:24
  * @Version: 1.0
  */
+
 @Data
+@Slf4j
 public class KafkaLogAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
 
     public String serviceName;
@@ -35,10 +41,14 @@ public class KafkaLogAppender extends UnsynchronizedAppenderBase<ILoggingEvent> 
     protected static final String KAFKA_LOGGER_NAME_PREFIX = "org.apache.kafka.";
     protected String keySerializer;
     protected String valueSerializer;
+    private static ThreadPoolExecutor threadPool= null;
+    private static final int BLOCKING_QUEUE_LENGTH= 10000;// 等待队列长度
+    private static final int KEEP_ALIVE_TIME= 60 * 1000;// 闲置线程存活时间
+
+
     @Override
     public void start() {
         if (!Boolean.valueOf(isCollector)){
-            addInfo("未开启 KafkaLogAppender 日志采集程序 配置文件 isCollector:"+isCollector);
             return;
         }
         if (isStarted()) {
@@ -60,7 +70,7 @@ public class KafkaLogAppender extends UnsynchronizedAppenderBase<ILoggingEvent> 
 
     @Override
     protected void append(ILoggingEvent iLoggingEvent) {
-        ThreadPoolUtil.execute(CollectorConstant.THREAD_POOL_LOG_C_P,()->{
+        getThreadPool(CollectorConstant.THREAD_POOL_LOG_C_P).execute(()->{
             if (iLoggingEvent.getLoggerName().startsWith(KAFKA_LOGGER_NAME_PREFIX)) {
                 addInfo(iLoggingEvent.getMessage());
                 return;
@@ -92,5 +102,28 @@ public class KafkaLogAppender extends UnsynchronizedAppenderBase<ILoggingEvent> 
             addError("Failed to construct kafka producer", e);
             return false;
         }
+    }
+
+    private static synchronized ThreadPoolExecutor getThreadPool(String poolName) {
+        if (threadPool == null) {
+            // 获取处理器数量
+            int cpuNum = Runtime.getRuntime().availableProcessors();
+            // 根据cpu数量,计算出合理的线程并发数
+            int maxPoolSize = cpuNum * 2 + 1;
+            threadPool = new ThreadPoolExecutor(maxPoolSize - 1,//核心线程数
+                    maxPoolSize,//最大线程数
+                    KEEP_ALIVE_TIME,//闲置线程存活时间
+                    TimeUnit.MILLISECONDS,//时间单位
+                    new LinkedBlockingDeque<>(BLOCKING_QUEUE_LENGTH),//线程队列 未设置使用Integer.MAX_VALUE作为最大队列
+                    new ThreadFactoryBuilder().setNameFormat(poolName +"-%d").build(),//线程工厂
+                    new ThreadPoolExecutor.AbortPolicy(){//当前线程数已经超过最大线程数时的异常处理策略
+                        @Override
+                        public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {
+                            //单独起一个线程处理任务
+                            r.run();
+                        }
+                    });
+        }
+        return threadPool;
     }
 }
