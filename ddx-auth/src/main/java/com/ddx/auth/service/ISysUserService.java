@@ -1,9 +1,7 @@
 package com.ddx.auth.service;
 
-import com.ddx.auth.entity.SysUser;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.ddx.auth.entity.SysUser;
 
 /**
  * @ClassName: ISysUserService
@@ -14,4 +12,5 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
  */
 public interface ISysUserService extends IService<SysUser> {
 
+    void updateErrorCount(SysUser user);
 }

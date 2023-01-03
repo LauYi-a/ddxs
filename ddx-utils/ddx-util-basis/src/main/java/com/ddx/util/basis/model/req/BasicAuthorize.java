@@ -4,6 +4,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
+
 /**
  * @ClassName: BasicAuthorize
  * @Description: Basic 方式验证实体
@@ -26,5 +28,6 @@ public class BasicAuthorize {
     @ApiModelProperty("用户密码")
     private String password;
     @ApiModelProperty("登入类型")
+    @NotBlank(message = "登入类型不能为空")
     private String loginType;
 }

@@ -3,11 +3,6 @@ package com.ddx.auth.config;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ddx.auth.entity.SysUser;
 import com.ddx.auth.service.ISysUserService;
-import com.ddx.util.basis.constant.CommonEnumConstant;
-import com.ddx.util.basis.model.vo.SysParamConfigVo;
-import com.ddx.util.basis.response.ResponseData;
-import com.ddx.util.redis.constant.RedisConstant;
-import com.ddx.util.redis.template.RedisTemplateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.event.AuthenticationFailureBadCredentialsEvent;
@@ -28,23 +23,13 @@ public class AuthenticationFailureListener implements ApplicationListener<Authen
 
 	@Autowired
 	private ISysUserService iSysUserService;
-	@Autowired
-	private RedisTemplateUtil redisTemplateUtils;
 
 	@Override
 	public void onApplicationEvent(AuthenticationFailureBadCredentialsEvent authenticationFailureBadCredentialsEvent) {
 		String username = authenticationFailureBadCredentialsEvent.getAuthentication().getPrincipal().toString();
-		SysParamConfigVo sysParamConfigVo = (SysParamConfigVo) redisTemplateUtils.get(RedisConstant.SYS_PARAM_CONFIG);
 		SysUser user = iSysUserService.getOne(new QueryWrapper<SysUser>().lambda().eq(SysUser::getUsername,username).or().eq(SysUser::getMobile,username).or().eq(SysUser::getEmail,username).last("limit 1"));
 		if(!Objects.isNull(user)) {
-			if (user.getErrorCount() >= sysParamConfigVo.getLpec()) {
-				user.setStatus(CommonEnumConstant.Dict.USER_STATUS_2.getDictKey());
-				redisTemplateUtils.set(RedisConstant.ACCOUNT_NON_LOCKED + user.getUsername(),
-						ResponseData.out(CommonEnumConstant.PromptMessage.USER_LOCK_ERROR), sysParamConfigVo.getAccountLockTime());
-			} else {
-				user.setErrorCount(user.getErrorCount() + 1);
-			}
-			iSysUserService.updateById(user);
+			iSysUserService.updateErrorCount(user);
 		}
 	}
 }

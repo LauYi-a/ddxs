@@ -1,9 +1,7 @@
 package com.ddx.util.basis.utils.sm4;
 
 import cn.hutool.core.codec.Base64;
-import com.alibaba.fastjson.JSONObject;
 import com.ddx.util.basis.constant.BasisConstant;
-import com.ddx.util.basis.utils.StringUtil;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.pqc.math.linearalgebra.ByteUtils;
 
@@ -11,7 +9,6 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
 import java.security.Security;
-import java.util.Arrays;
 
 /**
  * @ClassName: SM4Utils
@@ -160,43 +157,4 @@ public class SM4Utils {
         cipher.init(mode, sm4Key);
         return cipher;
     }
-
-    public static void main(String[] args) {
-        try {
-            String jwt = StringUtil.getUUID();//令牌
-
-            JSONObject userInfo = new JSONObject();
-            userInfo.put(BasisConstant.PRINCIPAL_NAME, "aaaa123456");
-            userInfo.put(BasisConstant.AUTHORITIES_NAME, Arrays.asList("123456"));
-            userInfo.put(BasisConstant.USER_ID, "ID123456789");
-            userInfo.put(BasisConstant.NICKNAME, "测试用户");
-
-            JSONObject jwtConfig = new JSONObject();
-            jwtConfig.put(BasisConstant.EXPR, 1234556);
-            jwtConfig.put(BasisConstant.JTI, StringUtil.getUUID());
-
-            System.out.println("开始测试SM4加密====================");
-            System.out.println("jwt："+jwt);
-            System.out.println("jwt配置："+jwtConfig);
-            System.out.println("用户数据："+userInfo);
-            String config = encryptBase64(jwtConfig.toJSONString());//sm4加密
-            String user = encryptBase64(userInfo.toJSONString());//sm4加密
-            System.out.println("加密后Toke配置："+config);
-            System.out.println("加密后user信息："+user);
-
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put(BasisConstant.JWT,jwt);
-            jsonObject.put(BasisConstant.JWT_CONFIG,config);
-            String token = encryptBase64(jsonObject.toJSONString());//sm4加密
-            System.out.println("加密后的token："+token);
-            System.out.println("开始测试SM4解密====================");
-            String decrToken = decryptBase64(token);
-            System.out.println("解密后的token："+decrToken);
-            System.out.println("结束===================");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
 }

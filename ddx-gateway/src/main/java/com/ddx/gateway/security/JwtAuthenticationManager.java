@@ -74,11 +74,10 @@ public class JwtAuthenticationManager implements ReactiveAuthenticationManager {
                     .map(BasicAuthenticationToken::getToken)
                     .flatMap((accessToken -> {
                         try {
-                            String token = String.valueOf(accessToken);
-                            String json =  SM4Utils.decryptBase64(token);
+                            String json = SM4Utils.decryptBase64(String.valueOf(accessToken));
                             JSONObject jsonObject = JSON.parseObject(json);
                             if (redisTemplateUtils.hasKey(RedisConstant.BASIC_TOKEN+jsonObject.get(BasisConstant.JWT))){
-                                return Mono.just(new BasicAuthenticationToken(token));
+                                return Mono.just(new BasicAuthenticationToken(String.valueOf(accessToken)));
                             }else{
                                 return Mono.error(new BusinessException(CommonEnumConstant.PromptMessage.EXCEED_TOKEN));
                             }

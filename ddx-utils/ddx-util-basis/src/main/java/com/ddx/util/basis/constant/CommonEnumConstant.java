@@ -49,6 +49,11 @@ public class CommonEnumConstant {
         USER_MENU_ISNULL_ERROR(BasisConstant.MSG_RESPONSE_CODE_WARNING, BasisConstant.MSG_TYPE_WARNING,"用户未分配可用菜单"),
         BOUND_USER_ROLE_ERROR(BasisConstant.MSG_RESPONSE_CODE_WARNING, BasisConstant.MSG_TYPE_WARNING,"角色已绑定用户不允许删除，若需要删除请将相关用户角色解绑【%s】"),
         NO_TOKEN(BasisConstant.MSG_RESPONSE_CODE_WARNING, BasisConstant.MSG_TYPE_WARNING,"无TOKEN信息"),
+        NO_USERNAME(BasisConstant.MSG_RESPONSE_CODE_WARNING, BasisConstant.MSG_TYPE_WARNING,"用户账号不能为空"),
+        NO_PASSWORD(BasisConstant.MSG_RESPONSE_CODE_WARNING, BasisConstant.MSG_TYPE_WARNING,"用密码不能为空"),
+        NO_MOBILE(BasisConstant.MSG_RESPONSE_CODE_WARNING, BasisConstant.MSG_TYPE_WARNING,"手机号不能为空"),
+        NO_EMAIL(BasisConstant.MSG_RESPONSE_CODE_WARNING, BasisConstant.MSG_TYPE_WARNING,"邮箱号不能为空"),
+        NO_VERIFICATION_CODE(BasisConstant.MSG_RESPONSE_CODE_WARNING, BasisConstant.MSG_TYPE_WARNING,"验证码不能为空"),
         ROLE_CODE_ERROR(BasisConstant.MSG_RESPONSE_CODE_WARNING, BasisConstant.MSG_TYPE_WARNING,"角色编号已存在"),
         WHITELIST_ERROR(BasisConstant.MSG_RESPONSE_CODE_WARNING, BasisConstant.MSG_TYPE_WARNING,"白名单已存在"),
         REVOKE_TOKEN_ERROR(BasisConstant.MSG_RESPONSE_CODE_WARNING, BasisConstant.MSG_TYPE_WARNING,"注销失败"),
@@ -68,7 +73,7 @@ public class CommonEnumConstant {
         SYS_ERROR(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"服务异常,错误信息为：%s"),
         SYS_NULL_POINTER_ERROR(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"系统空指针异常"),
         API_READ_TIMED_OUT_ERROR(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"接口超时请稍后再试，超时接口：%s"),
-        BUSINSEE_ERROR(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"业务异常"),
+        BUSINESS_ERROR(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"业务异常"),
         KEY_STRING_INDEX_OUT_OF_BOUNDS_ERROR(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_WARNING,"密钥字节长度越界，默认只支持 %s 位长度密钥"),
         UNSUPPORTED_GRANT_TYPE(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"不支持的认证模式"),
         PARAMETER_ILLEGAL_ERROR(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"非法参数"),
@@ -246,6 +251,62 @@ public class CommonEnumConstant {
                     .filter(e -> Objects.equals(e.getGroupType(),groupType)&&Objects.equals(e.getDictKey(),dictKey))
                     .findFirst().map(CommonEnumConstant.Dict::getDictValue)
                     .orElse("");
+        }
+    }
+
+    /**
+     * 登入类型
+     */
+    public enum LoginType {
+
+        LOGIN_TYPE_MOBILE("MOBILE","basicMobileAuthorize","手机号登入"),
+        LOGIN_TYPE_EMAIL("EMAIL","basicEmailAuthorize","邮箱登入"),
+        LOGIN_TYPE_ACCOUNT("ACCOUNT","basicAccountAuthorize","账号密码登入"),
+        ;
+
+        /**
+         * 类型key
+         */
+        private String typeKey;
+
+        /**
+         * 适配器 方法
+         */
+        private String adapter;
+
+        /**
+         * 描述
+         */
+        private String desc;
+
+        LoginType(String typeKey,String adapter,String desc){
+            this.typeKey = typeKey;
+            this.adapter= adapter;
+            this.desc = desc;
+        }
+
+        public String getTypeKey() {
+            return typeKey;
+        }
+
+        public String getDesc() {
+            return desc;
+        }
+
+        public String getAdapter() {
+            return adapter;
+        }
+
+        /**
+         * 根据类型key获取适配器
+         * @param typeKey
+         * @return
+         */
+        public static String getAdapterByTypeKey(String typeKey){
+            return Arrays.stream(CommonEnumConstant.LoginType.values())
+                    .filter(e -> Objects.equals(e.getTypeKey(),typeKey))
+                    .findFirst().map(CommonEnumConstant.LoginType::getAdapter)
+                    .orElse(null);
         }
     }
 }
