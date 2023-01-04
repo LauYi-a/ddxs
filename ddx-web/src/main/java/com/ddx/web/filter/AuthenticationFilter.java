@@ -101,7 +101,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             loginVal.setExpireIn(jsonObject.getLong(BasisConstant.EXPR));
         }else{
             loginVal.setRequestToken(requestToken);
-            loginVal.setUserId(Long.valueOf(010101010101));
+            loginVal.setUserId(Long.valueOf(0));
             loginVal.setUsername("-");
             loginVal.setNickname("-");
         }
