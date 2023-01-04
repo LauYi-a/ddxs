@@ -27,7 +27,7 @@ public class CommonEnumConstant {
          * 成功类信息提示
          */
         SUCCESS(BasisConstant.MSG_RESPONSE_CODE_INFO, BasisConstant.MSG_TYPE_SUCCESS,"操作成功"),
-        LOING_SUCCESS(BasisConstant.MSG_RESPONSE_CODE_INFO, BasisConstant.MSG_TYPE_SUCCESS,"登入成功"),
+        LOGIN_SUCCESS(BasisConstant.MSG_RESPONSE_CODE_INFO, BasisConstant.MSG_TYPE_SUCCESS,"登入成功"),
         REVOKE_TOKEN_YES(BasisConstant.MSG_RESPONSE_CODE_INFO, BasisConstant.MSG_TYPE_SUCCESS,"注销成功"),
 
         /**
@@ -54,6 +54,7 @@ public class CommonEnumConstant {
         NO_MOBILE(BasisConstant.MSG_RESPONSE_CODE_WARNING, BasisConstant.MSG_TYPE_WARNING,"手机号不能为空"),
         NO_EMAIL(BasisConstant.MSG_RESPONSE_CODE_WARNING, BasisConstant.MSG_TYPE_WARNING,"邮箱号不能为空"),
         NO_VERIFICATION_CODE(BasisConstant.MSG_RESPONSE_CODE_WARNING, BasisConstant.MSG_TYPE_WARNING,"验证码不能为空"),
+        LOGIN_PASSWORD_ERROR(BasisConstant.MSG_RESPONSE_CODE_WARNING, BasisConstant.MSG_TYPE_WARNING,"登入密码错误"),
         ROLE_CODE_ERROR(BasisConstant.MSG_RESPONSE_CODE_WARNING, BasisConstant.MSG_TYPE_WARNING,"角色编号已存在"),
         WHITELIST_ERROR(BasisConstant.MSG_RESPONSE_CODE_WARNING, BasisConstant.MSG_TYPE_WARNING,"白名单已存在"),
         REVOKE_TOKEN_ERROR(BasisConstant.MSG_RESPONSE_CODE_WARNING, BasisConstant.MSG_TYPE_WARNING,"注销失败"),
@@ -259,9 +260,9 @@ public class CommonEnumConstant {
      */
     public enum LoginType {
 
-        LOGIN_TYPE_MOBILE("MOBILE","basicMobileAuthorize","手机号登入"),
-        LOGIN_TYPE_EMAIL("EMAIL","basicEmailAuthorize","邮箱登入"),
-        LOGIN_TYPE_ACCOUNT("ACCOUNT","basicAccountAuthorize","账号密码登入"),
+        LOGIN_TYPE_MOBILE("MOBILE","basicMobileAuthentication","手机号登入"),
+        LOGIN_TYPE_EMAIL("EMAIL","basicEmailAuthentication","邮箱登入"),
+        LOGIN_TYPE_ACCOUNT("ACCOUNT","basicAccountAuthentication","账号密码登入"),
         ;
 
         /**

@@ -67,6 +67,7 @@ public class BasisConstant {
      * 符号
      */
     public static final String COLON = ":";
+    public static final String COLON_NULL_STR = " ";
 
     /**
      * JWT的秘钥

@@ -14,8 +14,8 @@ import javax.validation.constraints.NotBlank;
  * @Version: 1.0
  */
 @Data
-@ApiModel(value = "BasicAuthorize" ,description = "Basic 方式验证实体")
-public class BasicAuthorize {
+@ApiModel(value = "BasicAuthentication" ,description = "Basic 方式验证实体")
+public class BasicAuthentication {
 
     @ApiModelProperty("手机号")
     private String mobile;

@@ -20,10 +20,10 @@ public class ServerBasicAuthenticationConverter implements ServerAuthenticationC
     public Mono<Authentication> convert(ServerWebExchange exchange){
         ServerHttpRequest request = exchange.getRequest();
         String authorization = request.getHeaders().getFirst(BasisConstant.AUTHORIZATION);
-        if (!StringUtils.startsWithIgnoreCase(authorization, BasisConstant.AUTHORIZATION_TYPE_BASIC+" ")) {
+        if (!StringUtils.startsWithIgnoreCase(authorization, BasisConstant.AUTHORIZATION_TYPE_BASIC+BasisConstant.COLON_NULL_STR)) {
             return Mono.empty();
         } else {
-           String[] tokens = authorization.split(" ");
+           String[] tokens = authorization.split(BasisConstant.COLON_NULL_STR);
            if (tokens.length != 2){
                return Mono.empty();
            }

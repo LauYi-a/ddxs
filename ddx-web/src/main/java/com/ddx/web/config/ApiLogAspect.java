@@ -92,7 +92,7 @@ public class ApiLogAspect {
                         .url(request.getRequestURL().toString())
                         .type(type)
                         .nickname(UserOauthInfo.getCurrentUser().getNickname())
-                        .userId(UserOauthInfo.getCurrentUser().getUserId())
+                        .userId(String.valueOf(UserOauthInfo.getCurrentUser().getUserId()))
                         .ip(IPUtils.getIpAddr(request))
                         .contentType(request.getContentType())
                         .dateTime(DateUtil.date2Str(new Date(), BasisConstant.DATE_FORMAT_13))

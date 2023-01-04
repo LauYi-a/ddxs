@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LoginVal extends JwtInformation{
 
-    private String userId;
+    private Long userId;
 
     private String username;
 

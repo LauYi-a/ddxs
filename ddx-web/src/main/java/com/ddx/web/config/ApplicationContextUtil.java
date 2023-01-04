@@ -16,20 +16,36 @@ public class ApplicationContextUtil implements ApplicationContextAware {
 
   protected static ApplicationContext applicationContext = null;
 
-  public static <T> T getBean(String beanName) {
-    return (T) applicationContext.getBean(beanName);
-  }
-
-  public static <T> T getBean(Class<T> name) {
-    return  applicationContext.getBean(name);
-  }
-
   /**
    * @param applicationContext
-   *            the applicationContext to set
+   * the applicationContext to set
    */
   public void setApplicationContext(ApplicationContext applicationContext) {
     ApplicationContextUtil.applicationContext = applicationContext;
+  }
+
+  public static <T> T getBean(Class<T> clazz) {
+    if (applicationContext == null){
+      return null;
+    }
+    return  applicationContext.getBean(clazz);
+  }
+
+  public static <T> T getBean(String beanName) {
+    if (applicationContext == null){
+      return null;
+    }
+    return (T) applicationContext.getBean(beanName);
+  }
+
+  /**
+   * 通过name,以及Clazz返回指定的Bean
+   */
+  public static <T> T getBean(String name, Class<T> clazz) {
+    if (applicationContext == null){
+      return null;
+    }
+    return getApplicationContext().getBean(name, clazz);
   }
 
   /**
@@ -39,10 +55,4 @@ public class ApplicationContextUtil implements ApplicationContextAware {
     return applicationContext;
   }
 
-  /**
-   * 通过name,以及Clazz返回指定的Bean
-   */
-  public static <T> T getBean(String name, Class<T> clazz) {
-    return getApplicationContext().getBean(name, clazz);
-  }
 }

@@ -1,8 +1,8 @@
 package com.ddx.auth.controller;
 
-import com.ddx.auth.service.BasicAuthorizeService;
+import com.ddx.auth.service.BasicAuthenticationService;
 import com.ddx.util.basis.constant.CommonEnumConstant;
-import com.ddx.util.basis.model.req.BasicAuthorize;
+import com.ddx.util.basis.model.req.BasicAuthentication;
 import com.ddx.util.basis.model.vo.AccessTokenVo;
 import com.ddx.util.basis.response.BaseResponse;
 import com.ddx.util.basis.response.ResponseData;
@@ -34,7 +34,7 @@ public class AuthController {
     @Autowired
     private RedisTemplateUtil redisTemplateUtils;
     @Autowired
-    private BasicAuthorizeService basicAuthorizeService;
+    private BasicAuthenticationService basicAuthenticationService;
 
     @PostMapping("/logout")
     public BaseResponse logout(){
@@ -44,9 +44,9 @@ public class AuthController {
         return ResponseData.out(CommonEnumConstant.PromptMessage.REVOKE_TOKEN_YES);
     }
 
-    @PostMapping("/basic/authorize")
-    public ResponseData<AccessTokenVo> basicAuthorize(@RequestBody @Validated BasicAuthorize basicAuthorize) throws Exception {
-        log.info("basic user authorize...");
-        return ResponseData.out(CommonEnumConstant.PromptMessage.LOING_SUCCESS,basicAuthorizeService.basicAuthorizeToken(basicAuthorize));
+    @PostMapping("/basic/authentication")
+    public <T> ResponseData<T> basicAuthentication(@RequestBody @Validated BasicAuthentication basicAuthorize) {
+        log.info("basic authentication ...");
+        return basicAuthenticationService.basicAuthenticationGetToken(basicAuthorize);
     }
 }

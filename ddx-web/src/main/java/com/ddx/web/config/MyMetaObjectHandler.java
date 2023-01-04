@@ -23,8 +23,8 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
 	public void insertFill(MetaObject metaObject) {
 		this.setFieldValByName("createTime", LocalDateTime.now(), metaObject);
 		this.setFieldValByName("updateTime", LocalDateTime.now(), metaObject);
-		this.setFieldValByName("createId", Long.valueOf(UserOauthInfo.getCurrentUser().getUserId()), metaObject);
-		this.setFieldValByName("updateId", Long.valueOf(UserOauthInfo.getCurrentUser().getUserId()), metaObject);
+		this.setFieldValByName("createId", UserOauthInfo.getCurrentUser().getUserId(), metaObject);
+		this.setFieldValByName("updateId", UserOauthInfo.getCurrentUser().getUserId(), metaObject);
 		this.setFieldValByName("createName", UserOauthInfo.getCurrentUser().getNickname(), metaObject);
 		this.setFieldValByName("updateName", UserOauthInfo.getCurrentUser().getNickname(), metaObject);
 	}
@@ -32,7 +32,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
 	@Override
 	public void updateFill(MetaObject metaObject) {
 		this.setFieldValByName("updateTime", LocalDateTime.now(), metaObject);
-		this.setFieldValByName("updateId",Long.valueOf(UserOauthInfo.getCurrentUser().getUserId()), metaObject);
+		this.setFieldValByName("updateId",UserOauthInfo.getCurrentUser().getUserId(), metaObject);
 		this.setFieldValByName("updateName", UserOauthInfo.getCurrentUser().getNickname(), metaObject);
 
 	}

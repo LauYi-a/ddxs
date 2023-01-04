@@ -39,7 +39,7 @@ public class AuthTokenAspect {
             ResponseEntity<OAuth2AccessToken> responseEntity = (ResponseEntity<OAuth2AccessToken>) proceed;
             OAuth2AccessToken body = responseEntity.getBody();
             asyncInitLoginErrorCount(body);
-            return ResponseEntity.ok(ResponseData.out(CommonEnumConstant.PromptMessage.LOING_SUCCESS,
+            return ResponseEntity.ok(ResponseData.out(CommonEnumConstant.PromptMessage.LOGIN_SUCCESS,
                     AccessTokenVo.builder()
                             .access_token(body.getValue())
                             .token_type(body.getTokenType())
@@ -51,7 +51,7 @@ public class AuthTokenAspect {
                             .jti(body.getAdditionalInformation().get(BasisConstant.JTI).toString())
                     .build()));
         }
-        return ResponseEntity.ok(ResponseData.out(CommonEnumConstant.PromptMessage.LOING_SUCCESS,response));
+        return ResponseEntity.ok(ResponseData.out(CommonEnumConstant.PromptMessage.LOGIN_SUCCESS,response));
     }
 
     /**

@@ -60,7 +60,7 @@ public class JwtAccessManager implements ReactiveAuthorizationManager<Authorizat
         if (StringUtils.isBlank(authorization)){
             return Mono.error(new BusinessException(CommonEnumConstant.PromptMessage.NO_TOKEN));
         }
-        if (StringUtils.startsWithIgnoreCase(authorization, BasisConstant.AUTHORIZATION_TYPE_BASIC+" ")) {
+        if (StringUtils.startsWithIgnoreCase(authorization, BasisConstant.AUTHORIZATION_TYPE_BASIC+BasisConstant.COLON_NULL_STR)) {
             //basic类型token 客户端 目前不需要额外的权限鉴权
             return  Mono.just(new AuthorizationDecision(true));
         }else{

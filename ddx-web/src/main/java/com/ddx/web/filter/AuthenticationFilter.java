@@ -92,7 +92,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
         if (Objects.nonNull(jsonObject)) {
             JSONArray tempJsonArray = jsonObject.getJSONArray(BasisConstant.AUTHORITIES_NAME);
             String[] authorities = tempJsonArray.toArray(new String[0]);
-            loginVal.setUserId(jsonObject.getString(BasisConstant.USER_ID));
+            loginVal.setUserId(Long.valueOf(jsonObject.getString(BasisConstant.USER_ID)));
             loginVal.setUsername(jsonObject.getString(BasisConstant.PRINCIPAL_NAME));
             loginVal.setNickname(jsonObject.getString(BasisConstant.NICKNAME));
             loginVal.setAuthorities(authorities);
@@ -101,7 +101,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             loginVal.setExpireIn(jsonObject.getLong(BasisConstant.EXPR));
         }else{
             loginVal.setRequestToken(requestToken);
-            loginVal.setUserId("ID0000000000");
+            loginVal.setUserId(Long.valueOf(010101010101));
             loginVal.setUsername("-");
             loginVal.setNickname("-");
         }
