@@ -3,7 +3,6 @@ package com.ddx.auth.controller;
 import com.ddx.auth.service.BasicAuthenticationService;
 import com.ddx.util.basis.constant.CommonEnumConstant;
 import com.ddx.util.basis.model.req.BasicAuthentication;
-import com.ddx.util.basis.model.vo.AccessTokenVo;
 import com.ddx.util.basis.response.BaseResponse;
 import com.ddx.util.basis.response.ResponseData;
 import com.ddx.util.redis.constant.RedisConstant;

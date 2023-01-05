@@ -1,30 +1,15 @@
 package com.ddx.auth.service.Impl;
 
-import com.alibaba.fastjson.JSONObject;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ddx.auth.config.BasicAuthenticationAdapter;
-import com.ddx.auth.entity.SysUser;
 import com.ddx.auth.service.BasicAuthenticationService;
-import com.ddx.auth.service.ISysUserService;
-import com.ddx.util.basis.constant.BasisConstant;
 import com.ddx.util.basis.constant.CommonEnumConstant;
-import com.ddx.util.basis.exception.BusinessException;
 import com.ddx.util.basis.exception.ExceptionUtils;
 import com.ddx.util.basis.model.req.BasicAuthentication;
-import com.ddx.util.basis.model.vo.AccessTokenVo;
-import com.ddx.util.basis.model.vo.SysParamConfigVo;
 import com.ddx.util.basis.response.ResponseData;
-import com.ddx.util.basis.utils.StringUtil;
-import com.ddx.util.basis.utils.sm4.SM4Utils;
-import com.ddx.util.redis.constant.RedisConstant;
-import com.ddx.util.redis.template.RedisTemplateUtil;
 import com.ddx.web.config.ApplicationContextUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.Objects;
 
 /**

@@ -1,9 +1,7 @@
 package com.ddx.auth.service;
 
 import com.ddx.util.basis.model.req.BasicAuthentication;
-import com.ddx.util.basis.model.vo.AccessTokenVo;
 import com.ddx.util.basis.response.ResponseData;
-import org.springframework.stereotype.Repository;
 
 /**
  * @ClassName: BasicAuthorizeService

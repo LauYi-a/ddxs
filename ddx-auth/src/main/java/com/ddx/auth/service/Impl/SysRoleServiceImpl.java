@@ -5,8 +5,6 @@ import com.ddx.auth.mapper.SysRoleMapper;
 import com.ddx.auth.service.ISysRoleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 
 /**
  * @ClassName: SysRoleServiceImpl
