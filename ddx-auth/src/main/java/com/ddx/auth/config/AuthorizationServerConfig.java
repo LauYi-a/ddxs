@@ -91,6 +91,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                     .refreshTokenTime(Long.valueOf(60 * 60 * 24 * 1)) //默认1天
                     .sysRequestTime(Long.valueOf(5))//系统请求时间默认5秒
                     .gatewayTokenExpireTime(Long.valueOf(5))//网关令牌过期时间
+                    .verificationCodeExpireTime(Long.valueOf(60))//网关令牌过期时间
                     .build());
         }
         log.info("初始化系统参数配置完成...");

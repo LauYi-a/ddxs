@@ -12,6 +12,8 @@ import com.ddx.util.redis.template.RedisTemplateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 /**
  * @ClassName: SysUserServiceImpl
  * @Description: 用户信息表 服务实现类
@@ -26,11 +28,14 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private RedisTemplateUtil redisTemplateUtils;
 
     @Override
-    public void updateErrorCount(SysUser user){
+    public void updateErrorCount(SysUser user,CommonEnumConstant.LoginType loginType){
         SysParamConfigVo sysParamConfigVo = (SysParamConfigVo) redisTemplateUtils.get(RedisConstant.SYS_PARAM_CONFIG);
         if (user.getErrorCount() >= sysParamConfigVo.getLpec()) {
             user.setStatus(CommonEnumConstant.Dict.USER_STATUS_2.getDictKey());
-            redisTemplateUtils.set(RedisConstant.ACCOUNT_NON_LOCKED + user.getUsername(),
+            String lockedKey = Objects.equals(loginType.getTypeKey(),CommonEnumConstant.LoginType.LOGIN_TYPE_ACCOUNT.getTypeKey())?user.getUsername():
+                            Objects.equals(loginType.getTypeKey(),CommonEnumConstant.LoginType.LOGIN_TYPE_MOBILE.getTypeKey())?user.getMobile():
+                            Objects.equals(loginType.getTypeKey(),CommonEnumConstant.LoginType.LOGIN_TYPE_EMAIL.getTypeKey())?user.getEmail():user.getUsername();
+            redisTemplateUtils.set(RedisConstant.ACCOUNT_NON_LOCKED + lockedKey,
                     ResponseData.out(CommonEnumConstant.PromptMessage.USER_LOCK_ERROR), sysParamConfigVo.getAccountLockTime());
         } else {
             user.setErrorCount(user.getErrorCount() + 1);

@@ -20,6 +20,8 @@ public class RedisConstant {
     public final static String REQUEST_TIME_WHITELIST="system:whitelist:request:time:";//请求时间白名单配置
     public final static String SYSTEM_REQUEST="system:lock:request_url:";//系统请求锁
     public final static String SYSTEM_REQUEST_TOKEN="system:gateway:request_token:";//网关请求令牌
+    public final static String VERIFICATION_CODE_MOBILE="verification:code:mobile:";//手机验证吗
+    public final static String VERIFICATION_CODE_EMAIL="verification:code:email:";//邮件验证吗
 
     /**
      * redis 分布式锁

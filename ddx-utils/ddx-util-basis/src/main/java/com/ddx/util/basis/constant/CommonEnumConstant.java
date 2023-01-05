@@ -54,10 +54,8 @@ public class CommonEnumConstant {
         NO_MOBILE(BasisConstant.MSG_RESPONSE_CODE_WARNING, BasisConstant.MSG_TYPE_WARNING,"手机号不能为空"),
         NO_EMAIL(BasisConstant.MSG_RESPONSE_CODE_WARNING, BasisConstant.MSG_TYPE_WARNING,"邮箱号不能为空"),
         NO_VERIFICATION_CODE(BasisConstant.MSG_RESPONSE_CODE_WARNING, BasisConstant.MSG_TYPE_WARNING,"验证码不能为空"),
-        LOGIN_PASSWORD_ERROR(BasisConstant.MSG_RESPONSE_CODE_WARNING, BasisConstant.MSG_TYPE_WARNING,"登入密码错误"),
         ROLE_CODE_ERROR(BasisConstant.MSG_RESPONSE_CODE_WARNING, BasisConstant.MSG_TYPE_WARNING,"角色编号已存在"),
         WHITELIST_ERROR(BasisConstant.MSG_RESPONSE_CODE_WARNING, BasisConstant.MSG_TYPE_WARNING,"白名单已存在"),
-        REVOKE_TOKEN_ERROR(BasisConstant.MSG_RESPONSE_CODE_WARNING, BasisConstant.MSG_TYPE_WARNING,"注销失败"),
 
         /**
          * 错误类信息提示
@@ -92,7 +90,10 @@ public class CommonEnumConstant {
         ADD_USER_RESOURCE_ERROR(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"绑定用户资源失败"),
         DELETE_USER_RESOURCE_ERROR(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"删除用户资源失败"),
         KAFKA_CONSUMER_ERROR(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"消费消息失败: %s"),
-        LOG_COLLECTOR_ERROR(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"日志采集后处理失败：%s")
+        LOG_COLLECTOR_ERROR(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"日志采集后处理失败：%s"),
+        REVOKE_TOKEN_ERROR(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"注销失败"),
+        LOGIN_PASSWORD_ERROR(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"登入密码错误"),
+        VERIFICATION_CODE_ERROR(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"验证码错误"),
         ;
 
         PromptMessage(Integer code, String type,String msg){
@@ -263,6 +264,7 @@ public class CommonEnumConstant {
         LOGIN_TYPE_MOBILE("MOBILE","basicMobileAuthentication","手机号登入"),
         LOGIN_TYPE_EMAIL("EMAIL","basicEmailAuthentication","邮箱登入"),
         LOGIN_TYPE_ACCOUNT("ACCOUNT","basicAccountAuthentication","账号密码登入"),
+        OAUTH_LOGIN_TYPE("OAUTH",null,"oauth模式bearer类型登入"),
         ;
 
         /**

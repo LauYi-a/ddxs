@@ -26,10 +26,10 @@ public class BasicAuthenticationServiceImpl implements BasicAuthenticationServic
     public <T> ResponseData<T> basicAuthenticationGetToken(BasicAuthentication basicAuthentication) {
         String adapter = CommonEnumConstant.LoginType.getAdapterByTypeKey(basicAuthentication.getLoginType());
         ExceptionUtils.businessException(Objects.isNull(adapter),CommonEnumConstant.PromptMessage.UNSUPPORTED_GRANT_TYPE);
-        Object adapterClass = ApplicationContextUtil.getBean(BasicAuthenticationAdapter.class);
         try {
-            Method method = BasicAuthenticationAdapter.class.getDeclaredMethod(adapter,BasicAuthentication.class);
-            return (ResponseData<T>) method.invoke(adapterClass,basicAuthentication);
+            Object adapterClassBean = ApplicationContextUtil.getBean(BasicAuthenticationAdapter.class);
+            Method adapterMethod = BasicAuthenticationAdapter.class.getDeclaredMethod(adapter,BasicAuthentication.class);
+            return (ResponseData<T>) adapterMethod.invoke(adapterClassBean,basicAuthentication);
         }catch (Exception e){
             e.printStackTrace();
             return ResponseData.out(CommonEnumConstant.PromptMessage.ID_AUTHENTICATION_FAILED);

@@ -54,20 +54,15 @@ public class BasicAuthenticationAdapter {
             ExceptionUtils.businessException(redisTemplateUtil.hasKey(RedisConstant.ACCOUNT_NON_LOCKED+basicAuthentication.getUsername()),
                     CommonEnumConstant.PromptMessage.USER_DISABLE_TIME_ERROR, redisTemplateUtil.getExpire(RedisConstant.ACCOUNT_NON_LOCKED+basicAuthentication.getUsername()));
             SysUser user = sysUserService.getOne(new QueryWrapper<SysUser>().lambda().eq(SysUser::getUsername,basicAuthentication.getUsername()).last("limit 1"));
-            ExceptionUtils.businessException(Objects.isNull(user),CommonEnumConstant.PromptMessage.USER_NOT_FOUND_ERROR);
-            ExceptionUtils.businessException(!Objects.equals(user.getAuthorizationType(), BasisConstant.AUTHORIZATION_TYPE_BASIC), CommonEnumConstant.PromptMessage.USER_AUTHORIZATION_ERROR);
-            ExceptionUtils.businessException(Objects.equals(user.getStatus(),CommonEnumConstant.Dict.USER_STATUS_0.getDictKey()),CommonEnumConstant.PromptMessage.USER_DISABLE_ERROR);
+            basisValidated(user);
             if (!passwordEncoder.matches(basicAuthentication.getPassword(), user.getPassword())){
-                iSysUserService.updateErrorCount(user);
+                iSysUserService.updateErrorCount(user,CommonEnumConstant.LoginType.LOGIN_TYPE_ACCOUNT);
                 return (ResponseData<T>) ResponseData.out(CommonEnumConstant.PromptMessage.LOGIN_PASSWORD_ERROR);
             }
-            if (user.getStatus().equals(CommonEnumConstant.Dict.USER_STATUS_2.getDictKey())) {
-                user.setErrorCount(0);
-                user.setStatus(CommonEnumConstant.Dict.USER_STATUS_1.getDictKey());
-                sysUserService.updateById(user);
-            }
+            lastOperation(user);
             return (ResponseData<T>) ResponseData.out(CommonEnumConstant.PromptMessage.LOGIN_SUCCESS,genToken(user));
         }catch (BusinessException be){
+            be.printStackTrace();
             return  (ResponseData<T>) ResponseData.out(be.getCode(),be.getType(),be.getMsg());
         }
     }
@@ -77,11 +72,25 @@ public class BasicAuthenticationAdapter {
      * @param basicAuthentication
      * @return
      */
-    public AccessTokenVo basicMobileAuthentication(BasicAuthentication basicAuthentication){
-        ExceptionUtils.businessException(Objects.isNull(basicAuthentication.getMobile()),CommonEnumConstant.PromptMessage.NO_MOBILE);
-        ExceptionUtils.businessException(Objects.isNull(basicAuthentication.getVerificationCode()),CommonEnumConstant.PromptMessage.NO_VERIFICATION_CODE);
-        //验证逻辑...
-        return genToken(new SysUser());
+    public <T> ResponseData<T> basicMobileAuthentication(BasicAuthentication basicAuthentication){
+        try {
+            ExceptionUtils.businessException(Objects.isNull(basicAuthentication.getMobile()),CommonEnumConstant.PromptMessage.NO_MOBILE);
+            ExceptionUtils.businessException(Objects.isNull(basicAuthentication.getVerificationCode()),CommonEnumConstant.PromptMessage.NO_VERIFICATION_CODE);
+            ExceptionUtils.businessException(redisTemplateUtil.hasKey(RedisConstant.ACCOUNT_NON_LOCKED+basicAuthentication.getMobile()),
+                    CommonEnumConstant.PromptMessage.USER_DISABLE_TIME_ERROR, redisTemplateUtil.getExpire(RedisConstant.ACCOUNT_NON_LOCKED+basicAuthentication.getMobile()));
+            SysUser user = sysUserService.getOne(new QueryWrapper<SysUser>().lambda().eq(SysUser::getMobile,basicAuthentication.getMobile()).last("limit 1"));
+            basisValidated(user);
+            String mobileCode = redisTemplateUtil.get(RedisConstant.VERIFICATION_CODE_MOBILE+basicAuthentication.getMobile()).toString();
+            if (!Objects.equals(mobileCode,basicAuthentication.getVerificationCode())){
+                iSysUserService.updateErrorCount(user,CommonEnumConstant.LoginType.LOGIN_TYPE_MOBILE);
+                return (ResponseData<T>) ResponseData.out(CommonEnumConstant.PromptMessage.VERIFICATION_CODE_ERROR);
+            }
+            lastOperation(user);
+            return (ResponseData<T>) ResponseData.out(CommonEnumConstant.PromptMessage.LOGIN_SUCCESS,genToken(user));
+        }catch (BusinessException be){
+            be.printStackTrace();
+            return  (ResponseData<T>) ResponseData.out(be.getCode(),be.getType(),be.getMsg());
+        }
     }
 
     /**
@@ -89,18 +98,55 @@ public class BasicAuthenticationAdapter {
      * @param basicAuthentication
      * @return
      */
-    public AccessTokenVo basicEmailAuthentication(BasicAuthentication basicAuthentication){
-        ExceptionUtils.businessException(Objects.isNull(basicAuthentication.getEmail()),CommonEnumConstant.PromptMessage.NO_EMAIL);
-        ExceptionUtils.businessException(Objects.isNull(basicAuthentication.getVerificationCode()),CommonEnumConstant.PromptMessage.NO_VERIFICATION_CODE);
-        //验证逻辑...
-        return genToken(new SysUser());
+    public <T> ResponseData<T> basicEmailAuthentication(BasicAuthentication basicAuthentication){
+        try {
+            ExceptionUtils.businessException(Objects.isNull(basicAuthentication.getEmail()),CommonEnumConstant.PromptMessage.NO_EMAIL);
+            ExceptionUtils.businessException(Objects.isNull(basicAuthentication.getVerificationCode()),CommonEnumConstant.PromptMessage.NO_VERIFICATION_CODE);
+            ExceptionUtils.businessException(redisTemplateUtil.hasKey(RedisConstant.ACCOUNT_NON_LOCKED+basicAuthentication.getEmail()),
+                    CommonEnumConstant.PromptMessage.USER_DISABLE_TIME_ERROR, redisTemplateUtil.getExpire(RedisConstant.ACCOUNT_NON_LOCKED+basicAuthentication.getEmail()));
+            SysUser user = sysUserService.getOne(new QueryWrapper<SysUser>().lambda().eq(SysUser::getEmail,basicAuthentication.getEmail()).last("limit 1"));
+            basisValidated(user);
+            String emailCode = redisTemplateUtil.get(RedisConstant.VERIFICATION_CODE_EMAIL+basicAuthentication.getEmail()).toString();
+            if (!Objects.equals(emailCode,basicAuthentication.getVerificationCode())){
+                iSysUserService.updateErrorCount(user,CommonEnumConstant.LoginType.LOGIN_TYPE_EMAIL);
+                return (ResponseData<T>) ResponseData.out(CommonEnumConstant.PromptMessage.VERIFICATION_CODE_ERROR);
+            }
+            lastOperation(user);
+            return (ResponseData<T>) ResponseData.out(CommonEnumConstant.PromptMessage.LOGIN_SUCCESS,genToken(user));
+        }catch (BusinessException be){
+            be.printStackTrace();
+            return  (ResponseData<T>) ResponseData.out(be.getCode(),be.getType(),be.getMsg());
+        }
+
+    }
+
+    /**
+     * 基础校验
+     * @param user
+     */
+    private void basisValidated(SysUser user){
+        ExceptionUtils.businessException(Objects.isNull(user),CommonEnumConstant.PromptMessage.USER_NOT_FOUND_ERROR);
+        ExceptionUtils.businessException(!Objects.equals(user.getAuthorizationType(), BasisConstant.AUTHORIZATION_TYPE_BASIC), CommonEnumConstant.PromptMessage.USER_AUTHORIZATION_ERROR);
+        ExceptionUtils.businessException(Objects.equals(user.getStatus(),CommonEnumConstant.Dict.USER_STATUS_0.getDictKey()),CommonEnumConstant.PromptMessage.USER_DISABLE_ERROR);
+    }
+
+    /**
+     * 验证成功后后置操作
+     * @param user
+     */
+    private void lastOperation(SysUser user){
+        if (user.getStatus().equals(CommonEnumConstant.Dict.USER_STATUS_2.getDictKey())) {
+            user.setErrorCount(0);
+            user.setStatus(CommonEnumConstant.Dict.USER_STATUS_1.getDictKey());
+            sysUserService.updateById(user);
+        }
     }
 
     /**
      * 生成token信息
      * @param user
      */
-    public AccessTokenVo genToken(SysUser user){
+    private AccessTokenVo genToken(SysUser user){
         SysParamConfigVo sysParamConfigVo = (SysParamConfigVo) redisTemplateUtil.get(RedisConstant.SYS_PARAM_CONFIG);
         String jwt = StringUtil.getUUID();//jwt令牌
         String jti = StringUtil.getUUID();//jti令牌

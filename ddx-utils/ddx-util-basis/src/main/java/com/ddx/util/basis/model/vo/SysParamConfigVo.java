@@ -57,5 +57,11 @@ public class SysParamConfigVo {
     @Max(value = 3600,message = "网关令牌过期时间最大3600秒")
     @Min(value = 5,message = "网关令牌过期时间最小5秒")
     @NotNull(message = "网关令牌过期时间不能为空")
-    private  Long gatewayTokenExpireTime;
+    private Long gatewayTokenExpireTime;
+
+    @ApiModelProperty("验证码过期时间 - 秒")
+    @Max(value = 1800,message = "验证码过期时间最大1800秒")
+    @Min(value = 60,message = "验证码过期时间最小60秒")
+    @NotNull(message = "验证码过期时间不能为空")
+    private Long verificationCodeExpireTime;
 }

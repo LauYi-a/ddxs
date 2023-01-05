@@ -3,6 +3,7 @@ package com.ddx.auth.config;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ddx.auth.entity.SysUser;
 import com.ddx.auth.service.ISysUserService;
+import com.ddx.util.basis.constant.CommonEnumConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.event.AuthenticationFailureBadCredentialsEvent;
@@ -29,7 +30,7 @@ public class AuthenticationFailureListener implements ApplicationListener<Authen
 		String username = authenticationFailureBadCredentialsEvent.getAuthentication().getPrincipal().toString();
 		SysUser user = iSysUserService.getOne(new QueryWrapper<SysUser>().lambda().eq(SysUser::getUsername,username).or().eq(SysUser::getMobile,username).or().eq(SysUser::getEmail,username).last("limit 1"));
 		if(!Objects.isNull(user)) {
-			iSysUserService.updateErrorCount(user);
+			iSysUserService.updateErrorCount(user, CommonEnumConstant.LoginType.OAUTH_LOGIN_TYPE);
 		}
 	}
 }
