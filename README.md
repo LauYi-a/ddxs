@@ -60,7 +60,7 @@ ddx -- 父项目
   - [ddx-log 中央日志处理服务](https://github.com/LauYi-a/ddxs/tree/dev/ddx-log)
   - [ddx-file 文件处理服务](https://github.com/LauYi-a/ddxs/tree/dev/ddx-file)
   - [ddx-util 公共工具包](https://github.com/LauYi-a/ddxs/tree/dev/ddx-utils)
-  - [ddx-util-basis 公共基础工具包](https://github.com/LauYi-a/ddxs/tree/dev/ddx-util/ddx-util-basis)
+  - [ddx-util-basis 公共基础工具包](https://github.com/LauYi-a/ddxs/tree/dev/ddx-utils/ddx-util-basis)
   - [ddx-util-es 公共ES工具包](https://github.com/LauYi-a/ddxs/tree/dev/ddx-utils/ddx-util-es)
   - [ddx-util-kafka 公共kafka工具包](https://github.com/LauYi-a/ddxs/tree/dev/ddx-utils/ddx-util-kafka)
   - [ddx-util-redis 公共redis工具包](https://github.com/LauYi-a/ddxs/tree/dev/ddx-utils/ddx-util-redis)
