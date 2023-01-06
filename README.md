@@ -60,7 +60,7 @@ ddx -- 父项目
   - [ddx-log 中央日志处理服务](https://github.com/LauYi-a/ddxs/tree/master/ddx-log)
   - [ddx-file 文件处理服务](https://github.com/LauYi-a/ddxs/tree/master/ddx-file)
   - [ddx-util 公共工具包](https://github.com/LauYi-a/ddxs/tree/master/ddx-util)
-  - [ddx-util-basis 公共基础工具包](https://github.com/LauYi-a/ddxs/tree/master/ddx-util/ddx-util-basis)
+  - [ddx-util-basis 公共基础工具包](https://github.com/LauYi-a/ddxs/tree/master/ddx-utils/ddx-util-basis)
   - [ddx-util-es 公共ES工具包](https://github.com/LauYi-a/ddxs/tree/master/ddx-util/ddx-util-es)
   - [ddx-util-kafka 公共kafka工具包](https://github.com/LauYi-a/ddxs/tree/master/ddx-util/ddx-util-kafka)
   - [ddx-util-redis 公共redis工具包](https://github.com/LauYi-a/ddxs/tree/master/ddx-util/ddx-util-redis)
@@ -85,6 +85,9 @@ ddx -- 父项目
     > 后续补充 
 * Linux
     > 后续补充
+
+## 知识库
+- [进入飞书查看知识库](https://j0dttt306j.feishu.cn/wiki/wikcnwcfeqzj4ZywAWKiND4X9jd)
 
 ## 版本
 - 1.0
