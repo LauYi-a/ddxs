@@ -58,7 +58,7 @@ public class JwtTokenUserDetailsService implements UserDetailsService {
         ExceptionUtils.businessException(redisTemplateUtils.hasKey(RedisConstant.ACCOUNT_NON_LOCKED+username), CommonEnumConstant.PromptMessage.USER_DISABLE_TIME_ERROR, redisTemplateUtils.getExpire(RedisConstant.ACCOUNT_NON_LOCKED+username));
         SysUser user = sysUserService.getOne(new QueryWrapper<SysUser>().lambda().eq(SysUser::getUsername,username).or().eq(SysUser::getMobile,username).or().eq(SysUser::getEmail,username).last("limit 1"));
         ExceptionUtils.businessException(Objects.isNull(user),CommonEnumConstant.PromptMessage.USER_NOT_FOUND_ERROR);
-        ExceptionUtils.businessException(!Objects.equals(user.getAuthorizationType(),BasisConstant.AUTHORIZATION_TYPE_OAUTH), CommonEnumConstant.PromptMessage.USER_AUTHORIZATION_ERROR);
+        ExceptionUtils.businessException(!Objects.equals(user.getAuthorizationType(),BasisConstant.AUTHORIZATION_TYPE_BEARER), CommonEnumConstant.PromptMessage.USER_AUTHORIZATION_ERROR);
         ExceptionUtils.businessException(Objects.equals(user.getStatus(),CommonEnumConstant.Dict.USER_STATUS_0.getDictKey()),CommonEnumConstant.PromptMessage.USER_DISABLE_ERROR);
         if (user.getStatus().equals(CommonEnumConstant.Dict.USER_STATUS_2.getDictKey())) {
             user.setErrorCount(0);

@@ -112,7 +112,7 @@ public class BasisConstant {
     public final static String REQUEST_TYPE_REQ="REQUEST";//请求
     public final static String REQUEST_TYPE_RESP="RESPONSE";//响应
     public final static String AUTHORIZATION_TYPE_BASIC="basic";//请求basic认证类型
-    public final static String AUTHORIZATION_TYPE_OAUTH="bearer";//oauth请求bearer认证类型
+    public final static String AUTHORIZATION_TYPE_BEARER ="bearer";//oauth请求bearer认证类型
     public final static String TOKEN_PREFIX_KEY="prefix";//请求中的 token前缀
     public final static String TOKEN_KEY="token";// 请求携带的token
 

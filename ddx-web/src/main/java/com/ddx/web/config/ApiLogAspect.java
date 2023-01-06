@@ -9,6 +9,7 @@ import com.ddx.util.basis.utils.DateUtil;
 import com.ddx.util.basis.utils.IPUtils;
 import com.ddx.util.basis.utils.RequestContextUtils;
 import com.ddx.util.basis.utils.StringUtil;
+import com.ddx.web.entity.LoginVal;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -85,14 +86,15 @@ public class ApiLogAspect {
     }
 
     private SysApiLogVo setLogEntityVo(String type, HttpServletRequest request, Object data){
+        LoginVal loginVal = UserOauthInfo.getCurrentUser();
         return  SysApiLogVo.builder()
                 .data(data)
                 .header(Header.builder()
                         .serialNumber(MDC.get(BasisConstant.REQUEST_SERIAL_NUMBER))
                         .url(request.getRequestURL().toString())
                         .type(type)
-                        .nickname(UserOauthInfo.getCurrentUser().getNickname())
-                        .userId(String.valueOf(UserOauthInfo.getCurrentUser().getUserId()))
+                        .nickname(loginVal!=null?loginVal.getNickname():"")
+                        .userId(loginVal!=null?String.valueOf(loginVal.getUserId()):"")
                         .ip(IPUtils.getIpAddr(request))
                         .contentType(request.getContentType())
                         .dateTime(DateUtil.date2Str(new Date(), BasisConstant.DATE_FORMAT_13))

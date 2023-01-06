@@ -9,23 +9,24 @@ package com.ddx.util.redis.constant;
  */
 public class RedisConstant {
 
-    public final static String OAUTH_URLS="oauth2:oauth_urls"; //权限<->url对应的KEY
-    public final static String JTI_KEY_PREFIX="oauth2:black:"; //JWT令牌黑名单的KEY
-    public final static String ACCOUNT_NON_LOCKED ="oauth2:account_locked:";//账号锁 key
-    public final static String BASIC_TOKEN="basic:"; //basic token 模式key
+    //auth 系统 redis key
+    public final static String OAUTH_URLS="auth:authority:oauth_urls"; //权限<->url对应的KEY
+    public final static String JTI_KEY_PREFIX="auth:logout:"; //JIT令牌黑名单的KEY
+    public final static String BASIC_TOKEN="auth:basic:token:"; //basic token 模式key
+    //system 系统服务 redis key
+    public final static String ACCOUNT_NON_LOCKED ="system:locked:account:";//账号锁 key
     public final static String SYS_PARAM_CONFIG="system:param:config:";//系统配置key
-    public final static String SYS_PARAM_CONFIG_PRIVATE_KEY="system:param:config:private_key";//系统密钥
+    public final static String SYS_PARAM_CONFIG_PRIVATE_KEY="system:param:private_key";//系统密钥
     public final static String WHITELIST_RESOURCES="system:whitelist:resources:";//系统资源白名单
     public final static String WHITELIST_REQUEST="system:whitelist:request:";//访问白名单配置
     public final static String REQUEST_TIME_WHITELIST="system:whitelist:request:time:";//请求时间白名单配置
-    public final static String SYSTEM_REQUEST="system:lock:request_url:";//系统请求锁
-    public final static String SYSTEM_REQUEST_TOKEN="system:gateway:request_token:";//网关请求令牌
-    public final static String VERIFICATION_CODE_MOBILE="verification:code:mobile:";//手机验证吗
-    public final static String VERIFICATION_CODE_EMAIL="verification:code:email:";//邮件验证吗
-
-    /**
-     * redis 分布式锁
-     */
+    //gateway 网关 redis key
+    public final static String SYSTEM_REQUEST_TOKEN="gateway:request:token:";//网关请求令牌
+    public final static String SYSTEM_REQUEST="gateway:request:locked:";//系统请求锁
+    //通用 key
+    public final static String VERIFICATION_CODE_MOBILE="all:verification:code:mobile:";//手机验证吗
+    public final static String VERIFICATION_CODE_EMAIL="all:verification:code:email:";//邮件验证吗
+    //redis 分布式锁
     public final static String SINGLE_SERVER = "single://";    // 单机redis前缀
     public final static String CLUSTER_SERVER = "cluster://";    //集群redis前缀
     public final static String REDISSON_SINGLE_SERVER_FORMAT = "redis://%s";

@@ -61,7 +61,7 @@ public class UserAddVo {
         sysUser.setUserId(SerialNumber.newInstance(BasisConstant.SERIAL_ID, BasisConstant.DATE_FORMAT_5).toString());
         sysUser.setStatus(CommonEnumConstant.Dict.USER_STATUS_1.getDictKey());
         sysUser.setLoginService(loginService);
-        sysUser.setAuthorizationType(BasisConstant.AUTHORIZATION_TYPE_OAUTH);
+        sysUser.setAuthorizationType(BasisConstant.AUTHORIZATION_TYPE_BEARER);
         return sysUser;
     }
 }
