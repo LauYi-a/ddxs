@@ -34,7 +34,6 @@ public class KafkaConsumerLogToEsServiceImpl implements IKafkaConsumerLogToEsSer
         String msg = (String) message.get();
         LogCollectorDto esLogCollectorDTO = JSON.parseObject(msg, LogCollectorDto.class);
         if (iIndexManageServiceApi.createIndexSettingsMappings(esLogCollectorDTO.getClass())) {
-            BeanUtils.copyProperties(esLogCollectorDTO, esLogCollectorDTO);
             iElasticsearchServiceApi.addData(esLogCollectorDTO, true);
         }
     }
