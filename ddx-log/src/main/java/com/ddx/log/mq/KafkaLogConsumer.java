@@ -22,7 +22,7 @@ import java.util.Optional;
  */
 @Slf4j
 @Component
-public class KafkaConsumer {
+public class KafkaLogConsumer {
 
     @Autowired
     private IKafkaConsumerLogToEsService iKafkaConsumerLogToEsService;

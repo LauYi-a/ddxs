@@ -33,7 +33,6 @@ public class KafkaConsumerLogToEsServiceImpl implements IKafkaConsumerLogToEsSer
     public void kafkaConsumerSystemManageLogToEs(Optional message){
         String msg = (String) message.get();
         LogCollectorDto esLogCollectorDTO = JSON.parseObject(msg, LogCollectorDto.class);
-        EsUtils.upIndexName(esLogCollectorDTO.getClass(), esLogCollectorDTO.getServiceName());
         if (iIndexManageServiceApi.createIndexSettingsMappings(esLogCollectorDTO.getClass())) {
             BeanUtils.copyProperties(esLogCollectorDTO, esLogCollectorDTO);
             iElasticsearchServiceApi.addData(esLogCollectorDTO, true);
