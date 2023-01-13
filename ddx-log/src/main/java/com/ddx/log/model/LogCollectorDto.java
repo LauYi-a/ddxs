@@ -22,7 +22,7 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EsIndex(indexPrefix = "log-index-",aliasPrefix = "log-alias-",strategy = EsEnum.IndexStrategy.STRATEGY_DATE_YYYY_MMM)
+@EsIndex(indexName = "log",strategy = EsEnum.IndexStrategy.STRATEGY_DATE_YYYY_MMM)
 public class LogCollectorDto {
 
     @DocId(type = EsEnum.DataType.KEYWORD)
