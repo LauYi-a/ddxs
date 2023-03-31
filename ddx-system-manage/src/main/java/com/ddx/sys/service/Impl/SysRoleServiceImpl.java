@@ -54,6 +54,8 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         IPage<SysRole> sysRoleIPage = this.baseMapper.selectPage(arg0,new QueryWrapper<SysRole>().lambda()
                 .eq(StringUtils.isNoneBlank(sysRoleQueryReq.getCode()),SysRole::getCode, sysRoleQueryReq.getCode())
                 .eq(StringUtils.isNoneBlank(sysRoleQueryReq.getStatus() ),SysRole::getStatus, sysRoleQueryReq.getStatus())
+                .eq(StringUtils.isNoneBlank(sysRoleQueryReq.getDefaultSelect() ),SysRole::getDefaultSelect, sysRoleQueryReq.getDefaultSelect())
+                .eq(StringUtils.isNoneBlank(sysRoleQueryReq.getRoleType() ),SysRole::getRoleType, sysRoleQueryReq.getRoleType())
                 .like(StringUtils.isNoneBlank(sysRoleQueryReq.getName()),SysRole::getName, sysRoleQueryReq.getName())
                 .orderByDesc(SysRole::getUpdateTime));
         List<SysRoleResp> sysRoleResps = this.selectRolePermissionByRoles(sysRoleIPage.getRecords());
@@ -105,6 +107,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         BeanUtils.copyProperties(sysRoleAddReq,sysRole);
         sysRole.setCode(SerialNumber.newInstance(BasisConstant.ROLE_CODE, BasisConstant.DATE_FORMAT_12).toString());
         sysRole.setStatus(CommonEnumConstant.Dict.ROLE_STATUS_0.getDictKey());
+        sysRole.setDefaultSelect(CommonEnumConstant.Dict.ROLE_DEFAULT_SELECT_0.getDictKey());
         ExceptionUtils.businessException(!SqlHelper.retBool(baseMapper.insert(sysRole)),CommonEnumConstant.PromptMessage.FAILED);
         ExceptionUtils.businessException(!iSysRolePermissionService.addRolePermissionId(sysRoleAddReq.getRolePermissionId(),sysRole.getId()),CommonEnumConstant.PromptMessage.ADD_ROLE_PERMISSION_ERROR);
         ExceptionUtils.businessException(!iSysPermissionService.initRolePermission(),CommonEnumConstant.PromptMessage.INIT_ROLE_PERMISSION_ERROR);

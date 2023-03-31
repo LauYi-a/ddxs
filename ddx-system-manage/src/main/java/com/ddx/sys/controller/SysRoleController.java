@@ -34,8 +34,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
@@ -97,6 +99,13 @@ public class SysRoleController {
         ExceptionUtils.businessException(!yesOrNo,CommonEnumConstant.PromptMessage.FAILED);
         ExceptionUtils.businessException(!iSysRolePermissionService.saveOrDeleteRolePermissionId(sysRole.getId(),sysRoleEditReq.getRolePermissionId(),false,true), CommonEnumConstant.PromptMessage.ADD_ROLE_PERMISSION_ERROR);
         ExceptionUtils.businessException(!iSysPermissionService.initRolePermission(),CommonEnumConstant.PromptMessage.INIT_ROLE_PERMISSION_ERROR);
+        if(sysRoleEditReq.getDefaultSelect().equals(CommonEnumConstant.Dict.ROLE_DEFAULT_SELECT_1.getDictKey())){
+            List<SysRole> roles = iSysRoleService.list(new QueryWrapper<SysRole>().lambda().eq(SysRole::getDefaultSelect,CommonEnumConstant.Dict.ROLE_DEFAULT_SELECT_1.getDictKey()).eq(SysRole::getRoleType,sysRole.getRoleType()).ne(SysRole::getId,sysRole.getId()));
+            for(SysRole role: roles){
+                role.setDefaultSelect(CommonEnumConstant.Dict.ROLE_DEFAULT_SELECT_0.getDictKey());
+                ExceptionUtils.businessException(!iSysRoleService.updateById(role),CommonEnumConstant.PromptMessage.FAILED);
+            }
+        }
         return ResponseData.out(CommonEnumConstant.PromptMessage.SUCCESS);
     }
 
