@@ -14,21 +14,21 @@
     采用 openfeign 作为远程服务调用并对rpc服务内置调用实现了令牌终续，使用 redisson 实现分布式锁，并使用 oauth2与自定义验证方式实现了系统认证鉴权功能。
     - 通过 gateway 对访问路由做统一处理，所有服务请求都是通过 gateway 来进行转发并对网关请求发放请求令牌保证请求安全，网关对服务实现控制限流 熔断 等功能
 ## 集成环境
-|  技术点   |   版本    | 描述 |
-| :-----: | :-------: | :-----: |
-|  spring-boot   | 2.0.8.RELEASE | 微服务基础|
-|  spring-cloud  |   Finchley.SR2   | 分布式服务组件基础|
-|  mybatis-plus  |   3.0.2    | mybatis-plus|
-|  mysql  |  8.0.22    | 数据库
-|  spring-security-oauth2  |  5.2.2.RELEASE    | 认证鉴权|
-|  redis  |  2.4.0 | 缓存
-|  redisson  |   3.17.0   | redis分布式锁|
-|  kafka  |  2.13+    | 消息队列|
-|  elasticsearch|8.5.0| ES |
-|  openfeign  |  2.0+    | rpc远程调用|
-|  swagger-bootstrap-ui  |  1.9.6    | swagger api ui|
-|  swagger  |  2.0+    | swagger API|
-|  minio  | 8.0.0  | 文件存储服务器|
+|  技术点   |   版本    |       描述       |
+| :-----: | :-------: |:--------------:|
+|  spring-boot   | 2.0.8.RELEASE |     微服务基础      |
+|  spring-cloud  |   Finchley.SR2   |   分布式服务治理基础    |
+|  mybatis-plus  |   3.0.2    |  mybatis-plus  |
+|  mysql  |  8.0.22    |      数据库       
+|  spring-security-oauth2  |  5.2.2.RELEASE    |      认证鉴权      |
+|  redis  |  2.4.0 |       缓存       
+|  redisson  |   3.17.0   |   redis分布式锁    |
+|  kafka  |  2.13+    |      消息队列      |
+|  elasticsearch|8.5.0|       ES       |
+|  openfeign  |  2.0+    |    rpc远程调用     |
+|  swagger-bootstrap-ui  |  1.9.6    | swagger api ui |
+|  swagger  |  2.0+    |  swagger API   |
+|  minio  | 8.0.0  |    文件存储服务器     |
 
 ## 项目结构
 ```
@@ -38,9 +38,10 @@ ddx -- 父项目
 |-ddx-gateway -- 服务网关
 |-ddx-web -- web服务管理包
 |-ddx-auth -- 认证中心
+|-ddx-api -- 内置服务rpc与外置服务 API 提供包
 |-ddx-system-manage -- 系统管理服务
 |-ddx-log -- 中央日志处理服务
-|-ddx-file -- 文件处理服务
+|-ddx-file -- 文件处理服务[占时未实现-需要集成minio]
 |-ddx-util -- 公共工具包
 |--|-ddx-util-basis 公共基础工具包
 |--|-ddx-util-es 公共ES工具包
@@ -55,7 +56,8 @@ ddx -- 父项目
   - [ddx-config 配置管理中心](https://github.com/LauYi-a/ddxs/tree/master/ddx-config)
   - [ddx-gateway 服务网关](https://github.com/LauYi-a/ddxs/tree/master/ddx-gateway)
   - [ddx-web web服务管理包](https://github.com/LauYi-a/ddxs/tree/master/ddx-web)
-  - [ddx-auth 认证中心](https://github.com/LauYi-a/ddxs/tree/master/ddx-auth)
+  - [ddx-auth 认证中心](https://github.com/LauYi-a/ddxs/tree/master/ddx-api)
+  - [ddx-api 服务API提供包](https://github.com/LauYi-a/ddxs/tree/master/ddx-auth)
   - [ddx-system-manage 系统管理服务](https://github.com/LauYi-a/ddxs/tree/master/ddx-system-manage)
   - [ddx-log 中央日志处理服务](https://github.com/LauYi-a/ddxs/tree/master/ddx-log)
   - [ddx-file 文件处理服务](https://github.com/LauYi-a/ddxs/tree/master/ddx-file)
