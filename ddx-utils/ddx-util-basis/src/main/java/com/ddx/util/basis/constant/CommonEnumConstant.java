@@ -54,7 +54,6 @@ public class CommonEnumConstant {
         NO_MOBILE(BasisConstant.MSG_RESPONSE_CODE_WARNING, BasisConstant.MSG_TYPE_WARNING,"手机号不能为空"),
         NO_EMAIL(BasisConstant.MSG_RESPONSE_CODE_WARNING, BasisConstant.MSG_TYPE_WARNING,"邮箱号不能为空"),
         NO_VERIFICATION_CODE(BasisConstant.MSG_RESPONSE_CODE_WARNING, BasisConstant.MSG_TYPE_WARNING,"验证码不能为空"),
-        ROLE_CODE_ERROR(BasisConstant.MSG_RESPONSE_CODE_WARNING, BasisConstant.MSG_TYPE_WARNING,"角色编号已存在"),
         WHITELIST_ERROR(BasisConstant.MSG_RESPONSE_CODE_WARNING, BasisConstant.MSG_TYPE_WARNING,"白名单已存在"),
 
         /**
@@ -66,14 +65,10 @@ public class CommonEnumConstant {
         CLIENT_FAILED(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"客户端连接失败"),
         ID_AUTHENTICATION_FAILED(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"身份验证失败"),
         INIT_ROLE_PERMISSION_ERROR(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"初始化角色权限失败"),
-        INIT_PERMISSION_ERROR(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"初始化权限失败"),
-        INIT_USER_KEY_VAL_ERROR(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"初始化用户键值失败"),
         INIT_WHITELIST_ERROR(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"初始化时效白名单失败"),
         SYS_ERROR(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"服务异常,错误信息为：%s"),
         SYS_NULL_POINTER_ERROR(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"系统空指针异常"),
         API_READ_TIMED_OUT_ERROR(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"接口超时请稍后再试，超时接口：%s"),
-        BUSINESS_ERROR(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"业务异常"),
-        KEY_STRING_INDEX_OUT_OF_BOUNDS_ERROR(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_WARNING,"密钥字节长度越界，默认只支持 %s 位长度密钥"),
         UNSUPPORTED_GRANT_TYPE(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"不支持的认证模式"),
         PARAMETER_ILLEGAL_ERROR(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"非法参数"),
         ILLEGAL_REQUEST_ERROR(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"非法请求"),
@@ -89,9 +84,6 @@ public class CommonEnumConstant {
         DELETE_USER_ROLE_ERROR(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"删除用户角色失败"),
         ADD_USER_RESOURCE_ERROR(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"绑定用户资源失败"),
         DELETE_USER_RESOURCE_ERROR(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"删除用户资源失败"),
-        KAFKA_CONSUMER_ERROR(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"消费消息失败: %s"),
-        LOG_COLLECTOR_ERROR(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"日志采集后处理失败：%s"),
-        REVOKE_TOKEN_ERROR(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"注销失败"),
         LOGIN_PASSWORD_ERROR(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"登入密码错误"),
         VERIFICATION_CODE_ERROR(BasisConstant.MSG_RESPONSE_CODE_ERROR, BasisConstant.MSG_TYPE_ERROR,"验证码错误"),
         ;
